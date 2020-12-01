@@ -2,7 +2,7 @@
 
 namespace KanbanBoard.Models
 {
-    public interface IUserPersistenceManager
+    public interface IUserPersistenceManager : IPersistenceManager<User>
     {
         IEnumerable<User> GetUsers();
     }
