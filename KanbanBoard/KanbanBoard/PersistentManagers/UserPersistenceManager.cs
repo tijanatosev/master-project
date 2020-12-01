@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Data.SqlTypes;
 using KanbanBoard.Helpers;
 
 namespace KanbanBoard.Models
@@ -14,27 +15,32 @@ namespace KanbanBoard.Models
 
         public UserPersistenceManager()
         {
-            this.dbCommands = new DbCommands(serverName, dbName);
+            dbCommands = new DbCommands(serverName, dbName);
         }
 
         public IEnumerable<User> GetUsers()
         {
             List<User> users = new List<User>();
-            DataSet dataReader = dbCommands.ExecuteSqlQuery("select * from Users");
-            foreach (DataRow row in dataReader.Tables["Result"].Rows)
+            DataSet result = dbCommands.ExecuteSqlQuery("select * from Users");
+            foreach (DataRow row in result.Tables["Result"].Rows)
             {
-                User user = new User();
-                user.ID = Convert.ToInt32(row["ID"]);
-                user.Username = row["USERNAME"].ToString();
-                user.Password = row["PASSWORD"].ToString();
-                user.FirstName = row["FIRSTNAME"].ToString();
-                user.LastName = row["LASTNAME"].ToString();
-                user.Email = row["EMAIL"].ToString();
-                user.UserType = row["USERTYPE"].ToString();
-                users.Add(user);
+                users.Add(LoadFromDataRow(row));
             }
-
             return users;
+        }
+
+        public User LoadFromDataRow(DataRow row)
+        {
+            User user = new User();
+            user.ID = Convert.ToInt32(row["Id"]);
+            user.Username = row["Username"].ToString();
+            user.Password = row["Password"].ToString();
+            user.FirstName = row["FirstName"].ToString();
+            user.LastName = row["LastName"].ToString();
+            user.Email = row["Email"].ToString();
+            user.UserType = row["UserType"].ToString();
+            user.TeamId = row["TeamId"] as int?;
+            return user;
         }
     }
 }
