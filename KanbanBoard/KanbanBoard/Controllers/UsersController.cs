@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using KanbanBoard.Models;
 using KanbanBoard.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace KanbanBoard.Controllers
 {
-    [ApiController]
     [Route("api/users")]
     public class UsersController : Controller
     {

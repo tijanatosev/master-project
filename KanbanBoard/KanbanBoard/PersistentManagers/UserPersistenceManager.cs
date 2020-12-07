@@ -32,7 +32,7 @@ namespace KanbanBoard.Models
         public User LoadFromDataRow(DataRow row)
         {
             User user = new User();
-            user.ID = Convert.ToInt32(row["Id"]);
+            user.Id = Convert.ToInt32(row["Id"]);
             user.Username = row["Username"].ToString();
             user.Password = row["Password"].ToString();
             user.FirstName = row["FirstName"].ToString();

@@ -23,6 +23,11 @@ namespace KanbanBoard
             services.AddControllersWithViews();
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration => { configuration.RootPath = "ClientApp/dist"; });
+            services.AddCors();
+            services.AddControllers().AddJsonOptions(options =>
+            {
+                options.JsonSerializerOptions.PropertyNamingPolicy = null;
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -54,6 +59,9 @@ namespace KanbanBoard
                     name: "default",
                     pattern: "{controller}/{action=Index}/{id?}");
             });
+            
+            string[] origins = { "https://localhost:5001", "http://localhost:5000" };
+            app.UseCors(builder => builder.AllowAnyHeader().AllowAnyMethod().WithOrigins(origins));
 
             app.UseSpa(spa =>
             {
