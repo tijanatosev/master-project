@@ -1,6 +1,28 @@
 <body>
-  <app-nav-menu></app-nav-menu>
-  <div class="container">
+  <mat-sidenav-container style="height: 100%;" *ngIf="isLoggedIn">
+    <mat-sidenav #sidenav position="end" class="sidenav" mode="side" opened="true">
+      <mat-nav-list>
+        <mat-list-item>
+          <button mat-icon-button (click)="isExpanded = !isExpanded">
+            <mat-icon *ngIf="!isExpanded">chevron_left</mat-icon>
+            <mat-icon *ngIf="isExpanded">chevron_right</mat-icon>
+          </button>
+        </mat-list-item>
+        <mat-list-item [routerLink]="['/home']">
+          <mat-icon mat-list-icon>home</mat-icon>
+          <p matLine *ngIf="isExpanded">Home</p>
+        </mat-list-item>
+        <mat-list-item [routerLink]="['/counter']">
+          <mat-icon mat-list-icon>settings</mat-icon>
+          <p matLine *ngIf="isExpanded">Settings</p>
+        </mat-list-item>
+      </mat-nav-list>
+    </mat-sidenav>
+    <div class="container" style="margin-top: 50px;" >
+      <router-outlet></router-outlet>
+    </div>
+  </mat-sidenav-container>
+  <div class="container" style="margin-top: 50px;" *ngIf="!isLoggedIn">
     <router-outlet></router-outlet>
   </div>
 </body>
