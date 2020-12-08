@@ -1,9 +1,19 @@
 import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { Board } from './board.model';
+import { Service } from '../service.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class BoardService {
+export class BoardService extends Service {
 
-  constructor() { }
+  constructor(private http: HttpClient) {
+    super();
+  }
+
+  public getBoards(): Observable<Board[]> {
+    return this.http.get<Board[]>(this.boardsUrl());
+  }
 }

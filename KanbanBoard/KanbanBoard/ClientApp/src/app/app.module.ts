@@ -24,10 +24,13 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatSelectModule } from '@angular/material/select';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatExpansionModule } from '@angular/material/expansion';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatListModule } from '@angular/material/list';
+import { MaterialElevationDirective } from './directives/material-elevation.directive';
 
 const routes = [
   { path: '', component: LoginComponent, pathMatch: 'full'},
-  { path: 'home', component: HomeComponent},
+  { path: 'home', component: HomeComponent },
   { path: 'counter', component: CounterComponent},
   { path: 'fetch-data', component: FetchDataComponent},
 ];
@@ -39,7 +42,8 @@ const routes = [
     HomeComponent,
     CounterComponent,
     FetchDataComponent,
-    LoginComponent
+    LoginComponent,
+    MaterialElevationDirective
   ],
   imports: [
     BrowserModule.withServerTransition({appId: 'ng-cli-universal'}),
@@ -61,7 +65,9 @@ const routes = [
     MatSelectModule,
     MatOptionModule,
     MatProgressSpinnerModule,
-    MatExpansionModule
+    MatExpansionModule,
+    MatSidenavModule,
+    MatListModule
   ],
   providers: [],
   bootstrap: [AppComponent]
