@@ -7,9 +7,9 @@ namespace KanbanBoard.Services
     {
         private IUserPersistenceManager userPersistenceManager = new UserPersistenceManager();
 
-        public IEnumerable<User> GetUsers()
+        public IEnumerable<User> GetAll()
         {
-            return userPersistenceManager.GetUsers();
+            return userPersistenceManager.LoadAll();
         }
     }
 }

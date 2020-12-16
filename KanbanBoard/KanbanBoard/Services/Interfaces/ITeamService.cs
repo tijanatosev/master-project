@@ -5,6 +5,10 @@ namespace KanbanBoard.Services
 {
     public interface ITeamService
     {
-        IEnumerable<Team> GetTeams();
+        IEnumerable<Team> GetAll();
+
+        Team GetById(int id);
+
+        bool Add(Team team);
     }
 }

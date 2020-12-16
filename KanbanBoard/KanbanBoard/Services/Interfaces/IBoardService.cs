@@ -5,6 +5,6 @@ namespace KanbanBoard.Services
 {
     public interface IBoardService
     {
-        IEnumerable<Board> GetBoards();
+        IEnumerable<Board> GetAll();
     }
 }

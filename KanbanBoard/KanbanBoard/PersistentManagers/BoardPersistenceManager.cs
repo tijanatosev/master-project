@@ -16,25 +16,29 @@ namespace KanbanBoard.Models
             dbCommands = new DbCommands(serverName, dbName);
         }
         
-        public IEnumerable<Board> GetBoards()
+        public IEnumerable<Board> LoadAll()
         {
             List<Board> boards = new List<Board>();
-            DataSet result = dbCommands.ExecuteSqlQuery("select * from Boards");
-            foreach (DataRow row in result.Tables["Result"].Rows)
+            DataTable result = dbCommands.ExecuteSqlQuery("select * from Boards").Tables["Result"];
+            if (result.Rows.Count != 0)
             {
-                boards.Add(LoadFromDataRow(row));
+                foreach (DataRow row in result.Rows)
+                {
+                    boards.Add(LoadFromDataRow(row));
+                }
             }
             return boards;
         }
 
         public Board LoadFromDataRow(DataRow row)
         {
-            Board board = new Board();
-            board.Id = Convert.ToInt32(row["Id"]);
-            board.Name = row["Name"].ToString();
-            board.Admin = row["Admin"].ToString();
-            board.TeamId = row["TeamId"] as int?;
-            return board;
+            return new Board
+            {
+                Id = Convert.ToInt32(row["Id"]),
+                Name = row["Name"].ToString(),
+                Admin = row["Admin"].ToString(),
+                TeamId = row["TeamId"] as int?
+            };
         }
     }
 }

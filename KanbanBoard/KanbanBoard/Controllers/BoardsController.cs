@@ -13,9 +13,9 @@ namespace KanbanBoard.Controllers
 
         [HttpGet]
         [Route("")]
-        public IEnumerable<Board> GetBoards()
+        public IEnumerable<Board> GetAll()
         {
-            return boardService.GetBoards();
+            return boardService.GetAll();
         }
     }
 }

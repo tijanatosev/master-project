@@ -4,6 +4,6 @@ namespace KanbanBoard.Models
 {
     public interface IUserPersistenceManager : IPersistenceManager<User>
     {
-        IEnumerable<User> GetUsers();
+        IEnumerable<User> LoadAll();
     }
 }

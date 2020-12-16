@@ -13,9 +13,9 @@ namespace KanbanBoard.Controllers
 
         [HttpGet]
         [Route("")]
-        public IEnumerable<User> GetUsers()
+        public IEnumerable<User> GetAll()
         {
-            return userService.GetUsers();
+            return userService.GetAll();
         }
     }
 }
