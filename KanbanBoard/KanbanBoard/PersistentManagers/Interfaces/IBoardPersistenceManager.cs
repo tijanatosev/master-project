@@ -4,6 +4,6 @@ namespace KanbanBoard.Models
 {
     public interface IBoardPersistenceManager : IPersistenceManager<Board>
     {
-        IEnumerable<Board> GetBoards();
+        IEnumerable<Board> LoadAll();
     }
 }

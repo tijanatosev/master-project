@@ -18,29 +18,33 @@ namespace KanbanBoard.Models
             dbCommands = new DbCommands(serverName, dbName);
         }
 
-        public IEnumerable<User> GetUsers()
+        public IEnumerable<User> LoadAll()
         {
             List<User> users = new List<User>();
-            DataSet result = dbCommands.ExecuteSqlQuery("select * from Users");
-            foreach (DataRow row in result.Tables["Result"].Rows)
+            DataTable result = dbCommands.ExecuteSqlQuery("select * from Users").Tables["Result"];
+            if (result.Rows.Count != 0)
             {
-                users.Add(LoadFromDataRow(row));
+                foreach (DataRow row in result.Rows)
+                {
+                    users.Add(LoadFromDataRow(row));
+                }
             }
             return users;
         }
 
         public User LoadFromDataRow(DataRow row)
         {
-            User user = new User();
-            user.Id = Convert.ToInt32(row["Id"]);
-            user.Username = row["Username"].ToString();
-            user.Password = row["Password"].ToString();
-            user.FirstName = row["FirstName"].ToString();
-            user.LastName = row["LastName"].ToString();
-            user.Email = row["Email"].ToString();
-            user.UserType = row["UserType"].ToString();
-            user.TeamId = row["TeamId"] as int?;
-            return user;
+            return new User
+            {
+                Id = Convert.ToInt32(row["Id"]),
+                Username = row["Username"].ToString(),
+                Password = row["Password"].ToString(),
+                FirstName = row["FirstName"].ToString(),
+                LastName = row["LastName"].ToString(),
+                Email = row["Email"].ToString(),
+                UserType = row["UserType"].ToString(),
+                TeamId = row["TeamId"] as int?
+            };
         }
     }
 }

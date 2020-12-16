@@ -7,9 +7,9 @@ namespace KanbanBoard.Services
     {
         private BoardPersistenceManager boardPersistenceManager = new BoardPersistenceManager();
 
-        public IEnumerable<Board> GetBoards()
+        public IEnumerable<Board> GetAll()
         {
-            return boardPersistenceManager.GetBoards();
+            return boardPersistenceManager.LoadAll();
         }
     }
 }

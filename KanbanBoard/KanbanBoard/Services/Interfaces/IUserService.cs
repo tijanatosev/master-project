@@ -5,6 +5,6 @@ namespace KanbanBoard.Services
 {
     public interface IUserService
     {
-        IEnumerable<User> GetUsers();
+        IEnumerable<User> GetAll();
     }
 }

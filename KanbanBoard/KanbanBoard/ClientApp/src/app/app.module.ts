@@ -27,6 +27,9 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
 import { MaterialElevationDirective } from './directives/material-elevation.directive';
+import { AddBoardComponent } from './add-board/add-board.component';
+import { MatDialogModule} from '@angular/material/dialog';
+import { AddTeamComponent } from './add-team/add-team.component';
 
 const routes = [
   { path: '', component: LoginComponent, pathMatch: 'full'},
@@ -43,7 +46,9 @@ const routes = [
     CounterComponent,
     FetchDataComponent,
     LoginComponent,
-    MaterialElevationDirective
+    MaterialElevationDirective,
+    AddBoardComponent,
+    AddTeamComponent
   ],
   imports: [
     BrowserModule.withServerTransition({appId: 'ng-cli-universal'}),
@@ -67,9 +72,14 @@ const routes = [
     MatProgressSpinnerModule,
     MatExpansionModule,
     MatSidenavModule,
-    MatListModule
+    MatListModule,
+    MatDialogModule
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents: [
+    AddBoardComponent,
+    AddTeamComponent
+  ]
 })
 export class AppModule { }

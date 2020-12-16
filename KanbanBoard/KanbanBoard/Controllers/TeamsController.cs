@@ -13,9 +13,25 @@ namespace KanbanBoard.Controllers
 
         [HttpGet]
         [Route("")]
-        public IEnumerable<Team> GetTeams()
+        public IEnumerable<Team> GetAll()
         {
-            return teamService.GetTeams();
+            return teamService.GetAll();
+        }
+
+        [HttpGet]
+        [Route("{id}")]
+        public Team GetById([FromRoute]int id)
+        {
+            return teamService.GetById(id);
+        }
+
+        [HttpPost]
+        [Route("")]
+        public IActionResult Save(Team team)
+        {
+            if (teamService.Add(team))
+                return new StatusCodeResult(201);
+            return new NoContentResult();
         }
     }
 }

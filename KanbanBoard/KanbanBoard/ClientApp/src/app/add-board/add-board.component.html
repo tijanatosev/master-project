@@ -1,0 +1,22 @@
+<h2 mat-dialog-title style="text-align: right;">Add New Board</h2>
+<mat-dialog-content class="mat-typography">
+  <ng-form [formGroup]="boardForm">
+    <mat-form-field>
+      <input matInput placeholder="Name" formControlName="name">
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput placeholder="Admin" formControlName="admin">
+    </mat-form-field>
+    <mat-form-field *ngIf="teams">
+      <mat-select placeholder="Select Team" formControlName="team" disableOptionCentering panelClass="select-option-team">
+        <mat-option *ngFor="let team of teams" [value]="team">
+          {{ team.Name }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </ng-form>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-button mat-dialog-close>Cancel</button>
+  <button mat-button [mat-dialog-close]="true" cdkFocusInitial>Save</button>
+</mat-dialog-actions>

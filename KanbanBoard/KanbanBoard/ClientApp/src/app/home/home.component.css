@@ -22,3 +22,22 @@
 .board-card-column {
   margin-top: 20px;
 }
+
+.team-card-column {
+  margin-top: 20px;
+}
+
+.team-card {
+  border-radius: 17px;
+}
+
+.header {
+  display: inline-block;
+}
+
+.add-button-header {
+  float: right;
+  margin-top: 4px;
+  height: 40px;
+  border-radius: 20px;
+}

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.Common;
 using System.Data.SqlClient;
 
 namespace KanbanBoard.Helpers
@@ -44,7 +45,7 @@ namespace KanbanBoard.Helpers
             };
         }
         
-        public int ExecuteSqlNonQuery(string sqlQuery)
+        public int ExecuteSqlNonQuery(string sqlQuery, params DbParameter[] parameters)
         {
             try
             {
@@ -56,6 +57,10 @@ namespace KanbanBoard.Helpers
                 using (sqlCommand = new SqlCommand(sqlQuery))
                 {
                     sqlCommand.Connection = sqlConnection;
+                    foreach (DbParameter parameter in parameters)
+                    {
+                        sqlCommand.Parameters.Add(parameter);
+                    }
                     return sqlCommand.ExecuteNonQuery();
                 }
             }
@@ -72,7 +77,7 @@ namespace KanbanBoard.Helpers
             }
         }
 
-        public DataSet ExecuteSqlQuery(string sqlQuery)
+        public DataSet ExecuteSqlQuery(string sqlQuery, params DbParameter[] parameters)
         {
             try
             {
@@ -85,7 +90,15 @@ namespace KanbanBoard.Helpers
                 using (sqlCommand = new SqlCommand(sqlQuery))
                 {
                     sqlCommand.Connection = sqlConnection;
+                    if (parameters != null)
+                    {
+                        foreach (DbParameter parameter in parameters)
+                        {
+                            sqlCommand.Parameters.Add(parameter);
+                        }
+                    }
                     sqlDataAdapter = new SqlDataAdapter(sqlCommand.CommandText, sqlCommand.Connection);
+                    sqlDataAdapter.SelectCommand = sqlCommand;
                     sqlDataAdapter.Fill(result, "Result");
                     return result;
                 }

@@ -7,9 +7,34 @@ namespace KanbanBoard.Services
     {
         private TeamPersistenceManager teamPersistenceManager = new TeamPersistenceManager();
 
-        public IEnumerable<Team> GetTeams()
+        public IEnumerable<Team> GetAll()
         {
-            return teamPersistenceManager.GetTeams();
+            return teamPersistenceManager.LoadAll();
+        }
+
+        public Team GetById(int id)
+        {
+            if (id < 0)
+                return null;
+            return teamPersistenceManager.Load(id);
+        }
+
+        public bool Add(Team team)
+        {
+            if (ValidateTeamName(team.Name))
+            {
+                teamPersistenceManager.Add(team);
+                return true;
+            }
+
+            return false;
+        }
+
+        private bool ValidateTeamName(string name)
+        {
+            if (teamPersistenceManager.LoadByName(name) == null)
+                return true;
+            return false;
         }
     }
 }
