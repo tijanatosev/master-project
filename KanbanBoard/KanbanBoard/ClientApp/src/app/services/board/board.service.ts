@@ -14,6 +14,14 @@ export class BoardService extends Service {
   }
 
   public getBoards(): Observable<Board[]> {
-    return this.http.get<Board[]>(this.boardsUrl());
+    return this.http.get<Board[]>(`${this.boardsUrl()}`);
+  }
+
+  public addBoard(data): Observable<Board> {
+    return this.http.post<Board>(`${this.boardsUrl()}`, JSON.stringify(data), this.httpHeaders());
+  }
+
+  public deleteBoard(id) : Observable<any> {
+    return this.http.delete(`${this.boardsUrl()}/${id}`);
   }
 }

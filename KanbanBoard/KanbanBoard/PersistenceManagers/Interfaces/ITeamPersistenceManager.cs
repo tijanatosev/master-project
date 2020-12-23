@@ -11,5 +11,7 @@ namespace KanbanBoard.Models
         Team LoadByName(string name);
 
         int Add(Team team);
+
+        void Delete(int id);
     }
 }

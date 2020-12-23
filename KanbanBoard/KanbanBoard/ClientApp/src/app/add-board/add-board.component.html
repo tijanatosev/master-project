@@ -17,6 +17,6 @@
   </ng-form>
 </mat-dialog-content>
 <mat-dialog-actions>
+  <button mat-button [mat-dialog-close]="true" type="submit" [disabled]="!boardForm.valid" (click)="save(boardForm)">Save</button>
   <button mat-button mat-dialog-close>Cancel</button>
-  <button mat-button [mat-dialog-close]="true" cdkFocusInitial>Save</button>
 </mat-dialog-actions>

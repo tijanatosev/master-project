@@ -14,15 +14,14 @@ export class TeamService extends Service {
   }
 
   public getTeams(): Observable<Team[]> {
-    return this.http.get<Team[]>(this.teamsUrl());
+    return this.http.get<Team[]>(`${this.teamsUrl()}`);
   }
 
-  public addTeam(data) {
-    let httpHeaders = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json'
-      })
-    };
-    return this.http.post<Team>(this.teamsUrl(), JSON.stringify(data), httpHeaders);
+  public addTeam(data): Observable<Team> {
+    return this.http.post<Team>(`${this.teamsUrl()}`, JSON.stringify(data), this.httpHeaders());
+  }
+
+  public deleteTeam(id) : Observable<any> {
+    return this.http.delete(`${this.teamsUrl()}/${id}`);
   }
 }

@@ -30,6 +30,7 @@ import { MaterialElevationDirective } from './directives/material-elevation.dire
 import { AddBoardComponent } from './add-board/add-board.component';
 import { MatDialogModule} from '@angular/material/dialog';
 import { AddTeamComponent } from './add-team/add-team.component';
+import { ConfirmationDialogComponent } from './shared/confirmation-dialog/confirmation-dialog.component';
 
 const routes = [
   { path: '', component: LoginComponent, pathMatch: 'full'},
@@ -48,7 +49,8 @@ const routes = [
     LoginComponent,
     MaterialElevationDirective,
     AddBoardComponent,
-    AddTeamComponent
+    AddTeamComponent,
+    ConfirmationDialogComponent
   ],
   imports: [
     BrowserModule.withServerTransition({appId: 'ng-cli-universal'}),
@@ -79,7 +81,8 @@ const routes = [
   bootstrap: [AppComponent],
   entryComponents: [
     AddBoardComponent,
-    AddTeamComponent
+    AddTeamComponent,
+    ConfirmationDialogComponent
   ]
 })
 export class AppModule { }

@@ -1,9 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import {Observable, throwError} from 'rxjs';
+import { Observable } from 'rxjs';
 import { User } from './user.model';
-import {catchError, map} from 'rxjs/operators';
-import {Service} from '../service.service';
+import { Service } from '../service.service';
 
 @Injectable({
   providedIn: 'root'
@@ -15,6 +14,6 @@ export class UserService extends Service {
   }
 
   public getUsers(): Observable<User[]> {
-    return this.http.get<User[]>(this.usersUrl());
+    return this.http.get<User[]>(`${this.usersUrl()}`);
   }
 }

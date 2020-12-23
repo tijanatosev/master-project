@@ -29,9 +29,19 @@ namespace KanbanBoard.Controllers
         [Route("")]
         public IActionResult Save(Team team)
         {
-            if (teamService.Add(team))
-                return new StatusCodeResult(201);
-            return new NoContentResult();
+            if (!teamService.Add(team))
+            {
+                return new NoContentResult();
+            }
+            
+            return new StatusCodeResult(201);
+        }
+
+        [HttpDelete]
+        [Route("{id}")]
+        public void Delete([FromRoute] int id)
+        {
+            teamService.Delete(id);
         }
     }
 }
