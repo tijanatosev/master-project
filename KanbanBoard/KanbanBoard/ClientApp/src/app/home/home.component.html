@@ -21,6 +21,9 @@
             <button mat-icon-button>
               <mat-icon>search</mat-icon>
             </button>
+            <button mat-icon-button (click)="onBoardDelete(board.Id, board.Name)">
+              <mat-icon>delete</mat-icon>
+            </button>
           </mat-card-actions>
         </mat-card>
       </div>
@@ -40,8 +43,13 @@
     <div class="col team-card-column" *ngFor="let team of teams">
       <mat-card class="team-card">
         <mat-card-header>
-          {{ team.Name }} - {{ team.Admin }} | {{ team.Id }}
+          <b>{{ team.Name }}</b>  - {{ team.Admin }} | {{ team.Id }}
         </mat-card-header>
+        <mat-card-actions class="team-card-actions">
+          <button mat-icon-button (click)="onTeamDelete(team.Id, team.Name)">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </mat-card-actions>
       </mat-card>
     </div>
   </div>

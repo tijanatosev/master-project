@@ -58,13 +58,19 @@ namespace KanbanBoard.Models
 
         public int Add(Team team)
         {
-            string query = @"INSERT INTO Teams (Name,Admin) VALUES(@Name, @Admin)";
+            string query = @"INSERT INTO Teams (Name, Admin) VALUES(@Name, @Admin)";
             DbParameter[] parameters = 
             {
                 new SqlParameter("@Name", team.Name),
                 new SqlParameter("@Admin", team.Admin)
             };
             return dbCommands.ExecuteSqlNonQuery(query, parameters);
+        }
+
+        public void Delete(int id)
+        {
+            string query = @"DELETE FROM Teams WHERE Id=@Id";
+            dbCommands.ExecuteSqlNonQuery(query, new SqlParameter("@Id", id));
         }
 
         public Team LoadFromDataRow(DataRow row)

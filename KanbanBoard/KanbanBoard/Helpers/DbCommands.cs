@@ -10,7 +10,6 @@ namespace KanbanBoard.Helpers
     {
         private SqlConnection sqlConnection;
         private SqlCommand sqlCommand;
-        private SqlDataReader sqlDataReader;
         private SqlDataAdapter sqlDataAdapter;
         private SqlConnectionStringBuilder connectionStringBuilder;
 

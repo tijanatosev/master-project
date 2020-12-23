@@ -5,7 +5,7 @@ namespace KanbanBoard.Services
 {
     public class TeamService : ITeamService
     {
-        private TeamPersistenceManager teamPersistenceManager = new TeamPersistenceManager();
+        private readonly TeamPersistenceManager teamPersistenceManager = new TeamPersistenceManager();
 
         public IEnumerable<Team> GetAll()
         {
@@ -14,27 +14,47 @@ namespace KanbanBoard.Services
 
         public Team GetById(int id)
         {
-            if (id < 0)
+            if (!ValidateId(id))
+            {
                 return null;
+            }
+
             return teamPersistenceManager.Load(id);
         }
 
         public bool Add(Team team)
         {
-            if (ValidateTeamName(team.Name))
+            if (!ValidateTeamName(team.Name))
             {
-                teamPersistenceManager.Add(team);
-                return true;
+                return false;
             }
 
-            return false;
+            return teamPersistenceManager.Add(team) > 0;
+        }
+
+        public void Delete(int id)
+        {
+            if (!ValidateId(id))
+            {
+                return;
+            }
+            
+            teamPersistenceManager.Delete(id);
         }
 
         private bool ValidateTeamName(string name)
         {
-            if (teamPersistenceManager.LoadByName(name) == null)
-                return true;
-            return false;
+            if (teamPersistenceManager.LoadByName(name) != null)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        private bool ValidateId(int id)
+        {
+            return id >= 0;
         }
     }
 }

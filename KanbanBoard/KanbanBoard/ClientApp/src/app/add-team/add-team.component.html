@@ -22,6 +22,6 @@
   </ng-form>
 </mat-dialog-content>
 <mat-dialog-actions>
-  <button mat-button mat-dialog-close>Cancel</button>
   <button mat-button [mat-dialog-close]="true" type="submit" [disabled]="!teamForm.valid" (click)="save(teamForm)">Save</button>
+  <button mat-button mat-dialog-close>Cancel</button>
 </mat-dialog-actions>

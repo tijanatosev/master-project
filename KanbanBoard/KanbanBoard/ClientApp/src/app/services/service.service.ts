@@ -1,4 +1,6 @@
-﻿export class Service {
+﻿import { HttpHeaders } from '@angular/common/http';
+
+export class Service {
   private url = 'https://localhost:5001/api/';
 
   public usersUrl() {
@@ -11,5 +13,13 @@
 
   public teamsUrl() {
     return this.url + 'teams';
+  }
+
+  public httpHeaders() {
+    return {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
   }
 }
