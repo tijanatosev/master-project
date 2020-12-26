@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Service } from '../service.service';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Team } from './team.model';
+import { map } from "rxjs/operators";
 
 @Injectable({
   providedIn: 'root'
@@ -17,8 +18,9 @@ export class TeamService extends Service {
     return this.http.get<Team[]>(`${this.teamsUrl()}`);
   }
 
-  public addTeam(data): Observable<Team> {
-    return this.http.post<Team>(`${this.teamsUrl()}`, JSON.stringify(data), this.httpHeaders());
+  public addTeam(data) {
+    return this.http.post(`${this.teamsUrl()}`, data, { observe: "response" })
+      .pipe(map(response => response.status));
   }
 
   public deleteTeam(id) : Observable<any> {

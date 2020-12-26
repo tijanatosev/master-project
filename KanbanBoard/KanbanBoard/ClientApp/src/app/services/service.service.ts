@@ -14,12 +14,4 @@ export class Service {
   public teamsUrl() {
     return this.url + 'teams';
   }
-
-  public httpHeaders() {
-    return {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json'
-      })
-    };
-  }
 }

@@ -7,8 +7,6 @@ import { RouterModule } from '@angular/router';
 import { AppComponent } from './app.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { HomeComponent } from './home/home.component';
-import { CounterComponent } from './counter/counter.component';
-import { FetchDataComponent } from './fetch-data/fetch-data.component';
 import { LoginComponent } from './login/login.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatButtonModule} from '@angular/material/button';
@@ -31,12 +29,14 @@ import { AddBoardComponent } from './add-board/add-board.component';
 import { MatDialogModule} from '@angular/material/dialog';
 import { AddTeamComponent } from './add-team/add-team.component';
 import { ConfirmationDialogComponent } from './shared/confirmation-dialog/confirmation-dialog.component';
+import { SettingsComponent } from './settings/settings.component';
+import { RegisterComponent } from './register/register.component';
 
 const routes = [
   { path: '', component: LoginComponent, pathMatch: 'full'},
   { path: 'home', component: HomeComponent },
-  { path: 'counter', component: CounterComponent},
-  { path: 'fetch-data', component: FetchDataComponent},
+  { path: 'settings', component: SettingsComponent },
+  { path: 'register', component: RegisterComponent }
 ];
 
 @NgModule({
@@ -44,13 +44,13 @@ const routes = [
     AppComponent,
     NavMenuComponent,
     HomeComponent,
-    CounterComponent,
-    FetchDataComponent,
     LoginComponent,
     MaterialElevationDirective,
     AddBoardComponent,
     AddTeamComponent,
-    ConfirmationDialogComponent
+    ConfirmationDialogComponent,
+    SettingsComponent,
+    RegisterComponent
   ],
   imports: [
     BrowserModule.withServerTransition({appId: 'ng-cli-universal'}),

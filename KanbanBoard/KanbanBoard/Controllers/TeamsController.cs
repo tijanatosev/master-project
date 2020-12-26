@@ -20,7 +20,7 @@ namespace KanbanBoard.Controllers
 
         [HttpGet]
         [Route("{id}")]
-        public Team GetById([FromRoute]int id)
+        public Team GetById([FromRoute] int id)
         {
             return teamService.GetById(id);
         }
