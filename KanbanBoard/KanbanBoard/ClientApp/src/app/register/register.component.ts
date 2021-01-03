@@ -40,7 +40,6 @@ export class RegisterComponent implements OnInit {
   }
 
   save(data) {
-    let result = 0;
     let user = new User();
     user.Username = data.value.username;
     user.FirstName = data.value.firstName;
@@ -50,10 +49,9 @@ export class RegisterComponent implements OnInit {
     user.UserType = "user";
     this.userService.addUser(user).subscribe(x => {
       if (x == 201) {
-        this.router.navigateByUrl('/home');
+        this.router.navigateByUrl('/dashboard');
       }
     });
-    console.log(result);
   }
 
   private validateUsername() {

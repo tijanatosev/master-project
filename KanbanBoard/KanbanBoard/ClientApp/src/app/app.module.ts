@@ -6,7 +6,7 @@ import { RouterModule } from '@angular/router';
 
 import { AppComponent } from './app.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
-import { HomeComponent } from './home/home.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
 import { LoginComponent } from './login/login.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatButtonModule} from '@angular/material/button';
@@ -31,10 +31,12 @@ import { AddTeamComponent } from './add-team/add-team.component';
 import { ConfirmationDialogComponent } from './shared/confirmation-dialog/confirmation-dialog.component';
 import { SettingsComponent } from './settings/settings.component';
 import { RegisterComponent } from './register/register.component';
+import {MatTabsModule} from "@angular/material/tabs";
+import { SettingsAccountComponent } from './settings-account/settings-account.component';
 
 const routes = [
   { path: '', component: LoginComponent, pathMatch: 'full'},
-  { path: 'home', component: HomeComponent },
+  { path: 'dashboard', component: DashboardComponent },
   { path: 'settings', component: SettingsComponent },
   { path: 'register', component: RegisterComponent }
 ];
@@ -43,14 +45,15 @@ const routes = [
   declarations: [
     AppComponent,
     NavMenuComponent,
-    HomeComponent,
+    DashboardComponent,
     LoginComponent,
     MaterialElevationDirective,
     AddBoardComponent,
     AddTeamComponent,
     ConfirmationDialogComponent,
     SettingsComponent,
-    RegisterComponent
+    RegisterComponent,
+    SettingsAccountComponent
   ],
   imports: [
     BrowserModule.withServerTransition({appId: 'ng-cli-universal'}),
@@ -75,7 +78,8 @@ const routes = [
     MatExpansionModule,
     MatSidenavModule,
     MatListModule,
-    MatDialogModule
+    MatDialogModule,
+    MatTabsModule
   ],
   providers: [],
   bootstrap: [AppComponent],
