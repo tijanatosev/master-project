@@ -1,1 +1,42 @@
-<p>settings works!</p>
+<!--<mat-card class="col">-->
+<!--  <mat-card-content>-->
+<!--    <mat-tab-group style="height: 800px">-->
+<!--      <mat-tab>-->
+<!--        <ng-template mat-tab-label>-->
+<!--          <mat-icon>person</mat-icon>-->
+<!--          Account-->
+<!--        </ng-template>-->
+<!--        <app-settings-account></app-settings-account>-->
+<!--      </mat-tab>-->
+<!--      <mat-tab>-->
+<!--        <ng-template mat-tab-label>-->
+<!--          <mat-icon>notifications</mat-icon>-->
+<!--          Notifications-->
+<!--        </ng-template>-->
+<!--        <app-login></app-login>-->
+<!--      </mat-tab>-->
+<!--    </mat-tab-group>-->
+<!--  </mat-card-content>-->
+<!--</mat-card>-->
+
+<div class="row">
+  <div class="col-3">
+    <mat-card>
+      <mat-card-content>
+        <mat-list>
+          <mat-list-item (click)="show(1)">
+            <mat-icon>person</mat-icon>Account
+          </mat-list-item>
+          <mat-list-item (click)="show(2)">
+            <mat-icon>notifications</mat-icon>Notifications
+          </mat-list-item>
+        </mat-list>
+      </mat-card-content>
+    </mat-card>
+  </div>
+  <mat-divider vertical></mat-divider>
+  <div class="col">
+    <app-settings-account *ngIf="showAccount"></app-settings-account>
+    <app-settings-notifications *ngIf="showNotifications"></app-settings-notifications>
+  </div>
+</div>

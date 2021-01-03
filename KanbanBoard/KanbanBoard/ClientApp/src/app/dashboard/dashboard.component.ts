@@ -3,17 +3,17 @@ import { Board } from '../services/board/board.model';
 import { BoardService } from '../services/board/board.service';
 import { Team } from '../services/team/team.model';
 import { TeamService } from '../services/team/team.service';
-import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { AddBoardComponent } from '../add-board/add-board.component';
 import {AddTeamComponent} from "../add-team/add-team.component";
 import {ConfirmationDialogComponent} from "../shared/confirmation-dialog/confirmation-dialog.component";
 
 @Component({
-  selector: 'app-home',
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.css']
+  selector: 'app-dashboard',
+  templateUrl: './dashboard.component.html',
+  styleUrls: ['./dashboard.component.css']
 })
-export class HomeComponent implements OnInit {
+export class DashboardComponent implements OnInit {
   public boards: Board[] = [];
   public teams: Team[] = [];
   public dialogBoardRef: MatDialogRef<any>;

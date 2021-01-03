@@ -1,7 +1,11 @@
 mat-card {
-  max-width: 400px;
+  max-width: 550px;
   margin: 5em auto;
+}
+
+h5 {
   text-align: center;
+  font-weight: 500;
 }
 
 mat-form-field {

@@ -1,0 +1,62 @@
+<div>
+  <h5>Account settings</h5>
+  <mat-card style="top: -50px;">
+    <h5>Profile</h5>
+    <mat-card-content>
+      <form [formGroup]="profileForm">
+        <mat-label>Username:</mat-label>
+        <br>
+        <mat-form-field>
+          <input matInput formControlName="username">
+        </mat-form-field>
+
+        <mat-label>First name:</mat-label>
+        <br>
+        <mat-form-field>
+          <input matInput formControlName="firstName">
+        </mat-form-field>
+
+        <mat-label>Last name:</mat-label>
+        <br>
+        <mat-form-field>
+          <input matInput formControlName="lastName">
+        </mat-form-field>
+      </form>
+    </mat-card-content>
+    <button mat-raised-button color="primary" type="submit">Update information</button>
+    <br>
+  </mat-card>
+  <mat-card style="top: -50px;">
+    <h5>Password</h5>
+    <mat-card-content>
+      <form [formGroup]="passwordForm">
+        <mat-label>Current password:</mat-label>
+        <br>
+        <mat-form-field>
+          <input matInput formControlName="currentPassword">
+        </mat-form-field>
+
+        <mat-label>New password:</mat-label>
+        <br>
+        <mat-form-field>
+          <input matInput formControlName="newPassword">
+        </mat-form-field>
+
+        <mat-label>Confirm new password:</mat-label>
+        <br>
+        <mat-form-field>
+          <input matInput formControlName="confirmPassword">
+        </mat-form-field>
+      </form>
+    </mat-card-content>
+    <button mat-raised-button color="primary" type="submit">Update password</button>
+    <br>
+  </mat-card>
+  <mat-card style="background-color: mistyrose; top: -50px;">
+    <h5>Delete account</h5>
+    <mat-card-content>
+      <p>You will be asked for conformation before deleting your account.</p>
+      <button mat-raised-button color="warn" (click)="onDeleteAccount(10)">Delete account</button>
+    </mat-card-content>
+  </mat-card>
+</div>
