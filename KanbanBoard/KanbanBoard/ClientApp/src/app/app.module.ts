@@ -33,6 +33,7 @@ import { SettingsComponent } from './settings/settings.component';
 import { RegisterComponent } from './register/register.component';
 import {MatTabsModule} from "@angular/material/tabs";
 import { SettingsAccountComponent } from './settings-account/settings-account.component';
+import { SettingsNotificationsComponent } from './settings-notifications/settings-notifications.component';
 
 const routes = [
   { path: '', component: LoginComponent, pathMatch: 'full'},
@@ -53,7 +54,8 @@ const routes = [
     ConfirmationDialogComponent,
     SettingsComponent,
     RegisterComponent,
-    SettingsAccountComponent
+    SettingsAccountComponent,
+    SettingsNotificationsComponent
   ],
   imports: [
     BrowserModule.withServerTransition({appId: 'ng-cli-universal'}),
