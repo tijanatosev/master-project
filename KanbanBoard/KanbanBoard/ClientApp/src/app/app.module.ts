@@ -5,8 +5,8 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 
 import { AppComponent } from './app.component';
-import { NavMenuComponent } from './nav-menu/nav-menu.component';
-import { DashboardComponent } from './dashboard/dashboard.component';
+import { NavMenuComponent } from './shared/nav-menu/nav-menu.component';
+import { DashboardComponent } from './dashboard-module/dashboard/dashboard.component';
 import { LoginComponent } from './login/login.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatButtonModule} from '@angular/material/button';
@@ -24,17 +24,17 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
-import { MaterialElevationDirective } from './directives/material-elevation.directive';
-import { AddBoardComponent } from './add-board/add-board.component';
+import { MaterialElevationDirective } from './shared/directives/material-elevation.directive';
+import { AddBoardComponent } from './dashboard-module/add-board/add-board.component';
 import { MatDialogModule} from '@angular/material/dialog';
-import { AddTeamComponent } from './add-team/add-team.component';
+import { AddTeamComponent } from './dashboard-module/add-team/add-team.component';
 import { ConfirmationDialogComponent } from './shared/confirmation-dialog/confirmation-dialog.component';
-import { SettingsComponent } from './settings/settings.component';
+import { SettingsComponent } from './settings-module/settings/settings.component';
 import { RegisterComponent } from './register/register.component';
 import {MatTabsModule} from "@angular/material/tabs";
-import { SettingsAccountComponent } from './settings-account/settings-account.component';
-import { SettingsNotificationsComponent } from './settings-notifications/settings-notifications.component';
-import { ProfileComponent } from './profile/profile.component';
+import { SettingsAccountComponent } from './settings-module/settings-account/settings-account.component';
+import { SettingsNotificationsComponent } from './settings-module/settings-notifications/settings-notifications.component';
+import { ProfileComponent } from './profile-module/profile/profile.component';
 
 const routes = [
   { path: '', component: LoginComponent, pathMatch: 'full'},

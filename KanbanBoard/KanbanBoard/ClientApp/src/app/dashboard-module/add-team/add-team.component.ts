@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import {FormControl, FormGroup, Validators} from '@angular/forms';
-import { User } from '../services/user/user.model';
-import { UserService } from '../services/user/user.service';
-import { TeamService } from '../services/team/team.service';
-import { Team } from '../services/team/team.model';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { User } from "../../shared/services/user/user.model";
+import { UserService } from "../../shared/services/user/user.service";
+import { TeamService } from "../../shared/services/team/team.service";
+import { Team } from "../../shared/services/team/team.model";
+
 
 @Component({
   selector: 'app-add-team',
