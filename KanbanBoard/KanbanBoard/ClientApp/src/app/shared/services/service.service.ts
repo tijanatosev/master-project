@@ -1,6 +1,4 @@
-﻿import { HttpHeaders } from '@angular/common/http';
-
-export class Service {
+﻿export class Service {
   private url = 'https://localhost:5001/api/';
 
   public usersUrl() {
