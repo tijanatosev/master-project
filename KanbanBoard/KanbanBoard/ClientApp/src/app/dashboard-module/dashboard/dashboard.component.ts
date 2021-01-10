@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { Board } from '../services/board/board.model';
-import { BoardService } from '../services/board/board.service';
-import { Team } from '../services/team/team.model';
-import { TeamService } from '../services/team/team.service';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { AddBoardComponent } from '../add-board/add-board.component';
-import {AddTeamComponent} from "../add-team/add-team.component";
-import {ConfirmationDialogComponent} from "../shared/confirmation-dialog/confirmation-dialog.component";
+import { AddTeamComponent } from "../add-team/add-team.component";
+import { Board } from "../../shared/services/board/board.model";
+import { Team } from "../../shared/services/team/team.model";
+import { BoardService } from "../../shared/services/board/board.service";
+import { TeamService } from "../../shared/services/team/team.service";
+import { ConfirmationDialogComponent } from "../../shared/confirmation-dialog/confirmation-dialog.component";
 
 @Component({
   selector: 'app-dashboard',

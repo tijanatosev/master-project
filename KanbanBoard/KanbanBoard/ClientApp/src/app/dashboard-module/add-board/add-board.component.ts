@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { TeamService } from '../services/team/team.service';
-import { Team } from '../services/team/team.model';
-import { Board } from '../services/board/board.model';
-import { BoardService } from '../services/board/board.service';
+import { Team } from "../../shared/services/team/team.model";
+import { TeamService } from "../../shared/services/team/team.service";
+import { BoardService } from "../../shared/services/board/board.service";
+import { Board } from "../../shared/services/board/board.model";
 
 @Component({
   selector: 'app-add-board',

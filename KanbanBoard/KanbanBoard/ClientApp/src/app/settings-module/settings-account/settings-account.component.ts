@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { ConfirmationDialogComponent } from "../shared/confirmation-dialog/confirmation-dialog.component";
+import { ConfirmationDialogComponent } from "../../shared/confirmation-dialog/confirmation-dialog.component";
 import { MatDialog, MatDialogRef } from "@angular/material/dialog";
-import { UserService } from "../services/user/user.service";
+import { UserService } from "../../shared/services/user/user.service";
 import { Router } from "@angular/router";
 
 @Component({
