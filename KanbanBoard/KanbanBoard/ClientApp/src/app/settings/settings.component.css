@@ -17,3 +17,12 @@
 :host /deep/ .mat-tab-body-wrapper {
   flex: 1 1 auto;
 }
+
+.mat-list-item {
+  cursor: pointer;
+}
+
+.indigo {
+  background-color: #3F51B5;
+  color: white;
+}

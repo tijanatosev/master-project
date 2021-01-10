@@ -34,12 +34,14 @@ import { RegisterComponent } from './register/register.component';
 import {MatTabsModule} from "@angular/material/tabs";
 import { SettingsAccountComponent } from './settings-account/settings-account.component';
 import { SettingsNotificationsComponent } from './settings-notifications/settings-notifications.component';
+import { ProfileComponent } from './profile/profile.component';
 
 const routes = [
   { path: '', component: LoginComponent, pathMatch: 'full'},
   { path: 'dashboard', component: DashboardComponent },
   { path: 'settings', component: SettingsComponent },
-  { path: 'register', component: RegisterComponent }
+  { path: 'register', component: RegisterComponent },
+  { path: 'profile', component: ProfileComponent }
 ];
 
 @NgModule({
@@ -55,7 +57,8 @@ const routes = [
     SettingsComponent,
     RegisterComponent,
     SettingsAccountComponent,
-    SettingsNotificationsComponent
+    SettingsNotificationsComponent,
+    ProfileComponent
   ],
   imports: [
     BrowserModule.withServerTransition({appId: 'ng-cli-universal'}),

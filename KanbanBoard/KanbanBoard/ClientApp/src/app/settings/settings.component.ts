@@ -10,6 +10,7 @@ export class SettingsComponent implements OnInit {
   showAccount: boolean = false;
   showNotifications: boolean = false;
   previous: number = 0;
+  clicked: string;
 
   constructor() { }
 
@@ -21,14 +22,17 @@ export class SettingsComponent implements OnInit {
       this.showAccount = false;
       this.showNotifications = false;
       this.previous = 0;
+      this.clicked = "none";
     } else if (option == 1) {
       this.showAccount = true;
       this.showNotifications = false;
       this.previous = 1;
+      this.clicked = "account";
     } else if (option == 2) {
       this.showAccount = false;
       this.showNotifications = true;
       this.previous = 2;
+      this.clicked = "notifications";
     }
   }
 }
