@@ -24,10 +24,10 @@
     <mat-card>
       <mat-card-content>
         <mat-list>
-          <mat-list-item (click)="show(1)">
+          <mat-list-item (click)="show(1)" [ngClass]="{ indigo: clicked == 'account' }">
             <mat-icon>person</mat-icon>Account
           </mat-list-item>
-          <mat-list-item (click)="show(2)">
+          <mat-list-item (click)="show(2)" [ngClass]="{ indigo: clicked == 'notifications' }">
             <mat-icon>notifications</mat-icon>Notifications
           </mat-list-item>
         </mat-list>

@@ -19,10 +19,10 @@
           </mat-card-content>
           <mat-card-actions class="board-card-actions">
             <button mat-icon-button>
-              <mat-icon>search</mat-icon>
+              <mat-icon color="primary">search</mat-icon>
             </button>
             <button mat-icon-button (click)="onBoardDelete(board.Id, board.Name)">
-              <mat-icon>delete</mat-icon>
+              <mat-icon color="warn">delete</mat-icon>
             </button>
           </mat-card-actions>
         </mat-card>
@@ -48,7 +48,7 @@
         </mat-card-header>
         <mat-card-actions class="team-card-actions">
           <button mat-icon-button (click)="onTeamDelete(team.Id, team.Name)">
-            <mat-icon>delete</mat-icon>
+            <mat-icon color="warn">delete</mat-icon>
           </button>
         </mat-card-actions>
       </mat-card>

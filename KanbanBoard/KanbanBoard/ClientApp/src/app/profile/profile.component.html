@@ -1,0 +1,14 @@
+<mat-card *ngIf="user">
+  <mat-card-content>
+    {{ user.Username }} | {{ user.FirstName }} {{ user.LastName }}
+  </mat-card-content>
+</mat-card>
+<mat-card>
+  <mat-card-content>
+    <mat-list *ngFor="let task of tasks">
+      <mat-list-item>
+        {{ task }}
+      </mat-list-item>
+    </mat-list>
+  </mat-card-content>
+</mat-card>
