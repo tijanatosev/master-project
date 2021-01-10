@@ -24,7 +24,6 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
-import { MaterialElevationDirective } from './shared/directives/material-elevation.directive';
 import { AddBoardComponent } from './dashboard-module/add-board/add-board.component';
 import { MatDialogModule} from '@angular/material/dialog';
 import { AddTeamComponent } from './dashboard-module/add-team/add-team.component';
