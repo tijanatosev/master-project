@@ -49,7 +49,6 @@ const routes = [
     NavMenuComponent,
     DashboardComponent,
     LoginComponent,
-    MaterialElevationDirective,
     AddBoardComponent,
     AddTeamComponent,
     ConfirmationDialogComponent,
