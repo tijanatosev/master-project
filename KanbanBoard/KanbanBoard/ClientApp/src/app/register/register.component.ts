@@ -52,7 +52,7 @@ export class RegisterComponent implements OnInit {
     user.UserType = "user";
     this.userService.addUser(user).subscribe(result => {
       if (result == Responses.Created) {
-        var authValues = { "username": user.Username, "password": user.Password }
+        var authValues = { "username": user.Username, "admin": 0 }
         this.authService.login(authValues);
         this.router.navigate(['/dashboard']);
       }

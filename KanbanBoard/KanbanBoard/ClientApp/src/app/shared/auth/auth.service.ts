@@ -13,14 +13,6 @@ export class AuthService {
     return (!(token === undefined || token === null || token === 'undefined' || token === 'null' || token === ''));
   }
 
-  public getToken() {
-    if (this.isAuthenticated()) {
-      return '';
-    }
-    const object = JSON.parse(localStorage.getItem('token'));
-    return object.token;
-  }
-
   public setToken(data) {
     localStorage.setItem('token', JSON.stringify(data));
   }
@@ -40,5 +32,13 @@ export class AuthService {
       this.loggedIn.next(true);
     }
     return this.loggedIn.asObservable();
+  }
+
+  public isAdmin() {
+    if (!this.isAuthenticated()) {
+      return false;
+    }
+    const token = JSON.parse(localStorage.getItem('token'));
+    return token.admin;
   }
 }

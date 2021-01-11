@@ -7,6 +7,7 @@ import { Team } from "../../shared/services/team/team.model";
 import { BoardService } from "../../shared/services/board/board.service";
 import { TeamService } from "../../shared/services/team/team.service";
 import { ConfirmationDialogComponent } from "../../shared/confirmation-dialog/confirmation-dialog.component";
+import {AuthService} from "../../shared/auth/auth.service";
 
 @Component({
   selector: 'app-dashboard',
@@ -20,18 +21,21 @@ export class DashboardComponent implements OnInit {
   public dialogTeamRef: MatDialogRef<any>;
   public dialogConfirmBoardRef: MatDialogRef<any>;
   public dialogConfirmTeamRef: MatDialogRef<any>;
+  public isAdmin: boolean = false;
 
   constructor(private boardService: BoardService,
               private teamService: TeamService,
               private boardDialog: MatDialog,
               private teamDialog: MatDialog,
               private confirmBoardDialog: MatDialog,
-              private confirmTeamDialog: MatDialog) {
+              private confirmTeamDialog: MatDialog,
+              private authService: AuthService) {
   }
 
   ngOnInit(): void {
     this.boardService.getBoards().subscribe(boards => this.boards = boards);
     this.teamService.getTeams().subscribe(teams => this.teams = teams);
+    this.isAdmin = this.authService.isAdmin();
   }
 
   openBoardDialog() {
