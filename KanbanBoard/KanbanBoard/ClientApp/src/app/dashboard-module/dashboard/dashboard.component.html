@@ -21,7 +21,7 @@
             <button mat-icon-button>
               <mat-icon color="primary">search</mat-icon>
             </button>
-            <button mat-icon-button (click)="onBoardDelete(board.Id, board.Name)">
+            <button mat-icon-button *ngIf="isAdmin" (click)="onBoardDelete(board.Id, board.Name)">
               <mat-icon color="warn">delete</mat-icon>
             </button>
           </mat-card-actions>
@@ -47,7 +47,7 @@
           <b>{{ team.Name }}</b>  - {{ team.Admin }} | {{ team.Id }}
         </mat-card-header>
         <mat-card-actions class="team-card-actions">
-          <button mat-icon-button (click)="onTeamDelete(team.Id, team.Name)">
+          <button mat-icon-button *ngIf="isAdmin" (click)="onTeamDelete(team.Id, team.Name)">
             <mat-icon color="warn">delete</mat-icon>
           </button>
         </mat-card-actions>

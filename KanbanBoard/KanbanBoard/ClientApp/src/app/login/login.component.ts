@@ -15,6 +15,7 @@ export class LoginComponent implements OnInit {
   public loginInvalid = false;
   public hide = true;
   public users: User[];
+  private currentUser: User = new User();
 
   constructor(private formBuilder: FormBuilder,
               private route: ActivatedRoute,
@@ -33,13 +34,13 @@ export class LoginComponent implements OnInit {
   }
 
   public login(data) {
-    const user = new User();
-    user.Username = data.value.username;
-    user.Password = data.value.password;
-    if (!this.userExists(user)) {
+    this.currentUser.Username = data.value.username;
+    this.currentUser.Password = data.value.password;
+    this.currentUser.UserType = "";
+    if (!this.userExists(this.currentUser)) {
       return;
     }
-    var authValues = { "username": user.Username, "password": user.Password };
+    var authValues = { "username": this.currentUser.Username, "admin": this.currentUser.UserType === "admin" };
     this.authService.login(authValues);
     this.router.navigate(['/dashboard']);
   }
@@ -48,6 +49,7 @@ export class LoginComponent implements OnInit {
     var exists: boolean = false;
     this.users.forEach(value => {
       if (value.Username === user.Username && value.Password === user.Password) {
+        this.currentUser.UserType = value.UserType;
         exists = true;
       }
     });
