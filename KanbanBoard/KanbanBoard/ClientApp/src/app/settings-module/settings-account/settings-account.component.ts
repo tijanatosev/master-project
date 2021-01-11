@@ -4,6 +4,7 @@ import { ConfirmationDialogComponent } from "../../shared/confirmation-dialog/co
 import { MatDialog, MatDialogRef } from "@angular/material/dialog";
 import { UserService } from "../../shared/services/user/user.service";
 import { Router } from "@angular/router";
+import { AuthService } from "../../shared/auth/auth.service";
 
 @Component({
   selector: 'app-settings-account',
@@ -18,6 +19,7 @@ export class SettingsAccountComponent implements OnInit {
   constructor(private formBuilder: FormBuilder,
               private userService: UserService,
               private router: Router,
+              private authService: AuthService,
               private confirmDialog: MatDialog) { }
 
   ngOnInit() {
@@ -43,7 +45,8 @@ export class SettingsAccountComponent implements OnInit {
     this.dialogConfirmRef.afterClosed().subscribe(result => {
       if (result) {
         this.userService.deleteUser(id).subscribe(() => {
-          this.router.navigateByUrl('/');
+          this.authService.logout();
+          this.router.navigate(['/login']);
         });
       }
     });

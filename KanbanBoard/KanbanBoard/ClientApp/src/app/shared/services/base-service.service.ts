@@ -1,4 +1,4 @@
-﻿export class Service {
+﻿export class BaseService {
   private url = 'https://localhost:5001/api/';
 
   public usersUrl() {

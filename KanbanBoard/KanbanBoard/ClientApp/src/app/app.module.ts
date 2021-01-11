@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 
 import { AppComponent } from './app.component';
@@ -30,17 +30,20 @@ import { AddTeamComponent } from './dashboard-module/add-team/add-team.component
 import { ConfirmationDialogComponent } from './shared/confirmation-dialog/confirmation-dialog.component';
 import { SettingsComponent } from './settings-module/settings/settings.component';
 import { RegisterComponent } from './register/register.component';
-import {MatTabsModule} from "@angular/material/tabs";
+import { MatTabsModule } from "@angular/material/tabs";
 import { SettingsAccountComponent } from './settings-module/settings-account/settings-account.component';
 import { SettingsNotificationsComponent } from './settings-module/settings-notifications/settings-notifications.component';
 import { ProfileComponent } from './profile-module/profile/profile.component';
+import { AuthGuardService as AuthGuard } from "./shared/auth/auth-guard.service";
+import { SideNavComponent } from './shared/side-nav/side-nav.component';
 
 const routes = [
-  { path: '', component: LoginComponent, pathMatch: 'full'},
-  { path: 'dashboard', component: DashboardComponent },
-  { path: 'settings', component: SettingsComponent },
+  { path: '', redirectTo: '/login', pathMatch: 'full' },
+  { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
-  { path: 'profile', component: ProfileComponent }
+  { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard] },
+  { path: 'settings', component: SettingsComponent, canActivate: [AuthGuard] },
+  { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] }
 ];
 
 @NgModule({
@@ -56,7 +59,8 @@ const routes = [
     RegisterComponent,
     SettingsAccountComponent,
     SettingsNotificationsComponent,
-    ProfileComponent
+    ProfileComponent,
+    SideNavComponent
   ],
   imports: [
     BrowserModule.withServerTransition({appId: 'ng-cli-universal'}),
