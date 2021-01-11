@@ -3,6 +3,8 @@ import { AbstractControl, FormBuilder, FormGroup, Validators } from "@angular/fo
 import { ActivatedRoute, Router } from "@angular/router";
 import { User } from "../shared/services/user/user.model";
 import { UserService } from "../shared/services/user/user.service";
+import { AuthService } from "../shared/auth/auth.service";
+import { Responses } from "../shared/enums";
 
 @Component({
   selector: 'app-register',
@@ -20,7 +22,8 @@ export class RegisterComponent implements OnInit {
   constructor(private formBuilder: FormBuilder,
               private route: ActivatedRoute,
               private router: Router,
-              private userService: UserService) { }
+              private userService: UserService,
+              private authService: AuthService) { }
 
   ngOnInit() {
     this.registerForm = this.formBuilder.group({
@@ -47,9 +50,11 @@ export class RegisterComponent implements OnInit {
     user.Email = data.value.email;
     user.Password = data.value.password;
     user.UserType = "user";
-    this.userService.addUser(user).subscribe(x => {
-      if (x == 201) {
-        this.router.navigateByUrl('/dashboard');
+    this.userService.addUser(user).subscribe(result => {
+      if (result == Responses.Created) {
+        var authValues = { "username": user.Username, "password": user.Password }
+        this.authService.login(authValues);
+        this.router.navigate(['/dashboard']);
       }
     });
   }

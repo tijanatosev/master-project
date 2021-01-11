@@ -18,7 +18,7 @@
           <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
         </button>
       </mat-form-field>
-      <button mat-raised-button color="primary" style="margin-bottom: 10px;" [disabled]="!loginForm.valid">Login</button>
+      <button mat-raised-button color="primary" style="margin-bottom: 10px;" [disabled]="!loginForm.valid" (click)="login(loginForm)">Login</button>
       <br>
       <a href="#" style="text-decoration: none; color: #3F51B5;" routerLink="/register">Register</a>
     </form>

@@ -2,13 +2,13 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Board } from './board.model';
-import { Service } from '../service.service';
+import { BaseService } from '../base-service.service';
 import { map } from "rxjs/operators";
 
 @Injectable({
   providedIn: 'root'
 })
-export class BoardService extends Service {
+export class BoardService extends BaseService {
 
   constructor(private http: HttpClient) {
     super();

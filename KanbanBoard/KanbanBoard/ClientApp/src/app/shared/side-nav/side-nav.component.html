@@ -1,0 +1,26 @@
+<mat-sidenav position="end" class="sidenav" mode="side" opened="true" *ngIf="isLoggedIn | async">
+  <mat-nav-list>
+    <mat-list-item>
+      <button mat-icon-button (click)="isExpanded = !isExpanded">
+        <mat-icon *ngIf="!isExpanded">chevron_left</mat-icon>
+        <mat-icon *ngIf="isExpanded">chevron_right</mat-icon>
+      </button>
+    </mat-list-item>
+    <mat-list-item [routerLink]="['/dashboard']">
+      <mat-icon mat-list-icon>home</mat-icon>
+      <p matLine *ngIf="isExpanded">Dashboard</p>
+    </mat-list-item>
+    <mat-list-item [routerLink]="['/profile']">
+      <mat-icon mat-list-icon>person</mat-icon>
+      <p matLine *ngIf="isExpanded">Profile</p>
+    </mat-list-item>
+    <mat-list-item [routerLink]="['/settings']">
+      <mat-icon mat-list-icon>settings</mat-icon>
+      <p matLine *ngIf="isExpanded">Settings</p>
+    </mat-list-item>
+    <mat-list-item (click)="logout()">
+      <mat-icon mat-list-icon>power_settings_new</mat-icon>
+      <p matLine *ngIf="isExpanded">Log out</p>
+    </mat-list-item>
+  </mat-nav-list>
+</mat-sidenav>
