@@ -50,5 +50,17 @@ namespace KanbanBoard.Controllers
         {
             userService.Delete(id);
         }
+
+        [HttpPost]
+        [Route("authenticate/{username}")]
+        public User Authenticate([FromRoute] string username, [FromBody] User user)
+        {
+            if (userService.GetByUsername(username) == null)
+            {
+                return null;
+            }
+
+            return userService.AuthenticateUser(user);
+        }
     }
 }

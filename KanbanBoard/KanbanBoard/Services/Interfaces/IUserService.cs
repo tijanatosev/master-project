@@ -14,5 +14,7 @@ namespace KanbanBoard.Services
         bool Add(User user);
 
         void Delete(int id);
+
+        User AuthenticateUser(User user);
     }
 }
