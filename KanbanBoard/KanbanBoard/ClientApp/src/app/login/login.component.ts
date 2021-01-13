@@ -14,7 +14,7 @@ export class LoginComponent implements OnInit {
   loginForm: FormGroup;
   public loginInvalid = false;
   public hide = true;
-  public users: User[];
+  private user: User = new User();
   private currentUser: User = new User();
 
   constructor(private formBuilder: FormBuilder,
@@ -28,31 +28,22 @@ export class LoginComponent implements OnInit {
       username: ['', [Validators.required]],
       password: ['', [Validators.required]]
     });
-    this.userService.getUsers().subscribe(users => {
-      this.users = users;
-    });
   }
 
   public login(data) {
     this.currentUser.Username = data.value.username;
     this.currentUser.Password = data.value.password;
+    this.currentUser.FirstName = "";
+    this.currentUser.LastName = "";
+    this.currentUser.Email = "";
     this.currentUser.UserType = "";
-    if (!this.userExists(this.currentUser)) {
-      return;
-    }
-    var authValues = { "username": this.currentUser.Username, "admin": this.currentUser.UserType === "admin" };
-    this.authService.login(authValues);
-    this.router.navigate(['/dashboard']);
-  }
-
-  private userExists(user: User): boolean {
-    var exists: boolean = false;
-    this.users.forEach(value => {
-      if (value.Username === user.Username && value.Password === user.Password) {
-        this.currentUser.UserType = value.UserType;
-        exists = true;
+    this.userService.authenticateUser(this.currentUser.Username, this.currentUser).subscribe(result => {
+      if (result != null) {
+        var authValues = { "username": result.Username, "admin": result.UserType === "admin" };
+        this.authService.login(authValues);
+        this.router.navigate(['/dashboard']);
       }
     });
-    return exists;
+
   }
 }

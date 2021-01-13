@@ -1,11 +1,16 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Security.Cryptography;
+using KanbanBoard.Helpers;
 using KanbanBoard.Models;
+using Microsoft.Win32.SafeHandles;
 
 namespace KanbanBoard.Services
 {
     public class UserService : IUserService
     {
         private IUserPersistenceManager userPersistenceManager = new UserPersistenceManager();
+        private IHashingManager hashingManager = new HashingManager();
 
         public IEnumerable<User> GetAll()
         {
@@ -19,16 +24,29 @@ namespace KanbanBoard.Services
                 return null;
             }
 
-            return userPersistenceManager.Load(id);
+            User user = userPersistenceManager.Load(id);
+            if (user != null)
+            {
+                user.Password = String.Empty;
+            }
+            
+            return user;
         }
 
         public User GetByUsername(string username)
         {
-            return userPersistenceManager.Load(username);
+            User user = userPersistenceManager.Load(username);
+            if (user != null)
+            {
+                user.Password = String.Empty;
+            }
+            
+            return user;
         }
 
         public bool Add(User user)
         {
+            user.Password = hashingManager.HashPassword(user.Password);
             return userPersistenceManager.Add(user) > 0;
         }
 
@@ -40,6 +58,19 @@ namespace KanbanBoard.Services
             }
 
             userPersistenceManager.Delete(id);
+        }
+
+        public User AuthenticateUser(User user)
+        {
+            User dbUser = userPersistenceManager.Load(user.Username);
+            string hashedPassword = hashingManager.HashPassword(user.Password);
+            if (!hashedPassword.Equals(dbUser.Password))
+            {
+                return null;
+            }
+            
+            dbUser.Password = String.Empty;
+            return dbUser;
         }
 
         private bool ValidateId(int id)

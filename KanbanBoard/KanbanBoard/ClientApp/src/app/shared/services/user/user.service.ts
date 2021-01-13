@@ -18,8 +18,8 @@ export class UserService extends BaseService {
     return this.http.get<User[]>(`${this.usersUrl()}`);
   }
 
-  public addUser(data) {
-    return this.http.post(`${this.usersUrl()}`, data, { observe: "response" })
+  public addUser(user) {
+    return this.http.post(`${this.usersUrl()}`, user, { observe: "response" })
       .pipe(map(response => response.status));
   }
 
@@ -29,5 +29,10 @@ export class UserService extends BaseService {
 
   public deleteUser(id) : Observable<any> {
     return this.http.delete(`${this.usersUrl()}/${id}`);
+  }
+
+  public authenticateUser(username, user) {
+    return this.http.post<User>(`${this.usersUrl()}/authenticate/${username}`, user, { observe: "response" })
+      .pipe(map(response => response.body));
   }
 }
