@@ -14,7 +14,6 @@ export class LoginComponent implements OnInit {
   loginForm: FormGroup;
   public loginInvalid = false;
   public hide = true;
-  private user: User = new User();
   private currentUser: User = new User();
 
   constructor(private formBuilder: FormBuilder,
@@ -39,9 +38,12 @@ export class LoginComponent implements OnInit {
     this.currentUser.UserType = "";
     this.userService.authenticateUser(this.currentUser.Username, this.currentUser).subscribe(result => {
       if (result != null) {
+        this.loginInvalid = this.loginInvalid != true;
         var authValues = { "username": result.Username, "admin": result.UserType === "admin" };
         this.authService.login(authValues);
         this.router.navigate(['/dashboard']);
+      } else {
+        this.loginInvalid = true;
       }
     });
 
