@@ -1,16 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Security.Cryptography;
 using KanbanBoard.Helpers;
 using KanbanBoard.Models;
-using Microsoft.Win32.SafeHandles;
+using KanbanBoard.PersistenceManagers;
+using KanbanBoard.PersistenceManagers.Interfaces;
+using KanbanBoard.Services.Interfaces;
 
 namespace KanbanBoard.Services
 {
     public class UserService : IUserService
     {
-        private IUserPersistenceManager userPersistenceManager = new UserPersistenceManager();
-        private IHashingManager hashingManager = new HashingManager();
+        private readonly IUserPersistenceManager userPersistenceManager = new UserPersistenceManager();
+        private readonly IHashingManager hashingManager = new HashingManager();
 
         public IEnumerable<User> GetAll()
         {

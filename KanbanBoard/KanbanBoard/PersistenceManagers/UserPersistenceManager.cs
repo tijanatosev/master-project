@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
 using System.Data.SqlClient;
-using System.Data.SqlTypes;
 using KanbanBoard.Helpers;
+using KanbanBoard.Models;
+using KanbanBoard.PersistenceManagers.Interfaces;
 
-namespace KanbanBoard.Models
+namespace KanbanBoard.PersistenceManagers
 {
     public class UserPersistenceManager : IUserPersistenceManager
     {
@@ -89,8 +90,7 @@ VALUES (@FirstName, @LastName, @Username, @Password, @Email, @UserType)";
                 FirstName = row["FirstName"].ToString(),
                 LastName = row["LastName"].ToString(),
                 Email = row["Email"].ToString(),
-                UserType = row["UserType"].ToString(),
-                TeamId = row["TeamId"] as int?
+                UserType = row["UserType"].ToString()
             };
         }
     }

@@ -1,6 +1,6 @@
 ﻿using System.Data;
 
-namespace KanbanBoard.Models
+namespace KanbanBoard.PersistenceManagers.Interfaces
 {
     public interface IPersistenceManager<T>
     {

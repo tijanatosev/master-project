@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Team } from './team.model';
 import { map } from "rxjs/operators";
+import {Board} from "../board/board.model";
 
 @Injectable({
   providedIn: 'root'
@@ -18,12 +19,16 @@ export class TeamService extends BaseService {
     return this.http.get<Team[]>(`${this.teamsUrl()}`);
   }
 
-  public addTeam(data) {
-    return this.http.post(`${this.teamsUrl()}`, data, { observe: "response" })
+  public addTeam(team) {
+    return this.http.post(`${this.teamsUrl()}`, team, { observe: "response" })
       .pipe(map(response => response.status));
   }
 
   public deleteTeam(id) : Observable<any> {
     return this.http.delete(`${this.teamsUrl()}/${id}`);
+  }
+
+  public getTeamsByUserId(userId): Observable<Board[]> {
+    return this.http.get<Team[]>(`${this.teamsUrl()}/user/${userId}`);
   }
 }

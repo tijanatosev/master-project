@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using KanbanBoard.Models;
 using KanbanBoard.Services;
+using KanbanBoard.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace KanbanBoard.Controllers
@@ -42,6 +43,13 @@ namespace KanbanBoard.Controllers
         public void Delete([FromRoute] int id)
         {
             teamService.Delete(id);
+        }
+
+        [HttpGet]
+        [Route("user/{userId}")]
+        public IEnumerable<Team> GetTeamsByUsedId([FromRoute] int userId)
+        {
+            return teamService.GetTeamsByUserId(userId);
         }
     }
 }
