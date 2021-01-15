@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
+using KanbanBoard.Models;
 
-namespace KanbanBoard.Models
+namespace KanbanBoard.PersistenceManagers.Interfaces
 {
     public interface IUserPersistenceManager : IPersistenceManager<User>
     {

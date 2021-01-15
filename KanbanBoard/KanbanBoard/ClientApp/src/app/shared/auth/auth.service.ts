@@ -41,4 +41,12 @@ export class AuthService {
     const token = JSON.parse(localStorage.getItem('token'));
     return token.admin;
   }
+
+  public getUserIdFromToken() {
+    if (!this.isAuthenticated()) {
+      return null;
+    }
+    const token = JSON.parse(localStorage.getItem('token'));
+    return token.userId;
+  }
 }

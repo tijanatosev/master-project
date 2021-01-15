@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using KanbanBoard.Models;
 
-namespace KanbanBoard.Services
+namespace KanbanBoard.Services.Interfaces
 {
     public interface IBoardService
     {
@@ -12,5 +12,7 @@ namespace KanbanBoard.Services
         bool Add(Board board);
 
         void Delete(int id);
+        
+        IEnumerable<Board> GetByUserId(int userId);
     }
 }

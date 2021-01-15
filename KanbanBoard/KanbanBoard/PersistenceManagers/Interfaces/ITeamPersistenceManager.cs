@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
+using KanbanBoard.Models;
 
-namespace KanbanBoard.Models
+namespace KanbanBoard.PersistenceManagers.Interfaces
 {
     public interface ITeamPersistenceManager : IPersistenceManager<Team>
     {
@@ -13,5 +14,7 @@ namespace KanbanBoard.Models
         int Add(Team team);
 
         void Delete(int id);
+
+        IEnumerable<Team> LoadByUserId(int userId);
     }
 }

@@ -36,10 +36,10 @@ export class LoginComponent implements OnInit {
     this.currentUser.LastName = "";
     this.currentUser.Email = "";
     this.currentUser.UserType = "";
-    this.userService.authenticateUser(this.currentUser.Username, this.currentUser).subscribe(result => {
-      if (result != null) {
+    this.userService.authenticateUser(this.currentUser.Username, this.currentUser).subscribe(user => {
+      if (user != null) {
         this.loginInvalid = this.loginInvalid != true;
-        var authValues = { "username": result.Username, "admin": result.UserType === "admin" };
+        var authValues = { "username": user.Username, "admin": user.UserType === "admin", "userId": user.Id };
         this.authService.login(authValues);
         this.router.navigate(['/dashboard']);
       } else {

@@ -18,12 +18,16 @@ export class BoardService extends BaseService {
     return this.http.get<Board[]>(`${this.boardsUrl()}`);
   }
 
-  public addBoard(data) {
-    return this.http.post(`${this.boardsUrl()}`, data, { observe: "response" })
+  public addBoard(board) {
+    return this.http.post(`${this.boardsUrl()}`, board, { observe: "response" })
       .pipe(map(response => response.status));
   }
 
   public deleteBoard(id) : Observable<any> {
     return this.http.delete(`${this.boardsUrl()}/${id}`);
+  }
+
+  public getBoardsByUserId(userId): Observable<Board[]> {
+    return this.http.get<Board[]>(`${this.boardsUrl()}/user/${userId}`);
   }
 }

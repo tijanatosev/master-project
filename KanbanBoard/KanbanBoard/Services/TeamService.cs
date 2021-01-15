@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 using KanbanBoard.Models;
+using KanbanBoard.PersistenceManagers;
+using KanbanBoard.Services.Interfaces;
 
 namespace KanbanBoard.Services
 {
@@ -40,6 +42,16 @@ namespace KanbanBoard.Services
             }
             
             teamPersistenceManager.Delete(id);
+        }
+
+        public IEnumerable<Team> GetTeamsByUserId(int userId)
+        {
+            if (!ValidateId(userId))
+            {
+                return null;
+            }
+
+            return teamPersistenceManager.LoadByUserId(userId);
         }
 
         private bool ValidateTeamName(string name)

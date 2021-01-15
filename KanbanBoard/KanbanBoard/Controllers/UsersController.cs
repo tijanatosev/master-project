@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using KanbanBoard.Models;
 using KanbanBoard.Services;
+using KanbanBoard.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace KanbanBoard.Controllers

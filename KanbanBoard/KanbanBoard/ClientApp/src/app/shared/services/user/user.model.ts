@@ -6,5 +6,4 @@
     public LastName: string;
     public Email: string;
     public UserType: string;
-    public TeamId?: number;
 }

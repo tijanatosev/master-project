@@ -4,8 +4,10 @@ using System.Data;
 using System.Data.Common;
 using System.Data.SqlClient;
 using KanbanBoard.Helpers;
+using KanbanBoard.Models;
+using KanbanBoard.PersistenceManagers.Interfaces;
 
-namespace KanbanBoard.Models
+namespace KanbanBoard.PersistenceManagers
 {
     public class TeamPersistenceManager : ITeamPersistenceManager
     {
@@ -71,6 +73,23 @@ namespace KanbanBoard.Models
         {
             string query = @"DELETE FROM Teams WHERE Id=@Id";
             dbCommands.ExecuteSqlNonQuery(query, new SqlParameter("@Id", id));
+        }
+
+        public IEnumerable<Team> LoadByUserId(int userId)
+        {
+            List<Team> teams = new List<Team>();
+            string query = @"select t.Id, t.Admin, t.Name
+from Teams t join UsersTeams ut on t.Id = ut.TeamId
+where ut.UserId = @UserId";
+            DataTable result = dbCommands.ExecuteSqlQuery(query, new SqlParameter("@UserId", userId)).Tables["Result"];
+            if (result.Rows.Count != 0)
+            {
+                foreach (DataRow row in result.Rows)
+                {
+                    teams.Add(LoadFromDataRow(row));
+                }
+            }
+            return teams;
         }
 
         public Team LoadFromDataRow(DataRow row)

@@ -22,6 +22,7 @@ export class DashboardComponent implements OnInit {
   public dialogConfirmBoardRef: MatDialogRef<any>;
   public dialogConfirmTeamRef: MatDialogRef<any>;
   public isAdmin: boolean = false;
+  private userId;
 
   constructor(private boardService: BoardService,
               private teamService: TeamService,
@@ -33,9 +34,16 @@ export class DashboardComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.boardService.getBoards().subscribe(boards => this.boards = boards);
-    this.teamService.getTeams().subscribe(teams => this.teams = teams);
     this.isAdmin = this.authService.isAdmin();
+    this.userId = this.authService.getUserIdFromToken();
+    if (this.isAdmin == false && this.userId != null) {
+      this.boardService.getBoardsByUserId(this.userId).subscribe(boards => this.boards = boards);
+      this.teamService.getTeamsByUserId(this.userId).subscribe(teams => this.teams = teams);
+    } else {
+      this.boardService.getBoards().subscribe(boards => this.boards = boards);
+      this.teamService.getTeams().subscribe(teams => this.teams = teams);
+    }
+
   }
 
   openBoardDialog() {
