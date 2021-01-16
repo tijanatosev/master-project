@@ -4,6 +4,7 @@ import { User } from "../../shared/services/user/user.model";
 import { UserService } from "../../shared/services/user/user.service";
 import { TeamService } from "../../shared/services/team/team.service";
 import { Team } from "../../shared/services/team/team.model";
+import {Responses} from "../../shared/enums";
 
 
 @Component({
@@ -28,9 +29,19 @@ export class AddTeamComponent implements OnInit {
 
   save(teamForm) {
     let team = new Team();
+    console.log(teamForm.value);
     team.Admin = teamForm.value.admin;
     team.Name = teamForm.value.name;
-    this.teamService.addTeam(team).subscribe();
+    let members = teamForm.value.members;
+    this.teamService.addTeam(team).subscribe(teamId => {
+      if (teamId > 0) {
+        this.teamService.addUsersToTeam(teamId, members).subscribe(result => {
+          if (result == Responses.Created) {
+            console.log(result);
+          }
+        });
+      }
+    });
   }
 
 }

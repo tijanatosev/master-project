@@ -5,16 +5,15 @@
       <input matInput placeholder="Name" formControlName="name">
     </mat-form-field>
     <mat-form-field>
-      <input matInput placeholder="Admin" formControlName="admin">
-<!--      <mat-select placeholder="Choose admin" formControlName="admin" disableOptionCentering>-->
-<!--        <mat-option *ngFor="let user of users" [value]="user">-->
-<!--          {{ user.Username }}-->
-<!--        </mat-option>-->
-<!--      </mat-select>-->
+      <mat-select placeholder="Choose admin" formControlName="admin" disableOptionCentering>
+        <mat-option *ngFor="let user of users" [value]="user.Username">
+          {{ user.Username }}
+        </mat-option>
+      </mat-select>
     </mat-form-field>
     <mat-form-field>
       <mat-select placeholder="Select team members" formControlName="members" disableOptionCentering panelClass="select-option-team" multiple>
-        <mat-option *ngFor="let user of users" [value]="user">
+        <mat-option *ngFor="let user of users" [value]="user.Id">
           {{ user.Username }}
         </mat-option>
       </mat-select>

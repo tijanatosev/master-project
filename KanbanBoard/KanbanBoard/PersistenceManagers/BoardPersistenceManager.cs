@@ -67,10 +67,10 @@ namespace KanbanBoard.PersistenceManagers
         public IEnumerable<Board> LoadByUserId(int userId)
         {
             List<Board> boards = new List<Board>();
-            string sqlQuery = @"select b.Id, b.Name, b.Admin, b.TeamId
-from Boards b join Teams t on b.TeamId = t.Id
-join UsersTeams ut on ut.TeamId = b.TeamId
-where ut.UserId = @UserId";
+            string sqlQuery = @"SELECT b.Id, b.Name, b.Admin, b.TeamId
+FROM Boards b JOIN Teams t ON b.TeamId=t.Id
+JOIN UsersTeams ut ON ut.TeamId=b.TeamId
+WHERE ut.UserId=@UserId";
             DataTable result = dbCommands.ExecuteSqlQuery(sqlQuery, new SqlParameter("@UserId", userId)).Tables["Result"];
             if (result.Rows.Count != 0)
             {

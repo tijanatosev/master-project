@@ -60,27 +60,31 @@ namespace KanbanBoard.PersistenceManagers
 
         public int Add(Team team)
         {
-            string query = @"INSERT INTO Teams (Name, Admin) VALUES(@Name, @Admin)";
+            string query = @"INSERT INTO Teams (Name, Admin) OUTPUT INSERTED.ID VALUES(@Name, @Admin)";
             DbParameter[] parameters = 
             {
                 new SqlParameter("@Name", team.Name),
                 new SqlParameter("@Admin", team.Admin)
             };
-            return dbCommands.ExecuteSqlNonQuery(query, parameters);
+            return dbCommands.ExecuteScalar(query, parameters);
         }
 
         public void Delete(int id)
         {
-            string query = @"DELETE FROM Teams WHERE Id=@Id";
-            dbCommands.ExecuteSqlNonQuery(query, new SqlParameter("@Id", id));
+            string queryUsersTeams = @"DELETE FROM UsersTeams WHERE TeamId=@TeamId";
+            string queryBoards = @"DELETE FROM Boards WHERE TeamId=@TeamId";
+            string queryTeams = @"DELETE FROM Teams WHERE Id=@Id";
+            dbCommands.ExecuteSqlNonQuery(queryUsersTeams, new SqlParameter("@TeamId", id));
+            dbCommands.ExecuteSqlNonQuery(queryBoards, new SqlParameter("@TeamId", id));
+            dbCommands.ExecuteSqlNonQuery(queryTeams, new SqlParameter("@Id", id));
         }
 
         public IEnumerable<Team> LoadByUserId(int userId)
         {
             List<Team> teams = new List<Team>();
-            string query = @"select t.Id, t.Admin, t.Name
-from Teams t join UsersTeams ut on t.Id = ut.TeamId
-where ut.UserId = @UserId";
+            string query = @"SELECT t.Id, t.Admin, t.Name
+FROM Teams t JOIN UsersTeams ut ON t.Id=ut.TeamId
+WHERE ut.UserId=@UserId";
             DataTable result = dbCommands.ExecuteSqlQuery(query, new SqlParameter("@UserId", userId)).Tables["Result"];
             if (result.Rows.Count != 0)
             {
@@ -90,6 +94,18 @@ where ut.UserId = @UserId";
                 }
             }
             return teams;
+        }
+
+        public int AddUsersToTeam(int teamId, List<int> userIds)
+        {
+            int rowsAdded = 0;
+            string query = @"INSERT INTO UsersTeams (UserId, TeamId) VALUES (@UserId, " + teamId + ")";
+            foreach (int userId in userIds)
+            {
+                rowsAdded += dbCommands.ExecuteSqlNonQuery(query, new SqlParameter("@UserId", userId));
+            }
+
+            return rowsAdded;
         }
 
         public Team LoadFromDataRow(DataRow row)

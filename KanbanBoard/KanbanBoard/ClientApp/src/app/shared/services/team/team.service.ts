@@ -21,7 +21,7 @@ export class TeamService extends BaseService {
 
   public addTeam(team) {
     return this.http.post(`${this.teamsUrl()}`, team, { observe: "response" })
-      .pipe(map(response => response.status));
+      .pipe(map(response => response.body));
   }
 
   public deleteTeam(id) : Observable<any> {
@@ -29,6 +29,11 @@ export class TeamService extends BaseService {
   }
 
   public getTeamsByUserId(userId): Observable<Board[]> {
-    return this.http.get<Team[]>(`${this.teamsUrl()}/user/${userId}`);
+    return this.http.get<Team[]>(`${this.teamsUrl()}/users/${userId}`);
+  }
+
+  public addUsersToTeam(teamId, userIds) {
+    return this.http.post(`${this.teamsUrl()}/users/${teamId}`, userIds,{ observe: "response" })
+      .pipe(map(response => response.status));
   }
 }

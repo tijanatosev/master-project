@@ -10,7 +10,7 @@ namespace KanbanBoard.Controllers
     [Route("api/teams")]
     public class TeamsController
     {
-        private ITeamService teamService = new TeamService();
+        private readonly ITeamService teamService = new TeamService();
 
         [HttpGet]
         [Route("")]
@@ -28,14 +28,9 @@ namespace KanbanBoard.Controllers
 
         [HttpPost]
         [Route("")]
-        public IActionResult Save(Team team)
+        public int Save(Team team)
         {
-            if (!teamService.Add(team))
-            {
-                return new NoContentResult();
-            }
-            
-            return new StatusCodeResult(201);
+            return teamService.Add(team);
         }
 
         [HttpDelete]
@@ -46,10 +41,22 @@ namespace KanbanBoard.Controllers
         }
 
         [HttpGet]
-        [Route("user/{userId}")]
+        [Route("users/{userId}")]
         public IEnumerable<Team> GetTeamsByUsedId([FromRoute] int userId)
         {
             return teamService.GetTeamsByUserId(userId);
+        }
+
+        [HttpPost]
+        [Route("users/{teamId}")]
+        public IActionResult AddUsersToTeam([FromRoute] int teamId, [FromBody] List<int> userIds)
+        {
+            if (!teamService.AddUsersToTeam(teamId, userIds))
+            {
+                return new NoContentResult();
+            }
+            
+            return new StatusCodeResult(201);
         }
     }
 }

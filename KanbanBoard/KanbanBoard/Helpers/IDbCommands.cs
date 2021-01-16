@@ -8,5 +8,7 @@ namespace KanbanBoard.Helpers
         int ExecuteSqlNonQuery(string sqlQuery, params DbParameter[] parameters);
 
         DataSet ExecuteSqlQuery(string sqlQuery, params DbParameter[] parameters);
+
+        int ExecuteScalar(string sqlQuery, params DbParameter[] parameters);
     }
 }
