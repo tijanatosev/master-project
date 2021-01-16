@@ -9,10 +9,12 @@ namespace KanbanBoard.Services.Interfaces
 
         Team GetById(int id);
 
-        bool Add(Team team);
+        int Add(Team team);
 
         void Delete(int id);
 
         IEnumerable<Team> GetTeamsByUserId(int userId);
+
+        bool AddUsersToTeam(int teamId, List<int> userIds);
     }
 }

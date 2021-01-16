@@ -24,14 +24,14 @@ namespace KanbanBoard.Services
             return teamPersistenceManager.Load(id);
         }
 
-        public bool Add(Team team)
+        public int Add(Team team)
         {
             if (!ValidateTeamName(team.Name))
             {
-                return false;
+                return 0;
             }
 
-            return teamPersistenceManager.Add(team) > 0;
+            return teamPersistenceManager.Add(team);
         }
 
         public void Delete(int id)
@@ -52,6 +52,16 @@ namespace KanbanBoard.Services
             }
 
             return teamPersistenceManager.LoadByUserId(userId);
+        }
+
+        public bool AddUsersToTeam(int teamId, List<int> userIds)
+        {
+            if (!ValidateId(teamId) || teamPersistenceManager.Load(teamId) == null || userIds.Count < 0)
+            {
+                return false;
+            }
+
+            return teamPersistenceManager.AddUsersToTeam(teamId, userIds) > 0;
         }
 
         private bool ValidateTeamName(string name)

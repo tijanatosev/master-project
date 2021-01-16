@@ -53,7 +53,11 @@ export class DashboardComponent implements OnInit {
     });
 
     this.dialogBoardRef.afterClosed().subscribe(result => {
-      this.boardService.getBoards().subscribe(boards => this.boards = boards);
+      if (this.isAdmin == false && this.userId != null) {
+        this.boardService.getBoardsByUserId(this.userId).subscribe(boards => this.boards = boards);
+      } else {
+        this.boardService.getBoards().subscribe(boards => this.boards = boards);
+      }
     })
   }
 
@@ -64,20 +68,28 @@ export class DashboardComponent implements OnInit {
     });
 
     this.dialogTeamRef.afterClosed().subscribe(result => {
-      this.teamService.getTeams().subscribe(teams => this.teams = teams);
+      if (this.isAdmin == false && this.userId != null) {
+        this.teamService.getTeamsByUserId(this.userId).subscribe(teams => this.teams = teams);
+      } else {
+        this.teamService.getTeams().subscribe(teams => this.teams = teams);
+      }
     })
   }
 
   onBoardDelete(id, name) {
     this.dialogConfirmBoardRef = this.confirmBoardDialog.open(ConfirmationDialogComponent);
-    this.dialogConfirmBoardRef.componentInstance.message = "Do you want to delete board " + name + "?";
+    this.dialogConfirmBoardRef.componentInstance.message = "Are you sure you want to permanently delete board " + name + "?";
     this.dialogConfirmBoardRef.componentInstance.confirmText = "Yes";
     this.dialogConfirmBoardRef.componentInstance.cancelText = "No";
 
     this.dialogConfirmBoardRef.afterClosed().subscribe(result => {
       if (result) {
-        this.boardService.deleteBoard(id).subscribe(result => {
-          this.boardService.getBoards().subscribe(boards => this.boards = boards);
+        this.boardService.deleteBoard(id).subscribe(res => {
+          if (this.isAdmin == false && this.userId != null) {
+            this.boardService.getBoardsByUserId(this.userId).subscribe(boards => this.boards = boards);
+          } else {
+            this.boardService.getBoards().subscribe(boards => this.boards = boards);
+          }
         });
       }
     })
@@ -85,14 +97,20 @@ export class DashboardComponent implements OnInit {
 
   onTeamDelete(id, name) {
     this.dialogConfirmTeamRef = this.confirmTeamDialog.open(ConfirmationDialogComponent);
-    this.dialogConfirmTeamRef.componentInstance.message = "Do you want to delete team " + name + "?";
+    this.dialogConfirmTeamRef.componentInstance.message = "Are you sure you want to permanently delete team " + name + "?";
     this.dialogConfirmTeamRef.componentInstance.confirmText = "Yes";
     this.dialogConfirmTeamRef.componentInstance.cancelText = "No";
 
     this.dialogConfirmTeamRef.afterClosed().subscribe(result => {
       if (result) {
-        this.teamService.deleteTeam(id).subscribe(result => {
-          this.teamService.getTeams().subscribe(teams => this.teams = teams);
+        this.teamService.deleteTeam(id).subscribe(res => {
+          if (this.isAdmin == false && this.userId != null) {
+            this.teamService.getTeamsByUserId(this.userId).subscribe(teams => this.teams = teams);
+            this.boardService.getBoardsByUserId(this.userId).subscribe(boards => this.boards = boards);
+          } else {
+            this.teamService.getTeams().subscribe(teams => this.teams = teams);
+            this.boardService.getBoards().subscribe(boards => this.boards = boards);
+          }
         });
       }
     });

@@ -4,6 +4,8 @@ import { Team } from "../../shared/services/team/team.model";
 import { TeamService } from "../../shared/services/team/team.service";
 import { BoardService } from "../../shared/services/board/board.service";
 import { Board } from "../../shared/services/board/board.model";
+import { UserService } from "../../shared/services/user/user.service";
+import { User } from "../../shared/services/user/user.model";
 
 @Component({
   selector: 'app-add-board',
@@ -17,11 +19,14 @@ export class AddBoardComponent implements OnInit {
     team: new FormControl('', Validators.required)
   });
   public teams: Team[] = [];
+  public users: User[] = [];
 
   constructor(private teamService: TeamService,
-              private boardService: BoardService) { }
+              private boardService: BoardService,
+              private userService: UserService) { }
 
   ngOnInit() {
+    this.userService.getUsers().subscribe(result => this.users = result);
     this.teamService.getTeams().subscribe(teams => this.teams = teams);
   }
 

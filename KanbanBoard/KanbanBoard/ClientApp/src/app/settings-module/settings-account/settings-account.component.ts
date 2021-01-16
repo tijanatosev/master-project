@@ -38,7 +38,7 @@ export class SettingsAccountComponent implements OnInit {
 
   onDeleteAccount(id) {
     this.dialogConfirmRef = this.confirmDialog.open(ConfirmationDialogComponent);
-    this.dialogConfirmRef.componentInstance.message = "Do you want to delete your account?";
+    this.dialogConfirmRef.componentInstance.message = "Are you sure you want to permanently delete your account?";
     this.dialogConfirmRef.componentInstance.confirmText = "Yes";
     this.dialogConfirmRef.componentInstance.cancelText = "No";
 

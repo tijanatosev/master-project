@@ -113,5 +113,37 @@ namespace KanbanBoard.Helpers
                 }
             }
         }
+
+        public int ExecuteScalar(string sqlQuery, params DbParameter[] parameters)
+        {
+            try
+            {
+                if (sqlConnection.State != ConnectionState.Open)
+                {
+                    sqlConnection.Open();
+                }
+
+                using (sqlCommand = new SqlCommand(sqlQuery))
+                {
+                    sqlCommand.Connection = sqlConnection;
+                    foreach (DbParameter parameter in parameters)
+                    {
+                        sqlCommand.Parameters.Add(parameter);
+                    }
+                    return (int) sqlCommand.ExecuteScalar();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                if (sqlConnection.State == ConnectionState.Open)
+                {
+                    sqlConnection.Close();
+                }
+            }
+        }
     }
 }

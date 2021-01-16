@@ -28,7 +28,9 @@ namespace KanbanBoard.PersistenceManagers
             {
                 foreach (DataRow row in result.Rows)
                 {
-                    users.Add(LoadFromDataRow(row));
+                    User user = LoadFromDataRow(row);
+                    user.Password = String.Empty;
+                    users.Add(user);
                 }
             }
             return users;
@@ -76,8 +78,10 @@ VALUES (@FirstName, @LastName, @Username, @Password, @Email, @UserType)";
 
         public void Delete(int id)
         {
-            string query = @"DELETE FROM Users WHERE Id=@Id";
-            dbCommands.ExecuteSqlNonQuery(query, new SqlParameter("@Id", id));
+            string queryUsersTeams = @"DELETE FROM UsersTeams WHERE UsedId=@UserId";
+            string queryUsers = @"DELETE FROM Users WHERE Id=@Id";
+            dbCommands.ExecuteSqlNonQuery(queryUsersTeams, new SqlParameter("@UserId", id));
+            dbCommands.ExecuteSqlNonQuery(queryUsers, new SqlParameter("@Id", id));
         }
 
         public User LoadFromDataRow(DataRow row)
