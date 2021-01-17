@@ -49,4 +49,12 @@ export class AuthService {
     const token = JSON.parse(localStorage.getItem('token'));
     return token.userId;
   }
+
+  public getUsernameFromToken() {
+    if (!this.isAuthenticated()) {
+      return null;
+    }
+    const token = JSON.parse(localStorage.getItem('token'));
+    return token.username;
+  }
 }

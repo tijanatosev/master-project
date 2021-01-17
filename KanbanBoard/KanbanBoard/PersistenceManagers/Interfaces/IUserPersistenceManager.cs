@@ -13,6 +13,10 @@ namespace KanbanBoard.PersistenceManagers.Interfaces
 
         int Add(User user);
 
+        int Update(User user);
+
+        int UpdatePassword(int id, string password);
+
         void Delete(int id);
     }
 }

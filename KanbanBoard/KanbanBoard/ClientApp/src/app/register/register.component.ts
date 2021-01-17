@@ -27,12 +27,12 @@ export class RegisterComponent implements OnInit {
 
   ngOnInit() {
     this.registerForm = this.formBuilder.group({
-      username: ['', [Validators.required, Validators.maxLength(32), this.validateUsername()]],
-      firstName: ['', [Validators.required, Validators.maxLength(64)]],
-      lastName: ['', [Validators.required, Validators.maxLength(64)]],
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required]],
-      checkPassword: ['', [Validators.required]]
+      username: ['', { validators: [Validators.required, Validators.maxLength(32), this.validateUsername()], updateOn: "change" }],
+      firstName: ['', { validators: [Validators.required, Validators.maxLength(64)], updateOn: "blur" }],
+      lastName: ['', { validators: [Validators.required, Validators.maxLength(64)], updateOn: "blur" }],
+      email: ['', { validators: [Validators.required, Validators.email], updateOn: "blur" }],
+      password: ['', { validators: Validators.required, updateOn: "blur" }],
+      checkPassword: ['', { validators: Validators.required, updateOn: "blur" }]
     }, {
       validators: [this.validatePasswordsMatch(), this.validatePassword()]
     });
@@ -50,9 +50,9 @@ export class RegisterComponent implements OnInit {
     user.Email = data.value.email;
     user.Password = data.value.password;
     user.UserType = "user";
-    this.userService.addUser(user).subscribe(result => {
-      if (result == Responses.Created) {
-        var authValues = { "username": user.Username, "admin": false }
+    this.userService.addUser(user).subscribe(userId => {
+      if (userId) {
+        var authValues = { "username": user.Username, "admin": false, "userId": userId }
         this.authService.login(authValues);
         this.router.navigate(['/dashboard']);
       }

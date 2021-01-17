@@ -34,14 +34,9 @@ namespace KanbanBoard.Controllers
 
         [HttpPost]
         [Route("")]
-        public IActionResult Save([FromBody] User user)
+        public int Save([FromBody] User user)
         {
-            if (!userService.Add(user))
-            {
-                return new NoContentResult();
-            }
-            
-            return new StatusCodeResult(201);
+            return userService.Add(user);
         }
 
         [HttpDelete]
@@ -61,6 +56,37 @@ namespace KanbanBoard.Controllers
             }
 
             return userService.AuthenticateUser(user);
+        }
+
+        [HttpPut]
+        [Route("{id}")]
+        public IActionResult Update([FromRoute] int id, [FromBody] User user)
+        {
+            if (!userService.Update(id, user))
+            {
+                return new NoContentResult();
+            }
+            
+            return new StatusCodeResult(204);
+        }
+
+        [HttpPut]
+        [Route("password/{id}")]
+        public IActionResult UpdatePassword([FromRoute] int id, [FromBody] User user)
+        {
+            if (!userService.UpdatePassword(id, user))
+            {
+                return new NoContentResult();
+            }
+            
+            return new StatusCodeResult(204);
+        }
+
+        [HttpPost]
+        [Route("check/{id}")]
+        public bool CheckPassword([FromRoute] int id, [FromBody] User user)
+        {
+            return userService.CheckPassword(id, user.Password);
         }
     }
 }
