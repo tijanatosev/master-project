@@ -11,13 +11,15 @@
         </mat-option>
       </mat-select>
     </mat-form-field>
-    <mat-form-field>
-      <mat-select placeholder="Select team members" formControlName="members" disableOptionCentering panelClass="select-option-team" multiple>
-        <mat-option *ngFor="let user of users" [value]="user.Id">
-          {{ user.Username }}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
+    <div>
+      <mat-form-field>
+        <mat-select placeholder="Select team members" formControlName="members" disableOptionCentering multiple>
+          <mat-option *ngFor="let user of users" [value]="user.Id">
+            {{ user.Username }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
   </ng-form>
 </mat-dialog-content>
 <mat-dialog-actions align="center">
