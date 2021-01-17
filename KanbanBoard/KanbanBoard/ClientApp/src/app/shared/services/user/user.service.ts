@@ -20,7 +20,7 @@ export class UserService extends BaseService {
 
   public addUser(user) {
     return this.http.post(`${this.usersUrl()}`, user, { observe: "response" })
-      .pipe(map(response => response.status));
+      .pipe(map(response => response.body));
   }
 
   public getByUsername(username) {
@@ -33,6 +33,21 @@ export class UserService extends BaseService {
 
   public authenticateUser(username, user) {
     return this.http.post<User>(`${this.usersUrl()}/authenticate/${username}`, user, { observe: "response" })
+      .pipe(map(response => response.body));
+  }
+
+  public updateUser(id, user) {
+    return this.http.put(`${this.usersUrl()}/${id}`, user,{ observe: "response" })
+      .pipe(map(response => response.status));
+  }
+
+  public updatePassword(id, user) {
+    return this.http.put(`${this.usersUrl()}/password/${id}`, user, { observe: "response" })
+      .pipe(map(response => response.status));
+  }
+
+  public checkPassword(id, user) {
+    return this.http.post(`${this.usersUrl()}/check/${id}`, user, { observe: "response" })
       .pipe(map(response => response.body));
   }
 }

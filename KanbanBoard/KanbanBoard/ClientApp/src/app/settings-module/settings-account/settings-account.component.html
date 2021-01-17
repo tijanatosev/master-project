@@ -9,21 +9,43 @@
         <mat-form-field>
           <input matInput formControlName="username">
         </mat-form-field>
+        <mat-error *ngIf="profileForm.get('username').errors && profileForm.get('username').errors.usernameTaken">
+          This username is already used by another user.
+        </mat-error>
+        <mat-error *ngIf="profileForm.get('username').errors && profileForm.get('username').errors.maxlength">
+          Username is too long.
+        </mat-error>
 
         <mat-label>First name:</mat-label>
         <br>
         <mat-form-field>
           <input matInput formControlName="firstName">
         </mat-form-field>
+        <mat-error *ngIf="profileForm.get('firstName').errors && profileForm.get('firstName').errors.maxlength">
+          First Name is too long.
+        </mat-error>
 
         <mat-label>Last name:</mat-label>
         <br>
         <mat-form-field>
           <input matInput formControlName="lastName">
         </mat-form-field>
+        <mat-error *ngIf="profileForm.get('lastName').errors && profileForm.get('lastName').errors.maxlength">
+          Last Name is too long.
+        </mat-error>
+
+        <mat-label>Email:</mat-label>
+        <br>
+        <mat-form-field>
+          <input matInput formControlName="email">
+        </mat-form-field>
+        <mat-error *ngIf="profileForm.get('email').errors && profileForm.get('email').errors.email">
+          Email is not a valid email address.
+        </mat-error>
+
       </form>
     </mat-card-content>
-    <button mat-raised-button color="primary" type="submit">Update information</button>
+    <button mat-raised-button color="primary" type="submit" (click)="updateInformation(profileForm)">Update information</button>
     <br>
   </mat-card>
   <mat-card style="top: -50px;">
@@ -33,30 +55,52 @@
         <mat-label>Current password:</mat-label>
         <br>
         <mat-form-field>
-          <input matInput formControlName="currentPassword">
+          <input matInput formControlName="currentPassword" [type]="hide ? 'password' : 'text'">
+          <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+            <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+          </button>
         </mat-form-field>
+        <mat-error *ngIf="passwordForm.get('currentPassword').errors && passwordForm.get('currentPassword').errors.passwordIsNotCorrect">
+          Current password is not correct.
+        </mat-error>
 
         <mat-label>New password:</mat-label>
         <br>
         <mat-form-field>
-          <input matInput formControlName="newPassword">
+          <input matInput formControlName="newPassword" [type]="hide ? 'password' : 'text'">
+          <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+            <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+          </button>
         </mat-form-field>
+        <mat-error *ngIf="passwordForm.get('newPassword').errors && passwordForm.get('newPassword').errors.passwordIsNotStrong">
+          Password should contain uppercase and lowercase letters, numbers and be at least 8 characters long.
+        </mat-error>
+        <mat-error *ngIf="passwordForm.get('newPassword').errors && passwordForm.get('newPassword').errors.passwordIsEqualToCurrent">
+          Current and new passwords are the same.
+        </mat-error>
 
         <mat-label>Confirm new password:</mat-label>
         <br>
         <mat-form-field>
-          <input matInput formControlName="confirmPassword">
+          <input matInput formControlName="confirmPassword" [type]="hide ? 'password' : 'text'">
+          <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+            <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+          </button>
         </mat-form-field>
+        <mat-error *ngIf="passwordForm.get('confirmPassword').errors && passwordForm.get('confirmPassword').errors.passwordsDoNotMatch">
+          Passwords do not match.
+        </mat-error>
+
       </form>
     </mat-card-content>
-    <button mat-raised-button color="primary" type="submit">Update password</button>
+    <button mat-raised-button color="primary" type="submit" (click)="updatePassword(passwordForm)" [disabled]="!passwordForm.valid">Update password</button>
     <br>
   </mat-card>
   <mat-card style="background-color: mistyrose; top: -50px;">
     <h5>Delete account</h5>
     <mat-card-content>
       <p>You will be asked for conformation before deleting your account.</p>
-      <button mat-raised-button color="warn" (click)="onDeleteAccount(10)">Delete account</button>
+      <button mat-raised-button color="warn" (click)="onDeleteAccount()">Delete account</button>
     </mat-card-content>
   </mat-card>
 </div>

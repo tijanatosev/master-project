@@ -11,10 +11,16 @@ namespace KanbanBoard.Services.Interfaces
 
         User GetByUsername(string username);
 
-        bool Add(User user);
+        int Add(User user);
 
         void Delete(int id);
 
         User AuthenticateUser(User user);
+
+        bool Update(int id, User user);
+
+        bool UpdatePassword(int id, User user);
+
+        bool CheckPassword(int id, string password);
     }
 }

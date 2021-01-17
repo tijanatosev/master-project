@@ -63,6 +63,7 @@ namespace KanbanBoard.PersistenceManagers
         public int Add(User user)
         {
             string query = @"INSERT INTO Users (FirstName, LastName, Username, Password, Email, UserType) 
+OUTPUT INSERTED.ID
 VALUES (@FirstName, @LastName, @Username, @Password, @Email, @UserType)";
             DbParameter[] parameters = 
             {
@@ -73,12 +74,42 @@ VALUES (@FirstName, @LastName, @Username, @Password, @Email, @UserType)";
                 new SqlParameter("@Email", user.Email),
                 new SqlParameter("@UserType", user.UserType), 
             };
+            return dbCommands.ExecuteScalar(query, parameters);
+        }
+
+        public int Update(User user)
+        {
+            string query = @"UPDATE Users SET
+Username=@Username,
+FirstName=@FirstName,
+LastName=@LastName,
+Email=@Email
+WHERE Id=@Id";
+            DbParameter[] parameters = 
+            {
+                new SqlParameter("@Username", user.Username),
+                new SqlParameter("@FirstName", user.FirstName),
+                new SqlParameter("@LastName", user.LastName),
+                new SqlParameter("@Email", user.Email),
+                new SqlParameter("@Id", user.Id) 
+            };
+            return dbCommands.ExecuteSqlNonQuery(query, parameters);
+        }
+
+        public int UpdatePassword(int id, string password)
+        {
+            string query = @"UPDATE Users SET Password=@Password WHERE Id=@Id";
+            DbParameter[] parameters = 
+            {
+                new SqlParameter("@Password", password),
+                new SqlParameter("@Id", id)
+            };
             return dbCommands.ExecuteSqlNonQuery(query, parameters);
         }
 
         public void Delete(int id)
         {
-            string queryUsersTeams = @"DELETE FROM UsersTeams WHERE UsedId=@UserId";
+            string queryUsersTeams = @"DELETE FROM UsersTeams WHERE UserId=@UserId";
             string queryUsers = @"DELETE FROM Users WHERE Id=@Id";
             dbCommands.ExecuteSqlNonQuery(queryUsersTeams, new SqlParameter("@UserId", id));
             dbCommands.ExecuteSqlNonQuery(queryUsers, new SqlParameter("@Id", id));
