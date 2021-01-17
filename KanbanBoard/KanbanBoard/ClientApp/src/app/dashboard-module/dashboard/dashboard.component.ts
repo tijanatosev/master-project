@@ -48,8 +48,8 @@ export class DashboardComponent implements OnInit {
 
   openBoardDialog() {
     this.dialogBoardRef = this.boardDialog.open(AddBoardComponent, {
-      width: '400px',
-      height: '300px'
+      width: '430px',
+      height: '350px'
     });
 
     this.dialogBoardRef.afterClosed().subscribe(result => {
@@ -63,8 +63,8 @@ export class DashboardComponent implements OnInit {
 
   openTeamDialog() {
     this.dialogTeamRef = this.teamDialog.open(AddTeamComponent, {
-      width: '400px',
-      height: '300px'
+      width: '430px',
+      height: '350px'
     });
 
     this.dialogTeamRef.afterClosed().subscribe(result => {
