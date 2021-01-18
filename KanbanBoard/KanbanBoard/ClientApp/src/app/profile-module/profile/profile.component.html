@@ -1,14 +1,93 @@
-<mat-card *ngIf="user">
-  <mat-card-content>
-    {{ user.Username }} | {{ user.FirstName }} {{ user.LastName }}
-  </mat-card-content>
-</mat-card>
 <mat-card>
   <mat-card-content>
-    <mat-list *ngFor="let task of tasks">
-      <mat-list-item>
-        {{ task }}
-      </mat-list-item>
+    <div class="row">
+      <div class="col-3">
+        <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu" class="slika">
+      </div>
+      <mat-divider vertical></mat-divider>
+      <div class="col">
+        <h4>
+          <mat-icon>person</mat-icon>&nbsp;&nbsp;&nbsp;&nbsp;{{ user.FirstName }} {{ user.LastName }}
+        </h4>
+        <h5>
+          <mat-icon>alternate_email</mat-icon>&nbsp;&nbsp;&nbsp;&nbsp;{{ user.Username }}
+        </h5>
+        <h5>
+          <mat-icon>email</mat-icon>&nbsp;&nbsp;&nbsp;&nbsp;{{ user.Email }}
+        </h5>
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>
+<br>
+<mat-card>
+  <mat-card-content>
+    <h5>Teams</h5>
+    <mat-divider></mat-divider>
+    <mat-list *ngFor="let team of teams">
+      {{ team.Name }}
     </mat-list>
+  </mat-card-content>
+</mat-card>
+<br>
+<mat-card>
+  <mat-card-content>
+    <h5>Tickets</h5>
+    <mat-divider></mat-divider>
+    <table mat-table [dataSource]="tickets">
+      <ng-container matColumnDef="Id">
+        <th mat-header-cell *matHeaderCellDef> # </th>
+        <td mat-cell *matCellDef="let element"> {{ element.Id }} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="Title">
+        <th mat-header-cell *matHeaderCellDef> Title </th>
+        <td mat-cell *matCellDef="let element"> {{ element.Title }} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="Description">
+        <th mat-header-cell *matHeaderCellDef> Description </th>
+        <td mat-cell *matCellDef="let element"> {{ element.Description }} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="Creator">
+        <th mat-header-cell *matHeaderCellDef> Creator </th>
+        <td mat-cell *matCellDef="let element"> {{ element.Creator }} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="StoryPoints">
+        <th mat-header-cell *matHeaderCellDef> Story Points </th>
+        <td mat-cell *matCellDef="let element"> {{ element.StoryPoints }} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="Status">
+        <th mat-header-cell *matHeaderCellDef> Status </th>
+        <td mat-cell *matCellDef="let element"> {{ element.Status }} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="DateCreated">
+        <th mat-header-cell *matHeaderCellDef> Date Created </th>
+        <td mat-cell *matCellDef="let element"> {{ element.DateCreated }} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="AssignedTo">
+        <th mat-header-cell *matHeaderCellDef> AssignedTo </th>
+        <td mat-cell *matCellDef="let element"> {{ element.AssignedTo }} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="Visit">
+        <th mat-header-cell *matHeaderCellDef> Visit </th>
+        <td mat-cell *matCellDef="let element">
+          <button mat-icon-button>
+            <mat-icon class="visit-button">search</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+
+    <mat-paginator [pageSize]="5" [length]="numberOfTickets"></mat-paginator>
   </mat-card-content>
 </mat-card>
