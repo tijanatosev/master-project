@@ -36,6 +36,7 @@ import { SettingsNotificationsComponent } from './settings-module/settings-notif
 import { ProfileComponent } from './profile-module/profile/profile.component';
 import { AuthGuardService as AuthGuard } from "./shared/auth/auth-guard.service";
 import { SideNavComponent } from './shared/side-nav/side-nav.component';
+import { MatPaginatorModule } from "@angular/material/paginator";
 
 const routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
@@ -62,32 +63,33 @@ const routes = [
     ProfileComponent,
     SideNavComponent
   ],
-  imports: [
-    BrowserModule.withServerTransition({appId: 'ng-cli-universal'}),
-    HttpClientModule,
-    FormsModule,
-    ReactiveFormsModule,
-    MatRippleModule,
-    RouterModule.forRoot(routes),
-    BrowserAnimationsModule,
-    MatToolbarModule,
-    MatInputModule,
-    MatCardModule,
-    MatMenuModule,
-    MatIconModule,
-    MatButtonModule,
-    MatTableModule,
-    MatDividerModule,
-    MatSlideToggleModule,
-    MatSelectModule,
-    MatOptionModule,
-    MatProgressSpinnerModule,
-    MatExpansionModule,
-    MatSidenavModule,
-    MatListModule,
-    MatDialogModule,
-    MatTabsModule
-  ],
+    imports: [
+        BrowserModule.withServerTransition({appId: 'ng-cli-universal'}),
+        HttpClientModule,
+        FormsModule,
+        ReactiveFormsModule,
+        MatRippleModule,
+        RouterModule.forRoot(routes),
+        BrowserAnimationsModule,
+        MatToolbarModule,
+        MatInputModule,
+        MatCardModule,
+        MatMenuModule,
+        MatIconModule,
+        MatButtonModule,
+        MatTableModule,
+        MatDividerModule,
+        MatSlideToggleModule,
+        MatSelectModule,
+        MatOptionModule,
+        MatProgressSpinnerModule,
+        MatExpansionModule,
+        MatSidenavModule,
+        MatListModule,
+        MatDialogModule,
+        MatTabsModule,
+        MatPaginatorModule
+    ],
   providers: [],
   bootstrap: [AppComponent],
   entryComponents: [

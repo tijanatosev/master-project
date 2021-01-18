@@ -18,6 +18,10 @@ export class UserService extends BaseService {
     return this.http.get<User[]>(`${this.usersUrl()}`);
   }
 
+  public getUser(id) {
+    return this.http.get<User>(`${this.usersUrl()}/${id}`);
+  }
+
   public addUser(user) {
     return this.http.post(`${this.usersUrl()}`, user, { observe: "response" })
       .pipe(map(response => response.body));

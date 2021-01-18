@@ -12,4 +12,8 @@
   public teamsUrl() {
     return this.url + 'teams';
   }
+
+  public ticketsUrl() {
+    return this.url + 'tickets';
+  }
 }

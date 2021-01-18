@@ -1,0 +1,32 @@
+.slika {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+}
+
+.col-3 {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.col {
+  margin-top: 35px;
+}
+
+h4, h5 {
+  font-weight: 400;
+}
+
+.mat-icon {
+  color: #3F51B5;
+  vertical-align: top;
+}
+
+.visit-button {
+  color: #3F51B5;
+  vertical-align: middle;
+}
+
+table {
+  width: 100%;
+}

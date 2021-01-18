@@ -39,7 +39,7 @@ namespace KanbanBoard.PersistenceManagers
         public User Load(int id)
         {
             string query = @"SELECT * FROM Users WHERE Id=@Id";
-            DataTable result =dbCommands.ExecuteSqlQuery(query, new SqlParameter("@Id", id)).Tables["Result"];
+            DataTable result = dbCommands.ExecuteSqlQuery(query, new SqlParameter("@Id", id)).Tables["Result"];
             
             if (result.Rows.Count != 0)
             {
@@ -51,7 +51,7 @@ namespace KanbanBoard.PersistenceManagers
         public User Load(string username)
         {
             string query = @"SELECT * FROM Users WHERE Username=@Username";
-            DataTable result =dbCommands.ExecuteSqlQuery(query, new SqlParameter("@Username", username)).Tables["Result"];
+            DataTable result = dbCommands.ExecuteSqlQuery(query, new SqlParameter("@Username", username)).Tables["Result"];
             
             if (result.Rows.Count != 0)
             {

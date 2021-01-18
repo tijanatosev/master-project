@@ -42,7 +42,7 @@ namespace KanbanBoard.Controllers
 
         [HttpGet]
         [Route("users/{userId}")]
-        public IEnumerable<Team> GetTeamsByUsedId([FromRoute] int userId)
+        public IEnumerable<Team> GetTeamsByUserId([FromRoute] int userId)
         {
             return teamService.GetTeamsByUserId(userId);
         }
