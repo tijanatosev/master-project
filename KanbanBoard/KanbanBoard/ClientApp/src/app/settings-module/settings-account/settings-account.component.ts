@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {AbstractControl, FormBuilder, FormGroup, Validators} from "@angular/forms";
+import { AbstractControl, FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { ConfirmationDialogComponent } from "../../shared/confirmation-dialog/confirmation-dialog.component";
 import { MatDialog, MatDialogRef } from "@angular/material/dialog";
 import { UserService } from "../../shared/services/user/user.service";
@@ -18,6 +18,7 @@ export class SettingsAccountComponent implements OnInit {
   passwordForm: FormGroup;
   public dialogConfirmRef: MatDialogRef<any>;
   private user: User = new User();
+  private currentUser: User = new User();
   public hide = true;
 
   constructor(private formBuilder: FormBuilder,
@@ -30,6 +31,7 @@ export class SettingsAccountComponent implements OnInit {
     this.initProfileForm();
     this.initPasswordForm();
     this.user.Id = this.authService.getUserIdFromToken();
+    this.userService.getUser(this.user.Id).subscribe(user => this.currentUser = user);
   }
 
   private initProfileForm() {
@@ -52,17 +54,13 @@ export class SettingsAccountComponent implements OnInit {
   }
 
   updateInformation(data) {
-    if (data.value.username.length == 0 &&
-      data.value.firstName.length == 0 &&
-      data.value.lastName.length == 0 &&
-      data.value.email.length == 0)
-    {
+    if (data.value.username.length == 0 && data.value.firstName.length == 0 && data.value.lastName.length == 0 && data.value.email.length == 0) {
       return;
     }
-    this.user.Username = data.value.username === "" ? this.authService.getUsernameFromToken() : data.value.username;
-    this.user.FirstName = data.value.firstName;
-    this.user.LastName = data.value.lastName;
-    this.user.Email = data.value.email;
+    this.user.Username = data.value.username === "" ? this.currentUser.Username : data.value.username;
+    this.user.FirstName = data.value.firstName === "" ? this.currentUser.FirstName : data.value.firstName;
+    this.user.LastName = data.value.lastName === "" ? this.currentUser.LastName : data.value.lastName;
+    this.user.Email = data.value.email === "" ? this.currentUser.Email : data.value.email;
     this.userService.updateUser(this.user.Id, this.user).subscribe(result => {
       if (result == Responses.NoContent) {
         this.profileForm.reset();

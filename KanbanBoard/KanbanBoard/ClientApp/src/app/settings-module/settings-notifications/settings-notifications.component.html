@@ -1,1 +1,27 @@
-<p>settings-notifications works!</p>
+<div>
+  <h5>Notifications settings</h5>
+  <mat-card>
+    <mat-card-content>
+      <form [formGroup]="notificationsForm">
+        <mat-slide-toggle color="primary" formControlName="onCommentMine">Email me when someone comments on my ticket</mat-slide-toggle>
+        <br>
+        <br>
+        <mat-slide-toggle color="primary" formControlName="onComment">Email me when someone comments on a ticket assigned to me</mat-slide-toggle>
+        <br>
+        <br>
+        <mat-slide-toggle color="primary" formControlName="onChange">Email me when someone changes my ticket</mat-slide-toggle>
+        <br>
+        <br>
+        <mat-slide-toggle color="primary" formControlName="onStatusChangeMine">Email me when my tickets change status</mat-slide-toggle>
+        <br>
+        <br>
+        <mat-slide-toggle color="primary" formControlName="onStatusChange">Email me when tickets assigned to me change status</mat-slide-toggle>
+        <br>
+        <br>
+        <button mat-raised-button color="primary" (click)="save(notificationsForm)">
+          Save changes
+        </button>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</div>
