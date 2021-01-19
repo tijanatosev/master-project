@@ -37,6 +37,7 @@ import { ProfileComponent } from './profile-module/profile/profile.component';
 import { AuthGuardService as AuthGuard } from "./shared/auth/auth-guard.service";
 import { SideNavComponent } from './shared/side-nav/side-nav.component';
 import { MatPaginatorModule } from "@angular/material/paginator";
+import { MatButtonToggleModule } from "@angular/material/button-toggle";
 
 const routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
@@ -88,7 +89,8 @@ const routes = [
         MatListModule,
         MatDialogModule,
         MatTabsModule,
-        MatPaginatorModule
+        MatPaginatorModule,
+        MatButtonToggleModule
     ],
   providers: [],
   bootstrap: [AppComponent],
