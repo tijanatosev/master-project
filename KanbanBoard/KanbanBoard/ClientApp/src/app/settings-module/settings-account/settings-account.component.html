@@ -55,9 +55,9 @@
         <mat-label>Current password:</mat-label>
         <br>
         <mat-form-field>
-          <input matInput formControlName="currentPassword" [type]="hide ? 'password' : 'text'">
-          <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
-            <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+          <input matInput formControlName="currentPassword" [type]="hideCurrent ? 'password' : 'text'">
+          <button mat-icon-button matSuffix (click)="hideCurrent = !hideCurrent" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hideCurrent">
+            <mat-icon>{{hideCurrent ? 'visibility_off' : 'visibility'}}</mat-icon>
           </button>
         </mat-form-field>
         <mat-error *ngIf="passwordForm.get('currentPassword').errors && passwordForm.get('currentPassword').errors.passwordIsNotCorrect">
@@ -67,9 +67,9 @@
         <mat-label>New password:</mat-label>
         <br>
         <mat-form-field>
-          <input matInput formControlName="newPassword" [type]="hide ? 'password' : 'text'">
-          <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
-            <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+          <input matInput formControlName="newPassword" [type]="hideNew ? 'password' : 'text'">
+          <button mat-icon-button matSuffix (click)="hideNew = !hideNew" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hideNew">
+            <mat-icon>{{hideNew ? 'visibility_off' : 'visibility'}}</mat-icon>
           </button>
         </mat-form-field>
         <mat-error *ngIf="passwordForm.get('newPassword').errors && passwordForm.get('newPassword').errors.passwordIsNotStrong">
@@ -82,9 +82,9 @@
         <mat-label>Confirm new password:</mat-label>
         <br>
         <mat-form-field>
-          <input matInput formControlName="confirmPassword" [type]="hide ? 'password' : 'text'">
-          <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
-            <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+          <input matInput formControlName="confirmPassword" [type]="hideConfirm ? 'password' : 'text'">
+          <button mat-icon-button matSuffix (click)="hideConfirm = !hideConfirm" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hideConfirm">
+            <mat-icon>{{hideConfirm ? 'visibility_off' : 'visibility'}}</mat-icon>
           </button>
         </mat-form-field>
         <mat-error *ngIf="passwordForm.get('confirmPassword').errors && passwordForm.get('confirmPassword').errors.passwordsDoNotMatch">

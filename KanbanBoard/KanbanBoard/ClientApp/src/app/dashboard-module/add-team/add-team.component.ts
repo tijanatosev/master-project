@@ -4,7 +4,8 @@ import { User } from "../../shared/services/user/user.model";
 import { UserService } from "../../shared/services/user/user.service";
 import { TeamService } from "../../shared/services/team/team.service";
 import { Team } from "../../shared/services/team/team.model";
-import {Responses} from "../../shared/enums";
+import { Responses } from "../../shared/enums";
+import { MatSnackBar } from "@angular/material/snack-bar";
 
 
 @Component({
@@ -21,7 +22,8 @@ export class AddTeamComponent implements OnInit {
   public users: User[] = [];
 
   constructor(private teamService: TeamService,
-              private userService: UserService) { }
+              private userService: UserService,
+              private snackBar: MatSnackBar) { }
 
   ngOnInit() {
     this.userService.getUsers().subscribe(result => this.users = result);
@@ -29,7 +31,6 @@ export class AddTeamComponent implements OnInit {
 
   save(teamForm) {
     let team = new Team();
-    console.log(teamForm.value);
     team.Admin = teamForm.value.admin;
     team.Name = teamForm.value.name;
     let members = teamForm.value.members;
@@ -37,7 +38,15 @@ export class AddTeamComponent implements OnInit {
       if (teamId > 0) {
         this.teamService.addUsersToTeam(teamId, members).subscribe(result => {
           if (result == Responses.Created) {
-            console.log(result);
+            this.snackBar.open("Successful", "DISMISS", {
+              duration: 5000,
+              panelClass: ["snack-bar"]
+            });
+          } else {
+            this.snackBar.open("Unsuccessful", "DISMISS", {
+              duration: 5000,
+              panelClass: ["snack-bar"]
+            });
           }
         });
       }
