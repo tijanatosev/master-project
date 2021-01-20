@@ -7,6 +7,7 @@ import { Router } from "@angular/router";
 import { AuthService } from "../../shared/auth/auth.service";
 import { Responses } from "../../shared/enums";
 import { User } from "../../shared/services/user/user.model";
+import { MatSnackBar } from "@angular/material/snack-bar";
 
 @Component({
   selector: 'app-settings-account',
@@ -19,13 +20,16 @@ export class SettingsAccountComponent implements OnInit {
   public dialogConfirmRef: MatDialogRef<any>;
   private user: User = new User();
   private currentUser: User = new User();
-  public hide = true;
+  public hideCurrent = true;
+  public hideNew = true;
+  public hideConfirm = true;
 
   constructor(private formBuilder: FormBuilder,
               private userService: UserService,
               private router: Router,
               private authService: AuthService,
-              private confirmDialog: MatDialog) { }
+              private confirmDialog: MatDialog,
+              private snackBar: MatSnackBar) { }
 
   ngOnInit() {
     this.initProfileForm();
@@ -66,6 +70,15 @@ export class SettingsAccountComponent implements OnInit {
         this.profileForm.reset();
         this.initProfileForm();
         this.resetUser();
+        this.snackBar.open("Successful", "DISMISS", {
+          duration: 5000,
+          panelClass: ["snack-bar"]
+        });
+      } else {
+        this.snackBar.open("Unsuccessful", "DISMISS", {
+          duration: 5000,
+          panelClass: ["snack-bar"]
+        });
       }
     });
   }
@@ -77,6 +90,15 @@ export class SettingsAccountComponent implements OnInit {
         this.passwordForm.reset();
         this.initPasswordForm();
         this.resetUser();
+        this.snackBar.open("Successful", "DISMISS", {
+          duration: 5000,
+          panelClass: ["snack-bar"]
+        });
+      } else {
+        this.snackBar.open("Unsuccessful", "DISMISS", {
+          duration: 5000,
+          panelClass: ["snack-bar"]
+        });
       }
     });
   }
@@ -112,14 +134,14 @@ export class SettingsAccountComponent implements OnInit {
 
   private validatePasswordsMatch() {
     return (control: AbstractControl) => {
-      return control.value.confirmPassword.length != 0 && control.value.newPassword !== control.value.confirmPassword ?
+      return control.value.confirmPassword && control.value.confirmPassword.length != 0 && control.value.newPassword !== control.value.confirmPassword ?
         this.passwordForm.controls.confirmPassword.setErrors({'passwordsDoNotMatch': true}) : null
     };
   }
 
   private validatePassword() {
     return (control: AbstractControl) => {
-      if (control.value.newPassword.length != 0 && !/^(?=\D*\d)(?=[^a-z]*[a-z])(?=[^A-Z]*[A-Z]).{8,128}$/.test(control.value.newPassword)) {
+      if (control.value.newPassword && control.value.newPassword.length != 0 && !/^(?=\D*\d)(?=[^a-z]*[a-z])(?=[^A-Z]*[A-Z]).{8,128}$/.test(control.value.newPassword)) {
         this.passwordForm.controls.newPassword.setErrors({ 'passwordIsNotStrong': true });
       } else {
         return null;
@@ -129,7 +151,7 @@ export class SettingsAccountComponent implements OnInit {
 
   private validateCurrentAndNewPassword() {
     return (control: AbstractControl) => {
-      if (control.value.currentPassword && control.value.newPassword &&
+      if (control.value.currentPassword && control.value.newPassword && control.value.currentPassword &&
         control.value.currentPassword.length != 0 && control.value.newPassword.length != 0 &&
         control.value.currentPassword === control.value.newPassword) {
         this.passwordForm.controls.newPassword.setErrors({'passwordIsEqualToCurrent': true});
@@ -141,7 +163,7 @@ export class SettingsAccountComponent implements OnInit {
 
   private validateCurrentPassword() {
     return (control: AbstractControl) => {
-      if (control.value.currentPassword.length != 0) {
+      if (control.value.currentPassword && control.value.currentPassword.length != 0) {
         this.user.Password = control.value.currentPassword;
         this.userService.checkPassword(this.user.Id, this.user).subscribe(result => {
           if (result == false) {

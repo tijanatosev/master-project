@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from "@angular/forms";
+import { MatSnackBar } from "@angular/material/snack-bar";
 
 @Component({
   selector: 'app-settings-notifications',
@@ -9,7 +10,8 @@ import { FormBuilder, FormGroup } from "@angular/forms";
 export class SettingsNotificationsComponent implements OnInit {
   notificationsForm: FormGroup;
 
-  constructor(private formBuilder: FormBuilder) { }
+  constructor(private formBuilder: FormBuilder,
+              private snackBar: MatSnackBar) { }
 
   ngOnInit() {
     this.notificationsForm = this.formBuilder.group({
@@ -22,7 +24,9 @@ export class SettingsNotificationsComponent implements OnInit {
   }
 
   public save(data) {
-    console.log(data.value);
-
+    this.snackBar.open("Successful", "DISMISS", {
+      duration: 5000,
+      panelClass: ["snack-bar"]
+    });
   }
 }

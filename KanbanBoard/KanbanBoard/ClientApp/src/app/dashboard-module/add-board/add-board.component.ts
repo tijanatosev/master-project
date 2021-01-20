@@ -6,6 +6,8 @@ import { BoardService } from "../../shared/services/board/board.service";
 import { Board } from "../../shared/services/board/board.model";
 import { UserService } from "../../shared/services/user/user.service";
 import { User } from "../../shared/services/user/user.model";
+import { MatSnackBar } from "@angular/material/snack-bar";
+import { Responses } from "../../shared/enums";
 
 @Component({
   selector: 'app-add-board',
@@ -23,7 +25,8 @@ export class AddBoardComponent implements OnInit {
 
   constructor(private teamService: TeamService,
               private boardService: BoardService,
-              private userService: UserService) { }
+              private userService: UserService,
+              private snackBar: MatSnackBar) { }
 
   ngOnInit() {
     this.userService.getUsers().subscribe(result => this.users = result);
@@ -35,7 +38,19 @@ export class AddBoardComponent implements OnInit {
     board.Admin = boardForm.value.admin;
     board.Name = boardForm.value.name;
     board.TeamId = boardForm.value.team.Id;
-    this.boardService.addBoard(board).subscribe();
+    this.boardService.addBoard(board).subscribe(result => {
+      if (result == Responses.Created) {
+        this.snackBar.open("Successful", "DISMISS", {
+          duration: 5000,
+          panelClass: ["snack-bar"]
+        });
+      } else {
+        this.snackBar.open("Unsuccessful", "DISMISS", {
+          duration: 5000,
+          panelClass: ["snack-bar"]
+        });
+      }
+    });
   }
 
 }
