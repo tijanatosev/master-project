@@ -54,4 +54,8 @@ export class UserService extends BaseService {
     return this.http.post(`${this.usersUrl()}/check/${id}`, user, { observe: "response" })
       .pipe(map(response => response.body));
   }
+
+  public getUsersByTeamId(teamId) {
+    return this.http.get<User[]>(`${this.usersUrl()}/team/${teamId}`);
+  }
 }

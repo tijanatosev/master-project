@@ -19,6 +19,10 @@ export class TeamService extends BaseService {
     return this.http.get<Team[]>(`${this.teamsUrl()}`);
   }
 
+  public getTeam(id) {
+    return this.http.get<Team>(`${this.teamsUrl()}/${id}`);
+  }
+
   public addTeam(team) {
     return this.http.post(`${this.teamsUrl()}`, team, { observe: "response" })
       .pipe(map(response => response.body));

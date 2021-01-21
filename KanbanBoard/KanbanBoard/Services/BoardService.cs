@@ -51,7 +51,7 @@ namespace KanbanBoard.Services
 
         private bool ValidateId(int id)
         {
-            return id >= 0;
+            return id > 0;
         }
     }
 }

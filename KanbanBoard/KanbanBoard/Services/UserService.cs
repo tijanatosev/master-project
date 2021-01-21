@@ -107,9 +107,19 @@ namespace KanbanBoard.Services
             return user.Password == hashedPassword;
         }
 
+        public IEnumerable<User> GetUsersByTeamId(int teamId)
+        {
+            if (!ValidateId(teamId))
+            {
+                return new List<User>();
+            }
+            
+            return userPersistenceManager.LoadByTeamId(teamId);
+        }
+
         private bool ValidateId(int id)
         {
-            return id >= 0;
+            return id > 0;
         }
     }
 }

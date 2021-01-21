@@ -88,5 +88,12 @@ namespace KanbanBoard.Controllers
         {
             return userService.CheckPassword(id, user.Password);
         }
+
+        [HttpGet]
+        [Route("team/{teamId}")]
+        public IEnumerable<User> GetUsersByTeamId([FromRoute] int teamId)
+        {
+            return userService.GetUsersByTeamId(teamId);
+        }
     }
 }

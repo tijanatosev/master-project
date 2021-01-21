@@ -115,6 +115,27 @@ WHERE Id=@Id";
             dbCommands.ExecuteSqlNonQuery(queryUsers, new SqlParameter("@Id", id));
         }
 
+        public IEnumerable<User> LoadByTeamId(int teamId)
+        {
+            List<User> users = new List<User>();
+            string query = @"SELECT u.Id, u.Username, u.Password, u.FirstName, u.LastName, u.Email, u.UserType 
+FROM UsersTeams ut JOIN Users u ON ut.UserId=u.Id 
+WHERE ut.TeamId=@TeamId";
+            DataTable result = dbCommands.ExecuteSqlQuery(query, new SqlParameter("@TeamId", teamId)).Tables["Result"];
+
+            if (result.Rows.Count != 0)
+            {
+                foreach (DataRow row in result.Rows)
+                {
+                    User user = LoadFromDataRow(row);
+                    user.Password = String.Empty;
+                    users.Add(user);
+                }
+            }
+
+            return users;
+        }
+
         public User LoadFromDataRow(DataRow row)
         {
             return new User

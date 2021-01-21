@@ -49,10 +49,20 @@ namespace KanbanBoard.Services
 
             return ticketPersistenceManager.LoadByUserId(userId);
         }
+
+        public IEnumerable<Ticket> GetByTeamId(int teamId)
+        {
+            if (!ValidateId(teamId))
+            {
+                return new List<Ticket>();
+            }
+
+            return ticketPersistenceManager.LoadByTeamId(teamId);
+        }
         
         private bool ValidateId(int id)
         {
-            return id >= 0;
+            return id > 0;
         }
     }
 }

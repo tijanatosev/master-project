@@ -41,9 +41,16 @@ namespace KanbanBoard.Controllers
         
         [HttpGet]
         [Route("assigned/{userId}")]
-        public IEnumerable<Ticket> GetTeamsByUserId([FromRoute] int userId)
+        public IEnumerable<Ticket> GetTicketsByUserId([FromRoute] int userId)
         {
             return ticketService.GetByUserId(userId);
+        }
+
+        [HttpGet]
+        [Route("team/{teamId}")]
+        public IEnumerable<Ticket> GetTicketsByTeamId([FromRoute] int teamId)
+        {
+            return ticketService.GetByTeamId(teamId);
         }
     }
 }
