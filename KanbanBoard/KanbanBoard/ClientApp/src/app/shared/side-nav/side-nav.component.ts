@@ -11,12 +11,14 @@ import { Router } from "@angular/router";
 export class SideNavComponent implements OnInit {
   public isExpanded: boolean = false;
   public isLoggedIn: Observable<boolean>;
+  public userId: number;
 
   constructor(private authService: AuthService,
               private router: Router) { }
 
   ngOnInit() {
     this.isLoggedIn = this.authService.isLoggedIn;
+    this.userId = this.authService.getUserIdFromToken();
   }
 
   public logout() {

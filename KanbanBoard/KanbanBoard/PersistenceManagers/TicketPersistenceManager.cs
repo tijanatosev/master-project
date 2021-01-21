@@ -86,6 +86,24 @@ VALUES (@Title, @Description, @Creator, @StoryPoints, @Status, @DateCreated, @As
             return tickets;
         }
 
+        public IEnumerable<Ticket> LoadByTeamId(int teamId)
+        {
+            List<Ticket> tickets = new List<Ticket>();
+            string query = @"SELECT t.Id, t.Title, t.Description, t.Creator, t.StoryPoints, t.Status, t.DateCreated, t.AssignedTo, t.BoardId, t.ColumnId 
+FROM Tickets t JOIN Users u on t.AssignedTo=u.Id
+JOIN UsersTeams ut ON ut.UserId=u.Id
+WHERE ut.TeamId=@TeamId";
+            DataTable result = dbCommands.ExecuteSqlQuery(query, new SqlParameter("@TeamId", teamId)).Tables["Result"];
+            if (result.Rows.Count != 0)
+            {
+                foreach (DataRow row in result.Rows)
+                {
+                    tickets.Add(LoadFromDataRow(row));
+                }
+            }
+            return tickets;
+        }
+
         public Ticket LoadFromDataRow(DataRow row)
         {
             return new Ticket

@@ -10,11 +10,11 @@
       <mat-icon mat-list-icon>home</mat-icon>
       <p matLine *ngIf="isExpanded">Dashboard</p>
     </mat-list-item>
-    <mat-list-item [routerLink]="['/profile']">
+    <mat-list-item [routerLink]="['/profile', userId]">
       <mat-icon mat-list-icon>person</mat-icon>
       <p matLine *ngIf="isExpanded">Profile</p>
     </mat-list-item>
-    <mat-list-item [routerLink]="['/settings']">
+    <mat-list-item [routerLink]="['/settings', userId]">
       <mat-icon mat-list-icon>settings</mat-icon>
       <p matLine *ngIf="isExpanded">Settings</p>
     </mat-list-item>

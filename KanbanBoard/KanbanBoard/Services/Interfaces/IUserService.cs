@@ -22,5 +22,7 @@ namespace KanbanBoard.Services.Interfaces
         bool UpdatePassword(int id, User user);
 
         bool CheckPassword(int id, string password);
+
+        IEnumerable<User> GetUsersByTeamId(int teamId);
     }
 }

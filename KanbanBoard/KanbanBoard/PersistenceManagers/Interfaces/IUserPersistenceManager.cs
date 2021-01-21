@@ -18,5 +18,7 @@ namespace KanbanBoard.PersistenceManagers.Interfaces
         int UpdatePassword(int id, string password);
 
         void Delete(int id);
+
+        IEnumerable<User> LoadByTeamId(int teamId);
     }
 }

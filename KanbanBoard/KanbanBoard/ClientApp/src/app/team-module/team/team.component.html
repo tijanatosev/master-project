@@ -1,0 +1,11 @@
+<mat-card *ngIf="team">
+  {{ team.Name }} | {{ team.Admin }}
+</mat-card>
+<mat-card *ngFor="let member of members">
+  {{ member.Username }}
+</mat-card>
+<mat-card *ngFor="let ticket of tickets">
+  {{ ticket.Title }} | {{ ticket.AssignedTo }}
+</mat-card>
+
+

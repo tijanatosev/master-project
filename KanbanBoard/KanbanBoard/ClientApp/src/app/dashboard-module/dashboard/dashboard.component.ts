@@ -7,7 +7,8 @@ import { Team } from "../../shared/services/team/team.model";
 import { BoardService } from "../../shared/services/board/board.service";
 import { TeamService } from "../../shared/services/team/team.service";
 import { ConfirmationDialogComponent } from "../../shared/confirmation-dialog/confirmation-dialog.component";
-import {AuthService} from "../../shared/auth/auth.service";
+import { AuthService } from "../../shared/auth/auth.service";
+import { Router } from "@angular/router";
 
 @Component({
   selector: 'app-dashboard',
@@ -30,7 +31,8 @@ export class DashboardComponent implements OnInit {
               private teamDialog: MatDialog,
               private confirmBoardDialog: MatDialog,
               private confirmTeamDialog: MatDialog,
-              private authService: AuthService) {
+              private authService: AuthService,
+              private router: Router) {
   }
 
   ngOnInit(): void {
@@ -114,5 +116,9 @@ export class DashboardComponent implements OnInit {
         });
       }
     });
+  }
+
+  goToTeam(id) {
+    this.router.navigate(['/team/', id]);
   }
 }

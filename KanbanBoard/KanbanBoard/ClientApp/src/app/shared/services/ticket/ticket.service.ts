@@ -34,4 +34,8 @@ export class TicketService extends BaseService{
   public getTicketsByUserId(userId): Observable<Ticket[]> {
     return this.http.get<Ticket[]>(`${this.ticketsUrl()}/assigned/${userId}`);
   }
+
+  public getTicketsByTeamId(teamId) {
+    return this.http.get<Ticket[]>(`${this.ticketsUrl()}/team/${teamId}`);
+  }
 }

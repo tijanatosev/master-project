@@ -39,14 +39,16 @@ import { SideNavComponent } from './shared/side-nav/side-nav.component';
 import { MatPaginatorModule } from "@angular/material/paginator";
 import { MatButtonToggleModule } from "@angular/material/button-toggle";
 import { MatSnackBarModule } from "@angular/material/snack-bar";
+import { TeamComponent } from './team-module/team/team.component';
 
 const routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard] },
-  { path: 'settings', component: SettingsComponent, canActivate: [AuthGuard] },
-  { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] }
+  { path: 'settings/:id', component: SettingsComponent, canActivate: [AuthGuard] },
+  { path: 'profile/:id', component: ProfileComponent, canActivate: [AuthGuard] },
+  { path: 'team/:id', component: TeamComponent, canActivate: [AuthGuard] }
 ];
 
 @NgModule({
@@ -63,7 +65,8 @@ const routes = [
     SettingsAccountComponent,
     SettingsNotificationsComponent,
     ProfileComponent,
-    SideNavComponent
+    SideNavComponent,
+    TeamComponent
   ],
     imports: [
         BrowserModule.withServerTransition({appId: 'ng-cli-universal'}),
