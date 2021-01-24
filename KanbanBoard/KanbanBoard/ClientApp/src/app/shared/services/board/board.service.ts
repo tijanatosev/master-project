@@ -30,4 +30,8 @@ export class BoardService extends BaseService {
   public getBoardsByUserId(userId): Observable<Board[]> {
     return this.http.get<Board[]>(`${this.boardsUrl()}/user/${userId}`);
   }
+
+  public getBoardsByTeamId(teamId): Observable<Board[]> {
+    return this.http.get<Board[]>(`${this.boardsUrl()}/team/${teamId}`);
+  }
 }

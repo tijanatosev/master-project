@@ -40,6 +40,7 @@ import { MatPaginatorModule } from "@angular/material/paginator";
 import { MatButtonToggleModule } from "@angular/material/button-toggle";
 import { MatSnackBarModule } from "@angular/material/snack-bar";
 import { TeamComponent } from './team-module/team/team.component';
+import { MatSortModule } from "@angular/material/sort";
 
 const routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
@@ -95,7 +96,8 @@ const routes = [
         MatTabsModule,
         MatPaginatorModule,
         MatButtonToggleModule,
-        MatSnackBarModule
+        MatSnackBarModule,
+        MatSortModule
     ],
   providers: [],
   bootstrap: [AppComponent],

@@ -34,14 +34,14 @@
   <mat-card-content>
     <h5>Tickets</h5>
     <mat-divider></mat-divider>
-    <table mat-table [dataSource]="tickets">
+    <table mat-table [dataSource]="dataSource" matSort>
       <ng-container matColumnDef="Id">
-        <th mat-header-cell *matHeaderCellDef> # </th>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> # </th>
         <td mat-cell *matCellDef="let element"> {{ element.Id }} </td>
       </ng-container>
 
       <ng-container matColumnDef="Title">
-        <th mat-header-cell *matHeaderCellDef> Title </th>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Title </th>
         <td mat-cell *matCellDef="let element"> {{ element.Title }} </td>
       </ng-container>
 
@@ -66,8 +66,8 @@
       </ng-container>
 
       <ng-container matColumnDef="DateCreated">
-        <th mat-header-cell *matHeaderCellDef> Date Created </th>
-        <td mat-cell *matCellDef="let element"> {{ element.DateCreated }} </td>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Date Created </th>
+        <td mat-cell *matCellDef="let element"> {{ element.DateCreated.toString().substring(0, 10) }} </td>
       </ng-container>
 
       <ng-container matColumnDef="AssignedTo">
@@ -88,6 +88,6 @@
       <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>
 
-    <mat-paginator [pageSize]="5" [length]="numberOfTickets"></mat-paginator>
+    <mat-paginator [pageSizeOptions]="[5, 10, 20]" [length]="dataSource?.data.length" [pageIndex]="0" [pageSize]="5" ></mat-paginator>
   </mat-card-content>
 </mat-card>

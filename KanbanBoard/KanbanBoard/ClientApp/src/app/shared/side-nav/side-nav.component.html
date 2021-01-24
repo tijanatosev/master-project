@@ -1,4 +1,4 @@
-<mat-sidenav position="end" class="sidenav" mode="side" opened="true" *ngIf="isLoggedIn | async">
+<mat-sidenav position="end" class="sidenav" mode="side" opened="true" fixedInViewport="true"  *ngIf="isLoggedIn | async">
   <mat-nav-list>
     <mat-list-item>
       <button mat-icon-button (click)="isExpanded = !isExpanded">

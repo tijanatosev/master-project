@@ -92,7 +92,8 @@ VALUES (@Title, @Description, @Creator, @StoryPoints, @Status, @DateCreated, @As
             string query = @"SELECT t.Id, t.Title, t.Description, t.Creator, t.StoryPoints, t.Status, t.DateCreated, t.AssignedTo, t.BoardId, t.ColumnId 
 FROM Tickets t JOIN Users u on t.AssignedTo=u.Id
 JOIN UsersTeams ut ON ut.UserId=u.Id
-WHERE ut.TeamId=@TeamId";
+JOIN Boards b ON b.Id=t.BoardId
+WHERE ut.TeamId=@TeamId AND b.TeamId=@TeamId";
             DataTable result = dbCommands.ExecuteSqlQuery(query, new SqlParameter("@TeamId", teamId)).Tables["Result"];
             if (result.Rows.Count != 0)
             {

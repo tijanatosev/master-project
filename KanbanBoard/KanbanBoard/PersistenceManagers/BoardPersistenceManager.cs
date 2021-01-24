@@ -82,6 +82,21 @@ WHERE ut.UserId=@UserId";
             return boards;
         }
 
+        public IEnumerable<Board> LoadByTeamId(int teamId)
+        { 
+            List<Board> boards = new List<Board>();
+            string sqlQuery = @"SELECT * FROM Boards WHERE TeamId=@TeamId";
+            DataTable result = dbCommands.ExecuteSqlQuery(sqlQuery, new SqlParameter("@TeamId", teamId)).Tables["Result"];
+            if (result.Rows.Count != 0)
+            {
+                foreach (DataRow row in result.Rows)
+                {
+                    boards.Add(LoadFromDataRow(row));
+                }
+            }
+            return boards;
+        }
+
         public Board LoadFromDataRow(DataRow row)
         {
             return new Board

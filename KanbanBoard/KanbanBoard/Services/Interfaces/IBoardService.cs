@@ -14,5 +14,7 @@ namespace KanbanBoard.Services.Interfaces
         void Delete(int id);
         
         IEnumerable<Board> GetByUserId(int userId);
+        
+        IEnumerable<Board> GetByTeamId(int teamId);
     }
 }
