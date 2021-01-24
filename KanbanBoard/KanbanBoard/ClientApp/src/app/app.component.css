@@ -6,3 +6,8 @@
 ::ng-deep .mat-simple-snackbar-action {
   color: white;
 }
+
+html, body {
+  position: absolute;
+  width: 95.70%;
+}

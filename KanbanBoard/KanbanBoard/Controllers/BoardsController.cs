@@ -51,5 +51,12 @@ namespace KanbanBoard.Controllers
         {
             return boardService.GetByUserId(userId);
         }
+
+        [HttpGet]
+        [Route("team/{teamId}")]
+        public IEnumerable<Board> GetByTeamId([FromRoute] int teamId)
+        {
+            return boardService.GetByTeamId(teamId);
+        }
     }
 }

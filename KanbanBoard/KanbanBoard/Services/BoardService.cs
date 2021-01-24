@@ -43,10 +43,20 @@ namespace KanbanBoard.Services
         {
             if (!ValidateId(userId))
             {
-                return null;
+                return new List<Board>();
             }
             
             return boardPersistenceManager.LoadByUserId(userId);
+        }
+
+        public IEnumerable<Board> GetByTeamId(int teamId)
+        {
+            if (!ValidateId(teamId))
+            {
+                return new List<Board>();
+            }
+
+            return boardPersistenceManager.LoadByTeamId(teamId);
         }
 
         private bool ValidateId(int id)
