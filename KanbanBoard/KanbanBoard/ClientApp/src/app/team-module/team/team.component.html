@@ -5,7 +5,7 @@
 <br>
 <h5>Team members</h5>
 <div class="row mx-2">
-  <mat-card *ngFor="let member of members" class="col-3 my-2 mr-2 ml-2">
+  <mat-card *ngFor="let member of members" class="col my-2 mr-2 ml-2">
     <mat-card-content>
       <mat-icon>person</mat-icon>&nbsp;&nbsp;&nbsp;&nbsp;{{ member.Username }}
       <br>
@@ -16,7 +16,7 @@
 <br>
 <h5>Boards</h5>
 <div class="row mx-2">
-  <mat-card *ngFor="let board of boards" class="col-3 my-2 mr-2 ml-2" style="vertical-align: bottom">
+  <mat-card *ngFor="let board of boards" class="col my-2 mr-2 ml-2" style="vertical-align: bottom">
     <mat-card-content>
       <span style="padding-top: 10px">{{ board.Name }}</span>
       <button mat-icon-button class="float-right">
