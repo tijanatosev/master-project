@@ -9,6 +9,7 @@ import { Ticket } from "../../shared/services/ticket/ticket.model";
 import { MatPaginator } from "@angular/material/paginator";
 import { MatSort } from "@angular/material/sort";
 import { MatTableDataSource } from "@angular/material/table";
+import { Router } from "@angular/router";
 
 @Component({
   selector: 'app-profile',
@@ -29,7 +30,8 @@ export class ProfileComponent implements OnInit, AfterViewInit {
   constructor(private userService: UserService,
               private authService: AuthService,
               private teamService: TeamService,
-              private ticketService: TicketService) { }
+              private ticketService: TicketService,
+              private router: Router) { }
 
   ngOnInit() {
     this.userId = this.authService.getUserIdFromToken();
@@ -46,5 +48,9 @@ export class ProfileComponent implements OnInit, AfterViewInit {
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
     });
+  }
+
+  goToTeam(id) {
+    this.router.navigate(['/team/', id]);
   }
 }
