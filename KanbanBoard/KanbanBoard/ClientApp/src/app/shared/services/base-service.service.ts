@@ -16,4 +16,8 @@
   public ticketsUrl() {
     return this.url + 'tickets';
   }
+
+  public notificationsUrl() {
+    return this.url + 'notifications';
+  }
 }
