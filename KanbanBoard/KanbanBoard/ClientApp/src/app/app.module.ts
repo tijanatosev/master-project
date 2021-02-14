@@ -10,7 +10,7 @@ import { DashboardComponent } from './dashboard-module/dashboard/dashboard.compo
 import { LoginComponent } from './login/login.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatButtonModule} from '@angular/material/button';
-import { MatOptionModule, MatRippleModule} from '@angular/material/core';
+import { MatOptionModule, MatRippleModule } from '@angular/material/core';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatInputModule } from '@angular/material/input';
 import { MatCardModule } from '@angular/material/card';
@@ -41,6 +41,7 @@ import { MatButtonToggleModule } from "@angular/material/button-toggle";
 import { MatSnackBarModule } from "@angular/material/snack-bar";
 import { TeamComponent } from './team-module/team/team.component';
 import { MatSortModule } from "@angular/material/sort";
+import { TicketsDatatableComponent } from './shared/tickets-datatable/tickets-datatable.component';
 
 const routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
@@ -67,7 +68,8 @@ const routes = [
     SettingsNotificationsComponent,
     ProfileComponent,
     SideNavComponent,
-    TeamComponent
+    TeamComponent,
+    TicketsDatatableComponent
   ],
     imports: [
         BrowserModule.withServerTransition({appId: 'ng-cli-universal'}),

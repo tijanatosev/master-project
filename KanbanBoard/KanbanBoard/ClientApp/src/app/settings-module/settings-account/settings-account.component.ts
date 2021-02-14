@@ -7,7 +7,7 @@ import { Router } from "@angular/router";
 import { AuthService } from "../../shared/auth/auth.service";
 import { Responses } from "../../shared/enums";
 import { User } from "../../shared/services/user/user.model";
-import { MatSnackBar } from "@angular/material/snack-bar";
+import { SnackBarService } from "../../shared/snack-bar.service";
 
 @Component({
   selector: 'app-settings-account',
@@ -29,7 +29,7 @@ export class SettingsAccountComponent implements OnInit {
               private router: Router,
               private authService: AuthService,
               private confirmDialog: MatDialog,
-              private snackBar: MatSnackBar) { }
+              private snackBarService: SnackBarService) { }
 
   ngOnInit() {
     this.initProfileForm();
@@ -70,15 +70,9 @@ export class SettingsAccountComponent implements OnInit {
         this.profileForm.reset();
         this.initProfileForm();
         this.resetUser();
-        this.snackBar.open("Successful", "DISMISS", {
-          duration: 5000,
-          panelClass: ["snack-bar"]
-        });
+        this.snackBarService.successful();
       } else {
-        this.snackBar.open("Unsuccessful", "DISMISS", {
-          duration: 5000,
-          panelClass: ["snack-bar"]
-        });
+        this.snackBarService.unsuccessful();
       }
     });
   }
@@ -90,15 +84,9 @@ export class SettingsAccountComponent implements OnInit {
         this.passwordForm.reset();
         this.initPasswordForm();
         this.resetUser();
-        this.snackBar.open("Successful", "DISMISS", {
-          duration: 5000,
-          panelClass: ["snack-bar"]
-        });
+        this.snackBarService.successful();
       } else {
-        this.snackBar.open("Unsuccessful", "DISMISS", {
-          duration: 5000,
-          panelClass: ["snack-bar"]
-        });
+        this.snackBarService.unsuccessful();
       }
     });
   }
