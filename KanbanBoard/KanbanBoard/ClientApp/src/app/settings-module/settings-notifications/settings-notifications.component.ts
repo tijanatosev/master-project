@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from "@angular/forms";
-import { MatSnackBar } from "@angular/material/snack-bar";
 import { NotificationService } from "../../shared/services/notification/notification.service";
 import { Notification } from "../../shared/services/notification/notification.model";
 import { AuthService } from "../../shared/auth/auth.service";
 import { Responses } from "../../shared/enums";
+import { SnackBarService } from "../../shared/snack-bar.service";
 
 @Component({
   selector: 'app-settings-notifications',
@@ -17,9 +17,9 @@ export class SettingsNotificationsComponent implements OnInit {
   private userId: number;
   private notificationId: number;
   constructor(private formBuilder: FormBuilder,
-              private snackBar: MatSnackBar,
               private notificationService: NotificationService,
-              private authService: AuthService) { }
+              private authService: AuthService,
+              private snackBarService: SnackBarService) { }
 
   ngOnInit() {
     this.notificationsForm = this.formBuilder.group({
@@ -59,15 +59,9 @@ export class SettingsNotificationsComponent implements OnInit {
       this.notification.Id = this.notificationId;
       this.notificationService.updateNotification(this.notificationId, this.notification).subscribe(result => {
         if (result == Responses.NoContent) {
-          this.snackBar.open("Successful", "DISMISS", {
-            duration: 5000,
-            panelClass: ["snack-bar"]
-          });
+          this.snackBarService.successful();
         } else {
-          this.snackBar.open("Unsuccessful", "DISMISS", {
-            duration: 5000,
-            panelClass: ["snack-bar"]
-          });
+          this.snackBarService.unsuccessful();
         }
       });
     } else {
@@ -77,15 +71,9 @@ export class SettingsNotificationsComponent implements OnInit {
           if (typeof result === "number") {
             this.notificationId = result;
           }
-          this.snackBar.open("Successful", "DISMISS", {
-            duration: 5000,
-            panelClass: ["snack-bar"]
-          });
+          this.snackBarService.successful();
         } else {
-          this.snackBar.open("Unsuccessful", "DISMISS", {
-            duration: 5000,
-            panelClass: ["snack-bar"]
-          });
+          this.snackBarService.unsuccessful();
         }
       });
     }

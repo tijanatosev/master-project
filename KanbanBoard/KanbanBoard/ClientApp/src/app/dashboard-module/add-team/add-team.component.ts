@@ -5,7 +5,7 @@ import { UserService } from "../../shared/services/user/user.service";
 import { TeamService } from "../../shared/services/team/team.service";
 import { Team } from "../../shared/services/team/team.model";
 import { Responses } from "../../shared/enums";
-import { MatSnackBar } from "@angular/material/snack-bar";
+import { SnackBarService } from "../../shared/snack-bar.service";
 
 
 @Component({
@@ -23,7 +23,7 @@ export class AddTeamComponent implements OnInit {
 
   constructor(private teamService: TeamService,
               private userService: UserService,
-              private snackBar: MatSnackBar) { }
+              private snackBarService: SnackBarService) { }
 
   ngOnInit() {
     this.userService.getUsers().subscribe(result => this.users = result);
@@ -38,15 +38,9 @@ export class AddTeamComponent implements OnInit {
       if (teamId > 0) {
         this.teamService.addUsersToTeam(teamId, members).subscribe(result => {
           if (result == Responses.Created) {
-            this.snackBar.open("Successful", "DISMISS", {
-              duration: 5000,
-              panelClass: ["snack-bar"]
-            });
+            this.snackBarService.successful();
           } else {
-            this.snackBar.open("Unsuccessful", "DISMISS", {
-              duration: 5000,
-              panelClass: ["snack-bar"]
-            });
+            this.snackBarService.unsuccessful();
           }
         });
       }
