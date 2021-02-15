@@ -57,4 +57,13 @@ export class AuthService {
     const token = JSON.parse(localStorage.getItem('token'));
     return token.username;
   }
+
+  public getLastVisited() {
+    const lastVisited = localStorage.getItem('lastVisited');
+    return (!(lastVisited === undefined || lastVisited === null || lastVisited === 'undefined' || lastVisited === 'null' || lastVisited === ''));
+  }
+
+  public setLastVisited(page) {
+    localStorage.setItem("lastVisited", page);
+  }
 }
