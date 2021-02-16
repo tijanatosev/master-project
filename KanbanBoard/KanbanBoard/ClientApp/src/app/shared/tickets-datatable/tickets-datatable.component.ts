@@ -4,6 +4,7 @@ import { Ticket } from "../services/ticket/ticket.model";
 import { MatPaginator } from "@angular/material/paginator";
 import { MatSort } from "@angular/material/sort";
 import { TicketService } from "../services/ticket/ticket.service";
+import { Router } from "@angular/router";
 
 @Component({
   selector: 'app-tickets-datatable',
@@ -20,7 +21,8 @@ export class TicketsDatatableComponent implements OnInit, AfterViewInit {
   public displayedColumns: string[] = ['Id', 'Title', 'Description', 'Creator', 'StoryPoints', 'Status', 'DateCreated', 'AssignedTo', 'Visit'];
   public dataSource: MatTableDataSource<Ticket>;
 
-  constructor(private ticketService: TicketService) {
+  constructor(private ticketService: TicketService,
+              private router: Router) {
   }
 
   ngOnInit() {
@@ -42,6 +44,10 @@ export class TicketsDatatableComponent implements OnInit, AfterViewInit {
         this.dataSource.sort = this.sort;
       });
     }
+  }
+
+  public goToTicket(id) {
+    this.router.navigate(['ticket', id]);
   }
 
 }

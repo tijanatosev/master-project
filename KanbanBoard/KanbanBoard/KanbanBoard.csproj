@@ -27,6 +27,7 @@
     <ItemGroup>
       <Folder Include="ClientApp\src\app\shared\auth" />
       <Folder Include="ClientApp\src\app\team-module" />
+      <Folder Include="ClientApp\src\app\ticket-module" />
     </ItemGroup>
 
     <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">

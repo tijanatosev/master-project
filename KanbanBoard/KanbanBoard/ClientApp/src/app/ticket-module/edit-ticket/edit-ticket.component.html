@@ -1,0 +1,17 @@
+<mat-card>
+  <mat-card-content *ngIf="ticket">
+    <div class="row">
+      <div class="col-6">
+        <h3> {{ ticket.Title }} </h3>
+        <mat-divider></mat-divider>
+        <h5> Description </h5>
+        <textarea>
+          {{ ticket.Description }}
+        </textarea>
+      </div>
+      <div class="col-3">
+        <input type="text" value="{{ ticket.Status }}">
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>

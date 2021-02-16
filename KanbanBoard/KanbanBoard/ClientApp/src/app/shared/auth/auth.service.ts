@@ -60,7 +60,10 @@ export class AuthService {
 
   public getLastVisited() {
     const lastVisited = localStorage.getItem('lastVisited');
-    return (!(lastVisited === undefined || lastVisited === null || lastVisited === 'undefined' || lastVisited === 'null' || lastVisited === ''));
+    if (!(lastVisited === undefined || lastVisited === null || lastVisited === 'undefined' || lastVisited === 'null' || lastVisited === '')) {
+      return lastVisited;
+    }
+    return null;
   }
 
   public setLastVisited(page) {
