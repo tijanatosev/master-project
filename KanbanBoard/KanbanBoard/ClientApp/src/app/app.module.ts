@@ -42,6 +42,8 @@ import { MatSnackBarModule } from "@angular/material/snack-bar";
 import { TeamComponent } from './team-module/team/team.component';
 import { MatSortModule } from "@angular/material/sort";
 import { TicketsDatatableComponent } from './shared/tickets-datatable/tickets-datatable.component';
+import { EditTicketComponent } from "./ticket-module/edit-ticket/edit-ticket.component";
+import { MatFormFieldModule } from "@angular/material/form-field";
 
 const routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
@@ -50,7 +52,8 @@ const routes = [
   { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard] },
   { path: 'settings/:id', component: SettingsComponent, canActivate: [AuthGuard] },
   { path: 'profile/:id', component: ProfileComponent, canActivate: [AuthGuard] },
-  { path: 'team/:id', component: TeamComponent, canActivate: [AuthGuard] }
+  { path: 'team/:id', component: TeamComponent, canActivate: [AuthGuard] },
+  { path: 'ticket/:id', component: EditTicketComponent, canActivate: [AuthGuard] }
 ];
 
 @NgModule({
@@ -69,7 +72,8 @@ const routes = [
     ProfileComponent,
     SideNavComponent,
     TeamComponent,
-    TicketsDatatableComponent
+    TicketsDatatableComponent,
+    EditTicketComponent
   ],
     imports: [
         BrowserModule.withServerTransition({appId: 'ng-cli-universal'}),
@@ -99,7 +103,8 @@ const routes = [
         MatPaginatorModule,
         MatButtonToggleModule,
         MatSnackBarModule,
-        MatSortModule
+        MatSortModule,
+        MatFormFieldModule
     ],
   providers: [],
   bootstrap: [AppComponent],

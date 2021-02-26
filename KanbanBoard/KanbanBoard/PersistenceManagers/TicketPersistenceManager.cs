@@ -48,9 +48,9 @@ namespace KanbanBoard.PersistenceManagers
 
         public int Add(Ticket ticket)
         {
-            string query = @"INSERT INTO Users (Title, Description, Creator, StoryPoints, Status, DateCreated, AssignedTo) 
+            string query = @"INSERT INTO Tickets (Title, Description, Creator, StoryPoints, Status, DateCreated, AssignedTo, StartDate, EndDate) 
 OUTPUT INSERTED.ID
-VALUES (@Title, @Description, @Creator, @StoryPoints, @Status, @DateCreated, @AssignedTo)";
+VALUES (@Title, @Description, @Creator, @StoryPoints, @Status, @DateCreated, @AssignedTo, @StartDate, @EndDate)";
             DbParameter[] parameters = 
             {
                 new SqlParameter("@Title", ticket.Title),
@@ -59,7 +59,9 @@ VALUES (@Title, @Description, @Creator, @StoryPoints, @Status, @DateCreated, @As
                 new SqlParameter("@StoryPoints", ticket.StoryPoints),
                 new SqlParameter("@Status", ticket.Status),
                 new SqlParameter("@DateCreated", ticket.DateCreated),
-                new SqlParameter("@AssignedTo", ticket.AssignedTo) 
+                new SqlParameter("@AssignedTo", ticket.AssignedTo), 
+                new SqlParameter("@StartDate", ticket.StartDate),
+                new SqlParameter("@EndDate", ticket.EndDate),
             };
             return dbCommands.ExecuteScalar(query, parameters);
         }
@@ -89,7 +91,7 @@ VALUES (@Title, @Description, @Creator, @StoryPoints, @Status, @DateCreated, @As
         public IEnumerable<Ticket> LoadByTeamId(int teamId)
         {
             List<Ticket> tickets = new List<Ticket>();
-            string query = @"SELECT t.Id, t.Title, t.Description, t.Creator, t.StoryPoints, t.Status, t.DateCreated, t.AssignedTo, t.BoardId, t.ColumnId 
+            string query = @"SELECT t.Id, t.Title, t.Description, t.Creator, t.StoryPoints, t.Status, t.DateCreated, t.AssignedTo, t.StartDate, t.EndDate, t.BoardId, t.ColumnId 
 FROM Tickets t JOIN Users u on t.AssignedTo=u.Id
 JOIN UsersTeams ut ON ut.UserId=u.Id
 JOIN Boards b ON b.Id=t.BoardId
@@ -115,8 +117,10 @@ WHERE ut.TeamId=@TeamId AND b.TeamId=@TeamId";
                 Creator = row["Creator"].ToString(),
                 StoryPoints = Convert.ToInt32(row["StoryPoints"]),
                 Status = row["Status"].ToString(),
-                DateCreated = Convert.ToDateTime(row["DateCreated"]),
+                DateCreated = Convert.ToDateTime(row["DateCreated"]).Date,
                 AssignedTo = Convert.ToInt32(row["AssignedTo"]),
+                StartDate = Convert.ToDateTime(row["StartDate"]).Date,
+                EndDate = Convert.ToDateTime(row["EndDate"]).Date,
                 BoardId = row["BoardId"] as int?,
                 ColumnId = row["ColumnId"] as int?
             };

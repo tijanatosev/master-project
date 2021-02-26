@@ -1,0 +1,22 @@
+.title-label {
+  font-weight: 500;
+}
+
+.value-label {
+  display: block;
+  text-align: right;
+  font-style: italic;
+}
+
+h6 {
+  padding-top: 10px;
+}
+
+mat-card {
+  max-width: 900px;
+  display: block;
+}
+
+.row {
+  justify-content: center;
+}
