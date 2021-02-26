@@ -5,8 +5,10 @@
   public Creator: string;
   public StoryPoints: string;
   public Status: string;
-  public DateCreated: string;
+  public DateCreated: Date;
   public AssignedTo: number;
+  public StartDate: Date;
+  public EndDate: Date;
   public BoardId?: number;
   public ColumnId?: number;
 }

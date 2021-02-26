@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { Ticket} from "../../shared/services/ticket/ticket.model";
+import { Ticket } from "../../shared/services/ticket/ticket.model";
 import { TicketService } from "../../shared/services/ticket/ticket.service";
 import { ActivatedRoute, Params } from "@angular/router";
-import { FormBuilder } from "@angular/forms";
+import { UserService } from "../../shared/services/user/user.service";
 
 @Component({
   selector: 'app-edit-ticket',
@@ -10,21 +10,20 @@ import { FormBuilder } from "@angular/forms";
   styleUrls: ['./edit-ticket.component.css']
 })
 export class EditTicketComponent implements OnInit {
-  ticketForm;
   public ticket: Ticket;
   public ticketId: number;
+  public assignedTo: string;
   constructor(private route: ActivatedRoute,
               private ticketService: TicketService,
-              private formBuilder: FormBuilder) { }
+              private userService: UserService) { }
 
   ngOnInit() {
     this.route.params.subscribe((params: Params) => {
       this.ticketId = +params['id'];
     });
-    this.ticketService.getTicket(this.ticketId).subscribe(ticket => this.ticket = ticket);
-    this.ticketForm = this.formBuilder.group({
-      title: [''],
-      description: ['']
+    this.ticketService.getTicket(this.ticketId).subscribe(ticket => {
+      this.ticket = ticket;
+      this.userService.getUser(ticket.AssignedTo).subscribe(user => this.assignedTo = user.Username);
     });
   }
 
