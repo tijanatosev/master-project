@@ -9,11 +9,11 @@
           <mat-list-item (click)="show(2)" [ngClass]="{ indigo: clicked == 'notifications' }">
             <mat-icon>notifications</mat-icon>&nbsp;&nbsp;Notifications
           </mat-list-item>
-          <mat-list-item (click)="show(3)" [ngClass]="{ indigo: clicked == 'labels' }">
-            <mat-icon>label</mat-icon>&nbsp;&nbsp;Labels
+          <mat-list-item (click)="show(3)" [ngClass]="{ indigo: clicked == 'boards' }">
+            <mat-icon>dashboard</mat-icon>&nbsp;&nbsp;Boards
           </mat-list-item>
-          <mat-list-item (click)="show(4)" [ngClass]="{ indigo: clicked == 'statuses' }">
-            <mat-icon>pending</mat-icon>&nbsp;&nbsp;Statuses
+          <mat-list-item (click)="show(4)" [ngClass]="{ indigo: clicked == 'labels' }">
+            <mat-icon>label</mat-icon>&nbsp;&nbsp;Labels
           </mat-list-item>
         </mat-list>
       </mat-card-content>
@@ -24,6 +24,6 @@
     <app-settings-account *ngIf="showAccount"></app-settings-account>
     <app-settings-notifications *ngIf="showNotifications"></app-settings-notifications>
     <app-settings-labels *ngIf="showLabels"></app-settings-labels>
-    <app-settings-statuses *ngIf="showStatuses"></app-settings-statuses>
+    <app-settings-boards *ngIf="showBoards"></app-settings-boards>
   </div>
 </div>

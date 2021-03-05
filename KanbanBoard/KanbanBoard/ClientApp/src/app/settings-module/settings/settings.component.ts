@@ -10,7 +10,7 @@ export class SettingsComponent implements OnInit {
   showAccount: boolean = false;
   showNotifications: boolean = false;
   showLabels: boolean = false;
-  showStatuses: boolean = false;
+  showBoards: boolean = false;
   previous: number = 0;
   clicked: string;
 
@@ -24,37 +24,37 @@ export class SettingsComponent implements OnInit {
       this.showAccount = false;
       this.showNotifications = false;
       this.showLabels = false;
-      this.showStatuses = false;
+      this.showBoards = false;
       this.previous = 0;
       this.clicked = "none";
     } else if (option == 1) {
       this.showAccount = true;
       this.showNotifications = false;
       this.showLabels = false;
-      this.showStatuses = false;
+      this.showBoards = false;
       this.previous = 1;
       this.clicked = "account";
     } else if (option == 2) {
       this.showAccount = false;
       this.showNotifications = true;
       this.showLabels = false;
-      this.showStatuses = false;
+      this.showBoards = false;
       this.previous = 2;
       this.clicked = "notifications";
     } else if (option == 3) {
       this.showAccount = false;
       this.showNotifications = false;
-      this.showLabels = true;
-      this.showStatuses = false;
+      this.showBoards = true;
+      this.showLabels = false;
       this.previous = 3;
-      this.clicked = "labels";
+      this.clicked = "boards";
     } else if (option == 4) {
       this.showAccount = false;
       this.showNotifications = false;
-      this.showLabels = false;
-      this.showStatuses = true;
+      this.showBoards = false;
+      this.showLabels = true;
       this.previous = 4;
-      this.clicked = "statuses";
+      this.clicked = "labels";
     }
   }
 }

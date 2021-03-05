@@ -45,10 +45,10 @@ import { TicketsDatatableComponent } from './shared/tickets-datatable/tickets-da
 import { EditTicketComponent } from "./ticket-module/edit-ticket/edit-ticket.component";
 import { MatFormFieldModule } from "@angular/material/form-field";
 import { SettingsLabelsComponent} from './settings-module/settings-labels/settings-labels.component';
-import { SettingsStatusesComponent } from './settings-module/settings-statuses/settings-statuses.component';
 import { MatTooltipModule } from "@angular/material/tooltip";
 import { AddLabelComponent } from './settings-module/settings-labels/add-label/add-label.component';
 import { MatChipsModule } from "@angular/material/chips";
+import { SettingsBoardsComponent } from './settings-module/settings-boards/settings-boards.component';
 
 const routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
@@ -80,8 +80,8 @@ const routes = [
     TicketsDatatableComponent,
     EditTicketComponent,
     SettingsLabelsComponent,
-    SettingsStatusesComponent,
-    AddLabelComponent
+    AddLabelComponent,
+    SettingsBoardsComponent
   ],
     imports: [
         BrowserModule.withServerTransition({appId: 'ng-cli-universal'}),
