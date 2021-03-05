@@ -1,0 +1,23 @@
+table {
+  width: 100%;
+}
+
+mat-card-content {
+  text-align: center;
+  color: white;
+}
+
+.mat-icon {
+  color: white;
+  vertical-align: middle;
+}
+
+h5 {
+  text-align: center;
+  font-weight: 500;
+}
+
+p {
+  text-align: center;
+}
+

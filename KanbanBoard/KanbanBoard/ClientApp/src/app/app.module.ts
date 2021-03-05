@@ -44,6 +44,10 @@ import { MatSortModule } from "@angular/material/sort";
 import { TicketsDatatableComponent } from './shared/tickets-datatable/tickets-datatable.component';
 import { EditTicketComponent } from "./ticket-module/edit-ticket/edit-ticket.component";
 import { MatFormFieldModule } from "@angular/material/form-field";
+import { SettingsLabelsComponent} from './settings-module/settings-labels/settings-labels.component';
+import { SettingsStatusesComponent } from './settings-module/settings-statuses/settings-statuses.component';
+import { MatTooltipModule } from "@angular/material/tooltip";
+import { AddLabelComponent } from './settings-module/settings-labels/add-label/add-label.component';
 
 const routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
@@ -73,7 +77,10 @@ const routes = [
     SideNavComponent,
     TeamComponent,
     TicketsDatatableComponent,
-    EditTicketComponent
+    EditTicketComponent,
+    SettingsLabelsComponent,
+    SettingsStatusesComponent,
+    AddLabelComponent
   ],
     imports: [
         BrowserModule.withServerTransition({appId: 'ng-cli-universal'}),
@@ -104,14 +111,16 @@ const routes = [
         MatButtonToggleModule,
         MatSnackBarModule,
         MatSortModule,
-        MatFormFieldModule
+        MatFormFieldModule,
+        MatTooltipModule
     ],
   providers: [],
   bootstrap: [AppComponent],
   entryComponents: [
     AddBoardComponent,
     AddTeamComponent,
-    ConfirmationDialogComponent
+    ConfirmationDialogComponent,
+    AddLabelComponent
   ]
 })
 export class AppModule { }

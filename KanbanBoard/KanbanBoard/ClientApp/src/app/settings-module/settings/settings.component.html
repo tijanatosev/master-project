@@ -1,34 +1,19 @@
-<!--<mat-card class="col">-->
-<!--  <mat-card-content>-->
-<!--    <mat-tab-group style="height: 800px">-->
-<!--      <mat-tab>-->
-<!--        <ng-template mat-tab-label>-->
-<!--          <mat-icon>person</mat-icon>-->
-<!--          Account-->
-<!--        </ng-template>-->
-<!--        <app-settings-account></app-settings-account>-->
-<!--      </mat-tab>-->
-<!--      <mat-tab>-->
-<!--        <ng-template mat-tab-label>-->
-<!--          <mat-icon>notifications</mat-icon>-->
-<!--          Notifications-->
-<!--        </ng-template>-->
-<!--        <app-login></app-login>-->
-<!--      </mat-tab>-->
-<!--    </mat-tab-group>-->
-<!--  </mat-card-content>-->
-<!--</mat-card>-->
-
 <div class="row">
   <div class="col-3">
     <mat-card>
       <mat-card-content>
         <mat-list>
           <mat-list-item (click)="show(1)" [ngClass]="{ indigo: clicked == 'account' }">
-            <mat-icon>person</mat-icon>Account
+            <mat-icon>person</mat-icon>&nbsp;&nbsp;Account
           </mat-list-item>
           <mat-list-item (click)="show(2)" [ngClass]="{ indigo: clicked == 'notifications' }">
-            <mat-icon>notifications</mat-icon>Notifications
+            <mat-icon>notifications</mat-icon>&nbsp;&nbsp;Notifications
+          </mat-list-item>
+          <mat-list-item (click)="show(3)" [ngClass]="{ indigo: clicked == 'labels' }">
+            <mat-icon>label</mat-icon>&nbsp;&nbsp;Labels
+          </mat-list-item>
+          <mat-list-item (click)="show(4)" [ngClass]="{ indigo: clicked == 'statuses' }">
+            <mat-icon>pending</mat-icon>&nbsp;&nbsp;Statuses
           </mat-list-item>
         </mat-list>
       </mat-card-content>
@@ -38,5 +23,7 @@
   <div class="col">
     <app-settings-account *ngIf="showAccount"></app-settings-account>
     <app-settings-notifications *ngIf="showNotifications"></app-settings-notifications>
+    <app-settings-labels *ngIf="showLabels"></app-settings-labels>
+    <app-settings-statuses *ngIf="showStatuses"></app-settings-statuses>
   </div>
 </div>

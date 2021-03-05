@@ -20,4 +20,8 @@
   public notificationsUrl() {
     return this.url + 'notifications';
   }
+
+  public labelsUrl() {
+    return this.url + 'labels';
+  }
 }
