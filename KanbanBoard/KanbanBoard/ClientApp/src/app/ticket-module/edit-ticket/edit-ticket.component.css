@@ -20,3 +20,13 @@ mat-card {
 .row {
   justify-content: center;
 }
+
+.mat-small-chip {
+  min-height: 25px !important;
+  padding: 4px 9px !important;
+  height: 0.8em !important;
+}
+
+mat-divider {
+  margin-top: 8px;
+}

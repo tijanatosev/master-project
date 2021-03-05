@@ -44,7 +44,27 @@ namespace KanbanBoard.Services
         {
             labelPersistenceManager.DeleteAll();
         }
-        
+
+        public IEnumerable<Label> GetByTicketId(int ticketId)
+        {
+            if (!ValidateId(ticketId))
+            {
+                return new List<Label>();
+            }
+
+            return labelPersistenceManager.LoadByTicketId(ticketId);
+        }
+
+        public void DeleteByTicketId(int labelId, int ticketId)
+        {
+            if (!ValidateId(labelId) || !ValidateId(ticketId))
+            {
+                return;
+            }
+            
+            labelPersistenceManager.DeleteByTicketId(labelId, ticketId);
+        }
+
         private bool ValidateId(int id)
         {
             return id > 0;

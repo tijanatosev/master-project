@@ -48,6 +48,7 @@ import { SettingsLabelsComponent} from './settings-module/settings-labels/settin
 import { SettingsStatusesComponent } from './settings-module/settings-statuses/settings-statuses.component';
 import { MatTooltipModule } from "@angular/material/tooltip";
 import { AddLabelComponent } from './settings-module/settings-labels/add-label/add-label.component';
+import { MatChipsModule } from "@angular/material/chips";
 
 const routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
@@ -112,7 +113,8 @@ const routes = [
         MatSnackBarModule,
         MatSortModule,
         MatFormFieldModule,
-        MatTooltipModule
+        MatTooltipModule,
+        MatChipsModule
     ],
   providers: [],
   bootstrap: [AppComponent],

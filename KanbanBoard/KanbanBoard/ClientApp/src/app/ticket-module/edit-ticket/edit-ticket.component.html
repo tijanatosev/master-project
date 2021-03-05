@@ -4,6 +4,16 @@
         <div class="row">
           <div class="col">
             <h4> {{ ticket.Title }} </h4>
+            <mat-chip-list>
+              <mat-chip *ngFor="let label of labels"
+                        [style.background-color]="label.Color"
+                        [removable]="removable"
+                        (removed)="remove(label.Id)"
+                        class="mat-small-chip">
+                {{ label.Name }}
+                <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+              </mat-chip>
+            </mat-chip-list>
             <mat-divider></mat-divider>
             <h6>Description</h6>
             <mat-label>

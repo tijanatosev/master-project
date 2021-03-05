@@ -34,4 +34,12 @@ export class LabelService extends BaseService {
   public deleteAllLabels() {
     return this.http.delete(`${this.labelsUrl()}`);
   }
+
+  public getLabelsByTicketId(ticketId) {
+    return this.http.get<Label[]>(`${this.labelsUrl()}/tickets/${ticketId}`);
+  }
+
+  public deleteByTicketId(labelId, ticketId) {
+    return this.http.delete(`${this.labelsUrl()}/${labelId}/tickets/${ticketId}`);
+  }
 }

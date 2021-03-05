@@ -59,14 +59,41 @@ namespace KanbanBoard.PersistenceManagers
 
         public void Delete(int id)
         {
-            string query = @"DELETE FROM Labels WHERE Id=@Id";
-            dbCommands.ExecuteSqlNonQuery(query, new SqlParameter("@Id", id));
+            string queryLabelsTickets = @"DELETE FROM LabelsTickets WHERE LabelId=@LabelId";
+            string queryLabels = @"DELETE FROM Labels WHERE Id=@Id";
+            dbCommands.ExecuteSqlNonQuery(queryLabelsTickets, new SqlParameter("@LabelId", id));
+            dbCommands.ExecuteSqlNonQuery(queryLabels, new SqlParameter("@Id", id));
         }
 
         public void DeleteAll()
         {
-            string query = @"DELETE FROM Labels";
-            dbCommands.ExecuteSqlNonQuery(query);
+            string queryLabelsTickets = @"DELETE FROM LabelsTickets";
+            string queryLabels = @"DELETE FROM Labels";
+            dbCommands.ExecuteSqlNonQuery(queryLabelsTickets);
+            dbCommands.ExecuteSqlNonQuery(queryLabels);
+        }
+
+        public IEnumerable<Label> LoadByTicketId(int ticketId)
+        {
+            List<Label> labels = new List<Label>();
+            string query = @"SELECT l.Id, l.Name, l.Color
+FROM Labels l join LabelsTickets lt ON l.Id=lt.LabelId
+WHERE lt.TicketId=@TicketId";
+            DataTable result = dbCommands.ExecuteSqlQuery(query,new SqlParameter("@TicketId", ticketId)).Tables["Result"];
+            if (result.Rows.Count != 0)
+            {
+                foreach (DataRow row in result.Rows)
+                {
+                    labels.Add(LoadFromDataRow(row));
+                }
+            }
+            return labels;
+        }
+
+        public void DeleteByTicketId(int labelId, int ticketId)
+        {
+            string query = @"DELETE FROM LabelsTickets WHERE LabelId=@LabelId AND TicketId=@TicketId";
+            dbCommands.ExecuteSqlNonQuery(query, new SqlParameter("@LabelId", labelId), new SqlParameter("@TicketId", ticketId));
         }
 
         public Label LoadFromDataRow(DataRow row)

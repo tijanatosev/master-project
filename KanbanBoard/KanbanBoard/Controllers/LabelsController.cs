@@ -45,5 +45,19 @@ namespace KanbanBoard.Controllers
         {
             labelService.DeleteAll();
         }
+
+        [HttpGet]
+        [Route("tickets/{ticketId}")]
+        public IEnumerable<Label> GetByTicketId([FromRoute] int ticketId)
+        {
+            return labelService.GetByTicketId(ticketId);
+        }
+
+        [HttpDelete]
+        [Route("{id}/tickets/{ticketId}")]
+        public void DeleteByTicketId([FromRoute] int id, [FromRoute] int ticketId)
+        {
+            labelService.DeleteByTicketId(id, ticketId);
+        }
     }
 }
