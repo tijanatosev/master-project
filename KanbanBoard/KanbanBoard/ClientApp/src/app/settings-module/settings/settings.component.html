@@ -24,6 +24,7 @@
     <app-settings-account *ngIf="showAccount"></app-settings-account>
     <app-settings-notifications *ngIf="showNotifications"></app-settings-notifications>
     <app-settings-labels *ngIf="showLabels"></app-settings-labels>
-    <app-settings-boards *ngIf="showBoards"></app-settings-boards>
+    <app-settings-boards *ngIf="showBoards" (editBoard)="onEditBoard($event)"></app-settings-boards>
+    <app-edit-board *ngIf="showEditBoard" [board]="board" (back)="onBack($event)"></app-edit-board>
   </div>
 </div>

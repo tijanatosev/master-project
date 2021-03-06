@@ -24,4 +24,8 @@
   public labelsUrl() {
     return this.url + 'labels';
   }
+
+  public columnsUrl() {
+    return this.url + 'columns';
+  }
 }

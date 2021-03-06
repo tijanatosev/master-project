@@ -32,7 +32,7 @@ export class TeamService extends BaseService {
     return this.http.delete(`${this.teamsUrl()}/${id}`);
   }
 
-  public getTeamsByUserId(userId): Observable<Board[]> {
+  public getTeamsByUserId(userId): Observable<Team[]> {
     return this.http.get<Team[]>(`${this.teamsUrl()}/users/${userId}`);
   }
 

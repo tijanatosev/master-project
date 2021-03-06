@@ -48,7 +48,7 @@ namespace KanbanBoard.PersistenceManagers
 
         public int Add(Label label)
         {
-            string query = @"INSERT INTO Labels (Name, Color) OUTPUT INSERTED.ID VALUES(@Name, @Color)";
+            string query = @"INSERT INTO Labels (Name, Color) OUTPUT INSERTED.ID VALUES (@Name, @Color)";
             DbParameter[] parameters = 
             {
                 new SqlParameter("@Name", label.Name),

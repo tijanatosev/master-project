@@ -1,0 +1,54 @@
+<div>
+  <h5>Boards settings</h5>
+  <div *ngIf="board">
+    <mat-card>
+      <mat-card-content>
+        <form [formGroup]="boardForm">
+          <mat-form-field appearance="outline">
+            <mat-label>Name</mat-label>
+            <input matInput formControlName="name" value="{{ board.Name }}">
+          </mat-form-field>
+          <mat-error *ngIf="boardForm.get('name').errors && boardForm.get('name').errors.maxlength">
+            Board name is too long.
+          </mat-error>
+          <br>
+          <mat-form-field appearance="outline">
+            <mat-label>Admin</mat-label>
+            <mat-select [(value)]="board.Admin" formControlName="admin">
+              <mat-option></mat-option>
+              <mat-option *ngFor="let user of users" [value]="user.Username">
+                {{ user.Username }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <br>
+          <mat-form-field appearance="outline">
+            <mat-label>Team</mat-label>
+            <mat-select [(value)]="board.TeamId" formControlName="team">
+              <mat-option></mat-option>
+              <mat-option *ngFor="let team of teams" [value]="team.Id">
+                {{ team.Name }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </form>
+        <mat-divider></mat-divider>
+        <mat-label>List of columns:</mat-label>
+        <div *ngIf="columns.length > 0"
+          cdkDropList
+          [cdkDropListData]="columns"
+          class="example-list"
+          (cdkDropListDropped)="drop($event)">
+          <div class="example-box" *ngFor="let item of columns" cdkDrag>{{item.Name}}</div>
+        </div>
+        <div *ngIf="columns.length == 0">
+          <p>There are no defined columns for this board.</p>
+        </div>
+        <button (click)="save()">Save</button>
+      </mat-card-content>
+    </mat-card>
+  </div>
+  <button mat-icon-button (click)="goBack()">
+    <mat-icon>arrow_back</mat-icon>
+  </button>
+</div>
