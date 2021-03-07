@@ -37,8 +37,10 @@ export class SettingsBoardsComponent implements OnInit, AfterViewInit {
     this.loadBoards();
   }
 
-  public getTeamName(id) {
-    return this.teams.filter(x => x.Id == id)[0].Name;
+  public getTeamName(element) {
+    if (element.TeamId == undefined)
+      return '';
+    return this.teams.filter(x => x.Id == element.TeamId)[0].Name;
   }
 
   public openDeleteDialog(id, name) {

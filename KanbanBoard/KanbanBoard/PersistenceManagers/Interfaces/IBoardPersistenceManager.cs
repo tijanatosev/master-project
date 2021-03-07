@@ -11,6 +11,8 @@ namespace KanbanBoard.PersistenceManagers.Interfaces
 
         int Add(Board board);
 
+        int Update(int id, Board board);
+
         void Delete(int id);
         
         IEnumerable<Board> LoadByUserId(int userId);

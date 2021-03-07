@@ -48,11 +48,12 @@ namespace KanbanBoard.PersistenceManagers
 
         public int Add(Column column)
         {
-            string query = @"INSERT INTO Columns (Name, BoardId) OUTPUT INSERTED.ID VALUES (@Name, @BoardId)";
+            string query = @"INSERT INTO Columns (Name, ColumnOrder, BoardId) OUTPUT INSERTED.ID VALUES (@Name, @ColumnOrder, @BoardId)";
             DbParameter[] parameters = 
             {
                 new SqlParameter("@Name", column.Name),
-                new SqlParameter("@Color", column.BoardId)
+                new SqlParameter("@ColumnOrder", column.ColumnOrder), 
+                new SqlParameter("@BoardId", column.BoardId)
             };
             return dbCommands.ExecuteScalar(query, parameters);
         }
@@ -69,6 +70,12 @@ namespace KanbanBoard.PersistenceManagers
 SET ColumnOrder=@ColumnOrder
 WHERE Id=@Id";
             return dbCommands.ExecuteSqlNonQuery(query, new SqlParameter("@ColumnOrder", columnOrder), new SqlParameter("@Id", id));
+        }
+
+        public void DeleteByBoardId(int boardId)
+        {
+            string query = @"DELETE FROM Columns WHERE BoardId=@BoardId";
+            dbCommands.ExecuteSqlNonQuery(query, new SqlParameter("@BoardId", boardId));
         }
         
         public Column LoadFromDataRow(DataRow row)

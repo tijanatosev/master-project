@@ -3,6 +3,7 @@
   <div *ngIf="board">
     <mat-card>
       <mat-card-content>
+        <h6>Board</h6>
         <form [formGroup]="boardForm">
           <mat-form-field appearance="outline">
             <mat-label>Name</mat-label>
@@ -15,7 +16,6 @@
           <mat-form-field appearance="outline">
             <mat-label>Admin</mat-label>
             <mat-select [(value)]="board.Admin" formControlName="admin">
-              <mat-option></mat-option>
               <mat-option *ngFor="let user of users" [value]="user.Username">
                 {{ user.Username }}
               </mat-option>
@@ -32,23 +32,73 @@
             </mat-select>
           </mat-form-field>
         </form>
-        <mat-divider></mat-divider>
-        <mat-label>List of columns:</mat-label>
+
+        <mat-divider style="width: 96%; margin-left: 2%;"></mat-divider>
+        <br>
+
+        <h6>Columns</h6>
+        <button mat-raised-button color="primary" (click)="showAddColumn = true">
+          Add column
+        </button>
+        &nbsp;&nbsp;
+        <button mat-raised-button color="primary" (click)="openRemoveDialog()">
+          Remove all
+        </button>
+        <br>
+        <br>
+
+        <div *ngIf="showAddColumn">
+          <form [formGroup]="columnForm">
+            <mat-form-field appearance="outline">
+              <mat-label>Name</mat-label>
+              <input matInput formControlName="columnName">
+            </mat-form-field>
+            &nbsp;
+            <button mat-icon-button class="column-button" [disabled]="!columnForm.valid" (click)="addColumn(columnForm)">
+              <mat-icon>check</mat-icon>
+            </button>
+            &nbsp;
+            <button mat-icon-button class="column-button" (click)="closeAddColumn()">
+              <mat-icon>close</mat-icon>
+            </button>
+          </form>
+          <mat-error *ngIf="columnForm.get('columnName').errors && columnForm.get('columnName').errors.maxlength">
+            &nbsp;Column name is too long.
+          </mat-error>
+          <br>
+        </div>
+
         <div *ngIf="columns.length > 0"
-          cdkDropList
-          [cdkDropListData]="columns"
-          class="example-list"
-          (cdkDropListDropped)="drop($event)">
-          <div class="example-box" *ngFor="let item of columns" cdkDrag>{{item.Name}}</div>
+             class="column-list"
+             cdkDropList
+             [cdkDropListData]="columns"
+             (cdkDropListDropped)="drop($event)">
+          <div *ngFor="let column of columns; let i = index;" cdkDrag class="column-box" >
+            <span> &nbsp;
+              <span class="column-order"> {{ i + 1 }}. </span> &nbsp; {{ column.Name }}
+            </span>
+            <button mat-icon-button style="float: right;" (click)="removeColumn(i)">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </div>
         </div>
         <div *ngIf="columns.length == 0">
           <p>There are no defined columns for this board.</p>
         </div>
-        <button (click)="save()">Save</button>
+        <br>
+
+        <mat-divider style="width: 96%; margin-left: 2%;"></mat-divider>
+        <br>
+
+        <button mat-raised-button color="primary" style="float: right;" [disabled]="!columnForm.valid || !boardForm.valid" (click)="save(boardForm)">
+          Save
+        </button>
+        <button mat-raised-button style="float: right; margin-right: 10px; background-color: #5C6BC0; color: white;" (click)="goBack()">
+          Cancel
+        </button>
+        <br>
+        <br>
       </mat-card-content>
     </mat-card>
   </div>
-  <button mat-icon-button (click)="goBack()">
-    <mat-icon>arrow_back</mat-icon>
-  </button>
 </div>

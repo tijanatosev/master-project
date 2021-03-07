@@ -49,7 +49,14 @@ namespace KanbanBoard.Controllers
                 return new NoContentResult();
             }
             
-            return new StatusCodeResult(204);
+            return new StatusCodeResult(200);
+        }
+
+        [HttpDelete]
+        [Route("boards/{boardId}")]
+        public void DeleteByBoardId([FromRoute] int boardId)
+        {
+            columnService.DeleteByBoardId(boardId);
         }
     }
 }

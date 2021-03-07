@@ -6,7 +6,6 @@ import { BoardService } from "../../shared/services/board/board.service";
 import { Board } from "../../shared/services/board/board.model";
 import { UserService } from "../../shared/services/user/user.service";
 import { User } from "../../shared/services/user/user.model";
-import { Responses } from "../../shared/enums";
 import { SnackBarService } from "../../shared/snack-bar.service";
 
 @Component({
@@ -38,8 +37,8 @@ export class AddBoardComponent implements OnInit {
     board.Admin = boardForm.value.admin;
     board.Name = boardForm.value.name;
     board.TeamId = boardForm.value.team.Id;
-    this.boardService.addBoard(board).subscribe(result => {
-      if (result == Responses.Created) {
+    this.boardService.addBoard(board).subscribe(boardId => {
+      if (boardId > 0) {
         this.snackBarService.successful();
       } else {
         this.snackBarService.unsuccessful();

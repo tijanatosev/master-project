@@ -14,5 +14,7 @@ namespace KanbanBoard.PersistenceManagers.Interfaces
         void Delete(int id);
         
         int UpdateColumnOrder(int id, int columnOrder);
+
+        void DeleteByBoardId(int boardId);
     }
 }

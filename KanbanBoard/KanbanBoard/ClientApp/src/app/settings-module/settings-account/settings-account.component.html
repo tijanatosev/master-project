@@ -1,6 +1,6 @@
 <div>
   <h5>Account settings</h5>
-  <mat-card style="top: -50px;">
+  <mat-card>
     <h5>Profile</h5>
     <mat-card-content>
       <form [formGroup]="profileForm">
@@ -48,7 +48,8 @@
     <button mat-raised-button color="primary" type="submit" (click)="updateInformation(profileForm)">Save changes</button>
     <br>
   </mat-card>
-  <mat-card style="top: -50px;">
+  <br>
+  <mat-card>
     <h5>Security</h5>
     <mat-card-content>
       <form [formGroup]="passwordForm">
@@ -96,10 +97,11 @@
     <button mat-raised-button color="primary" type="submit" (click)="updatePassword(passwordForm)" [disabled]="!passwordForm.valid">Save changes</button>
     <br>
   </mat-card>
-  <mat-card style="background-color: mistyrose; top: -50px;">
+  <br>
+  <mat-card style="background-color: mistyrose;">
     <h5>Delete account</h5>
     <mat-card-content>
-      <p>You will be asked for conformation before deleting your account.</p>
+      <p>You will be asked for confirmation before deleting your account.</p>
       <button mat-raised-button color="warn" (click)="onDeleteAccount()">Delete account</button>
     </mat-card-content>
   </mat-card>

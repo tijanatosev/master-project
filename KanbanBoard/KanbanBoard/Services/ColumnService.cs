@@ -54,6 +54,16 @@ namespace KanbanBoard.Services
 
             return columnPersistenceManager.UpdateColumnOrder(id, columnOrder) > 0;
         }
+
+        public void DeleteByBoardId(int boardId)
+        {
+            if (!ValidateId(boardId))
+            {
+                return;
+            }
+            
+            columnPersistenceManager.DeleteByBoardId(boardId);
+        }
         
         private bool ValidateId(int id)
         {
