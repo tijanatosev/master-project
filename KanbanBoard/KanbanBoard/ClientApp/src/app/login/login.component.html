@@ -5,13 +5,13 @@
       <mat-error *ngIf="loginInvalid">
         Username or password weren't recognised.
       </mat-error>
-      <mat-form-field appearance="fill">
+      <mat-form-field appearance="outline">
         <mat-label>Enter your username</mat-label>
         <input matInput placeholder="Username" formControlName="username">
         <mat-icon matSuffix>person</mat-icon>
       </mat-form-field>
 
-      <mat-form-field appearance="fill">
+      <mat-form-field appearance="outline">
         <mat-label>Enter your password</mat-label>
         <input matInput placeholder="Password" formControlName="password" [type]="hide ? 'password' : 'text'">
         <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
