@@ -5,7 +5,7 @@ import { TeamService } from "../../../shared/services/team/team.service";
 import { UserService } from "../../../shared/services/user/user.service";
 import { User } from "../../../shared/services/user/user.model";
 import { Team } from "../../../shared/services/team/team.model";
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
 import { ColumnService } from "../../../shared/services/column/column.service";
 import { Column } from "../../../shared/services/column/column.model";
 import { CdkDragDrop, moveItemInArray } from "@angular/cdk/drag-drop";
@@ -125,7 +125,7 @@ export class EditBoardComponent implements OnInit {
 
   private initForms() {
     this.boardForm = this.formBuilder.group({
-      name: [this.board.Name, { validators: [Validators.maxLength(20)], updateOn: "blur" }],
+      name: [this.board.Name, { validators: [Validators.maxLength(20), this.whiteSpace()], updateOn: "blur" }],
       admin: [this.board.Admin],
       team: [this.board.TeamId]
     });
@@ -134,4 +134,9 @@ export class EditBoardComponent implements OnInit {
     });
   }
 
+  public whiteSpace() {
+    return (control: FormControl) => {
+      return (control.value || '').trim().length === 0 ? { 'whiteSpace': true } : null;
+    };
+  }
 }

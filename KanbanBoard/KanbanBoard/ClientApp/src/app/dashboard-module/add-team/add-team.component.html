@@ -1,10 +1,11 @@
 <h2 mat-dialog-title style="text-align: right;">Add New Team</h2>
 <mat-dialog-content class="mat-typography">
   <ng-form [formGroup]="teamForm">
-    <mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Name</mat-label>
       <input matInput placeholder="Name" formControlName="name">
     </mat-form-field>
-    <mat-form-field>
+    <mat-form-field appearance="outline">
       <mat-select placeholder="Choose admin" formControlName="admin" disableOptionCentering>
         <mat-option *ngFor="let user of users" [value]="user.Username">
           {{ user.Username }}
@@ -12,7 +13,7 @@
       </mat-select>
     </mat-form-field>
     <div>
-      <mat-form-field>
+      <mat-form-field appearance="outline">
         <mat-select placeholder="Select team members" formControlName="members" disableOptionCentering multiple>
           <mat-option *ngFor="let user of users" [value]="user.Id">
             {{ user.Username }}

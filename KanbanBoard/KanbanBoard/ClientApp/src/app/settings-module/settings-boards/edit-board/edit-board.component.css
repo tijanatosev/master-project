@@ -72,6 +72,7 @@ mat-label {
 
 .column-button {
   vertical-align: super;
-  background-color: #3F51B5;
-  color: white;
+  /*background-color: #3F51B5;*/
+  /*color: white;*/
+  outline: #3F51B5;
 }

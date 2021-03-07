@@ -12,6 +12,9 @@
           <mat-error *ngIf="boardForm.get('name').errors && boardForm.get('name').errors.maxlength">
             Board name is too long.
           </mat-error>
+          <mat-error *ngIf="boardForm.get('name').errors && boardForm.get('name').errors.whiteSpace">
+            Board name is empty.
+          </mat-error>
           <br>
           <mat-form-field appearance="outline">
             <mat-label>Admin</mat-label>
@@ -54,7 +57,7 @@
               <input matInput formControlName="columnName">
             </mat-form-field>
             &nbsp;
-            <button mat-icon-button class="column-button" [disabled]="!columnForm.valid" (click)="addColumn(columnForm)">
+            <button mat-icon-button class="column-button" [disabled]="columnForm.value.columnName && columnForm.value.columnName.trim().length == 0" (click)="addColumn(columnForm)">
               <mat-icon>check</mat-icon>
             </button>
             &nbsp;
@@ -93,7 +96,7 @@
         <button mat-raised-button color="primary" style="float: right;" [disabled]="!columnForm.valid || !boardForm.valid" (click)="save(boardForm)">
           Save
         </button>
-        <button mat-raised-button style="float: right; margin-right: 10px; background-color: #5C6BC0; color: white;" (click)="goBack()">
+        <button mat-button style="float: right; margin-right: 10px;" (click)="goBack()">
           Cancel
         </button>
         <br>

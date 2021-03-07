@@ -15,3 +15,11 @@ html, body {
 ::ng-deep button:focus, button:active:focus, button.active:focus {
   outline: #3F51B5;
 }
+
+::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline-thick {
+  color: #3F51B5 !important;
+}
+
+/*::ng-deep .mat-form-field.mat-form-field-invalid .mat-form-field-label {*/
+/*  color: #3F51B5 !important;*/
+/*}*/
