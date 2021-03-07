@@ -11,3 +11,7 @@ html, body {
   position: absolute;
   width: 95.70%;
 }
+
+::ng-deep button:focus, button:active:focus, button.active:focus {
+  outline: #3F51B5;
+}

@@ -30,3 +30,16 @@ mat-card {
 mat-divider {
   margin-top: 8px;
 }
+
+mat-select {
+  text-align: right;
+  font-style: italic;
+}
+
+:host /deep/ .mat-select-value-text {
+  padding-right: 5px !important;
+}
+
+mat-option {
+  font-style: italic;
+}

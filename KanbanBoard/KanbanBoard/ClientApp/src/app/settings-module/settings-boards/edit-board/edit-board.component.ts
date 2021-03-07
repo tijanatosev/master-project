@@ -59,7 +59,7 @@ export class EditBoardComponent implements OnInit {
     board.Id = this.board.Id;
     board.Name = boardForm.value.name;
     board.Admin = boardForm.value.admin;
-    board.TeamId = boardForm.value.team == undefined ? null : boardForm.value.team;
+    board.TeamId = boardForm.value.team;
     this.boardService.updateBoard(this.board.Id, board).subscribe(result => {
       if (result == Responses.Successful) {
         this.snackBarService.successful();

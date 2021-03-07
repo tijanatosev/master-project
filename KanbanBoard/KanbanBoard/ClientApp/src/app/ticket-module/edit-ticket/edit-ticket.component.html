@@ -24,7 +24,11 @@
           <div class="col-3">
             <mat-label class="title-label">Status</mat-label>
             <br>
-            <mat-label class="value-label">{{ ticket.Status }}</mat-label>
+            <mat-select [(value)]="ticket.ColumnId">
+              <mat-option *ngFor="let status of statuses" [value]="status.Id">
+                &nbsp;{{ status.Name }}&nbsp;
+              </mat-option>
+            </mat-select>
 
             <mat-label class="title-label">Story Points</mat-label>
             <br>
