@@ -8,8 +8,6 @@ import { NavigationEnd, Router } from "@angular/router";
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  private browserRefresh: boolean;
-
   constructor(private authService: AuthService,
               private router: Router) {
     router.events.subscribe((event) => {
