@@ -48,12 +48,38 @@ namespace KanbanBoard.PersistenceManagers
 
         public int Add(Board board)
         {
-            string query = @"INSERT INTO Boards (Name, Admin, TeamId) VALUES(@Name, @Admin, @TeamId)";
+            string query = @"INSERT INTO Boards (Name, Admin, TeamId) OUTPUT INSERTED.ID VALUES(@Name, @Admin, @TeamId)";
             DbParameter[] parameters = 
             {
                 new SqlParameter("@Name", board.Name),
                 new SqlParameter("@Admin", board.Admin),
                 new SqlParameter("@TeamId", board.TeamId), 
+            };
+            return dbCommands.ExecuteScalar(query, parameters);
+        }
+
+        public int Update(int id, Board board)
+        {
+            DbParameter teamId;
+            if (board.TeamId == null)
+            {
+                teamId = new SqlParameter("@TeamId", DBNull.Value);
+            }
+            else
+            {
+                teamId = new SqlParameter("@TeamId", board.TeamId);
+            }
+            string query = @"UPDATE Boards SET
+Name=@Name,
+Admin=@Admin,
+TeamId=@TeamId
+WHERE Id=@Id";
+            DbParameter[] parameters = 
+            {
+                new SqlParameter("@Name", board.Name),
+                new SqlParameter("@Admin", board.Admin),
+                teamId,
+                new SqlParameter("@Id", board.Id), 
             };
             return dbCommands.ExecuteSqlNonQuery(query, parameters);
         }

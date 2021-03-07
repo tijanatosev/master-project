@@ -67,7 +67,7 @@ namespace KanbanBoard.Controllers
                 return new NoContentResult();
             }
             
-            return new StatusCodeResult(204);
+            return new StatusCodeResult(200);
         }
 
         [HttpPut]
@@ -79,7 +79,7 @@ namespace KanbanBoard.Controllers
                 return new NoContentResult();
             }
             
-            return new StatusCodeResult(204);
+            return new StatusCodeResult(200);
         }
 
         [HttpPost]

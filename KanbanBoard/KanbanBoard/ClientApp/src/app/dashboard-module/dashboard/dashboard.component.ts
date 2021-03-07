@@ -75,7 +75,7 @@ export class DashboardComponent implements OnInit {
       } else {
         this.teamService.getTeams().subscribe(teams => this.teams = teams);
       }
-    })
+    });
   }
 
   onBoardDelete(id, name) {
@@ -94,7 +94,7 @@ export class DashboardComponent implements OnInit {
           }
         });
       }
-    })
+    });
   }
 
   onTeamDelete(id, name) {

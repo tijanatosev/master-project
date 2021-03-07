@@ -20,4 +20,12 @@
   public notificationsUrl() {
     return this.url + 'notifications';
   }
+
+  public labelsUrl() {
+    return this.url + 'labels';
+  }
+
+  public columnsUrl() {
+    return this.url + 'columns';
+  }
 }

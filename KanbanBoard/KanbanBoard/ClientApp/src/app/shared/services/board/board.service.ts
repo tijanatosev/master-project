@@ -20,7 +20,7 @@ export class BoardService extends BaseService {
 
   public addBoard(board) {
     return this.http.post(`${this.boardsUrl()}`, board, { observe: "response" })
-      .pipe(map(response => response.status));
+      .pipe(map(response => response.body));
   }
 
   public deleteBoard(id) : Observable<any> {
@@ -33,5 +33,10 @@ export class BoardService extends BaseService {
 
   public getBoardsByTeamId(teamId): Observable<Board[]> {
     return this.http.get<Board[]>(`${this.boardsUrl()}/team/${teamId}`);
+  }
+
+  public updateBoard(id, board) {
+    return this.http.put(`${this.boardsUrl()}/${id}`, board, { observe: "response"})
+      .pipe(map(response => response.status));
   }
 }

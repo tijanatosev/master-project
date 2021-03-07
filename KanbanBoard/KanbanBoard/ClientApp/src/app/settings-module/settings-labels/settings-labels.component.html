@@ -1,0 +1,39 @@
+<div>
+  <h5>Labels settings</h5>
+  <div>
+    <button mat-raised-button color="primary" (click)="openAddDialog()">
+      Add label
+    </button>
+    &nbsp;&nbsp;
+    <button mat-raised-button color="primary" (click)="openRemoveAllDialog()">
+      Remove all
+    </button>
+    &nbsp;&nbsp;
+    <span
+      matTooltip="Labels are global and they can be used in every board. Each ticket can have more labels assigned to it. There are 18 predefined colors."
+      #tooltip="matTooltip"
+      (mouseenter)="$event.stopImmediatePropagation()"
+      (mouseleave)="$event.stopImmediatePropagation()"
+      matTooltipPosition="right"
+      (click)="tooltip.toggle()">
+      <mat-icon style="color: #3F51B5 !important;">information</mat-icon>
+    </span>
+  </div>
+  <br>
+  <h6>List of all defined labels:</h6>
+  <div class="row mx-2">
+    <mat-card *ngFor="let label of labels" class="col-2 my-2 mr-2 ml-2" [style.background-color]="label.Color">
+        <mat-card-content>
+          {{ label.Name }}
+        </mat-card-content>
+        <mat-card-actions>
+          <button mat-icon-button>
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button mat-icon-button style="float: right;" (click)="openDeleteDialog(label.Id, label.Name)">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </mat-card-actions>
+    </mat-card>
+  </div>
+</div>

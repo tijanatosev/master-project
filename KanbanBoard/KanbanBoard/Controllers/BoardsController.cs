@@ -28,14 +28,21 @@ namespace KanbanBoard.Controllers
         
         [HttpPost]
         [Route("")]
-        public IActionResult Save(Board board)
+        public int Save(Board board)
         {
-            if (!boardService.Add(board))
+            return boardService.Add(board);
+        }
+
+        [HttpPut]
+        [Route("{id}")]
+        public IActionResult Update([FromRoute] int id, [FromBody] Board board)
+        {
+            if (!boardService.Update(id, board))
             {
                 return new NoContentResult();
             }
             
-            return new StatusCodeResult(201);
+            return new StatusCodeResult(200);
         }
 
         [HttpDelete]

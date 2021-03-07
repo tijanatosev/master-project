@@ -9,7 +9,9 @@ namespace KanbanBoard.Services.Interfaces
 
         Board GetById(int id);
 
-        bool Add(Board board);
+        int Add(Board board);
+
+        bool Update(int id, Board board);
 
         void Delete(int id);
         

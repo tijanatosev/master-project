@@ -58,7 +58,7 @@ export class SettingsNotificationsComponent implements OnInit {
     if (this.notificationId > 0) {
       this.notification.Id = this.notificationId;
       this.notificationService.updateNotification(this.notificationId, this.notification).subscribe(result => {
-        if (result == Responses.NoContent) {
+        if (result == Responses.Successful) {
           this.snackBarService.successful();
         } else {
           this.snackBarService.unsuccessful();

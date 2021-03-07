@@ -24,9 +24,19 @@ namespace KanbanBoard.Services
             return boardPersistenceManager.Load(id);
         }
 
-        public bool Add(Board board)
+        public int Add(Board board)
         {
-            return boardPersistenceManager.Add(board) > 0;
+            return boardPersistenceManager.Add(board);
+        }
+
+        public bool Update(int id, Board board)
+        {
+            if (!ValidateId(id) || boardPersistenceManager.Load(id) == null)
+            {
+                return false;
+            }
+
+            return boardPersistenceManager.Update(id, board) > 0;
         }
 
         public void Delete(int id)

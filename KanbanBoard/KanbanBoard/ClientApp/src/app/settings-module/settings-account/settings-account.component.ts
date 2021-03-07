@@ -66,7 +66,7 @@ export class SettingsAccountComponent implements OnInit {
     this.user.LastName = data.value.lastName === "" ? this.currentUser.LastName : data.value.lastName;
     this.user.Email = data.value.email === "" ? this.currentUser.Email : data.value.email;
     this.userService.updateUser(this.user.Id, this.user).subscribe(result => {
-      if (result == Responses.NoContent) {
+      if (result == Responses.Successful) {
         this.profileForm.reset();
         this.initProfileForm();
         this.resetUser();
@@ -80,7 +80,7 @@ export class SettingsAccountComponent implements OnInit {
   updatePassword(data) {
     this.user.Password = data.value.newPassword;
     this.userService.updatePassword(this.user.Id, this.user).subscribe(result => {
-      if (result == Responses.NoContent) {
+      if (result == Responses.Successful) {
         this.passwordForm.reset();
         this.initPasswordForm();
         this.resetUser();

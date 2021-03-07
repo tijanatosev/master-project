@@ -44,6 +44,13 @@ import { MatSortModule } from "@angular/material/sort";
 import { TicketsDatatableComponent } from './shared/tickets-datatable/tickets-datatable.component';
 import { EditTicketComponent } from "./ticket-module/edit-ticket/edit-ticket.component";
 import { MatFormFieldModule } from "@angular/material/form-field";
+import { SettingsLabelsComponent} from './settings-module/settings-labels/settings-labels.component';
+import { MatTooltipModule } from "@angular/material/tooltip";
+import { AddLabelComponent } from './settings-module/settings-labels/add-label/add-label.component';
+import { MatChipsModule } from "@angular/material/chips";
+import { SettingsBoardsComponent } from './settings-module/settings-boards/settings-boards.component';
+import { EditBoardComponent } from './settings-module/settings-boards/edit-board/edit-board.component';
+import { DragDropModule } from "@angular/cdk/drag-drop";
 
 const routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
@@ -73,45 +80,53 @@ const routes = [
     SideNavComponent,
     TeamComponent,
     TicketsDatatableComponent,
-    EditTicketComponent
+    EditTicketComponent,
+    SettingsLabelsComponent,
+    AddLabelComponent,
+    SettingsBoardsComponent,
+    EditBoardComponent
   ],
-    imports: [
-        BrowserModule.withServerTransition({appId: 'ng-cli-universal'}),
-        HttpClientModule,
-        FormsModule,
-        ReactiveFormsModule,
-        MatRippleModule,
-        RouterModule.forRoot(routes),
-        BrowserAnimationsModule,
-        MatToolbarModule,
-        MatInputModule,
-        MatCardModule,
-        MatMenuModule,
-        MatIconModule,
-        MatButtonModule,
-        MatTableModule,
-        MatDividerModule,
-        MatSlideToggleModule,
-        MatSelectModule,
-        MatOptionModule,
-        MatProgressSpinnerModule,
-        MatExpansionModule,
-        MatSidenavModule,
-        MatListModule,
-        MatDialogModule,
-        MatTabsModule,
-        MatPaginatorModule,
-        MatButtonToggleModule,
-        MatSnackBarModule,
-        MatSortModule,
-        MatFormFieldModule
-    ],
+  imports: [
+    BrowserModule.withServerTransition({appId: 'ng-cli-universal'}),
+    HttpClientModule,
+    FormsModule,
+    ReactiveFormsModule,
+    MatRippleModule,
+    RouterModule.forRoot(routes),
+    BrowserAnimationsModule,
+    MatToolbarModule,
+    MatInputModule,
+    MatCardModule,
+    MatMenuModule,
+    MatIconModule,
+    MatButtonModule,
+    MatTableModule,
+    MatDividerModule,
+    MatSlideToggleModule,
+    MatSelectModule,
+    MatOptionModule,
+    MatProgressSpinnerModule,
+    MatExpansionModule,
+    MatSidenavModule,
+    MatListModule,
+    MatDialogModule,
+    MatTabsModule,
+    MatPaginatorModule,
+    MatButtonToggleModule,
+    MatSnackBarModule,
+    MatSortModule,
+    MatFormFieldModule,
+    MatTooltipModule,
+    MatChipsModule,
+    DragDropModule
+  ],
   providers: [],
   bootstrap: [AppComponent],
   entryComponents: [
     AddBoardComponent,
     AddTeamComponent,
-    ConfirmationDialogComponent
+    ConfirmationDialogComponent,
+    AddLabelComponent
   ]
 })
 export class AppModule { }
