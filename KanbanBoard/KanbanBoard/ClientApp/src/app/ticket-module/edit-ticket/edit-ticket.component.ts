@@ -7,6 +7,8 @@ import { LabelService } from "../../shared/services/label/label.service";
 import { Label } from "../../shared/services/label/label.model";
 import { ColumnService } from "../../shared/services/column/column.service";
 import { Column } from "../../shared/services/column/column.model";
+import { BoardService } from "../../shared/services/board/board.service";
+import { User } from "../../shared/services/user/user.model";
 
 @Component({
   selector: 'app-edit-ticket',
@@ -16,16 +18,18 @@ import { Column } from "../../shared/services/column/column.model";
 export class EditTicketComponent implements OnInit {
   public ticket: Ticket;
   public ticketId: number;
-  public assignedTo: string;
   public labels: Label[] = [];
   public removable: boolean = true;
   public statuses: Column[] = [];
+  public members: User[];
+  public reporter: string;
 
   constructor(private route: ActivatedRoute,
               private ticketService: TicketService,
               private userService: UserService,
               private labelService: LabelService,
-              private columnService: ColumnService) { }
+              private columnService: ColumnService,
+              private boardService: BoardService) { }
 
   ngOnInit() {
     this.route.params.subscribe((params: Params) => {
@@ -33,8 +37,14 @@ export class EditTicketComponent implements OnInit {
     });
     this.ticketService.getTicket(this.ticketId).subscribe(ticket => {
       this.ticket = ticket;
-      this.userService.getUser(ticket.AssignedTo).subscribe(user => this.assignedTo = user.Username);
       this.columnService.getColumnsByBoardId(this.ticket.BoardId).subscribe(statuses => this.statuses = statuses);
+      this.boardService.getBoard(this.ticket.BoardId).subscribe(board => {
+        this.userService.getUsersByTeamId(board.TeamId).subscribe(users => {
+          this.members = users;
+          let reporter = users.filter(x => x.Username == this.ticket.Creator)[0];
+          this.reporter = reporter.FirstName + " " + reporter.LastName;
+        });
+      });
     });
     this.loadLabels();
   }

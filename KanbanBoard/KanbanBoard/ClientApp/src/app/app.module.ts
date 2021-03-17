@@ -51,6 +51,8 @@ import { MatChipsModule } from "@angular/material/chips";
 import { SettingsBoardsComponent } from './settings-module/settings-boards/settings-boards.component';
 import { EditBoardComponent } from './settings-module/settings-boards/edit-board/edit-board.component';
 import { DragDropModule } from "@angular/cdk/drag-drop";
+import { MatDatepickerModule } from "@angular/material/datepicker";
+import { MatNativeDateModule } from '@angular/material';
 
 const routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
@@ -118,7 +120,9 @@ const routes = [
     MatFormFieldModule,
     MatTooltipModule,
     MatChipsModule,
-    DragDropModule
+    DragDropModule,
+    MatDatepickerModule,
+    MatNativeDateModule
   ],
   providers: [],
   bootstrap: [AppComponent],
