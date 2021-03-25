@@ -5,7 +5,6 @@
 .value-label {
   display: block;
   text-align: right;
-  font-style: italic;
 }
 
 h6 {
@@ -33,13 +32,41 @@ mat-divider {
 
 mat-select {
   text-align: right;
-  font-style: italic;
 }
 
 :host /deep/ .mat-select-value-text {
   padding-right: 5px !important;
 }
 
-mat-option {
-  font-style: italic;
+input {
+  padding-right: 5px !important;
+  text-align: right;
+}
+
+mat-form-field {
+  display: block !important;
+  margin-top: -17px !important;
+  margin-bottom: -20px !important;
+}
+
+:host /deep/ .mat-form-field-underline {
+  height: unset !important;
+}
+
+input[type="number"] {
+  -webkit-appearance: textfield;
+  -moz-appearance: textfield;
+}
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+}
+
+.story-points-input {
+  border-radius: 15px;
+  width: 30px;
+  background: #BDBDBD;
+  float: right;
+  text-align: center;
+  padding-right: unset !important;
 }

@@ -96,6 +96,17 @@ WHERE lt.TicketId=@TicketId";
             dbCommands.ExecuteSqlNonQuery(query, new SqlParameter("@LabelId", labelId), new SqlParameter("@TicketId", ticketId));
         }
 
+        public int AddByTicketId(Label label, int ticketId)
+        {
+            string query = @"INSERT INTO LabelsTickets (LabelId, TicketId) OUTPUT INSERTED.ID VALUES (@LabelId, @TicketId)";
+            DbParameter[] parameters = 
+            {
+                new SqlParameter("@LabelId", label.Id),
+                new SqlParameter("@TicketId", ticketId)
+            };
+            return dbCommands.ExecuteScalar(query, parameters);
+        }
+
         public Label LoadFromDataRow(DataRow row)
         {
             return new Label

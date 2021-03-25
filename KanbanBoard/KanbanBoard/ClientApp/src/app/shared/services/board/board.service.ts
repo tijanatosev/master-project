@@ -18,6 +18,10 @@ export class BoardService extends BaseService {
     return this.http.get<Board[]>(`${this.boardsUrl()}`);
   }
 
+  public getBoard(id) {
+    return this.http.get<Board>(`${this.boardsUrl()}/${id}`);
+  }
+
   public addBoard(board) {
     return this.http.post(`${this.boardsUrl()}`, board, { observe: "response" })
       .pipe(map(response => response.body));

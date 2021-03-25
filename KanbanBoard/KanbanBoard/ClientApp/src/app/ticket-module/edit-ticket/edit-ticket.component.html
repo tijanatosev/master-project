@@ -4,16 +4,32 @@
         <div class="row">
           <div class="col">
             <h4> {{ ticket.Title }} </h4>
-            <mat-chip-list>
-              <mat-chip *ngFor="let label of labels"
-                        [style.background-color]="label.Color"
-                        [removable]="removable"
-                        (removed)="remove(label.Id)"
-                        class="mat-small-chip">
-                {{ label.Name }}
-                <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
-              </mat-chip>
-            </mat-chip-list>
+            <mat-form-field>
+              <mat-chip-list #chipList>
+                <mat-chip
+                  *ngFor="let label of labels"
+                  [style.background-color]="label.Color"
+                  [selectable]="selectable"
+                  [removable]="removable"
+                  (removed)="removeLabel(label)"
+                  class="mat-small-chip">
+                  {{ label.Name }}
+                  <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+                </mat-chip>
+                <input
+                  #labelInput
+                  [formControl]="labelControl"
+                  [matAutocomplete]="auto"
+                  [matChipInputFor]="chipList"
+                  [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                  (matChipInputTokenEnd)="addLabel($event)">
+              </mat-chip-list>
+              <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+                <mat-option *ngFor="let label of filteredLabels | async" [value]="label" [style.color]="label.Color">
+                  {{ label.Name }}
+                </mat-option>
+              </mat-autocomplete>
+            </mat-form-field>
             <mat-divider></mat-divider>
             <h6>Description</h6>
             <mat-label>
@@ -32,27 +48,40 @@
 
             <mat-label class="title-label">Story Points</mat-label>
             <br>
-            <mat-label class="value-label">{{ ticket.StoryPoints }}</mat-label>
-
-            <mat-label class="title-label" *ngIf="assignedTo">Assigned to</mat-label>
+            <input matInput type="number" [value]="ticket.StoryPoints" min="0" max="13" maxlength="2" class="story-points-input">
             <br>
-            <mat-label *ngIf="assignedTo" class="value-label">{{ assignedTo }}</mat-label>
+
+            <mat-label class="title-label">Assigned to</mat-label>
+            <br>
+            <mat-select [(value)]="ticket.AssignedTo">
+              <mat-option *ngFor="let member of members" [value]="member.Id">
+                &nbsp;{{ member.FirstName }} {{ member.LastName }}
+              </mat-option>
+            </mat-select>
 
             <mat-label class="title-label">Start Date</mat-label>
             <br>
-            <mat-label class="value-label">{{ ticket.StartDate | date: 'short' }}</mat-label>
+            <mat-form-field>
+              <input matInput [matDatepicker]="pickerStartDate" [value]="ticket.StartDate" style="display: inline-block">
+              <mat-datepicker-toggle matSuffix [for]="pickerStartDate"></mat-datepicker-toggle>
+              <mat-datepicker #pickerStartDate></mat-datepicker>
+            </mat-form-field>
 
             <mat-label class="title-label">End Date</mat-label>
             <br>
-            <mat-label class="value-label">{{ ticket.EndDate | date: 'short' }}</mat-label>
+            <mat-form-field>
+              <input matInput [matDatepicker]="pickerEndDate" [value]="ticket.EndDate" style="display: inline-block">
+              <mat-datepicker-toggle matSuffix [for]="pickerEndDate"></mat-datepicker-toggle>
+              <mat-datepicker #pickerEndDate></mat-datepicker>
+            </mat-form-field>
 
             <mat-label class="title-label">Reporter</mat-label>
             <br>
-            <mat-label class="value-label">{{ ticket.Creator }}</mat-label>
+            <mat-label class="value-label">{{ reporter }}</mat-label>
 
             <mat-label class="title-label">Created at</mat-label>
             <br>
-            <mat-label class="value-label">{{ ticket.DateCreated | date: 'short' }}</mat-label>
+            <mat-label class="value-label">{{ ticket.DateCreated | date: 'M/d/yyyy' }}</mat-label>
           </div>
         </div>
       </mat-card-content>

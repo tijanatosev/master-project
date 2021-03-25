@@ -18,5 +18,7 @@ namespace KanbanBoard.PersistenceManagers.Interfaces
         IEnumerable<Label> LoadByTicketId(int ticketId);
         
         void DeleteByTicketId(int labelId, int ticketId);
+
+        int AddByTicketId(Label label, int ticketId);
     }
 }
