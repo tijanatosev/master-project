@@ -64,10 +64,6 @@ export class EditTicketComponent implements OnInit {
     this.loadLabels();
   }
 
-  public remove(labelId) {
-    this.labelService.deleteByTicketId(labelId, this.ticketId).subscribe(() => this.loadLabels());
-  }
-
   private loadLabels() {
     this.labelService.getLabelsByTicketId(this.ticketId).subscribe(labels => this.labels = labels);
     this.labelService.getLabels().subscribe(labels => {
@@ -84,21 +80,16 @@ export class EditTicketComponent implements OnInit {
     });
   }
 
-  add(event: MatChipInputEvent): void {
+  public addLabel(event: MatChipInputEvent) {
     const input = event.input;
     const value = event.value;
 
     if ((value || '').trim()) {
-      console.log(event.value);
       let label = this.allLabels.filter(x => x.Name == value)[0];
       if (label != null || label != undefined) {
         this.labelService.addLabelByTicketId(label, this.ticketId).subscribe(x => {
           if (x > 0) {
-            this.labels.push(label);
-            let index = this.allLabels.findIndex(x => x.Id == label.Id);
-            if (index >= 0) {
-              this.allLabels.splice(index, 1);
-            }
+            this.loadLabels();
           }
         });
       }
@@ -110,27 +101,27 @@ export class EditTicketComponent implements OnInit {
     this.labelControl.setValue(null);
   }
 
-  remove2(label): void {
-    const index = this.labels.indexOf(label);
+  public selected(event: MatAutocompleteSelectedEvent) {
+    let index = this.labels.findIndex(x => x.Id == event.option.value.Id);
     if (index >= 0) {
-      this.labelService.deleteByTicketId(label.Id, this.ticketId).subscribe(x => {
-        this.allLabels.push(label);
-        this.labels.splice(index, 1);
-      });
+      return;
     }
-  }
 
-  selected(event: MatAutocompleteSelectedEvent): void {
     this.labelService.addLabelByTicketId(event.option.value, this.ticketId).subscribe(x => {
       if (x > 0) {
-        this.labels.push(event.option.value);
-        let index = this.allLabels.findIndex(x => x.Id == event.option.value.Id);
-        if (index >= 0) {
-          this.allLabels.splice(index, 1);
-        }
+        this.loadLabels();
       }
     });
     this.labelControl.setValue(null);
+  }
+
+  public removeLabel(label) {
+    const index = this.labels.indexOf(label);
+    if (index >= 0) {
+      this.labelService.deleteByTicketId(label.Id, this.ticketId).subscribe(x => {
+        this.loadLabels();
+      });
+    }
   }
 
   private _filter(value): Label[] {
