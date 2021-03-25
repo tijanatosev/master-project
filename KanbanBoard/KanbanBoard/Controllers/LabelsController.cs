@@ -59,5 +59,12 @@ namespace KanbanBoard.Controllers
         {
             labelService.DeleteByTicketId(id, ticketId);
         }
+
+        [HttpPost]
+        [Route("tickets/{ticketId}")]
+        public int AddByTicketId([FromBody] Label label, [FromRoute] int ticketId)
+        {
+            return labelService.AddByTicketId(label, ticketId);
+        }
     }
 }

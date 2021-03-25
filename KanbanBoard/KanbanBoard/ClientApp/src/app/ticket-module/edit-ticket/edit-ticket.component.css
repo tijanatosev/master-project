@@ -52,3 +52,21 @@ mat-form-field {
 :host /deep/ .mat-form-field-underline {
   height: unset !important;
 }
+
+input[type="number"] {
+  -webkit-appearance: textfield;
+  -moz-appearance: textfield;
+}
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+}
+
+.story-points-input {
+  border-radius: 15px;
+  width: 30px;
+  background: #BDBDBD;
+  float: right;
+  text-align: center;
+  padding-right: unset !important;
+}

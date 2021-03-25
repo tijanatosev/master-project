@@ -65,6 +65,11 @@ namespace KanbanBoard.Services
             labelPersistenceManager.DeleteByTicketId(labelId, ticketId);
         }
 
+        public int AddByTicketId(Label label, int ticketId)
+        {
+            return labelPersistenceManager.AddByTicketId(label, ticketId);
+        }
+
         private bool ValidateId(int id)
         {
             return id > 0;

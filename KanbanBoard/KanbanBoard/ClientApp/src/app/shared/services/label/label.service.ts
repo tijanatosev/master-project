@@ -42,4 +42,9 @@ export class LabelService extends BaseService {
   public deleteByTicketId(labelId, ticketId) {
     return this.http.delete(`${this.labelsUrl()}/${labelId}/tickets/${ticketId}`);
   }
+
+  public addLabelByTicketId(label, ticketId) {
+    return this.http.post(`${this.labelsUrl()}/tickets/${ticketId}`, label, { observe: "response" })
+      .pipe(map(response => response.body));
+  }
 }

@@ -53,6 +53,7 @@ import { EditBoardComponent } from './settings-module/settings-boards/edit-board
 import { DragDropModule } from "@angular/cdk/drag-drop";
 import { MatDatepickerModule } from "@angular/material/datepicker";
 import { MatNativeDateModule } from '@angular/material';
+import { MatAutocompleteModule } from "@angular/material/autocomplete";
 
 const routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
@@ -122,7 +123,8 @@ const routes = [
     MatChipsModule,
     DragDropModule,
     MatDatepickerModule,
-    MatNativeDateModule
+    MatNativeDateModule,
+    MatAutocompleteModule
   ],
   providers: [],
   bootstrap: [AppComponent],
