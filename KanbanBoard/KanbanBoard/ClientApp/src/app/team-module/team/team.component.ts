@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Params } from "@angular/router";
+import { ActivatedRoute, Params, Router } from "@angular/router";
 import { UserService } from "../../shared/services/user/user.service";
 import { TeamService } from "../../shared/services/team/team.service";
 import { Team } from "../../shared/services/team/team.model";
@@ -25,7 +25,8 @@ export class TeamComponent implements OnInit {
               private userService: UserService,
               private teamService: TeamService,
               private ticketService: TicketService,
-              private boardService: BoardService) { }
+              private boardService: BoardService,
+              private router: Router) { }
 
   ngOnInit() {
     this.route.params.subscribe((params: Params) => {
@@ -36,4 +37,7 @@ export class TeamComponent implements OnInit {
     this.boardService.getBoardsByTeamId(this.teamId).subscribe(boards => this.boards = boards);
   }
 
+  public goToBoard(id) {
+    this.router.navigate(['board', id]);
+  }
 }

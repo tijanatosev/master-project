@@ -54,6 +54,8 @@ import { DragDropModule } from "@angular/cdk/drag-drop";
 import { MatDatepickerModule } from "@angular/material/datepicker";
 import { MatNativeDateModule } from '@angular/material';
 import { MatAutocompleteModule } from "@angular/material/autocomplete";
+import { BoardComponent } from './board-module/board/board.component';
+import { BoardColumnComponent } from './board-module/board-column/board-column.component';
 
 const routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
@@ -63,7 +65,8 @@ const routes = [
   { path: 'settings/:id', component: SettingsComponent, canActivate: [AuthGuard] },
   { path: 'profile/:id', component: ProfileComponent, canActivate: [AuthGuard] },
   { path: 'team/:id', component: TeamComponent, canActivate: [AuthGuard] },
-  { path: 'ticket/:id', component: EditTicketComponent, canActivate: [AuthGuard] }
+  { path: 'ticket/:id', component: EditTicketComponent, canActivate: [AuthGuard] },
+  { path: 'board/:id', component: BoardComponent, canActivate: [AuthGuard] }
 ];
 
 @NgModule({
@@ -87,7 +90,9 @@ const routes = [
     SettingsLabelsComponent,
     AddLabelComponent,
     SettingsBoardsComponent,
-    EditBoardComponent
+    EditBoardComponent,
+    BoardComponent,
+    BoardColumnComponent
   ],
   imports: [
     BrowserModule.withServerTransition({appId: 'ng-cli-universal'}),

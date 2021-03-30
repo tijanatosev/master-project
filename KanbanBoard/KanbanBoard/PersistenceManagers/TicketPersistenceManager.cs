@@ -107,6 +107,30 @@ WHERE ut.TeamId=@TeamId AND b.TeamId=@TeamId";
             return tickets;
         }
 
+        public IEnumerable<Ticket> LoadByColumnId(int columnId)
+        {
+            List<Ticket> tickets = new List<Ticket>();
+            string query = @"SELECT * FROM Tickets WHERE ColumnId=@ColumnId";
+            DataTable result = dbCommands.ExecuteSqlQuery(query, new SqlParameter("@ColumnId", columnId)).Tables["Result"];
+            
+            if (result.Rows.Count != 0)
+            {
+                foreach (DataRow row in result.Rows)
+                {
+                    tickets.Add(LoadFromDataRow(row));
+                }
+            }
+            return tickets;
+        }
+
+        public int UpdateColumn(int ticketId, int columnId)
+        {
+            string query = @"UPDATE Tickets
+SET ColumnId=@ColumnId
+WHERE Id=@Id";
+            return dbCommands.ExecuteSqlNonQuery(query, new SqlParameter("@ColumnId", columnId), new SqlParameter("@Id", ticketId));
+        }
+
         public Ticket LoadFromDataRow(DataRow row)
         {
             return new Ticket
@@ -121,8 +145,8 @@ WHERE ut.TeamId=@TeamId AND b.TeamId=@TeamId";
                 AssignedTo = Convert.ToInt32(row["AssignedTo"]),
                 StartDate = Convert.ToDateTime(row["StartDate"]).Date,
                 EndDate = Convert.ToDateTime(row["EndDate"]).Date,
-                BoardId = row["BoardId"] as int?,
-                ColumnId = row["ColumnId"] as int?
+                BoardId = Convert.ToInt32(row["BoardId"]),
+                ColumnId = Convert.ToInt32(row["ColumnId"])
             };
         }
     }

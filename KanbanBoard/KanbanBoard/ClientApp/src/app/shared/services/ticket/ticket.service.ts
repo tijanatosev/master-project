@@ -38,4 +38,13 @@ export class TicketService extends BaseService{
   public getTicketsByTeamId(teamId) {
     return this.http.get<Ticket[]>(`${this.ticketsUrl()}/team/${teamId}`);
   }
+
+  public getTicketsByColumnId(columnId) {
+    return this.http.get<Ticket[]>(`${this.ticketsUrl()}/column/${columnId}`);
+  }
+
+  public updateColumn(id, columnId) {
+    return this.http.put(`${this.ticketsUrl()}/${id}/column`, columnId,{ observe: "response" })
+      .pipe(map(response => response.status));
+  }
 }

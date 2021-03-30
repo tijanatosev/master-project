@@ -48,7 +48,7 @@ export class DashboardComponent implements OnInit {
 
   }
 
-  openBoardDialog() {
+  public openBoardDialog() {
     this.dialogBoardRef = this.boardDialog.open(AddBoardComponent, {
       width: '430px',
       height: '380px'
@@ -63,7 +63,7 @@ export class DashboardComponent implements OnInit {
     })
   }
 
-  openTeamDialog() {
+  public openTeamDialog() {
     this.dialogTeamRef = this.teamDialog.open(AddTeamComponent, {
       width: '430px',
       height: '380px'
@@ -78,7 +78,7 @@ export class DashboardComponent implements OnInit {
     });
   }
 
-  onBoardDelete(id, name) {
+  public onBoardDelete(id, name) {
     this.dialogConfirmBoardRef = this.confirmBoardDialog.open(ConfirmationDialogComponent);
     this.dialogConfirmBoardRef.componentInstance.message = "Are you sure you want to permanently delete board " + name + "?";
     this.dialogConfirmBoardRef.componentInstance.confirmText = "Yes";
@@ -97,7 +97,7 @@ export class DashboardComponent implements OnInit {
     });
   }
 
-  onTeamDelete(id, name) {
+  public onTeamDelete(id, name) {
     this.dialogConfirmTeamRef = this.confirmTeamDialog.open(ConfirmationDialogComponent);
     this.dialogConfirmTeamRef.componentInstance.message = "Are you sure you want to permanently delete team " + name + "?";
     this.dialogConfirmTeamRef.componentInstance.confirmText = "Yes";
@@ -118,7 +118,11 @@ export class DashboardComponent implements OnInit {
     });
   }
 
-  goToTeam(id) {
-    this.router.navigate(['/team/', id]);
+  public goToBoard(id) {
+    this.router.navigate(['board', id]);
+  }
+
+  public goToTeam(id) {
+    this.router.navigate(['team', id]);
   }
 }
