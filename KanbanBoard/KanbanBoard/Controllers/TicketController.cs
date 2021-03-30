@@ -52,5 +52,24 @@ namespace KanbanBoard.Controllers
         {
             return ticketService.GetByTeamId(teamId);
         }
+
+        [HttpGet]
+        [Route("column/{columnId}")]
+        public IEnumerable<Ticket> GetTicketsByColumnId([FromRoute] int columnId)
+        {
+            return ticketService.GetByColumnId(columnId);
+        }
+
+        [HttpPut]
+        [Route("{ticketId}/column")]
+        public IActionResult UpdateColumn([FromRoute] int ticketId, [FromBody] int columnId)
+        {
+            if (!ticketService.UpdateColumn(ticketId, columnId))
+            {
+                return new NoContentResult();
+            }
+            
+            return new StatusCodeResult(200);
+        }
     }
 }

@@ -16,5 +16,9 @@ namespace KanbanBoard.Services.Interfaces
         IEnumerable<Ticket> GetByUserId(int userId);
 
         IEnumerable<Ticket> GetByTeamId(int teamId);
+        
+        IEnumerable<Ticket> GetByColumnId(int columnId);
+
+        bool UpdateColumn(int ticketId, int columnId);
     }
 }

@@ -19,7 +19,7 @@
   <mat-card *ngFor="let board of boards" class="col my-2 mr-2 ml-2" style="vertical-align: bottom">
     <mat-card-content>
       <span style="padding-top: 10px">{{ board.Name }}</span>
-      <button mat-icon-button class="float-right">
+      <button mat-icon-button class="float-right" (click)="goToBoard(board.Id)">
         <mat-icon class="visit-button">search</mat-icon>
       </button>
     </mat-card-content>

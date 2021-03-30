@@ -59,7 +59,27 @@ namespace KanbanBoard.Services
 
             return ticketPersistenceManager.LoadByTeamId(teamId);
         }
-        
+
+        public IEnumerable<Ticket> GetByColumnId(int columnId)
+        {
+            if (!ValidateId(columnId))
+            {
+                return new List<Ticket>();
+            }
+
+            return ticketPersistenceManager.LoadByColumnId(columnId);
+        }
+
+        public bool UpdateColumn(int id, int columnId)
+        {
+            if (!ValidateId(id) || ticketPersistenceManager.Load(id) == null)
+            {
+                return false;
+            }
+
+            return ticketPersistenceManager.UpdateColumn(id, columnId) > 0;
+        }
+
         private bool ValidateId(int id)
         {
             return id > 0;

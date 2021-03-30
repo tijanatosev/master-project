@@ -34,7 +34,7 @@ namespace KanbanBoard.PersistenceManagers
         public IEnumerable<Column> LoadByBoardId(int boardId)
         {
             List<Column> columns = new List<Column>();
-            string query = @"SELECT * FROM Columns WHERE BoardId=@BoardId";
+            string query = @"SELECT * FROM Columns WHERE BoardId=@BoardId ORDER BY ColumnOrder ASC";
             DataTable result = dbCommands.ExecuteSqlQuery(query, new SqlParameter("@BoardId", boardId)).Tables["Result"];
             if (result.Rows.Count != 0)
             {

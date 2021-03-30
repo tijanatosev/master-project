@@ -14,7 +14,7 @@ namespace KanbanBoard.Models
         public int AssignedTo { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
-        public int? BoardId { get; set; } 
-        public int? ColumnId { get; set; } 
+        public int BoardId { get; set; } 
+        public int ColumnId { get; set; } 
     }
 }
