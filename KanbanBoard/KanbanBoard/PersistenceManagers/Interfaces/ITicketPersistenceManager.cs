@@ -19,6 +19,8 @@ namespace KanbanBoard.PersistenceManagers.Interfaces
         
         IEnumerable<Ticket> LoadByColumnId(int columnId);
 
-        int UpdateColumn(int ticketId, int columnId);
+        int UpdateColumn(int id, int columnId);
+
+        int UpdateRank(int id, int rank);
     }
 }

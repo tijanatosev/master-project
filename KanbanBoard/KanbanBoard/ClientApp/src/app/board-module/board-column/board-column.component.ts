@@ -1,7 +1,9 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { TicketService } from "../../shared/services/ticket/ticket.service";
 import { Ticket } from "../../shared/services/ticket/ticket.model";
-import { CdkDrag, CdkDragDrop, moveItemInArray, transferArrayItem } from "@angular/cdk/drag-drop";
+import { CdkDragDrop, moveItemInArray, transferArrayItem } from "@angular/cdk/drag-drop";
+import { Responses } from "../../shared/enums";
+import { SnackBarService } from "../../shared/snack-bar.service";
 
 @Component({
   selector: 'app-board-column',
@@ -14,10 +16,14 @@ export class BoardColumnComponent implements OnInit {
   @Output() changeColumns = new EventEmitter<number[]>();
   public tickets: Ticket[];
 
-  constructor(private ticketService: TicketService) { }
+  constructor(private ticketService: TicketService,
+              private snackBarService: SnackBarService) { }
 
   ngOnInit() {
-    this.ticketService.getTicketsByColumnId(this.columnId).subscribe(tickets => this.tickets = tickets);
+    this.ticketService.getTicketsByColumnId(this.columnId).subscribe(tickets => {
+      this.tickets = tickets;
+      this.tickets.sort((x, y) => x.Rank - y.Rank);
+    });
   }
 
   public drop(event: CdkDragDrop<Ticket[], any>) {
@@ -27,14 +33,18 @@ export class BoardColumnComponent implements OnInit {
       let newColumnId = parseInt(event.container.id);
       let ticketId = event.previousContainer.data[event.previousIndex].Id
       this.changeColumns.emit([newColumnId, ticketId]);
-      transferArrayItem(event.previousContainer.data,
-        event.container.data,
-        event.previousIndex,
-        event.currentIndex);
+      transferArrayItem(event.previousContainer.data, event.container.data, event.previousIndex, event.currentIndex);
     }
+    this.updateRank(event.container.data);
   }
 
-  sortPredicate(index: number, item: CdkDrag<number>) {
-    return (index + 1) % 2 === item.data % 2;
+  private updateRank(tickets) {
+    for (let i = 0; i < tickets.length; i++) {
+      this.ticketService.updateRank(tickets[i].Id, i + 1).subscribe(result => {
+        if (result != Responses.Successful) {
+          this.snackBarService.unsuccessful();
+        }
+      });
+    }
   }
 }
