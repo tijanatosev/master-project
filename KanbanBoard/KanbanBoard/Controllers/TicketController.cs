@@ -61,10 +61,22 @@ namespace KanbanBoard.Controllers
         }
 
         [HttpPut]
-        [Route("{ticketId}/column")]
-        public IActionResult UpdateColumn([FromRoute] int ticketId, [FromBody] int columnId)
+        [Route("{id}/column")]
+        public IActionResult UpdateColumn([FromRoute] int id, [FromBody] int columnId)
         {
-            if (!ticketService.UpdateColumn(ticketId, columnId))
+            if (!ticketService.UpdateColumn(id, columnId))
+            {
+                return new NoContentResult();
+            }
+            
+            return new StatusCodeResult(200);
+        }
+
+        [HttpPut]
+        [Route("{id}/rank")]
+        public IActionResult UpdateRank([FromRoute] int id, [FromBody] int rank)
+        {
+            if (!ticketService.UpdateRank(id, rank))
             {
                 return new NoContentResult();
             }

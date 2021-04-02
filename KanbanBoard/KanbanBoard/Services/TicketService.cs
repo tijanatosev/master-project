@@ -80,6 +80,16 @@ namespace KanbanBoard.Services
             return ticketPersistenceManager.UpdateColumn(id, columnId) > 0;
         }
 
+        public bool UpdateRank(int id, int rank)
+        {
+            if (!ValidateId(id) || ticketPersistenceManager.Load(id) == null)
+            {
+                return false;
+            }
+
+            return ticketPersistenceManager.UpdateRank(id, rank) > 0;
+        }
+
         private bool ValidateId(int id)
         {
             return id > 0;

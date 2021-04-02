@@ -47,4 +47,9 @@ export class TicketService extends BaseService{
     return this.http.put(`${this.ticketsUrl()}/${id}/column`, columnId,{ observe: "response" })
       .pipe(map(response => response.status));
   }
+
+  public updateRank(id, rank) {
+    return this.http.put(`${this.ticketsUrl()}/${id}/rank`, rank,{ observe: "response" })
+      .pipe(map(response => response.status));
+  }
 }

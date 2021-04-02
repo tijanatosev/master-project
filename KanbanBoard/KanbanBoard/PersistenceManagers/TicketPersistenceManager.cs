@@ -48,9 +48,9 @@ namespace KanbanBoard.PersistenceManagers
 
         public int Add(Ticket ticket)
         {
-            string query = @"INSERT INTO Tickets (Title, Description, Creator, StoryPoints, Status, DateCreated, AssignedTo, StartDate, EndDate) 
+            string query = @"INSERT INTO Tickets (Title, Description, Creator, StoryPoints, Status, DateCreated, AssignedTo, StartDate, EndDate, Rank) 
 OUTPUT INSERTED.ID
-VALUES (@Title, @Description, @Creator, @StoryPoints, @Status, @DateCreated, @AssignedTo, @StartDate, @EndDate)";
+VALUES (@Title, @Description, @Creator, @StoryPoints, @Status, @DateCreated, @AssignedTo, @StartDate, @EndDate, @Rank)";
             DbParameter[] parameters = 
             {
                 new SqlParameter("@Title", ticket.Title),
@@ -62,6 +62,7 @@ VALUES (@Title, @Description, @Creator, @StoryPoints, @Status, @DateCreated, @As
                 new SqlParameter("@AssignedTo", ticket.AssignedTo), 
                 new SqlParameter("@StartDate", ticket.StartDate),
                 new SqlParameter("@EndDate", ticket.EndDate),
+                new SqlParameter("@Rank", ticket.Rank) 
             };
             return dbCommands.ExecuteScalar(query, parameters);
         }
@@ -91,7 +92,7 @@ VALUES (@Title, @Description, @Creator, @StoryPoints, @Status, @DateCreated, @As
         public IEnumerable<Ticket> LoadByTeamId(int teamId)
         {
             List<Ticket> tickets = new List<Ticket>();
-            string query = @"SELECT t.Id, t.Title, t.Description, t.Creator, t.StoryPoints, t.Status, t.DateCreated, t.AssignedTo, t.StartDate, t.EndDate, t.BoardId, t.ColumnId 
+            string query = @"SELECT t.Id, t.Title, t.Description, t.Creator, t.StoryPoints, t.Status, t.DateCreated, t.AssignedTo, t.StartDate, t.EndDate, t.Rank, t.BoardId, t.ColumnId 
 FROM Tickets t JOIN Users u on t.AssignedTo=u.Id
 JOIN UsersTeams ut ON ut.UserId=u.Id
 JOIN Boards b ON b.Id=t.BoardId
@@ -123,12 +124,20 @@ WHERE ut.TeamId=@TeamId AND b.TeamId=@TeamId";
             return tickets;
         }
 
-        public int UpdateColumn(int ticketId, int columnId)
+        public int UpdateColumn(int id, int columnId)
         {
             string query = @"UPDATE Tickets
 SET ColumnId=@ColumnId
 WHERE Id=@Id";
-            return dbCommands.ExecuteSqlNonQuery(query, new SqlParameter("@ColumnId", columnId), new SqlParameter("@Id", ticketId));
+            return dbCommands.ExecuteSqlNonQuery(query, new SqlParameter("@ColumnId", columnId), new SqlParameter("@Id", id));
+        }
+
+        public int UpdateRank(int id, int rank)
+        {
+            string query = @"UPDATE Tickets
+SET Rank=@Rank
+WHERE Id=@Id";
+            return dbCommands.ExecuteSqlNonQuery(query, new SqlParameter("@Rank", rank), new SqlParameter("@Id", id));
         }
 
         public Ticket LoadFromDataRow(DataRow row)
@@ -145,6 +154,7 @@ WHERE Id=@Id";
                 AssignedTo = Convert.ToInt32(row["AssignedTo"]),
                 StartDate = Convert.ToDateTime(row["StartDate"]).Date,
                 EndDate = Convert.ToDateTime(row["EndDate"]).Date,
+                Rank = Convert.ToInt32(row["Rank"]),
                 BoardId = Convert.ToInt32(row["BoardId"]),
                 ColumnId = Convert.ToInt32(row["ColumnId"])
             };

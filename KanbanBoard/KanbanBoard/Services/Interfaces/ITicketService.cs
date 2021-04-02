@@ -19,6 +19,8 @@ namespace KanbanBoard.Services.Interfaces
         
         IEnumerable<Ticket> GetByColumnId(int columnId);
 
-        bool UpdateColumn(int ticketId, int columnId);
+        bool UpdateColumn(int id, int columnId);
+        
+        bool UpdateRank(int id, int rank);
     }
 }
