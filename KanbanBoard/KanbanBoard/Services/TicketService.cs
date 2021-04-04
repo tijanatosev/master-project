@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Globalization;
 using KanbanBoard.Models;
 using KanbanBoard.PersistenceManagers;
 using KanbanBoard.PersistenceManagers.Interfaces;
@@ -9,6 +11,7 @@ namespace KanbanBoard.Services
     public class TicketService : ITicketService
     {
         private ITicketPersistenceManager ticketPersistenceManager = new TicketPersistenceManager();
+        private IColumnService columnService = new ColumnService();
         
         public IEnumerable<Ticket> GetAll()
         {
@@ -77,7 +80,13 @@ namespace KanbanBoard.Services
                 return false;
             }
 
-            return ticketPersistenceManager.UpdateColumn(id, columnId) > 0;
+            Column column = columnService.GetById(columnId);
+            if (column == null)
+            {
+                return false;
+            }
+
+            return ticketPersistenceManager.UpdateColumn(id, columnId, column.Name) > 0;
         }
 
         public bool UpdateRank(int id, int rank)
@@ -88,6 +97,78 @@ namespace KanbanBoard.Services
             }
 
             return ticketPersistenceManager.UpdateRank(id, rank) > 0;
+        }
+
+        public bool UpdateAssignedTo(int id, int userId)
+        {
+            if (!ValidateId(id) || ticketPersistenceManager.Load(id) == null)
+            {
+                return false;
+            }
+
+            return ticketPersistenceManager.UpdateAssignedTo(id, userId) > 0;
+        }
+
+        public bool UpdateStartDate(int id, string startDate)
+        {
+            if (!ValidateId(id) || ticketPersistenceManager.Load(id) == null)
+            {
+                return false;
+            }
+            
+            DateTime.TryParse(startDate, CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime date);
+            if (date < new DateTime(1970, 1, 1))
+            {
+                return false;
+            }
+
+            return ticketPersistenceManager.UpdateStartDate(id, date.Date) > 0;
+        }
+
+        public bool UpdateEndDate(int id, string endDate)
+        {
+            if (!ValidateId(id) || ticketPersistenceManager.Load(id) == null)
+            {
+                return false;
+            }
+
+            DateTime.TryParse(endDate, CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime date);
+            if (date < new DateTime(1970, 1, 1))
+            {
+                return false;
+            }
+
+            return ticketPersistenceManager.UpdateEndDate(id, date.Date) > 0;
+        }
+
+        public bool UpdateStoryPoints(int id, int storyPoints)
+        {
+            if (!ValidateId(id) || ticketPersistenceManager.Load(id) == null)
+            {
+                return false;
+            }
+
+            return ticketPersistenceManager.UpdateStoryPoints(id, storyPoints) > 0;
+        }
+
+        public bool UpdateTitle(int id, string title)
+        {
+            if (!ValidateId(id) || ticketPersistenceManager.Load(id) == null)
+            {
+                return false;
+            }
+
+            return ticketPersistenceManager.UpdateTitle(id, title) > 0;
+        }
+
+        public bool UpdateDescription(int id, string description)
+        {
+            if (!ValidateId(id) || ticketPersistenceManager.Load(id) == null)
+            {
+                return false;
+            }
+
+            return ticketPersistenceManager.UpdateDescription(id, description) > 0;
         }
 
         private bool ValidateId(int id)

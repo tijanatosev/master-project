@@ -12,16 +12,18 @@ import { User } from "../../shared/services/user/user.model";
 import { MatAutocomplete, MatAutocompleteSelectedEvent } from "@angular/material/autocomplete";
 import { Observable } from "rxjs";
 import { COMMA, ENTER } from "@angular/cdk/keycodes";
-import { FormControl } from "@angular/forms";
+import { FormBuilder, FormControl, FormGroup } from "@angular/forms";
 import { MatChipInputEvent } from "@angular/material/chips";
 import { map, startWith } from "rxjs/operators";
+import { Responses } from "../../shared/enums";
+import { SnackBarService } from "../../shared/snack-bar.service";
 
 @Component({
-  selector: 'app-edit-ticket',
-  templateUrl: './edit-ticket.component.html',
-  styleUrls: ['./edit-ticket.component.css']
+  selector: 'app-view-ticket',
+  templateUrl: './view-ticket.component.html',
+  styleUrls: ['./view-ticket.component.css']
 })
-export class EditTicketComponent implements OnInit {
+export class ViewTicketComponent implements OnInit {
   public ticket: Ticket;
   public ticketId: number;
   public labels: Label[] = [];
@@ -29,6 +31,13 @@ export class EditTicketComponent implements OnInit {
   public statuses: Column[] = [];
   public members: User[];
   public reporter: string;
+  public points = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13];
+  public descriptionClicked = false;
+  public titleClicked = false;
+  public titleForm: FormGroup;
+  public descriptionForm: FormGroup;
+  public minDate = new Date("1/1/1970");
+  public maxDate = new Date("1/1/2050");
 
   public selectable = true;
   public labelControl = new FormControl();
@@ -44,7 +53,10 @@ export class EditTicketComponent implements OnInit {
               private userService: UserService,
               private labelService: LabelService,
               private columnService: ColumnService,
-              private boardService: BoardService) {  }
+              private boardService: BoardService,
+              private snackBarService: SnackBarService,
+              private formBuilder: FormBuilder) {
+  }
 
   ngOnInit() {
     this.route.params.subscribe((params: Params) => {
@@ -52,6 +64,8 @@ export class EditTicketComponent implements OnInit {
     });
     this.ticketService.getTicket(this.ticketId).subscribe(ticket => {
       this.ticket = ticket;
+      this.initTitleForm();
+      this.initDescriptionForm();
       this.columnService.getColumnsByBoardId(this.ticket.BoardId).subscribe(statuses => this.statuses = statuses);
       this.boardService.getBoard(this.ticket.BoardId).subscribe(board => {
         this.userService.getUsersByTeamId(board.TeamId).subscribe(users => {
@@ -126,5 +140,103 @@ export class EditTicketComponent implements OnInit {
 
   private _filter(value): Label[] {
     return this.allLabels.filter(label => label.Name.indexOf(value) === 0);
+  }
+
+  public updateStatus(event) {
+    this.ticketService.updateColumn(this.ticketId, event.value).subscribe(result => {
+      if (result != Responses.Successful) {
+        this.snackBarService.unsuccessful();
+      }
+    });
+  }
+
+  public updateAssignedTo(event) {
+    this.ticketService.updateAssignedTo(this.ticketId, event.value).subscribe(result => {
+      if (result != Responses.Successful) {
+        this.snackBarService.unsuccessful();
+      }
+    });
+  }
+
+  public updateStartDate(event) {
+    this.ticketService.updateStartDate(this.ticketId, event.value).subscribe(result => {
+      if (result != Responses.Successful) {
+        this.snackBarService.unsuccessful();
+      }
+      this.ticket.StartDate = event.value;
+    });
+  }
+
+  public updateEndDate(event) {
+    this.ticketService.updateEndDate(this.ticketId, event.value).subscribe(result => {
+      if (result != Responses.Successful) {
+        this.snackBarService.unsuccessful();
+      }
+      this.ticket.EndDate = event.value;
+    });
+  }
+
+  public updateStoryPoints(event) {
+    this.ticketService.updateStoryPoints(this.ticketId, event.value).subscribe(result => {
+      if (result != Responses.Successful) {
+        this.snackBarService.unsuccessful();
+      }
+    });
+  }
+
+  public saveTitle(data) {
+    this.titleClicked = false;
+    console.log(data, data.value.title)
+    if (data.value.title.trim().length == 0) {
+      return;
+    }
+    this.ticket.Title = data.value.title.trim();
+    let ticket = new Ticket();
+    ticket.Title = data.value.title.trim();
+    this.ticketService.updateTitle(this.ticketId, ticket).subscribe(result => {
+      if (result != Responses.Successful) {
+        this.snackBarService.unsuccessful();
+      }
+    });
+  }
+
+  public closeTitle() {
+    this.titleClicked = false;
+    this.titleForm.reset();
+    this.initTitleForm();
+  }
+
+  public saveDescription(data) {
+    this.descriptionClicked = false;
+    console.log(data, data.value.description);
+    if (data.value.description.trim().length == 0) {
+      return;
+    }
+    this.ticket.Description = data.value.description;
+    let ticket = new Ticket();
+    ticket.Description = data.value.description;
+    this.ticketService.updateDescription(this.ticketId, ticket).subscribe(result => {
+      if (result != Responses.Successful) {
+        this.snackBarService.unsuccessful();
+      }
+    });
+  }
+
+  public closeDescription() {
+    this.descriptionClicked = false;
+    this.descriptionForm.reset();
+    this.initDescriptionForm();
+  }
+
+  private initTitleForm() {
+    this.titleForm = this.formBuilder.group({
+      title: [this.ticket.Title]
+    });
+  }
+
+  private initDescriptionForm() {
+    this.descriptionForm = this.formBuilder.group({
+      description: [this.ticket.Description]
+    });
   }
 }

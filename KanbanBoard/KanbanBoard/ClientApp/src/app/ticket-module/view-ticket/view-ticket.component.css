@@ -46,27 +46,19 @@ input {
 mat-form-field {
   display: block !important;
   margin-top: -17px !important;
-  margin-bottom: -20px !important;
+  margin-bottom: -17px !important;
 }
 
 :host /deep/ .mat-form-field-underline {
   height: unset !important;
 }
 
-input[type="number"] {
-  -webkit-appearance: textfield;
-  -moz-appearance: textfield;
-}
-input[type=number]::-webkit-inner-spin-button,
-input[type=number]::-webkit-outer-spin-button {
-  -webkit-appearance: none;
+.area {
+  border-radius: 5px;
+  border: 2px solid #3F51B5;
 }
 
-.story-points-input {
-  border-radius: 15px;
-  width: 30px;
-  background: #BDBDBD;
-  float: right;
-  text-align: center;
-  padding-right: unset !important;
+.title {
+  border-radius: 5px;
+  border: 2px solid #3F51B5;
 }

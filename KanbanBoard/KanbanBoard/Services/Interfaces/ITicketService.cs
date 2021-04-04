@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using KanbanBoard.Models;
 
 namespace KanbanBoard.Services.Interfaces
@@ -22,5 +23,17 @@ namespace KanbanBoard.Services.Interfaces
         bool UpdateColumn(int id, int columnId);
         
         bool UpdateRank(int id, int rank);
+        
+        bool UpdateAssignedTo(int id, int userId);
+        
+        bool UpdateStartDate(int id, string startDate);
+        
+        bool UpdateEndDate(int id, string endDate);
+        
+        bool UpdateStoryPoints(int id, int storyPoints);
+        
+        bool UpdateTitle(int id, string title);
+        
+        bool UpdateDescription(int id, string description);
     }
 }

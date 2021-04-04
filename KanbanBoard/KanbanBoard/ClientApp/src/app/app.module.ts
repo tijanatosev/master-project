@@ -42,7 +42,7 @@ import { MatSnackBarModule } from "@angular/material/snack-bar";
 import { TeamComponent } from './team-module/team/team.component';
 import { MatSortModule } from "@angular/material/sort";
 import { TicketsDatatableComponent } from './shared/tickets-datatable/tickets-datatable.component';
-import { EditTicketComponent } from "./ticket-module/edit-ticket/edit-ticket.component";
+import { ViewTicketComponent } from "./ticket-module/view-ticket/view-ticket.component";
 import { MatFormFieldModule } from "@angular/material/form-field";
 import { SettingsLabelsComponent} from './settings-module/settings-labels/settings-labels.component';
 import { MatTooltipModule } from "@angular/material/tooltip";
@@ -65,7 +65,7 @@ const routes = [
   { path: 'settings/:id', component: SettingsComponent, canActivate: [AuthGuard] },
   { path: 'profile/:id', component: ProfileComponent, canActivate: [AuthGuard] },
   { path: 'team/:id', component: TeamComponent, canActivate: [AuthGuard] },
-  { path: 'ticket/:id', component: EditTicketComponent, canActivate: [AuthGuard] },
+  { path: 'ticket/:id', component: ViewTicketComponent, canActivate: [AuthGuard] },
   { path: 'board/:id', component: BoardComponent, canActivate: [AuthGuard] }
 ];
 
@@ -86,7 +86,7 @@ const routes = [
     SideNavComponent,
     TeamComponent,
     TicketsDatatableComponent,
-    EditTicketComponent,
+    ViewTicketComponent,
     SettingsLabelsComponent,
     AddLabelComponent,
     SettingsBoardsComponent,

@@ -124,12 +124,13 @@ WHERE ut.TeamId=@TeamId AND b.TeamId=@TeamId";
             return tickets;
         }
 
-        public int UpdateColumn(int id, int columnId)
+        public int UpdateColumn(int id, int columnId, string status)
         {
             string query = @"UPDATE Tickets
-SET ColumnId=@ColumnId
+SET ColumnId=@ColumnId,
+Status=@Status
 WHERE Id=@Id";
-            return dbCommands.ExecuteSqlNonQuery(query, new SqlParameter("@ColumnId", columnId), new SqlParameter("@Id", id));
+            return dbCommands.ExecuteSqlNonQuery(query, new SqlParameter("@ColumnId", columnId), new SqlParameter("@Status", status), new SqlParameter("@Id", id));
         }
 
         public int UpdateRank(int id, int rank)
@@ -138,6 +139,54 @@ WHERE Id=@Id";
 SET Rank=@Rank
 WHERE Id=@Id";
             return dbCommands.ExecuteSqlNonQuery(query, new SqlParameter("@Rank", rank), new SqlParameter("@Id", id));
+        }
+
+        public int UpdateAssignedTo(int id, int userId)
+        {
+            string query = @"UPDATE Tickets
+SET AssignedTo=@AssignedTo
+WHERE Id=@Id";
+            return dbCommands.ExecuteSqlNonQuery(query, new SqlParameter("@AssignedTo", userId), new SqlParameter("@Id", id));
+        }
+
+        public int UpdateStartDate(int id, DateTime startDate)
+        {
+            string query = @"UPDATE Tickets
+SET StartDate=@StartDate
+WHERE Id=@Id";
+            return dbCommands.ExecuteSqlNonQuery(query, new SqlParameter("@StartDate", startDate), new SqlParameter("@Id", id));
+        }
+
+        public int UpdateEndDate(int id, DateTime endDate)
+        {
+            string query = @"UPDATE Tickets
+SET EndDate=@EndDate
+WHERE Id=@Id";
+            return dbCommands.ExecuteSqlNonQuery(query, new SqlParameter("@EndDate", endDate), new SqlParameter("@Id", id));
+        }
+
+        public int UpdateStoryPoints(int id, int storyPoints)
+        {
+            string query = @"UPDATE Tickets
+SET StoryPoints=@StoryPoints
+WHERE Id=@Id";
+            return dbCommands.ExecuteSqlNonQuery(query, new SqlParameter("@StoryPoints", storyPoints), new SqlParameter("@Id", id));
+        }
+
+        public int UpdateTitle(int id, string title)
+        {
+            string query = @"UPDATE Tickets
+SET Title=@Title
+WHERE Id=@Id";
+            return dbCommands.ExecuteSqlNonQuery(query, new SqlParameter("@Title", title), new SqlParameter("@Id", id));
+        }
+
+        public int UpdateDescription(int id, string description)
+        {
+            string query = @"UPDATE Tickets
+SET Description=@Description
+WHERE Id=@Id";
+            return dbCommands.ExecuteSqlNonQuery(query, new SqlParameter("@Description", description), new SqlParameter("@Id", id));
         }
 
         public Ticket LoadFromDataRow(DataRow row)

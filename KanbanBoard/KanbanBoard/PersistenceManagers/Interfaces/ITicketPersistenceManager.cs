@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using KanbanBoard.Models;
 
 namespace KanbanBoard.PersistenceManagers.Interfaces
@@ -19,8 +20,20 @@ namespace KanbanBoard.PersistenceManagers.Interfaces
         
         IEnumerable<Ticket> LoadByColumnId(int columnId);
 
-        int UpdateColumn(int id, int columnId);
+        int UpdateColumn(int id, int columnId, string status);
 
         int UpdateRank(int id, int rank);
+        
+        int UpdateAssignedTo(int id, int userId);
+        
+        int UpdateStartDate(int id, DateTime startDate);
+        
+        int UpdateEndDate(int id, DateTime endDate);
+        
+        int UpdateStoryPoints(int id, int storyPoints);
+        
+        int UpdateTitle(int id, string title);
+        
+        int UpdateDescription(int id, string description);
     }
 }
