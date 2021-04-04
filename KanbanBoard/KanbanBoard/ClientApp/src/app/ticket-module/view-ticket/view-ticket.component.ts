@@ -19,11 +19,11 @@ import { Responses } from "../../shared/enums";
 import { SnackBarService } from "../../shared/snack-bar.service";
 
 @Component({
-  selector: 'app-edit-ticket',
-  templateUrl: './edit-ticket.component.html',
-  styleUrls: ['./edit-ticket.component.css']
+  selector: 'app-view-ticket',
+  templateUrl: './view-ticket.component.html',
+  styleUrls: ['./view-ticket.component.css']
 })
-export class EditTicketComponent implements OnInit {
+export class ViewTicketComponent implements OnInit {
   public ticket: Ticket;
   public ticketId: number;
   public labels: Label[] = [];
