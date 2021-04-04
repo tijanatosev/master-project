@@ -132,5 +132,29 @@ namespace KanbanBoard.Controllers
             
             return new StatusCodeResult(200);
         }
+        
+        [HttpPut]
+        [Route("{id}/title")]
+        public IActionResult UpdateTitle([FromRoute] int id, [FromBody] Ticket ticket)
+        {
+            if (!ticketService.UpdateTitle(id, ticket.Title))
+            {
+                return new NoContentResult();
+            }
+            
+            return new StatusCodeResult(200);
+        }
+
+        [HttpPut]
+        [Route("{id}/description")]
+        public IActionResult UpdateDescription([FromRoute] int id, [FromBody] Ticket ticket)
+        {
+            if (!ticketService.UpdateDescription(id, ticket.Description))
+            {
+                return new NoContentResult();
+            }
+            
+            return new StatusCodeResult(200);
+        }
     }
 }

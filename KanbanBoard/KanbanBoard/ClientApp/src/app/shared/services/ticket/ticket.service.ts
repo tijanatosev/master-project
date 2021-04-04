@@ -72,4 +72,14 @@ export class TicketService extends BaseService{
     return this.http.put(`${this.ticketsUrl()}/${id}/storyPoints`, storyPoints,{ observe: "response" })
       .pipe(map(response => response.status));
   }
+
+  public updateTitle(id, title) {
+    return this.http.put(`${this.ticketsUrl()}/${id}/title`, title,{ observe: "response" })
+      .pipe(map(response => response.status));
+  }
+
+  public updateDescription(id, description) {
+    return this.http.put(`${this.ticketsUrl()}/${id}/description`, description,{ observe: "response" })
+      .pipe(map(response => response.status));
+  }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using KanbanBoard.Models;
 using KanbanBoard.PersistenceManagers;
 using KanbanBoard.PersistenceManagers.Interfaces;
@@ -114,8 +115,14 @@ namespace KanbanBoard.Services
             {
                 return false;
             }
+            
+            DateTime.TryParse(startDate, CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime date);
+            if (date < new DateTime(1970, 1, 1))
+            {
+                return false;
+            }
 
-            return ticketPersistenceManager.UpdateStartDate(id, DateTime.Parse(startDate)) > 0;
+            return ticketPersistenceManager.UpdateStartDate(id, date.Date) > 0;
         }
 
         public bool UpdateEndDate(int id, string endDate)
@@ -125,7 +132,13 @@ namespace KanbanBoard.Services
                 return false;
             }
 
-            return ticketPersistenceManager.UpdateEndDate(id, DateTime.Parse(endDate)) > 0;
+            DateTime.TryParse(endDate, CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime date);
+            if (date < new DateTime(1970, 1, 1))
+            {
+                return false;
+            }
+
+            return ticketPersistenceManager.UpdateEndDate(id, date.Date) > 0;
         }
 
         public bool UpdateStoryPoints(int id, int storyPoints)
@@ -136,6 +149,26 @@ namespace KanbanBoard.Services
             }
 
             return ticketPersistenceManager.UpdateStoryPoints(id, storyPoints) > 0;
+        }
+
+        public bool UpdateTitle(int id, string title)
+        {
+            if (!ValidateId(id) || ticketPersistenceManager.Load(id) == null)
+            {
+                return false;
+            }
+
+            return ticketPersistenceManager.UpdateTitle(id, title) > 0;
+        }
+
+        public bool UpdateDescription(int id, string description)
+        {
+            if (!ValidateId(id) || ticketPersistenceManager.Load(id) == null)
+            {
+                return false;
+            }
+
+            return ticketPersistenceManager.UpdateDescription(id, description) > 0;
         }
 
         private bool ValidateId(int id)

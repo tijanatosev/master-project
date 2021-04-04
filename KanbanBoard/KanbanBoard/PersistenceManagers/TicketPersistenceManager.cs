@@ -154,7 +154,7 @@ WHERE Id=@Id";
             string query = @"UPDATE Tickets
 SET StartDate=@StartDate
 WHERE Id=@Id";
-            return dbCommands.ExecuteSqlNonQuery(query, new SqlParameter("@StartDate", startDate.Date), new SqlParameter("@Id", id));
+            return dbCommands.ExecuteSqlNonQuery(query, new SqlParameter("@StartDate", startDate), new SqlParameter("@Id", id));
         }
 
         public int UpdateEndDate(int id, DateTime endDate)
@@ -162,7 +162,7 @@ WHERE Id=@Id";
             string query = @"UPDATE Tickets
 SET EndDate=@EndDate
 WHERE Id=@Id";
-            return dbCommands.ExecuteSqlNonQuery(query, new SqlParameter("@EndDate", endDate.Date), new SqlParameter("@Id", id));
+            return dbCommands.ExecuteSqlNonQuery(query, new SqlParameter("@EndDate", endDate), new SqlParameter("@Id", id));
         }
 
         public int UpdateStoryPoints(int id, int storyPoints)
@@ -171,6 +171,22 @@ WHERE Id=@Id";
 SET StoryPoints=@StoryPoints
 WHERE Id=@Id";
             return dbCommands.ExecuteSqlNonQuery(query, new SqlParameter("@StoryPoints", storyPoints), new SqlParameter("@Id", id));
+        }
+
+        public int UpdateTitle(int id, string title)
+        {
+            string query = @"UPDATE Tickets
+SET Title=@Title
+WHERE Id=@Id";
+            return dbCommands.ExecuteSqlNonQuery(query, new SqlParameter("@Title", title), new SqlParameter("@Id", id));
+        }
+
+        public int UpdateDescription(int id, string description)
+        {
+            string query = @"UPDATE Tickets
+SET Description=@Description
+WHERE Id=@Id";
+            return dbCommands.ExecuteSqlNonQuery(query, new SqlParameter("@Description", description), new SqlParameter("@Id", id));
         }
 
         public Ticket LoadFromDataRow(DataRow row)

@@ -31,5 +31,9 @@ namespace KanbanBoard.PersistenceManagers.Interfaces
         int UpdateEndDate(int id, DateTime endDate);
         
         int UpdateStoryPoints(int id, int storyPoints);
+        
+        int UpdateTitle(int id, string title);
+        
+        int UpdateDescription(int id, string description);
     }
 }

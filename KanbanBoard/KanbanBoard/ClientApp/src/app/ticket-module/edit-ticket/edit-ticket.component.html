@@ -3,8 +3,23 @@
       <mat-card-content *ngIf="ticket">
         <div class="row">
           <div class="col">
-            <h4> {{ ticket.Title }} </h4>
-            <mat-form-field>
+            <form [formGroup]="titleForm">
+              <textarea matInput
+                        formControlName="title"
+                        (click)="titleClicked = true"
+                        [ngClass]="{ title: titleClicked == true }"
+                        cdkTextareaAutosize="true"
+                        cdkAutosizeMinRows="2"
+                        cdkAutosizeMaxRows="4">
+              </textarea>
+              <button mat-icon-button color="primary" *ngIf="titleClicked" (click)="saveTitle(titleForm)">
+                <mat-icon>check</mat-icon>
+              </button>
+              <button mat-icon-button color="primary" *ngIf="titleClicked" (click)="closeTitle()">
+                <mat-icon>close</mat-icon>
+              </button>
+            </form>
+            <mat-form-field style="padding-top: 0;">
               <mat-chip-list #chipList>
                 <mat-chip
                   *ngFor="let label of labels"
@@ -32,9 +47,24 @@
             </mat-form-field>
             <mat-divider></mat-divider>
             <h6>Description</h6>
-            <mat-label>
-              {{ ticket.Description }}
-            </mat-label>
+            <form [formGroup]="descriptionForm">
+              <textarea matInput
+                        formControlName="description"
+                        (click)="descriptionClicked = true"
+                        [ngClass]="{ area: descriptionClicked == true }"
+                        cdkTextareaAutosize="true"
+                        cdkAutosizeMinRows="10"
+                        cdkAutosizeMaxRows="20">
+              </textarea>
+              <br>
+              <br>
+              <button mat-raised-button color="primary" *ngIf="descriptionClicked" (click)="saveDescription(descriptionForm)">
+                Save
+              </button>
+              <button mat-button *ngIf="descriptionClicked" (click)="closeDescription()">
+                Cancel
+              </button>
+            </form>
           </div>
           <mat-divider vertical></mat-divider>
           <div class="col-3">
@@ -66,7 +96,11 @@
             <mat-label class="title-label">Start Date</mat-label>
             <br>
             <mat-form-field>
-              <input matInput [matDatepicker]="pickerStartDate" [value]="ticket.StartDate" [max]="ticket.EndDate" style="display: inline-block" (dateChange)="updateStartDate($event)">
+              <input matInput [matDatepicker]="pickerStartDate"
+                     [value]="ticket.StartDate"
+                     [min]="minDate" [max]="ticket.EndDate"
+                     style="display: inline-block"
+                     (dateChange)="updateStartDate($event)">
               <mat-datepicker-toggle matSuffix [for]="pickerStartDate"></mat-datepicker-toggle>
               <mat-datepicker #pickerStartDate></mat-datepicker>
             </mat-form-field>
@@ -74,7 +108,11 @@
             <mat-label class="title-label">End Date</mat-label>
             <br>
             <mat-form-field>
-              <input matInput [matDatepicker]="pickerEndDate" [value]="ticket.EndDate" [min]="ticket.StartDate" style="display: inline-block" (dateInput)="updateEndDate($event)">
+              <input matInput [matDatepicker]="pickerEndDate"
+                     [value]="ticket.EndDate"
+                     [min]="ticket.StartDate" [max]="maxDate"
+                     style="display: inline-block"
+                     (dateChange)="updateEndDate($event)">
               <mat-datepicker-toggle matSuffix [for]="pickerEndDate"></mat-datepicker-toggle>
               <mat-datepicker #pickerEndDate></mat-datepicker>
             </mat-form-field>

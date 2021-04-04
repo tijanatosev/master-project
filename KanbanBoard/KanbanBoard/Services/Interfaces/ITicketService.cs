@@ -31,5 +31,9 @@ namespace KanbanBoard.Services.Interfaces
         bool UpdateEndDate(int id, string endDate);
         
         bool UpdateStoryPoints(int id, int storyPoints);
+        
+        bool UpdateTitle(int id, string title);
+        
+        bool UpdateDescription(int id, string description);
     }
 }
