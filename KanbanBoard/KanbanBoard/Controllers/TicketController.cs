@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using KanbanBoard.Models;
 using KanbanBoard.Services;
 using KanbanBoard.Services.Interfaces;
@@ -77,6 +78,54 @@ namespace KanbanBoard.Controllers
         public IActionResult UpdateRank([FromRoute] int id, [FromBody] int rank)
         {
             if (!ticketService.UpdateRank(id, rank))
+            {
+                return new NoContentResult();
+            }
+            
+            return new StatusCodeResult(200);
+        }
+
+        [HttpPut]
+        [Route("{id}/assignedTo")]
+        public IActionResult UpdateAssignedTo([FromRoute] int id, [FromBody] int userId)
+        {
+            if (!ticketService.UpdateAssignedTo(id, userId))
+            {
+                return new NoContentResult();
+            }
+            
+            return new StatusCodeResult(200);
+        }
+        
+        [HttpPut]
+        [Route("{id}/startDate")]
+        public IActionResult UpdateStartDate([FromRoute] int id, [FromBody] string startDate)
+        {
+            if (!ticketService.UpdateStartDate(id, startDate))
+            {
+                return new NoContentResult();
+            }
+
+            return new StatusCodeResult(200);
+        }
+        
+        [HttpPut]
+        [Route("{id}/endDate")]
+        public IActionResult UpdateEndDate([FromRoute] int id, [FromBody] string endDate)
+        {
+            if (!ticketService.UpdateEndDate(id, endDate))
+            {
+                return new NoContentResult();
+            }
+            
+            return new StatusCodeResult(200);
+        }
+
+        [HttpPut]
+        [Route("{id}/storyPoints")]
+        public IActionResult UpdateStoryPoints([FromRoute] int id, [FromBody] int storyPoints)
+        {
+            if (!ticketService.UpdateStoryPoints(id, storyPoints))
             {
                 return new NoContentResult();
             }

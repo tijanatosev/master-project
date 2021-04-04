@@ -15,6 +15,8 @@ import { COMMA, ENTER } from "@angular/cdk/keycodes";
 import { FormControl } from "@angular/forms";
 import { MatChipInputEvent } from "@angular/material/chips";
 import { map, startWith } from "rxjs/operators";
+import { Responses } from "../../shared/enums";
+import { SnackBarService } from "../../shared/snack-bar.service";
 
 @Component({
   selector: 'app-edit-ticket',
@@ -29,6 +31,7 @@ export class EditTicketComponent implements OnInit {
   public statuses: Column[] = [];
   public members: User[];
   public reporter: string;
+  public points = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13];
 
   public selectable = true;
   public labelControl = new FormControl();
@@ -44,7 +47,8 @@ export class EditTicketComponent implements OnInit {
               private userService: UserService,
               private labelService: LabelService,
               private columnService: ColumnService,
-              private boardService: BoardService) {  }
+              private boardService: BoardService,
+              private snackBarService: SnackBarService) {  }
 
   ngOnInit() {
     this.route.params.subscribe((params: Params) => {
@@ -126,5 +130,47 @@ export class EditTicketComponent implements OnInit {
 
   private _filter(value): Label[] {
     return this.allLabels.filter(label => label.Name.indexOf(value) === 0);
+  }
+
+  public updateStatus(event) {
+    this.ticketService.updateColumn(this.ticketId, event.value).subscribe(result => {
+      if (result != Responses.Successful) {
+        this.snackBarService.unsuccessful();
+      }
+    });
+  }
+
+  public updateAssignedTo(event) {
+    this.ticketService.updateAssignedTo(this.ticketId, event.value).subscribe(result => {
+      if (result != Responses.Successful) {
+        this.snackBarService.unsuccessful();
+      }
+    });
+  }
+
+  public updateStartDate(event) {
+    this.ticketService.updateStartDate(this.ticketId, event.value).subscribe(result => {
+      if (result != Responses.Successful) {
+        this.snackBarService.unsuccessful();
+      }
+      this.ticket.StartDate = event.value;
+    });
+  }
+
+  public updateEndDate(event) {
+    this.ticketService.updateEndDate(this.ticketId, event.value).subscribe(result => {
+      if (result != Responses.Successful) {
+        this.snackBarService.unsuccessful();
+      }
+      this.ticket.EndDate = event.value;
+    });
+  }
+
+  public updateStoryPoints(event) {
+    this.ticketService.updateStoryPoints(this.ticketId, event.value).subscribe(result => {
+      if (result != Responses.Successful) {
+        this.snackBarService.unsuccessful();
+      }
+    });
   }
 }

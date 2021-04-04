@@ -40,7 +40,7 @@
           <div class="col-3">
             <mat-label class="title-label">Status</mat-label>
             <br>
-            <mat-select [(value)]="ticket.ColumnId">
+            <mat-select [(value)]="ticket.ColumnId" (selectionChange)="updateStatus($event)">
               <mat-option *ngFor="let status of statuses" [value]="status.Id">
                 &nbsp;{{ status.Name }}&nbsp;
               </mat-option>
@@ -48,12 +48,16 @@
 
             <mat-label class="title-label">Story Points</mat-label>
             <br>
-            <input matInput type="number" [value]="ticket.StoryPoints" min="0" max="13" maxlength="2" class="story-points-input">
+            <mat-select [(value)]="ticket.StoryPoints" (selectionChange)="updateStoryPoints($event)">
+              <mat-option *ngFor="let point of points" [value]="point">
+                {{ point }}
+              </mat-option>
+            </mat-select>
             <br>
 
             <mat-label class="title-label">Assigned to</mat-label>
             <br>
-            <mat-select [(value)]="ticket.AssignedTo">
+            <mat-select [(value)]="ticket.AssignedTo" (selectionChange)="updateAssignedTo($event)">
               <mat-option *ngFor="let member of members" [value]="member.Id">
                 &nbsp;{{ member.FirstName }} {{ member.LastName }}
               </mat-option>
@@ -62,7 +66,7 @@
             <mat-label class="title-label">Start Date</mat-label>
             <br>
             <mat-form-field>
-              <input matInput [matDatepicker]="pickerStartDate" [value]="ticket.StartDate" style="display: inline-block">
+              <input matInput [matDatepicker]="pickerStartDate" [value]="ticket.StartDate" [max]="ticket.EndDate" style="display: inline-block" (dateChange)="updateStartDate($event)">
               <mat-datepicker-toggle matSuffix [for]="pickerStartDate"></mat-datepicker-toggle>
               <mat-datepicker #pickerStartDate></mat-datepicker>
             </mat-form-field>
@@ -70,7 +74,7 @@
             <mat-label class="title-label">End Date</mat-label>
             <br>
             <mat-form-field>
-              <input matInput [matDatepicker]="pickerEndDate" [value]="ticket.EndDate" style="display: inline-block">
+              <input matInput [matDatepicker]="pickerEndDate" [value]="ticket.EndDate" [min]="ticket.StartDate" style="display: inline-block" (dateInput)="updateEndDate($event)">
               <mat-datepicker-toggle matSuffix [for]="pickerEndDate"></mat-datepicker-toggle>
               <mat-datepicker #pickerEndDate></mat-datepicker>
             </mat-form-field>
