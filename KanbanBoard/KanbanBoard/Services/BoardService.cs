@@ -1,13 +1,16 @@
 ﻿using System.Collections.Generic;
+using KanbanBoard.Helpers;
 using KanbanBoard.Models;
 using KanbanBoard.PersistenceManagers;
+using KanbanBoard.PersistenceManagers.Interfaces;
 using KanbanBoard.Services.Interfaces;
 
 namespace KanbanBoard.Services
 {
     public class BoardService : IBoardService
     {
-        private readonly BoardPersistenceManager boardPersistenceManager = new BoardPersistenceManager();
+        private readonly IBoardPersistenceManager boardPersistenceManager = new BoardPersistenceManager();
+        private readonly IValidationService validationService = new ValidationService();
 
         public IEnumerable<Board> GetAll()
         {

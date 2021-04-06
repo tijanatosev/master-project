@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using KanbanBoard.Helpers;
 using KanbanBoard.Models;
 using KanbanBoard.PersistenceManagers;
 using KanbanBoard.PersistenceManagers.Interfaces;
@@ -9,6 +10,7 @@ namespace KanbanBoard.Services
     public class NotificationService : INotificationService
     {
         private readonly INotificationPersistenceManager notificationPersistenceManager = new NotificationPersistenceManager();
+        private readonly IValidationService validationService = new ValidationService();
         
         public IEnumerable<Notification> GetAll()
         {
@@ -17,7 +19,7 @@ namespace KanbanBoard.Services
 
         public Notification GetById(int id)
         {
-            if (!ValidateId(id))
+            if (!validationService.ValidateId(id))
             {
                 return null;
             }
@@ -27,7 +29,7 @@ namespace KanbanBoard.Services
 
         public Notification GetByUserId(int userId)
         {
-            if (!ValidateId(userId))
+            if (!validationService.ValidateId(userId))
             {
                 return null;
             }
@@ -42,17 +44,12 @@ namespace KanbanBoard.Services
 
         public bool Update(int id, Notification notification)
         {
-            if (!ValidateId(id) || notificationPersistenceManager.Load(id) == null)
+            if (!validationService.ValidateId(id) || notificationPersistenceManager.Load(id) == null)
             {
                 return false;
             }
 
             return notificationPersistenceManager.Update(notification) > 0;
-        }
-        
-        private bool ValidateId(int id)
-        {
-            return id > 0;
         }
     }
 }

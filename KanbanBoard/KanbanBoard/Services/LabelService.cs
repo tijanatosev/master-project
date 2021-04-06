@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using KanbanBoard.Helpers;
 using KanbanBoard.Models;
 using KanbanBoard.PersistenceManagers;
 using KanbanBoard.PersistenceManagers.Interfaces;
@@ -9,6 +10,7 @@ namespace KanbanBoard.Services
     public class LabelService : ILabelService
     {
         private readonly ILabelPersistenceManager labelPersistenceManager = new LabelPersistenceManager();
+        private readonly IValidationService validationService = new ValidationService();
         
         public IEnumerable<Label> GetAll()
         {
@@ -17,7 +19,7 @@ namespace KanbanBoard.Services
 
         public Label GetById(int id)
         {
-            if (!ValidateId(id))
+            if (!validationService.ValidateId(id))
             {
                 return null;
             }
@@ -32,7 +34,7 @@ namespace KanbanBoard.Services
 
         public void Delete(int id)
         {
-            if (!ValidateId(id))
+            if (!validationService.ValidateId(id))
             {
                 return;
             }
@@ -47,7 +49,7 @@ namespace KanbanBoard.Services
 
         public IEnumerable<Label> GetByTicketId(int ticketId)
         {
-            if (!ValidateId(ticketId))
+            if (!validationService.ValidateId(ticketId))
             {
                 return new List<Label>();
             }
@@ -57,7 +59,7 @@ namespace KanbanBoard.Services
 
         public void DeleteByTicketId(int labelId, int ticketId)
         {
-            if (!ValidateId(labelId) || !ValidateId(ticketId))
+            if (!validationService.ValidateId(labelId) || !validationService.ValidateId(ticketId))
             {
                 return;
             }
@@ -68,11 +70,6 @@ namespace KanbanBoard.Services
         public int AddByTicketId(Label label, int ticketId)
         {
             return labelPersistenceManager.AddByTicketId(label, ticketId);
-        }
-
-        private bool ValidateId(int id)
-        {
-            return id > 0;
         }
     }
 }
