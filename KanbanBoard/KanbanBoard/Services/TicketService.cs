@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using KanbanBoard.Helpers;
 using KanbanBoard.Models;
 using KanbanBoard.PersistenceManagers;
 using KanbanBoard.PersistenceManagers.Interfaces;
@@ -10,8 +11,10 @@ namespace KanbanBoard.Services
 {
     public class TicketService : ITicketService
     {
-        private ITicketPersistenceManager ticketPersistenceManager = new TicketPersistenceManager();
-        private IColumnService columnService = new ColumnService();
+        private readonly ITicketPersistenceManager ticketPersistenceManager = new TicketPersistenceManager();
+        private readonly IColumnService columnService = new ColumnService();
+        private readonly IValidationService validationService = new ValidationService();
+        private readonly IUserService userService = new UserService();
         
         public IEnumerable<Ticket> GetAll()
         {
@@ -20,7 +23,7 @@ namespace KanbanBoard.Services
 
         public Ticket GetById(int id)
         {
-            if (!ValidateId(id))
+            if (!validationService.ValidateId(id))
             {
                 return null;
             }
@@ -35,7 +38,7 @@ namespace KanbanBoard.Services
 
         public void Delete(int id)
         {
-            if (!ValidateId(id) || ticketPersistenceManager.Load(id) == null)
+            if (!validationService.ValidateId(id) || ticketPersistenceManager.Load(id) == null)
             {
                 return;
             }
@@ -45,7 +48,7 @@ namespace KanbanBoard.Services
         
         public IEnumerable<Ticket> GetByUserId(int userId)
         {
-            if (!ValidateId(userId))
+            if (!validationService.ValidateId(userId))
             {
                 return null;
             }
@@ -55,7 +58,7 @@ namespace KanbanBoard.Services
 
         public IEnumerable<Ticket> GetByTeamId(int teamId)
         {
-            if (!ValidateId(teamId))
+            if (!validationService.ValidateId(teamId))
             {
                 return new List<Ticket>();
             }
@@ -65,7 +68,7 @@ namespace KanbanBoard.Services
 
         public IEnumerable<Ticket> GetByColumnId(int columnId)
         {
-            if (!ValidateId(columnId))
+            if (!validationService.ValidateId(columnId))
             {
                 return new List<Ticket>();
             }
@@ -75,7 +78,7 @@ namespace KanbanBoard.Services
 
         public bool UpdateColumn(int id, int columnId)
         {
-            if (!ValidateId(id) || ticketPersistenceManager.Load(id) == null)
+            if (!validationService.ValidateId(id) || ticketPersistenceManager.Load(id) == null)
             {
                 return false;
             }
@@ -91,7 +94,7 @@ namespace KanbanBoard.Services
 
         public bool UpdateRank(int id, int rank)
         {
-            if (!ValidateId(id) || ticketPersistenceManager.Load(id) == null)
+            if (!validationService.ValidateId(id) || ticketPersistenceManager.Load(id) == null)
             {
                 return false;
             }
@@ -101,7 +104,7 @@ namespace KanbanBoard.Services
 
         public bool UpdateAssignedTo(int id, int userId)
         {
-            if (!ValidateId(id) || ticketPersistenceManager.Load(id) == null)
+            if (!validationService.ValidateId(id) || ticketPersistenceManager.Load(id) == null)
             {
                 return false;
             }
@@ -111,7 +114,7 @@ namespace KanbanBoard.Services
 
         public bool UpdateStartDate(int id, string startDate)
         {
-            if (!ValidateId(id) || ticketPersistenceManager.Load(id) == null)
+            if (!validationService.ValidateId(id) || ticketPersistenceManager.Load(id) == null)
             {
                 return false;
             }
@@ -127,7 +130,7 @@ namespace KanbanBoard.Services
 
         public bool UpdateEndDate(int id, string endDate)
         {
-            if (!ValidateId(id) || ticketPersistenceManager.Load(id) == null)
+            if (!validationService.ValidateId(id) || ticketPersistenceManager.Load(id) == null)
             {
                 return false;
             }
@@ -143,7 +146,7 @@ namespace KanbanBoard.Services
 
         public bool UpdateStoryPoints(int id, int storyPoints)
         {
-            if (!ValidateId(id) || ticketPersistenceManager.Load(id) == null)
+            if (!validationService.ValidateId(id) || ticketPersistenceManager.Load(id) == null)
             {
                 return false;
             }
@@ -153,7 +156,7 @@ namespace KanbanBoard.Services
 
         public bool UpdateTitle(int id, string title)
         {
-            if (!ValidateId(id) || ticketPersistenceManager.Load(id) == null)
+            if (!validationService.ValidateId(id) || ticketPersistenceManager.Load(id) == null)
             {
                 return false;
             }
@@ -163,7 +166,7 @@ namespace KanbanBoard.Services
 
         public bool UpdateDescription(int id, string description)
         {
-            if (!ValidateId(id) || ticketPersistenceManager.Load(id) == null)
+            if (!validationService.ValidateId(id) || ticketPersistenceManager.Load(id) == null)
             {
                 return false;
             }
@@ -171,9 +174,14 @@ namespace KanbanBoard.Services
             return ticketPersistenceManager.UpdateDescription(id, description) > 0;
         }
 
-        private bool ValidateId(int id)
+        public IEnumerable<Ticket> GetFavoritesByUserId(int userId)
         {
-            return id > 0;
+            if (!validationService.ValidateId(userId) || userService.GetById(userId) == null)
+            {
+                return new List<Ticket>();
+            }
+
+            return ticketPersistenceManager.LoadFavoritesByUserId(userId);
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using KanbanBoard.Helpers;
 using KanbanBoard.Models;
 using KanbanBoard.PersistenceManagers;
 using KanbanBoard.PersistenceManagers.Interfaces;
@@ -9,10 +10,11 @@ namespace KanbanBoard.Services
     public class ColumnService : IColumnService
     {
         private readonly IColumnPersistenceManager columnPersistenceManager = new ColumnPersistenceManager();
+        private readonly IValidationService validationService = new ValidationService();
         
         public IEnumerable<Column> GetByBoardId(int boardId)
         {
-            if (!ValidateId(boardId))
+            if (!validationService.ValidateId(boardId))
             {
                 return new List<Column>();
             }
@@ -22,7 +24,7 @@ namespace KanbanBoard.Services
 
         public Column GetById(int id)
         {
-            if (!ValidateId(id))
+            if (!validationService.ValidateId(id))
             {
                 return null;
             }
@@ -37,7 +39,7 @@ namespace KanbanBoard.Services
 
         public void Delete(int id)
         {
-            if (!ValidateId(id))
+            if (!validationService.ValidateId(id))
             {
                 return;
             }
@@ -47,7 +49,7 @@ namespace KanbanBoard.Services
 
         public bool UpdateColumnOrder(int id, int columnOrder)
         {
-            if (!ValidateId(id) || columnPersistenceManager.Load(id) == null)
+            if (!validationService.ValidateId(id) || columnPersistenceManager.Load(id) == null)
             {
                 return false;
             }
@@ -57,17 +59,12 @@ namespace KanbanBoard.Services
 
         public void DeleteByBoardId(int boardId)
         {
-            if (!ValidateId(boardId))
+            if (!validationService.ValidateId(boardId))
             {
                 return;
             }
             
             columnPersistenceManager.DeleteByBoardId(boardId);
-        }
-        
-        private bool ValidateId(int id)
-        {
-            return id > 0;
         }
     }
 }

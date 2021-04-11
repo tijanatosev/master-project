@@ -32,9 +32,16 @@
   </mat-card>
 </div>
 <br>
+<h5>Favorites</h5>
+<div class="row mx-2">
+  <mat-card class="col my-2 mr-2 ml-2">
+    <app-tickets-datatable [user]="null" [team]="null" [favorites]="userId"></app-tickets-datatable>
+  </mat-card>
+</div>
+<br>
 <h5>Tickets</h5>
 <div class="row mx-2">
   <mat-card class="col my-2 mr-2 ml-2">
-    <app-tickets-datatable [user]="userId" [team]="null"></app-tickets-datatable>
+    <app-tickets-datatable [user]="userId" [team]="null" [favorites]="null"></app-tickets-datatable>
   </mat-card>
 </div>

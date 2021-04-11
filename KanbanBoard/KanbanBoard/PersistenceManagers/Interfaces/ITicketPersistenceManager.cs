@@ -35,5 +35,7 @@ namespace KanbanBoard.PersistenceManagers.Interfaces
         int UpdateTitle(int id, string title);
         
         int UpdateDescription(int id, string description);
+
+        IEnumerable<Ticket> LoadFavoritesByUserId(int userId);
     }
 }

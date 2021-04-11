@@ -82,4 +82,8 @@ export class TicketService extends BaseService{
     return this.http.put(`${this.ticketsUrl()}/${id}/description`, description,{ observe: "response" })
       .pipe(map(response => response.status));
   }
+
+  public getFavoritesByUserId(userId) {
+    return this.http.get<Ticket[]>(`${this.ticketsUrl()}/favorites/${userId}`);
+  }
 }

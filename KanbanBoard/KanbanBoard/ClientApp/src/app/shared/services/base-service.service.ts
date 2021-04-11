@@ -28,4 +28,8 @@
   public columnsUrl() {
     return this.url + 'columns';
   }
+
+  public favoritesUrl() {
+    return this.url + 'favorites';
+  }
 }

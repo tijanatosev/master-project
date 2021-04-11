@@ -12,6 +12,7 @@ namespace KanbanBoard.Services
     {
         private readonly IUserPersistenceManager userPersistenceManager = new UserPersistenceManager();
         private readonly IHashingManager hashingManager = new HashingManager();
+        private readonly IValidationService validationService = new ValidationService();
 
         public IEnumerable<User> GetAll()
         {
@@ -20,7 +21,7 @@ namespace KanbanBoard.Services
 
         public User GetById(int id)
         {
-            if (!ValidateId(id))
+            if (!validationService.ValidateId(id))
             {
                 return null;
             }
@@ -53,7 +54,7 @@ namespace KanbanBoard.Services
 
         public void Delete(int id)
         {
-            if (!ValidateId(id) || userPersistenceManager.Load(id) == null)
+            if (!validationService.ValidateId(id) || userPersistenceManager.Load(id) == null)
             {
                 return;
             }
@@ -76,7 +77,7 @@ namespace KanbanBoard.Services
 
         public bool Update(int id, User user)
         {
-            if (!ValidateId(id) || userPersistenceManager.Load(id) == null)
+            if (!validationService.ValidateId(id) || userPersistenceManager.Load(id) == null)
             {
                 return false;
             }
@@ -86,7 +87,7 @@ namespace KanbanBoard.Services
 
         public bool UpdatePassword(int id, User user)
         {
-            if (!ValidateId(id) || userPersistenceManager.Load(id) == null)
+            if (!validationService.ValidateId(id) || userPersistenceManager.Load(id) == null)
             {
                 return false;
             }
@@ -98,7 +99,7 @@ namespace KanbanBoard.Services
         public bool CheckPassword(int id, string password)
         {
             User user = userPersistenceManager.Load(id);
-            if (!ValidateId(id) || user == null)
+            if (!validationService.ValidateId(id) || user == null)
             {
                 return false;
             }
@@ -109,17 +110,12 @@ namespace KanbanBoard.Services
 
         public IEnumerable<User> GetUsersByTeamId(int teamId)
         {
-            if (!ValidateId(teamId))
+            if (!validationService.ValidateId(teamId))
             {
                 return new List<User>();
             }
             
             return userPersistenceManager.LoadByTeamId(teamId);
-        }
-
-        private bool ValidateId(int id)
-        {
-            return id > 0;
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using KanbanBoard.Helpers;
 using KanbanBoard.Models;
 using KanbanBoard.PersistenceManagers;
 using KanbanBoard.Services.Interfaces;
@@ -8,6 +9,7 @@ namespace KanbanBoard.Services
     public class TeamService : ITeamService
     {
         private readonly TeamPersistenceManager teamPersistenceManager = new TeamPersistenceManager();
+        private readonly IValidationService validationService = new ValidationService();
 
         public IEnumerable<Team> GetAll()
         {
@@ -16,7 +18,7 @@ namespace KanbanBoard.Services
 
         public Team GetById(int id)
         {
-            if (!ValidateId(id))
+            if (!validationService.ValidateId(id))
             {
                 return null;
             }
@@ -36,7 +38,7 @@ namespace KanbanBoard.Services
 
         public void Delete(int id)
         {
-            if (!ValidateId(id))
+            if (!validationService.ValidateId(id))
             {
                 return;
             }
@@ -46,7 +48,7 @@ namespace KanbanBoard.Services
 
         public IEnumerable<Team> GetTeamsByUserId(int userId)
         {
-            if (!ValidateId(userId))
+            if (!validationService.ValidateId(userId))
             {
                 return null;
             }
@@ -56,7 +58,7 @@ namespace KanbanBoard.Services
 
         public bool AddUsersToTeam(int teamId, List<int> userIds)
         {
-            if (!ValidateId(teamId) || teamPersistenceManager.Load(teamId) == null || userIds.Count < 0)
+            if (!validationService.ValidateId(teamId) || teamPersistenceManager.Load(teamId) == null || userIds.Count < 0)
             {
                 return false;
             }
@@ -72,11 +74,6 @@ namespace KanbanBoard.Services
             }
 
             return true;
-        }
-
-        private bool ValidateId(int id)
-        {
-            return id > 0;
         }
     }
 }

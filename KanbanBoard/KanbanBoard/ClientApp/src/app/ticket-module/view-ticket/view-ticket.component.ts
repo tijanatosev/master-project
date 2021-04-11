@@ -17,6 +17,9 @@ import { MatChipInputEvent } from "@angular/material/chips";
 import { map, startWith } from "rxjs/operators";
 import { Responses } from "../../shared/enums";
 import { SnackBarService } from "../../shared/snack-bar.service";
+import { FavoriteService } from "../../shared/services/favorite/favorite.service";
+import { AuthService } from "../../shared/auth/auth.service";
+import { Favorite } from "../../shared/services/favorite/favorite.model";
 
 @Component({
   selector: 'app-view-ticket',
@@ -38,6 +41,8 @@ export class ViewTicketComponent implements OnInit {
   public descriptionForm: FormGroup;
   public minDate = new Date("1/1/1970");
   public maxDate = new Date("1/1/2050");
+  private loggedInUser: number;
+  public isFavorite: boolean = false;
 
   public selectable = true;
   public labelControl = new FormControl();
@@ -55,12 +60,18 @@ export class ViewTicketComponent implements OnInit {
               private columnService: ColumnService,
               private boardService: BoardService,
               private snackBarService: SnackBarService,
-              private formBuilder: FormBuilder) {
+              private formBuilder: FormBuilder,
+              private favoriteService: FavoriteService,
+              private authService: AuthService) {
   }
 
   ngOnInit() {
     this.route.params.subscribe((params: Params) => {
       this.ticketId = +params['id'];
+    });
+    this.loggedInUser = this.authService.getUserIdFromToken();
+    this.favoriteService.isFavorite(this.ticketId, this.loggedInUser).subscribe(result => {
+      this.isFavorite = result;
     });
     this.ticketService.getTicket(this.ticketId).subscribe(ticket => {
       this.ticket = ticket;
@@ -226,6 +237,21 @@ export class ViewTicketComponent implements OnInit {
     this.descriptionClicked = false;
     this.descriptionForm.reset();
     this.initDescriptionForm();
+  }
+
+  public removeFromFavorites() {
+    this.favoriteService.deleteFavorite(this.ticketId, this.loggedInUser).subscribe(_ => this.isFavorite = false);
+  }
+
+  public addToFavorites() {
+    const favorite = new Favorite();
+    favorite.TicketId = this.ticketId;
+    favorite.UserId = this.loggedInUser;
+    this.favoriteService.addFavorite(favorite).subscribe(result => {
+      if (result > 0) {
+        this.isFavorite = true;
+      }
+    });
   }
 
   private initTitleForm() {
