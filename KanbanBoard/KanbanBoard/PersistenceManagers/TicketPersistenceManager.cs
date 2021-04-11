@@ -189,6 +189,24 @@ WHERE Id=@Id";
             return dbCommands.ExecuteSqlNonQuery(query, new SqlParameter("@Description", description), new SqlParameter("@Id", id));
         }
 
+        public IEnumerable<Ticket> LoadFavoritesByUserId(int userId)
+        {
+            List<Ticket> tickets = new List<Ticket>();
+            string query = @"SELECT t.Id, t.Title, t.Description, t.Creator, t.StoryPoints, t.Status, t.DateCreated, t.AssignedTo, t.StartDate, t.EndDate, t.Rank, t.BoardId, t.ColumnId
+FROM Tickets t JOIN Favorites f ON t.Id = f.TicketId
+WHERE f.UserId=@UserId";
+            DataTable result = dbCommands.ExecuteSqlQuery(query, new SqlParameter("@UserId", userId)).Tables["Result"];
+            
+            if (result.Rows.Count != 0)
+            {
+                foreach (DataRow row in result.Rows)
+                {
+                    tickets.Add(LoadFromDataRow(row));
+                }
+            }
+            return tickets;
+        }
+
         public Ticket LoadFromDataRow(DataRow row)
         {
             return new Ticket

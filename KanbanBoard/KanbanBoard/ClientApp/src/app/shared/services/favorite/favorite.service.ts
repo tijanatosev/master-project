@@ -27,7 +27,7 @@ export class FavoriteService extends BaseService {
       .pipe(map(response => response.body));
   }
 
-  public deleteFavorite(favorite) {
-    return this.http.delete(`${this.favoritesUrl()}`, favorite);
+  public deleteFavorite(ticketId, userId) {
+    return this.http.delete(`${this.favoritesUrl()}/${ticketId}/user/${userId}`);
   }
 }

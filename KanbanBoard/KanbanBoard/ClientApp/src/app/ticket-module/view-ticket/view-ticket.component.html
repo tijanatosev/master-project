@@ -68,6 +68,17 @@
           </div>
           <mat-divider vertical></mat-divider>
           <div class="col-3">
+            <mat-label>
+              <button mat-icon-button color="primary" *ngIf="isFavorite" (click)="removeFromFavorites()" style="float: right">
+                <mat-icon>star</mat-icon>
+              </button>
+              <button mat-icon-button color="primary" *ngIf="!isFavorite" (click)="addToFavorites()" style="float: right">
+                <mat-icon>star_border</mat-icon>
+              </button>
+            </mat-label>
+            <br>
+            <br>
+
             <mat-label class="title-label">Status</mat-label>
             <br>
             <mat-select [(value)]="ticket.ColumnId" (selectionChange)="updateStatus($event)">

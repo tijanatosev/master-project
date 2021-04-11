@@ -18,6 +18,7 @@ export class ProfileComponent implements OnInit {
   public teams: Team[];
   public tickets: Ticket[] = [];
   public userId;
+  public favorites: Ticket[] = [];
 
   constructor(private userService: UserService,
               private authService: AuthService,
@@ -29,6 +30,7 @@ export class ProfileComponent implements OnInit {
     this.userId = this.authService.getUserIdFromToken();
     this.userService.getUser(this.userId).subscribe(user => this.user = user);
     this.teamService.getTeamsByUserId(this.userId).subscribe(teams => this.teams = teams);
+    this.ticketService.getFavoritesByUserId(this.userId).subscribe(favorites => this.favorites = favorites);
   }
 
   goToTeam(id) {

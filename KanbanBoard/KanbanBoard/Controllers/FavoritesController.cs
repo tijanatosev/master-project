@@ -34,10 +34,10 @@ namespace KanbanBoard.Controllers
         }
 
         [HttpDelete]
-        [Route("")]
-        public void Delete([FromBody] Favorite favorite)
+        [Route("{ticketId}/user/{userId}")]
+        public void Delete([FromRoute] int ticketId, [FromRoute] int userId)
         {
-            favoriteService.Delete(favorite);
+            favoriteService.Delete(ticketId, userId);
         }
     }
 }

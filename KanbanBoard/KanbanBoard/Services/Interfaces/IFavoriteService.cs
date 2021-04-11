@@ -11,6 +11,6 @@ namespace KanbanBoard.Services.Interfaces
 
         int Add(Favorite favorite);
 
-        void Delete(Favorite favorite);
+        void Delete(int ticketId, int userId);
     }
 }

@@ -61,10 +61,10 @@ VALUES (@TicketId, @UserId)";
             return dbCommands.ExecuteScalar(query, parameters);
         }
 
-        public void Delete(Favorite favorite)
+        public void Delete(int ticketId, int userId)
         {
             string query = @"DELETE FROM Favorites WHERE TicketId=@TicketId AND UserId=@UserId";
-            dbCommands.ExecuteSqlNonQuery(query, new SqlParameter("@TicketId", favorite.TicketId), new SqlParameter("@UserId", favorite.UserId));
+            dbCommands.ExecuteSqlNonQuery(query, new SqlParameter("@TicketId", ticketId), new SqlParameter("@UserId", userId));
         }
         
         public Favorite LoadFromDataRow(DataRow row)

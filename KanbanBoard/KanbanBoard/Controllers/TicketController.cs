@@ -156,5 +156,12 @@ namespace KanbanBoard.Controllers
             
             return new StatusCodeResult(200);
         }
+
+        [HttpGet]
+        [Route("favorites/{userId}")]
+        public IEnumerable<Ticket> GetFavoritesByUserId([FromRoute] int userId)
+        {
+            return ticketService.GetFavoritesByUserId(userId);
+        }
     }
 }

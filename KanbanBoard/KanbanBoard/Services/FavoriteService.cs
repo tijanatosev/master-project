@@ -42,9 +42,9 @@ namespace KanbanBoard.Services
             return favoritePersistenceManager.Add(favorite);
         }
 
-        public void Delete(Favorite favorite)
+        public void Delete(int ticketId, int userId)
         {
-            favoritePersistenceManager.Delete(favorite);
+            favoritePersistenceManager.Delete(ticketId, userId);
         }
     }
 }

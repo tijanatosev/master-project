@@ -35,5 +35,7 @@ namespace KanbanBoard.Services.Interfaces
         bool UpdateTitle(int id, string title);
         
         bool UpdateDescription(int id, string description);
+        
+        IEnumerable<Ticket> GetFavoritesByUserId(int userId);
     }
 }

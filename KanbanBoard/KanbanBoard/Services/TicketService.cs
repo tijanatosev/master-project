@@ -14,6 +14,7 @@ namespace KanbanBoard.Services
         private readonly ITicketPersistenceManager ticketPersistenceManager = new TicketPersistenceManager();
         private readonly IColumnService columnService = new ColumnService();
         private readonly IValidationService validationService = new ValidationService();
+        private readonly IUserService userService = new UserService();
         
         public IEnumerable<Ticket> GetAll()
         {
@@ -171,6 +172,16 @@ namespace KanbanBoard.Services
             }
 
             return ticketPersistenceManager.UpdateDescription(id, description) > 0;
+        }
+
+        public IEnumerable<Ticket> GetFavoritesByUserId(int userId)
+        {
+            if (!validationService.ValidateId(userId) || userService.GetById(userId) == null)
+            {
+                return new List<Ticket>();
+            }
+
+            return ticketPersistenceManager.LoadFavoritesByUserId(userId);
         }
     }
 }

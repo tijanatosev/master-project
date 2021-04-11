@@ -10,7 +10,7 @@ namespace KanbanBoard.PersistenceManagers.Interfaces
         Favorite Load(int ticketId, int userId);
         
         int Add(Favorite favorite);
-        
-        void Delete(Favorite favorite);
+
+        void Delete(int ticketId, int userId);
     }
 }
