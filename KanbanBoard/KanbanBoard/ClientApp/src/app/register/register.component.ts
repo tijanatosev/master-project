@@ -11,7 +11,7 @@ import { AuthService } from "../shared/auth/auth.service";
   styleUrls: ['./register.component.css']
 })
 export class RegisterComponent implements OnInit {
-  registerForm: FormGroup;
+  public registerForm: FormGroup;
   public hide = true;
   public hideRetype = true;
 
@@ -32,7 +32,7 @@ export class RegisterComponent implements OnInit {
       password: ['', { validators: Validators.required, updateOn: "blur" }],
       checkPassword: ['', { validators: Validators.required, updateOn: "blur" }]
     }, {
-      validators: [this.validatePasswordsMatch(), this.validatePassword()]
+      validators: [this.validatePasswordsMatch(), this.validatePassword(), this.validateFirstName(), this.validateLastName(), this.validateUsernameEmpty()]
     });
 
     this.userService.getUsers().subscribe(users => {
@@ -42,11 +42,11 @@ export class RegisterComponent implements OnInit {
 
   public save(data) {
     let user = new User();
-    user.Username = data.value.username;
-    user.FirstName = data.value.firstName;
-    user.LastName = data.value.lastName;
-    user.Email = data.value.email;
-    user.Password = data.value.password;
+    user.Username = data.value.username.trim();
+    user.FirstName = data.value.firstName.trim();
+    user.LastName = data.value.lastName.trim();
+    user.Email = data.value.email.trim();
+    user.Password = data.value.password.trim();
     user.UserType = "user";
     this.userService.addUser(user).subscribe(userId => {
       if (userId) {
@@ -59,9 +59,9 @@ export class RegisterComponent implements OnInit {
 
   private validateUsername() {
     return (control: AbstractControl) => {
-      this.userService.getByUsername(control.value)
+      this.userService.getByUsername(control.value.trim())
         .subscribe((user) => {
-          if (user && user.Username === control.value) {
+          if (user && user.Username === control.value.trim()) {
             control.setErrors({ 'usernameTaken': true });
           } else {
             return null;
@@ -84,6 +84,27 @@ export class RegisterComponent implements OnInit {
       } else {
         return null;
       }
+    };
+  }
+
+  private validateUsernameEmpty() {
+    return (control: AbstractControl) => {
+      return control.value.username.length != 0 && control.value.username.trim().length == 0 ?
+        this.registerForm.controls.username.setErrors({'usernameInvalid': true}) : null
+    };
+  }
+
+  private validateFirstName() {
+    return (control: AbstractControl) => {
+      return control.value.firstName.length != 0 && control.value.firstName.trim().length == 0 ?
+        this.registerForm.controls.firstName.setErrors({'firstNameInvalid': true}) : null
+    };
+  }
+
+  private validateLastName() {
+    return (control: AbstractControl) => {
+      return control.value.lastName.length != 0 && control.value.lastName.trim().length == 0 ?
+        this.registerForm.controls.lastName.setErrors({'lastNameInvalid': true}) : null
     };
   }
 }
