@@ -64,6 +64,10 @@
             <button mat-icon-button class="column-button" (click)="closeAddColumn()">
               <mat-icon>close</mat-icon>
             </button>
+
+            <mat-error *ngIf="columnForm.get('columnName').errors && columnForm.get('columnName').errors.nameInvalid">
+              Name can't be empty.
+            </mat-error>
           </form>
           <mat-error *ngIf="columnForm.get('columnName').errors && columnForm.get('columnName').errors.maxlength">
             &nbsp;Column name is too long.

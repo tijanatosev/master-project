@@ -12,7 +12,7 @@ import { SnackBarService } from "../../shared/snack-bar.service";
   styleUrls: ['./settings-notifications.component.css']
 })
 export class SettingsNotificationsComponent implements OnInit {
-  notificationsForm: FormGroup;
+  public notificationsForm: FormGroup;
   private notification: Notification;
   private userId: number;
   private notificationId: number;
