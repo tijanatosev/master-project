@@ -17,8 +17,8 @@ import { SnackBarService } from "../../shared/snack-bar.service";
 export class BoardComponent implements OnInit {
   public boardId: number;
   public board: Board;
-  public tickets: Ticket[];
-  public columns: Column[];
+  public tickets: Ticket[] = [];
+  public columns: Column[] = [];
 
   constructor(private route: ActivatedRoute,
               private boardService: BoardService,

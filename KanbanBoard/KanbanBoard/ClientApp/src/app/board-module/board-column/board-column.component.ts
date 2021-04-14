@@ -15,6 +15,7 @@ export class BoardColumnComponent implements OnInit {
   @Input() containerId: number;
   @Output() changeColumns = new EventEmitter<number[]>();
   public tickets: Ticket[];
+  public points: number = 0;
 
   constructor(private ticketService: TicketService,
               private snackBarService: SnackBarService) { }
@@ -23,6 +24,7 @@ export class BoardColumnComponent implements OnInit {
     this.ticketService.getTicketsByColumnId(this.columnId).subscribe(tickets => {
       this.tickets = tickets;
       this.tickets.sort((x, y) => x.Rank - y.Rank);
+      this.points = tickets.reduce((x, y) => x + y.StoryPoints, 0);
     });
   }
 
@@ -31,14 +33,19 @@ export class BoardColumnComponent implements OnInit {
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
     } else {
       let newColumnId = parseInt(event.container.id);
-      let ticketId = event.previousContainer.data[event.previousIndex].Id
+      let ticketId = event.previousContainer.data[event.previousIndex].Id;
       this.changeColumns.emit([newColumnId, ticketId]);
       transferArrayItem(event.previousContainer.data, event.container.data, event.previousIndex, event.currentIndex);
     }
     this.updateRank(event.container.data);
   }
 
-  private updateRank(tickets) {
+  public drag(draggedTicket) {
+    const removedPoints = draggedTicket.item.data.StoryPoints;
+    this.points = this.points - removedPoints > 0 ? this.points - removedPoints : this.points;
+  }
+
+  private updateRank(tickets: Ticket[]) {
     for (let i = 0; i < tickets.length; i++) {
       this.ticketService.updateRank(tickets[i].Id, i + 1).subscribe(result => {
         if (result != Responses.Successful) {
@@ -46,5 +53,6 @@ export class BoardColumnComponent implements OnInit {
         }
       });
     }
+    this.points = tickets.reduce((x, y) => x + y.StoryPoints, 0);
   }
 }
