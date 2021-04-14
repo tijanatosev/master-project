@@ -4,7 +4,6 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { User } from "../shared/services/user/user.model";
 import { UserService } from "../shared/services/user/user.service";
 import { AuthService } from "../shared/auth/auth.service";
-import { Responses } from "../shared/enums";
 
 @Component({
   selector: 'app-register',
@@ -13,7 +12,6 @@ import { Responses } from "../shared/enums";
 })
 export class RegisterComponent implements OnInit {
   registerForm: FormGroup;
-  public registerInvalid = false;
   public hide = true;
   public hideRetype = true;
 
@@ -42,7 +40,7 @@ export class RegisterComponent implements OnInit {
     });
   }
 
-  save(data) {
+  public save(data) {
     let user = new User();
     user.Username = data.value.username;
     user.FirstName = data.value.firstName;
