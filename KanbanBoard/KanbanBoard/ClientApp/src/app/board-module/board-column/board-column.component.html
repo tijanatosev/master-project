@@ -1,6 +1,8 @@
+<mat-label> Story points: {{points}}</mat-label>
 <div cdkDropList
      [cdkDropListData]="tickets"
      (cdkDropListDropped)="drop($event)"
+     (cdkDropListExited)="drag($event)"
      id="{{containerId}}"
      class="ticket-list">
     <div *ngFor="let ticket of tickets;"
