@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { TicketService } from "../../shared/services/ticket/ticket.service";
 import { Ticket } from "../../shared/services/ticket/ticket.model";
-import {CdkDrag, CdkDragDrop, moveItemInArray, transferArrayItem} from "@angular/cdk/drag-drop";
+import { CdkDragDrop, moveItemInArray, transferArrayItem } from "@angular/cdk/drag-drop";
 import { Responses } from "../../shared/enums";
 import { SnackBarService } from "../../shared/snack-bar.service";
 
