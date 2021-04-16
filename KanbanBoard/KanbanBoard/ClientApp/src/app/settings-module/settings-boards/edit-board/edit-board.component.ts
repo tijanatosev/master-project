@@ -125,7 +125,7 @@ export class EditBoardComponent implements OnInit {
 
   private initForms() {
     this.boardForm = this.formBuilder.group({
-      name: [this.board.Name, { validators: [Validators.maxLength(20), this.whiteSpace()], updateOn: "blur" }],
+      name: [this.board.Name, { validators: [Validators.maxLength(20)], updateOn: "blur" }],
       admin: [this.board.Admin],
       team: [this.board.TeamId]
     }, {
@@ -136,12 +136,6 @@ export class EditBoardComponent implements OnInit {
     },  {
       validators: [this.validateColumnName()]
     });
-  }
-
-  public whiteSpace() {
-    return (control: FormControl) => {
-      return (control.value || '').trim().length === 0 ? { 'whiteSpace': true } : null;
-    };
   }
 
   private validateName() {

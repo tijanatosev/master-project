@@ -12,8 +12,8 @@
           <mat-error *ngIf="boardForm.get('name').errors && boardForm.get('name').errors.maxlength">
             Board name is too long.
           </mat-error>
-          <mat-error *ngIf="boardForm.get('name').errors && boardForm.get('name').errors.whiteSpace">
-            Board name is empty.
+          <mat-error *ngIf="boardForm.get('name').errors && boardForm.get('name').errors.nameInvalid">
+            Name can't be empty.
           </mat-error>
           <br>
           <mat-form-field appearance="outline">
@@ -66,12 +66,12 @@
             </button>
 
             <mat-error *ngIf="columnForm.get('columnName').errors && columnForm.get('columnName').errors.nameInvalid">
-              Name can't be empty.
+              Column name can't be empty.
+            </mat-error>
+            <mat-error *ngIf="columnForm.get('columnName').errors && columnForm.get('columnName').errors.maxlength">
+              &nbsp;Column name is too long.
             </mat-error>
           </form>
-          <mat-error *ngIf="columnForm.get('columnName').errors && columnForm.get('columnName').errors.maxlength">
-            &nbsp;Column name is too long.
-          </mat-error>
           <br>
         </div>
 
