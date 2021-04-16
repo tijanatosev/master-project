@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { User } from "../../shared/services/user/user.model";
 import { UserService } from "../../shared/services/user/user.service";
 import { TeamService } from "../../shared/services/team/team.service";
 import { Team } from "../../shared/services/team/team.model";
 import { Responses } from "../../shared/enums";
 import { SnackBarService } from "../../shared/snack-bar.service";
-
+import { AuthService } from "../../shared/auth/auth.service";
 
 @Component({
   selector: 'app-add-team',
@@ -14,22 +14,29 @@ import { SnackBarService } from "../../shared/snack-bar.service";
   styleUrls: ['./add-team.component.css']
 })
 export class AddTeamComponent implements OnInit {
-  public teamForm: FormGroup = new FormGroup({
-    name: new FormControl('', Validators.required),
-    admin: new FormControl('', Validators.required),
-    members: new FormControl('', Validators.required)
-  });
+  public teamForm: FormGroup;
   public users: User[] = [];
+  public loggedInUser;
 
   constructor(private teamService: TeamService,
               private userService: UserService,
-              private snackBarService: SnackBarService) { }
+              private snackBarService: SnackBarService,
+              private formBuilder: FormBuilder,
+              private authService: AuthService) { }
 
   ngOnInit() {
+    this.loggedInUser = this.authService.getUsernameFromToken();
+    this.teamForm = this.formBuilder.group( {
+      name: ['', { validators: Validators.required, updateOn: "change" }],
+      admin: [this.loggedInUser, { validators: Validators.required }],
+      members: ['', { validators: Validators.required }]
+    }, {
+      validators: [this.validateName()]
+    });
     this.userService.getUsers().subscribe(result => this.users = result);
   }
 
-  save(teamForm) {
+  public save(teamForm) {
     let team = new Team();
     team.Admin = teamForm.value.admin;
     team.Name = teamForm.value.name;
@@ -47,4 +54,10 @@ export class AddTeamComponent implements OnInit {
     });
   }
 
+  private validateName() {
+    return (control: AbstractControl) => {
+      return control.value.name.length != 0 && control.value.name.trim().length == 0 ?
+        this.teamForm.controls.name.setErrors({'nameInvalid': true}) : null
+    };
+  }
 }

@@ -28,7 +28,7 @@ export class SettingsLabelsComponent implements OnInit {
   public openAddDialog() {
     this.dialogLabelRef = this.labelDialog.open(AddLabelComponent, {
       width: '430px',
-      height: '300px'
+      height: '320px'
     });
 
     this.dialogLabelRef.afterClosed().subscribe(result => {

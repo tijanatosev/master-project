@@ -8,6 +8,10 @@
     <mat-error *ngIf="labelForm.get('name').errors && labelForm.get('name').errors.maxlength">
       Name is too long. It should be 20 characters long.
     </mat-error>
+    <mat-error *ngIf="labelForm.get('name').errors && labelForm.get('name').errors.nameInvalid">
+      Name can't be empty.
+    </mat-error>
+
     <mat-form-field appearance="outline">
       <mat-select placeholder="Choose color" formControlName="color">
         <mat-option *ngFor="let value of colorsValues" [value]="colors[value]">

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { AbstractControl, FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { LabelService } from "../../../shared/services/label/label.service";
 import { Colors } from "../../../shared/enums";
 import { Label } from "../../../shared/services/label/label.model";
@@ -11,7 +11,6 @@ import { SnackBarService } from "../../../shared/snack-bar.service";
   styleUrls: ['./add-label.component.css']
 })
 export class AddLabelComponent implements OnInit {
-
   public labelForm: FormGroup;
   public colorsValues = Colors.values();
   private label: Label;
@@ -25,14 +24,14 @@ export class AddLabelComponent implements OnInit {
     this.labelForm = this.formBuilder.group({
       name: ['', { validators: [Validators.required, Validators.maxLength(20)], updateOn: "blur" }],
       color: ['', { validators: [Validators.required], updateOn: "blur" }]
+    }, {
+      validators: [this.validateName()]
     });
     this.labelService.getLabels().subscribe(result => {
       for (let label of result) {
         this.colorsValues = this.colorsValues.filter(color => label.Color != Colors[color])
       }
     });
-    console.log();
-
   }
 
   public save(labelForm) {
@@ -46,6 +45,13 @@ export class AddLabelComponent implements OnInit {
         this.snackBarService.unsuccessful();
       }
     });
+  }
+
+  private validateName() {
+    return (control: AbstractControl) => {
+      return control.value.name.length != 0 && control.value.name.trim().length == 0 ?
+        this.labelForm.controls.name.setErrors({'nameInvalid': true}) : null
+    };
   }
 
 }

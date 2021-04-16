@@ -5,3 +5,7 @@
 .select-option-team {
   margin-top: 50px !important;
 }
+
+.mat-error {
+  text-align: center;
+}

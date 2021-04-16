@@ -5,7 +5,7 @@ import { TeamService } from "../../../shared/services/team/team.service";
 import { UserService } from "../../../shared/services/user/user.service";
 import { User } from "../../../shared/services/user/user.model";
 import { Team } from "../../../shared/services/team/team.model";
-import { FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
+import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
 import { ColumnService } from "../../../shared/services/column/column.service";
 import { Column } from "../../../shared/services/column/column.model";
 import { CdkDragDrop, moveItemInArray } from "@angular/cdk/drag-drop";
@@ -125,18 +125,30 @@ export class EditBoardComponent implements OnInit {
 
   private initForms() {
     this.boardForm = this.formBuilder.group({
-      name: [this.board.Name, { validators: [Validators.maxLength(20), this.whiteSpace()], updateOn: "blur" }],
+      name: [this.board.Name, { validators: [Validators.maxLength(20)], updateOn: "blur" }],
       admin: [this.board.Admin],
       team: [this.board.TeamId]
+    }, {
+      validators: [this.validateName()]
     });
     this.columnForm = this.formBuilder.group({
       columnName: ['', { validators: [Validators.maxLength(32)] }]
+    },  {
+      validators: [this.validateColumnName()]
     });
   }
 
-  public whiteSpace() {
-    return (control: FormControl) => {
-      return (control.value || '').trim().length === 0 ? { 'whiteSpace': true } : null;
+  private validateName() {
+    return (control: AbstractControl) => {
+      return control.value.name.length != 0 && control.value.name.trim().length == 0 ?
+        this.boardForm.controls.name.setErrors({'nameInvalid': true}) : null
+    };
+  }
+
+  private validateColumnName() {
+    return (control: AbstractControl) => {
+      return control.value.columnName && control.value.columnName.length != 0 && control.value.columnName.trim().length == 0 ?
+        this.columnForm.controls.columnName.setErrors({'nameInvalid': true}) : null
     };
   }
 }
