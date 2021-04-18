@@ -117,5 +117,15 @@ namespace KanbanBoard.Services
             
             return userPersistenceManager.LoadByTeamId(teamId);
         }
+
+        public bool UpdateImage(int id, string image)
+        {
+            if (!validationService.ValidateId(id))
+            {
+                return false;
+            }
+
+            return userPersistenceManager.UpdateImage(id, image) > 0;
+        }
     }
 }

@@ -4,7 +4,6 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Team } from './team.model';
 import { map } from "rxjs/operators";
-import { Board } from "../board/board.model";
 
 @Injectable({
   providedIn: 'root'

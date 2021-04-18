@@ -72,7 +72,8 @@ VALUES (@FirstName, @LastName, @Username, @Password, @Email, @UserType)";
                 new SqlParameter("@Username", user.Username),
                 new SqlParameter("@Password", user.Password),
                 new SqlParameter("@Email", user.Email),
-                new SqlParameter("@UserType", user.UserType), 
+                new SqlParameter("@UserType", user.UserType),
+                new SqlParameter("@Image", "Resources\\Images\\profile.png"), 
             };
             return dbCommands.ExecuteScalar(query, parameters);
         }
@@ -136,6 +137,14 @@ WHERE ut.TeamId=@TeamId";
             return users;
         }
 
+        public int UpdateImage(int id, string image)
+        {
+            string query = @"UPDATE Users SET
+Image=@Image
+WHERE Id=@Id";
+            return dbCommands.ExecuteSqlNonQuery(query, new SqlParameter("@Image", image), new SqlParameter("@Id", id));
+        }
+
         public User LoadFromDataRow(DataRow row)
         {
             return new User
@@ -146,7 +155,8 @@ WHERE ut.TeamId=@TeamId";
                 FirstName = row["FirstName"].ToString(),
                 LastName = row["LastName"].ToString(),
                 Email = row["Email"].ToString(),
-                UserType = row["UserType"].ToString()
+                UserType = row["UserType"].ToString(),
+                Image = row["Image"].ToString()
             };
         }
     }

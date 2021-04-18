@@ -95,5 +95,17 @@ namespace KanbanBoard.Controllers
         {
             return userService.GetUsersByTeamId(teamId);
         }
+        
+        [HttpPut]
+        [Route("image/{id}")]
+        public IActionResult UpdateImage([FromRoute] int id, [FromBody] User user)
+        {
+            if (!userService.UpdateImage(id, user.Image))
+            {
+                return new NoContentResult();
+            }
+            
+            return new StatusCodeResult(200);
+        }
     }
 }
