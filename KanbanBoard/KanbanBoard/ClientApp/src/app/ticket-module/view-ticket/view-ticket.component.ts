@@ -219,7 +219,6 @@ export class ViewTicketComponent implements OnInit {
 
   public saveDescription(data) {
     this.descriptionClicked = false;
-    console.log(data, data.value.description);
     if (data.value.description.trim().length == 0) {
       return;
     }

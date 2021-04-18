@@ -2,7 +2,13 @@
   <mat-card-content>
     <div class="row">
       <div class="col-3">
-        <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu" class="slika">
+        <img mat-card-image src="{{ this.image }}">
+        <div>
+          <button mat-raised-button color="primary" (click)="openFileUpload()">
+            Upload
+          </button>
+        </div>
+        <input type="file" (change)="upload($event.target)" accept="image/x-png,image/gif,image/jpeg" style="display: none">
       </div>
       <mat-divider vertical></mat-divider>
       <div class="col">

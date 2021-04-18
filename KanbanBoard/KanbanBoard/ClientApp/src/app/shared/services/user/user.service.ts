@@ -58,4 +58,9 @@ export class UserService extends BaseService {
   public getUsersByTeamId(teamId) {
     return this.http.get<User[]>(`${this.usersUrl()}/team/${teamId}`);
   }
+
+  public updateImage(id, image) {
+    return this.http.put(`${this.usersUrl()}/image/${id}`, image, { observe: "response" })
+      .pipe(map(response => response.status));
+  }
 }

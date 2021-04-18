@@ -20,5 +20,7 @@ namespace KanbanBoard.PersistenceManagers.Interfaces
         void Delete(int id);
 
         IEnumerable<User> LoadByTeamId(int teamId);
+
+        int UpdateImage(int id, string image);
     }
 }

@@ -6,4 +6,5 @@
     public LastName: string;
     public Email: string;
     public UserType: string;
+    public Image: string;
 }
