@@ -56,6 +56,7 @@ import { MatNativeDateModule } from '@angular/material';
 import { MatAutocompleteModule } from "@angular/material/autocomplete";
 import { BoardComponent } from './board-module/board/board.component';
 import { BoardColumnComponent } from './board-module/board-column/board-column.component';
+import { BoardTicketComponent } from './board-module/board-ticket/board-ticket.component';
 
 const routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
@@ -92,7 +93,8 @@ const routes = [
     SettingsBoardsComponent,
     EditBoardComponent,
     BoardComponent,
-    BoardColumnComponent
+    BoardColumnComponent,
+    BoardTicketComponent
   ],
   imports: [
     BrowserModule.withServerTransition({appId: 'ng-cli-universal'}),

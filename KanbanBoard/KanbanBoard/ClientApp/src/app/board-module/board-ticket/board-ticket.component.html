@@ -1,0 +1,11 @@
+<div *ngIf="ticket">
+  <button mat-icon-button color="primary">
+    <mat-icon>more_horiz</mat-icon>
+  </button>
+  <br>
+  <p> {{ticket.Title}} </p>
+  <br>
+  <span *ngFor="let label of labels" style="float:left;">
+    <span [style.background-color]="label.Color" class="dot"></span>&nbsp;
+  </span>
+</div>

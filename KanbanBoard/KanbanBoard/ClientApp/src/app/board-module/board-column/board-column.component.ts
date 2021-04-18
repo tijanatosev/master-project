@@ -12,6 +12,7 @@ import { SnackBarService } from "../../shared/snack-bar.service";
 })
 export class BoardColumnComponent implements OnInit {
   @Input() columnId: number;
+  @Input() columnName: string;
   @Input() containerId: number;
   @Output() changeColumns = new EventEmitter<number[]>();
   public tickets: Ticket[];
@@ -23,7 +24,6 @@ export class BoardColumnComponent implements OnInit {
   ngOnInit() {
     this.ticketService.getTicketsByColumnId(this.columnId).subscribe(tickets => {
       this.tickets = tickets;
-      this.tickets.sort((x, y) => x.Rank - y.Rank);
       this.points = tickets.reduce((x, y) => x + y.StoryPoints, 0);
     });
   }
