@@ -42,7 +42,7 @@ export class BoardColumnComponent implements OnInit {
 
   public drag(draggedTicket) {
     const removedPoints = draggedTicket.item.data.StoryPoints;
-    this.points = this.points - removedPoints > 0 ? this.points - removedPoints : this.points;
+    this.points = this.points - removedPoints >= 0 ? this.points - removedPoints : this.points;
   }
 
   private updateRank(tickets: Ticket[]) {

@@ -1,26 +1,12 @@
 .ticket-list {
-  /*border: solid 1px #ccc;*/
   min-height: 100px;
   background: #EEEEEE;
-  border-radius: 4px;
+  border-radius: 4%;
   overflow: hidden;
   display: block;
-  align-items: center;
 }
 
 .ticket-box {
-  padding: 10px 10px;
-  color: rgba(0, 0, 0, 0.87);
-  display: flex;
-  /*flex-direction: row;*/
-  /*align-items: center;*/
-  /*justify-content: space-between;*/
-  /*box-sizing: border-box;*/
-  cursor: move;
-  background: #F5F5F5;
-  font-size: 14px;
-  border: solid 1px #ccc;
-  border-radius: 4px;
   margin: 8px 2px;
 }
 
@@ -46,7 +32,6 @@
 
 .column-name {
   font-weight: 600;
-  text-align: center;
   font-size: 18px;
 }
 
