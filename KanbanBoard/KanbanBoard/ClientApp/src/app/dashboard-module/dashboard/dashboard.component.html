@@ -8,24 +8,7 @@
     </h1>
     <div class="row row-cols-2">
       <div class="col-2 board-card-column my-3 mr-3 ml-3" *ngFor="let board of boards">
-        <mat-card class="board-card">
-          <mat-card-header class="dashboard-card-header">
-            {{ board.Name }}
-          </mat-card-header>
-          <mat-card-content>
-            broj tiketa
-            <br>
-            statistike
-          </mat-card-content>
-          <mat-card-actions class="board-card-actions">
-            <button mat-icon-button (click)="goToBoard(board.Id)">
-              <mat-icon color="primary">more_horiz</mat-icon>
-            </button>
-            <button mat-icon-button *ngIf="isAdmin" (click)="onBoardDelete(board.Id, board.Name)">
-              <mat-icon color="warn">delete</mat-icon>
-            </button>
-          </mat-card-actions>
-        </mat-card>
+        <app-board-card [board]="board" [isAdmin]="isAdmin" (boardDelete)="onBoardDelete($event)"></app-board-card>
       </div>
     </div>
   </div>

@@ -57,6 +57,7 @@ import { MatAutocompleteModule } from "@angular/material/autocomplete";
 import { BoardComponent } from './board-module/board/board.component';
 import { BoardColumnComponent } from './board-module/board-column/board-column.component';
 import { BoardTicketComponent } from './board-module/board-ticket/board-ticket.component';
+import { BoardCardComponent } from './dashboard-module/board-card/board-card.component';
 
 const routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
@@ -94,7 +95,8 @@ const routes = [
     EditBoardComponent,
     BoardComponent,
     BoardColumnComponent,
-    BoardTicketComponent
+    BoardTicketComponent,
+    BoardCardComponent
   ],
   imports: [
     BrowserModule.withServerTransition({appId: 'ng-cli-universal'}),

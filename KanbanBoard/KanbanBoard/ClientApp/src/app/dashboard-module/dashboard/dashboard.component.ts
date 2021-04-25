@@ -78,7 +78,9 @@ export class DashboardComponent implements OnInit {
     });
   }
 
-  public onBoardDelete(id, name) {
+  public onBoardDelete(data) {
+    let id = data.get("id");
+    let name = data.get("name");
     this.dialogConfirmBoardRef = this.confirmBoardDialog.open(ConfirmationDialogComponent);
     this.dialogConfirmBoardRef.componentInstance.message = "Are you sure you want to permanently delete board " + name + "?";
     this.dialogConfirmBoardRef.componentInstance.confirmText = "Yes";
@@ -116,10 +118,6 @@ export class DashboardComponent implements OnInit {
         });
       }
     });
-  }
-
-  public goToBoard(id) {
-    this.router.navigate(['board', id]);
   }
 
   public goToTeam(id) {
