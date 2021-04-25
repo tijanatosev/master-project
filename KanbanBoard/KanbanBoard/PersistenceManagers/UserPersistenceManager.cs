@@ -119,7 +119,7 @@ WHERE Id=@Id";
         public IEnumerable<User> LoadByTeamId(int teamId)
         {
             List<User> users = new List<User>();
-            string query = @"SELECT u.Id, u.Username, u.Password, u.FirstName, u.LastName, u.Email, u.UserType 
+            string query = @"SELECT u.Id, u.Username, u.Password, u.FirstName, u.LastName, u.Email, u.UserType, u.Image 
 FROM UsersTeams ut JOIN Users u ON ut.UserId=u.Id 
 WHERE ut.TeamId=@TeamId";
             DataTable result = dbCommands.ExecuteSqlQuery(query, new SqlParameter("@TeamId", teamId)).Tables["Result"];

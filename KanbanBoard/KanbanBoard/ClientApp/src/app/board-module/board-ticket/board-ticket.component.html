@@ -1,0 +1,15 @@
+<mat-card *ngIf="ticket" style="padding: 5px 10px !important;">
+  <mat-card-header style="display: unset !important; flex-direction: unset !important;">
+      <span *ngFor="let label of labels" style="display: inline-block; margin-top: 8px !important;">
+        <span [style.background-color]="label.Color" class="dot"></span>&nbsp;
+      </span>
+    <button mat-icon-button color="primary" style="float: right;" (click)="goToTicket()">
+      <mat-icon>more_horiz</mat-icon>
+    </button>
+  </mat-card-header>
+  <br>
+  <mat-card-content style="margin-top: 8px;">
+    <p> {{ticket.Title}} </p>
+    <mat-label style="font-weight: 600; color: #3F51B5;">{{ initials }}</mat-label>
+  </mat-card-content>
+</mat-card>

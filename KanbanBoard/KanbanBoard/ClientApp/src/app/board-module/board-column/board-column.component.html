@@ -1,15 +1,15 @@
-<mat-label> Story points: {{points}}</mat-label>
-<div cdkDropList
-     [cdkDropListData]="tickets"
-     (cdkDropListDropped)="drop($event)"
-     (cdkDropListExited)="drag($event)"
-     id="{{containerId}}"
-     class="ticket-list">
-    <div *ngFor="let ticket of tickets;"
-         [cdkDragData]="ticket"
-         cdkDrag
-         [id]="ticket.ColumnId"
-         class="ticket-box">
-      {{ticket.Title}}
+<div>
+  <div style="text-align: center !important;">
+    <mat-label class="column-name">{{ columnName }}</mat-label>
+    <br>
+    <mat-label class="story-points"> Story points: {{ points }}</mat-label>
+    <br>
+  </div>
+  <div cdkDropList [cdkDropListData]="tickets" (cdkDropListDropped)="drop($event)" (cdkDropListExited)="drag($event)" id="{{containerId}}" class="ticket-list">
+    <div *ngFor="let ticket of tickets;" [cdkDragData]="ticket" cdkDrag [id]="ticket.ColumnId" class="ticket-box">
+      <app-board-ticket [ticketId]="ticket.Id"></app-board-ticket>
     </div>
+  </div>
+  <br>
+  <br>
 </div>

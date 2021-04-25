@@ -111,7 +111,7 @@ WHERE ut.TeamId=@TeamId AND b.TeamId=@TeamId";
         public IEnumerable<Ticket> LoadByColumnId(int columnId)
         {
             List<Ticket> tickets = new List<Ticket>();
-            string query = @"SELECT * FROM Tickets WHERE ColumnId=@ColumnId";
+            string query = @"SELECT * FROM Tickets WHERE ColumnId=@ColumnId ORDER BY Rank ASC";
             DataTable result = dbCommands.ExecuteSqlQuery(query, new SqlParameter("@ColumnId", columnId)).Tables["Result"];
             
             if (result.Rows.Count != 0)
