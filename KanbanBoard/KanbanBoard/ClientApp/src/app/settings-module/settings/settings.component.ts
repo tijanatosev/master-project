@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Board } from "../../shared/services/board/board.model";
+import { User } from "../../shared/services/user/user.model";
+import { UserService } from "../../shared/services/user/user.service";
+import { AuthService } from "../../shared/auth/auth.service";
 
 @Component({
   selector: 'app-settings',
@@ -15,10 +18,13 @@ export class SettingsComponent implements OnInit {
   public board: Board = new Board();
   public previous: number = 0;
   public clicked: string;
+  public user: User = new User();
 
-  constructor() { }
+  constructor(private userService: UserService,
+              private authService: AuthService) { }
 
   ngOnInit() {
+    this.userService.getUser(this.authService.getUserIdFromToken()).subscribe(user => this.user = user);
   }
 
   show(option) {

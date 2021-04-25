@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { ConfirmationDialogComponent } from "../../shared/confirmation-dialog/confirmation-dialog.component";
 import { MatDialog, MatDialogRef } from "@angular/material/dialog";
@@ -6,7 +6,6 @@ import { UserService } from "../../shared/services/user/user.service";
 import { Router } from "@angular/router";
 import { AuthService } from "../../shared/auth/auth.service";
 import { Responses } from "../../shared/enums";
-import { User } from "../../shared/services/user/user.model";
 import { SnackBarService } from "../../shared/snack-bar.service";
 
 @Component({
@@ -15,11 +14,10 @@ import { SnackBarService } from "../../shared/snack-bar.service";
   styleUrls: ['./settings-account.component.css']
 })
 export class SettingsAccountComponent implements OnInit {
-  profileForm: FormGroup;
-  passwordForm: FormGroup;
+  @Input() user;
+  public profileForm: FormGroup;
+  public passwordForm: FormGroup;
   public dialogConfirmRef: MatDialogRef<any>;
-  private user: User = new User();
-  private currentUser: User = new User();
   public hideCurrent = true;
   public hideNew = true;
   public hideConfirm = true;
@@ -34,16 +32,14 @@ export class SettingsAccountComponent implements OnInit {
   ngOnInit() {
     this.initProfileForm();
     this.initPasswordForm();
-    this.user.Id = this.authService.getUserIdFromToken();
-    this.userService.getUser(this.user.Id).subscribe(user => this.currentUser = user);
   }
 
   private initProfileForm() {
     this.profileForm = this.formBuilder.group({
-      username: ['', { validators: [Validators.required, Validators.maxLength(32), this.validateUsername()], updateOn: "change" }],
-      firstName: ['', { validators: [Validators.required, Validators.maxLength(64)], updateOn: "blur" }],
-      lastName: ['', { validators: [Validators.required, Validators.maxLength(64)], updateOn: "blur" }],
-      email: ['', { validators: [Validators.required, Validators.email], updateOn: "blur" }]
+      username: [this.user.Username, { validators: [Validators.required, Validators.maxLength(32), this.validateUsername()], updateOn: "change" }],
+      firstName: [this.user.FirstName, { validators: [Validators.required, Validators.maxLength(64)], updateOn: "blur" }],
+      lastName: [this.user.LastName, { validators: [Validators.required, Validators.maxLength(64)], updateOn: "blur" }],
+      email: [this.user.Email, { validators: [Validators.required, Validators.email], updateOn: "blur" }]
     });
   }
 
@@ -57,19 +53,16 @@ export class SettingsAccountComponent implements OnInit {
     });
   }
 
-  updateInformation(data) {
+  public updateInformation(data) {
     if (data.value.username.length == 0 && data.value.firstName.length == 0 && data.value.lastName.length == 0 && data.value.email.length == 0) {
       return;
     }
-    this.user.Username = data.value.username === "" ? this.currentUser.Username : data.value.username;
-    this.user.FirstName = data.value.firstName === "" ? this.currentUser.FirstName : data.value.firstName;
-    this.user.LastName = data.value.lastName === "" ? this.currentUser.LastName : data.value.lastName;
-    this.user.Email = data.value.email === "" ? this.currentUser.Email : data.value.email;
+    this.user.Username = data.value.username === "" ? this.user.Username : data.value.username;
+    this.user.FirstName = data.value.firstName === "" ? this.user.FirstName : data.value.firstName;
+    this.user.LastName = data.value.lastName === "" ? this.user.LastName : data.value.lastName;
+    this.user.Email = data.value.email === "" ? this.user.Email : data.value.email;
     this.userService.updateUser(this.user.Id, this.user).subscribe(result => {
       if (result == Responses.Successful) {
-        this.profileForm.reset();
-        this.initProfileForm();
-        this.resetUser();
         this.snackBarService.successful();
       } else {
         this.snackBarService.unsuccessful();
@@ -77,13 +70,12 @@ export class SettingsAccountComponent implements OnInit {
     });
   }
 
-  updatePassword(data) {
+  public updatePassword(data) {
     this.user.Password = data.value.newPassword;
     this.userService.updatePassword(this.user.Id, this.user).subscribe(result => {
       if (result == Responses.Successful) {
         this.passwordForm.reset();
         this.initPasswordForm();
-        this.resetUser();
         this.snackBarService.successful();
       } else {
         this.snackBarService.unsuccessful();
@@ -91,7 +83,7 @@ export class SettingsAccountComponent implements OnInit {
     });
   }
 
-  onDeleteAccount() {
+  public onDeleteAccount() {
     this.dialogConfirmRef = this.confirmDialog.open(ConfirmationDialogComponent);
     this.dialogConfirmRef.componentInstance.message = "Are you sure you want to permanently delete your account?";
     this.dialogConfirmRef.componentInstance.confirmText = "Yes";
@@ -109,14 +101,16 @@ export class SettingsAccountComponent implements OnInit {
 
   private validateUsername() {
     return (control: AbstractControl) => {
-      this.userService.getByUsername(control.value)
-        .subscribe((user) => {
-          if (user && user.Username === control.value) {
-            control.setErrors({ 'usernameTaken': true });
-          } else {
-            return null;
-          }
-        });
+      if (this.user.Username != control.value) {
+        this.userService.getByUsername(control.value)
+          .subscribe((user) => {
+            if (user && user.Username === control.value) {
+              control.setErrors({ 'usernameTaken': true });
+            } else {
+              return null;
+            }
+          });
+      }
     }
   }
 
@@ -162,13 +156,5 @@ export class SettingsAccountComponent implements OnInit {
         return null;
       }
     };
-  }
-
-  private resetUser() {
-    this.user.Username = "";
-    this.user.FirstName = "";
-    this.user.LastName = "";
-    this.user.Email = "";
-    this.user.Password = "";
   }
 }
