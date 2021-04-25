@@ -31,10 +31,12 @@
   <mat-card *ngFor="let team of teams" class="col my-2 mr-2 ml-2">
     <mat-card-content>
       {{ team.Name }}
+    </mat-card-content>
+    <mat-card-actions>
       <button mat-icon-button class="float-right" (click)="goToTeam(team.Id)">
         <mat-icon class="visit-button">search</mat-icon>
       </button>
-    </mat-card-content>
+    </mat-card-actions>
   </mat-card>
 </div>
 <br>

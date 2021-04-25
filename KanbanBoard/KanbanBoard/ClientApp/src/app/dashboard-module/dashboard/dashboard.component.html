@@ -6,20 +6,20 @@
         <mat-icon>add</mat-icon>
       </button>
     </h1>
-    <div class="row">
-      <div class="col-2 board-card-column" *ngFor="let board of boards">
+    <div class="row row-cols-2">
+      <div class="col-2 board-card-column my-3 mr-3 ml-3" *ngFor="let board of boards">
         <mat-card class="board-card">
-          <mat-card-header class="board-card-header">
+          <mat-card-header class="dashboard-card-header">
             {{ board.Name }}
           </mat-card-header>
-          <mat-card-content class="board-card-content">
+          <mat-card-content>
             broj tiketa
             <br>
             statistike
           </mat-card-content>
           <mat-card-actions class="board-card-actions">
             <button mat-icon-button (click)="goToBoard(board.Id)">
-              <mat-icon color="primary">search</mat-icon>
+              <mat-icon color="primary">more_horiz</mat-icon>
             </button>
             <button mat-icon-button *ngIf="isAdmin" (click)="onBoardDelete(board.Id, board.Name)">
               <mat-icon color="warn">delete</mat-icon>
@@ -41,20 +41,25 @@
         </button>
       </h1>
     </span>
-    <div class="col team-card-column" *ngFor="let team of teams">
-      <mat-card class="team-card">
-        <mat-card-header>
-          <b>{{ team.Name }}</b>  - {{ team.Admin }} | {{ team.Id }}
-        </mat-card-header>
-        <mat-card-actions class="team-card-actions">
-          <button mat-icon-button (click)="goToTeam(team.Id)">
-            <mat-icon color="primary">search</mat-icon>
-          </button>
-          <button mat-icon-button *ngIf="isAdmin" (click)="onTeamDelete(team.Id, team.Name)">
-            <mat-icon color="warn">delete</mat-icon>
-          </button>
-        </mat-card-actions>
-      </mat-card>
+    <div class="row row-cols-2">
+      <div class="col-2 team-card-column my-3 mr-3 ml-3" *ngFor="let team of teams">
+        <mat-card class="team-card">
+          <mat-card-header class="dashboard-card-header">
+            {{ team.Name }}
+          </mat-card-header>
+          <mat-card-content>
+            {{ team.Admin }}
+          </mat-card-content>
+          <mat-card-actions class="team-card-actions">
+            <button mat-icon-button (click)="goToTeam(team.Id)">
+              <mat-icon color="primary">more_horiz</mat-icon>
+            </button>
+            <button mat-icon-button *ngIf="isAdmin" (click)="onTeamDelete(team.Id, team.Name)">
+              <mat-icon color="warn">delete</mat-icon>
+            </button>
+          </mat-card-actions>
+        </mat-card>
+      </div>
     </div>
   </div>
   <br>
