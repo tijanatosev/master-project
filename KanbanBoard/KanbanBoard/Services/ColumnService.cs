@@ -66,5 +66,15 @@ namespace KanbanBoard.Services
             
             columnPersistenceManager.DeleteByBoardId(boardId);
         }
+
+        public bool UpdateIsDone(int id, int boardId)
+        {
+            if (!validationService.ValidateId(id) || !validationService.ValidateId(boardId) || columnPersistenceManager.Load(id) == null)
+            {
+                return false;
+            }
+            
+            return columnPersistenceManager.UpdateIsDone(id, boardId) > 0;
+        }
     }
 }

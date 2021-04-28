@@ -40,64 +40,85 @@
         <br>
 
         <h6>Columns</h6>
-        <button mat-raised-button color="primary" (click)="showAddColumn = true">
-          Add column
-        </button>
-        &nbsp;&nbsp;
-        <button mat-raised-button color="primary" (click)="openRemoveDialog()">
-          Remove all
-        </button>
-        <br>
-        <br>
 
-        <div *ngIf="showAddColumn">
-          <form [formGroup]="columnForm">
-            <mat-form-field appearance="outline">
-              <mat-label>Name</mat-label>
-              <input matInput formControlName="columnName">
-            </mat-form-field>
-            &nbsp;
-            <button mat-icon-button class="column-button" [disabled]="columnForm.value.columnName && columnForm.value.columnName.trim().length == 0" (click)="addColumn(columnForm)">
-              <mat-icon>check</mat-icon>
-            </button>
-            &nbsp;
-            <button mat-icon-button class="column-button" (click)="closeAddColumn()">
-              <mat-icon>close</mat-icon>
-            </button>
 
-            <mat-error *ngIf="columnForm.get('columnName').errors && columnForm.get('columnName').errors.nameInvalid">
-              Column name can't be empty.
-            </mat-error>
-            <mat-error *ngIf="columnForm.get('columnName').errors && columnForm.get('columnName').errors.maxlength">
-              &nbsp;Column name is too long.
-            </mat-error>
-          </form>
-          <br>
-        </div>
-
-        <div *ngIf="columns.length > 0"
-             class="column-list"
-             cdkDropList
-             [cdkDropListData]="columns"
-             (cdkDropListDropped)="drop($event)">
-          <div *ngFor="let column of columns; let i = index;" cdkDrag class="column-box" >
-            <span> &nbsp;
-              <span class="column-order"> {{ i + 1 }}. </span> &nbsp; {{ column.Name }}
-            </span>
-            <button mat-icon-button style="float: right;" (click)="removeColumn(i)">
-              <mat-icon>delete</mat-icon>
+        <div class="row">
+          <div class="col">
+            <button mat-raised-button color="primary" (click)="showAddColumn = true">
+              Add column
             </button>
+            &nbsp;&nbsp;
+            <button mat-raised-button color="primary" (click)="openRemoveDialog()">
+              Remove all
+            </button>
+            <br>
+            <br>
+
+            <div *ngIf="showAddColumn">
+              <form [formGroup]="columnForm">
+                <mat-form-field appearance="outline" style="width: 70%;">
+                  <mat-label>Name</mat-label>
+                  <input matInput formControlName="columnName">
+                </mat-form-field>
+                &nbsp;
+                <button mat-icon-button class="column-button" [disabled]="columnForm.value.columnName && columnForm.value.columnName.trim().length == 0" (click)="addColumn(columnForm)">
+                  <mat-icon>check</mat-icon>
+                </button>
+                &nbsp;
+                <button mat-icon-button class="column-button" (click)="closeAddColumn()">
+                  <mat-icon>close</mat-icon>
+                </button>
+
+                <mat-error *ngIf="columnForm.get('columnName').errors && columnForm.get('columnName').errors.nameInvalid">
+                  Column name can't be empty.
+                </mat-error>
+                <mat-error *ngIf="columnForm.get('columnName').errors && columnForm.get('columnName').errors.maxlength">
+                  &nbsp;Column name is too long.
+                </mat-error>
+              </form>
+              <br>
+            </div>
+            <div *ngIf="columns.length > 0"
+                 class="column-list"
+                 cdkDropList
+                 [cdkDropListData]="columns"
+                 (cdkDropListDropped)="drop($event)">
+              <div *ngFor="let column of columns; let i = index;" cdkDrag class="column-box" >
+                <span> &nbsp;
+                  <span class="column-order"> {{ i + 1 }}. </span> &nbsp; {{ column.Name }}
+                </span>
+                <button mat-icon-button style="float: right;" (click)="removeColumn(i)">
+                  <mat-icon>delete</mat-icon>
+                </button>
+              </div>
+            </div>
+            <div *ngIf="columns.length == 0">
+              <p>There are no defined columns for this board.</p>
+            </div>
           </div>
-        </div>
-        <div *ngIf="columns.length == 0">
-          <p>There are no defined columns for this board.</p>
+          <div class="col">
+            <form [formGroup]="doneColumnForm">
+              <span>Define which column represents the <b>done</b> column based on which the statistics will be calculated.</span>
+              <mat-form-field appearance="outline" style="float: right; margin-right: 1%; width: 100%;">
+                <mat-label>Done column</mat-label>
+                <mat-select [(value)]="selected" (selectionChange)="isDone(selected)" formControlName="doneColumn">
+                  <mat-option *ngFor="let column of columns" [value]="column.Id" (onSelectionChange)="selected = column.Id">
+                    {{ column.Name }}
+                  </mat-option>
+                </mat-select>
+                <mat-error *ngIf="doneColumnForm.get('doneColumn').errors && doneColumnForm.get('doneColumn').errors.doneInvalid">
+                  &nbsp;Please choose which column should represent done column.
+                </mat-error>
+              </mat-form-field>
+            </form>
+          </div>
         </div>
         <br>
 
         <mat-divider style="width: 96%; margin-left: 2%;"></mat-divider>
         <br>
 
-        <button mat-raised-button color="primary" style="float: right;" [disabled]="!columnForm.valid || !boardForm.valid" (click)="save(boardForm)">
+        <button mat-raised-button color="primary" style="float: right;" [disabled]="!columnForm.valid || !doneColumnForm.valid || !boardForm.valid" (click)="save(boardForm)">
           Save
         </button>
         <button mat-button style="float: right; margin-right: 10px;" (click)="goBack()">

@@ -48,11 +48,14 @@ namespace KanbanBoard.PersistenceManagers
 
         public int Add(Column column)
         {
-            string query = @"INSERT INTO Columns (Name, ColumnOrder, BoardId) OUTPUT INSERTED.ID VALUES (@Name, @ColumnOrder, @BoardId)";
+            string query = @"INSERT INTO Columns (Name, ColumnOrder, IsDone, BoardId) 
+OUTPUT INSERTED.ID VALUES 
+(@Name, @ColumnOrder, @IsDone, @BoardId)";
             DbParameter[] parameters = 
             {
                 new SqlParameter("@Name", column.Name),
-                new SqlParameter("@ColumnOrder", column.ColumnOrder), 
+                new SqlParameter("@ColumnOrder", column.ColumnOrder),
+                new SqlParameter("@IsDone", column.IsDone), 
                 new SqlParameter("@BoardId", column.BoardId)
             };
             return dbCommands.ExecuteScalar(query, parameters);
@@ -77,7 +80,19 @@ WHERE Id=@Id";
             string query = @"DELETE FROM Columns WHERE BoardId=@BoardId";
             dbCommands.ExecuteSqlNonQuery(query, new SqlParameter("@BoardId", boardId));
         }
-        
+
+        public int UpdateIsDone(int id, int boardId)
+        {
+            string queryAll = @"UPDATE Columns
+SET IsDone=0
+WHERE BoardId=@BoardId";
+            string queryOne = @"UPDATE Columns
+SET IsDone=@IsDone
+WHERE Id=@Id";
+            dbCommands.ExecuteSqlNonQuery(queryAll, new SqlParameter("@BoardId", boardId));
+            return dbCommands.ExecuteSqlNonQuery(queryOne, new SqlParameter("@IsDone", true), new SqlParameter("@Id", id));
+        }
+
         public Column LoadFromDataRow(DataRow row)
         {
             return new Column
@@ -85,6 +100,7 @@ WHERE Id=@Id";
                 Id = Convert.ToInt32(row["Id"]),
                 Name = row["Name"].ToString(),
                 ColumnOrder = Convert.ToInt32(row["ColumnOrder"]),
+                IsDone = Convert.ToBoolean(row["IsDone"]),
                 BoardId = Convert.ToInt32(row["BoardId"])
             };
         }

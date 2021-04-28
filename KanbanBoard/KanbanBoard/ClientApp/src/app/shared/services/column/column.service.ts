@@ -38,4 +38,9 @@ export class ColumnService extends BaseService {
   public deleteColumnsByBoardId(boardId) {
     return this.http.delete(`${this.columnsUrl()}/boards/${boardId}`);
   }
+
+  public updateIsDone(id, boardId) {
+    return this.http.put(`${this.columnsUrl()}/${id}/isDone`, boardId,{ observe: "response" })
+      .pipe(map(response => response.status));
+  }
 }
