@@ -1,0 +1,30 @@
+.mat-card {
+  display: flex;
+  flex-direction: column;
+}
+
+.mat-card-header {
+  flex-shrink: 0;
+}
+
+.mat-card-content{
+  flex-grow: 1;
+  overflow: auto;
+}
+
+.board-card {
+  width: 215px;
+  height: 215px;
+  border-radius: 15px;
+}
+
+.dashboard-card-header {
+  display: block;
+  text-align: center;
+  font-weight: bold;
+}
+
+.board-card-actions {
+  text-align: right;
+  padding-top: 20px;
+}

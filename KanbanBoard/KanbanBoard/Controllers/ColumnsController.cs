@@ -58,5 +58,17 @@ namespace KanbanBoard.Controllers
         {
             columnService.DeleteByBoardId(boardId);
         }
+        
+        [HttpPut]
+        [Route("{id}/isDone")]
+        public IActionResult UpdateIsDone([FromRoute] int id, [FromBody] int boardId)
+        {
+            if (!columnService.UpdateIsDone(id, boardId))
+            {
+                return new NoContentResult();
+            }
+            
+            return new StatusCodeResult(200);
+        }
     }
 }

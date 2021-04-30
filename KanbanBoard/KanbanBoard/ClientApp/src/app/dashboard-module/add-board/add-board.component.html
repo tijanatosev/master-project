@@ -10,6 +10,7 @@
     </mat-error>
 
     <mat-form-field appearance="outline">
+      <mat-label>Admin</mat-label>
       <mat-select placeholder="Choose admin" formControlName="admin" disableOptionCentering>
         <mat-option *ngFor="let user of users" [value]="user.Username">
           {{ user.Username }}
@@ -18,6 +19,7 @@
     </mat-form-field>
 
     <mat-form-field *ngIf="teams" appearance="outline">
+      <mat-label>Team</mat-label>
       <mat-select placeholder="Select Team" formControlName="team" disableOptionCentering panelClass="select-option-team">
         <mat-option *ngFor="let team of teams" [value]="team">
           {{ team.Name }}

@@ -28,6 +28,7 @@
       <Folder Include="ClientApp\src\app\shared\auth" />
       <Folder Include="ClientApp\src\app\shared\services\column" />
       <Folder Include="ClientApp\src\app\shared\services\helper" />
+      <Folder Include="ClientApp\src\app\statistics-module" />
       <Folder Include="ClientApp\src\app\team-module" />
       <Folder Include="ClientApp\src\app\ticket-module" />
     </ItemGroup>

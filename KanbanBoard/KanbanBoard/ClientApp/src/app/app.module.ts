@@ -57,6 +57,13 @@ import { MatAutocompleteModule } from "@angular/material/autocomplete";
 import { BoardComponent } from './board-module/board/board.component';
 import { BoardColumnComponent } from './board-module/board-column/board-column.component';
 import { BoardTicketComponent } from './board-module/board-ticket/board-ticket.component';
+import { BoardCardComponent } from './dashboard-module/dashboard/board-card/board-card.component';
+import { MatRadioModule } from "@angular/material/radio";
+import { MatCheckboxModule } from "@angular/material/checkbox";
+import { ChartsModule, ThemeService } from "ng2-charts";
+import { FinishedPercentageComponent } from './statistics-module/finished-percentage/finished-percentage.component';
+import { MatProgressBarModule } from "@angular/material/progress-bar";
+import { TeamCardComponent } from './dashboard-module/dashboard/team-card/team-card.component';
 
 const routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
@@ -94,7 +101,10 @@ const routes = [
     EditBoardComponent,
     BoardComponent,
     BoardColumnComponent,
-    BoardTicketComponent
+    BoardTicketComponent,
+    BoardCardComponent,
+    FinishedPercentageComponent,
+    TeamCardComponent
   ],
   imports: [
     BrowserModule.withServerTransition({appId: 'ng-cli-universal'}),
@@ -131,9 +141,13 @@ const routes = [
     DragDropModule,
     MatDatepickerModule,
     MatNativeDateModule,
-    MatAutocompleteModule
+    MatAutocompleteModule,
+    MatRadioModule,
+    MatCheckboxModule,
+    ChartsModule,
+    MatProgressBarModule
   ],
-  providers: [],
+  providers: [ThemeService],
   bootstrap: [AppComponent],
   entryComponents: [
     AddBoardComponent,

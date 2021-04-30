@@ -16,5 +16,7 @@ namespace KanbanBoard.Services.Interfaces
         bool UpdateColumnOrder(int id, int columnOrder);
 
         void DeleteByBoardId(int boardId);
+
+        bool UpdateIsDone(int id, int boardId);
     }
 }

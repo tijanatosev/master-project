@@ -30,6 +30,8 @@ export class EditBoardComponent implements OnInit {
   public confirmDialogRef: MatDialogRef<any>;
   public showAddColumn: boolean = false;
   public columnForm: FormGroup;
+  public selected = -1;
+  public doneColumnForm: FormGroup;
 
   constructor(private boardService: BoardService,
               private teamService: TeamService,
@@ -69,7 +71,7 @@ export class EditBoardComponent implements OnInit {
       }
     });
     for (let i = 0; i < this.columns.length; i++) {
-      this.columnService.updateColumnOrder(this.columns[i].Id, i+1).subscribe(result => {
+      this.columnService.updateColumnOrder(this.columns[i].Id, i + 1).subscribe(result => {
         if (result != Responses.Successful) {
           this.snackBarService.unsuccessful();
         }
@@ -99,6 +101,7 @@ export class EditBoardComponent implements OnInit {
     column.Name = columnForm.value.columnName;
     column.BoardId = this.board.Id;
     column.ColumnOrder = this.columns.length + 1;
+    column.IsDone = false;
     this.columnService.addColumn(column).subscribe(columnId => {
       if (columnId > 0) {
         this.showAddColumn = false;
@@ -116,18 +119,31 @@ export class EditBoardComponent implements OnInit {
     this.columnForm.reset();
   }
 
+  public isDone(id) {
+    this.columnService.updateIsDone(id, this.board.Id).subscribe(result => {
+      if (result != Responses.Successful) {
+        this.snackBarService.unsuccessful();
+      }
+    });
+  }
+
   private loadColumns() {
     this.columnService.getColumnsByBoardId(this.board.Id).subscribe(columns => {
       this.columns = columns;
       this.columns.sort((a: Column, b: Column) => a.ColumnOrder - b.ColumnOrder);
+      let index = columns.findIndex(c => c.IsDone == true);
+      if (index != -1) {
+        this.selected = columns[index].Id;
+        this.doneColumnForm.controls.doneColumn.setValue(this.selected);
+      }
     });
   }
 
   private initForms() {
     this.boardForm = this.formBuilder.group({
-      name: [this.board.Name, { validators: [Validators.maxLength(20)], updateOn: "blur" }],
-      admin: [this.board.Admin],
-      team: [this.board.TeamId]
+      name: [this.board.Name, { validators: [Validators.maxLength(20), Validators.required], updateOn: "blur" }],
+      admin: [this.board.Admin, { validators: [Validators.required] }],
+      team: [this.board.TeamId, { validators: [Validators.required] }]
     }, {
       validators: [this.validateName()]
     });
@@ -135,6 +151,9 @@ export class EditBoardComponent implements OnInit {
       columnName: ['', { validators: [Validators.maxLength(32)] }]
     },  {
       validators: [this.validateColumnName()]
+    });
+    this.doneColumnForm = this.formBuilder.group({
+      doneColumn: [this.selected, {validators: [this.validateDone()] }]
     });
   }
 
@@ -149,6 +168,12 @@ export class EditBoardComponent implements OnInit {
     return (control: AbstractControl) => {
       return control.value.columnName && control.value.columnName.length != 0 && control.value.columnName.trim().length == 0 ?
         this.columnForm.controls.columnName.setErrors({'nameInvalid': true}) : null
+    };
+  }
+
+  public validateDone() {
+    return (control: FormControl) => {
+      return (control.value == -1) ? { 'doneInvalid': true } : null;
     };
   }
 }

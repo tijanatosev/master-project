@@ -17,6 +17,7 @@ export class AddTeamComponent implements OnInit {
   public teamForm: FormGroup;
   public users: User[] = [];
   public loggedInUser;
+  public selected: number[] = [];
 
   constructor(private teamService: TeamService,
               private userService: UserService,
@@ -33,7 +34,10 @@ export class AddTeamComponent implements OnInit {
     }, {
       validators: [this.validateName()]
     });
-    this.userService.getUsers().subscribe(result => this.users = result);
+    this.userService.getUsers().subscribe(users => {
+      this.users = users;
+      this.selected.push(users.filter(u => u.Username == this.loggedInUser)[0].Id);
+    });
   }
 
   public save(teamForm) {

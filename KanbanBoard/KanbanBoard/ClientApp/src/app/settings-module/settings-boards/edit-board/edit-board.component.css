@@ -8,7 +8,7 @@ h5 {
 }
 
 mat-form-field {
-  width: 50%;
+  width: 45%;
 }
 
 mat-label {
@@ -22,7 +22,7 @@ mat-label {
   border-radius: 6px;
   overflow: hidden;
   display: block;
-  width: 50%;
+  width: 100%;
 }
 
 .column-box {
@@ -72,7 +72,5 @@ mat-label {
 
 .column-button {
   vertical-align: super;
-  /*background-color: #3F51B5;*/
-  /*color: white;*/
   outline: #3F51B5;
 }
