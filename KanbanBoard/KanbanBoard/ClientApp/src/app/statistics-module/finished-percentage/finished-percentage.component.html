@@ -1,0 +1,6 @@
+<div *ngIf="chartReady" class="relative">
+  <canvas baseChart chartType="doughnut" [data]="data" [labels]="labels" [legend]="false"></canvas>
+  <div class="absolute-center text-center">
+    <b>{{percentage}}%</b>
+  </div>
+</div>

@@ -57,10 +57,12 @@ import { MatAutocompleteModule } from "@angular/material/autocomplete";
 import { BoardComponent } from './board-module/board/board.component';
 import { BoardColumnComponent } from './board-module/board-column/board-column.component';
 import { BoardTicketComponent } from './board-module/board-ticket/board-ticket.component';
-import { BoardCardComponent } from './dashboard-module/board-card/board-card.component';
+import { BoardCardComponent } from './dashboard-module/dashboard/board-card/board-card.component';
 import { MatRadioModule } from "@angular/material/radio";
 import { MatCheckboxModule } from "@angular/material/checkbox";
-import { ChartsModule } from "ng2-charts";
+import { ChartsModule, ThemeService } from "ng2-charts";
+import { FinishedPercentageComponent } from './statistics-module/finished-percentage/finished-percentage.component';
+import { MatProgressBarModule } from "@angular/material/progress-bar";
 
 const routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
@@ -99,49 +101,51 @@ const routes = [
     BoardComponent,
     BoardColumnComponent,
     BoardTicketComponent,
-    BoardCardComponent
+    BoardCardComponent,
+    FinishedPercentageComponent
   ],
-    imports: [
-      BrowserModule.withServerTransition({appId: 'ng-cli-universal'}),
-      HttpClientModule,
-      FormsModule,
-      ReactiveFormsModule,
-      MatRippleModule,
-      RouterModule.forRoot(routes),
-      BrowserAnimationsModule,
-      MatToolbarModule,
-      MatInputModule,
-      MatCardModule,
-      MatMenuModule,
-      MatIconModule,
-      MatButtonModule,
-      MatTableModule,
-      MatDividerModule,
-      MatSlideToggleModule,
-      MatSelectModule,
-      MatOptionModule,
-      MatProgressSpinnerModule,
-      MatExpansionModule,
-      MatSidenavModule,
-      MatListModule,
-      MatDialogModule,
-      MatTabsModule,
-      MatPaginatorModule,
-      MatButtonToggleModule,
-      MatSnackBarModule,
-      MatSortModule,
-      MatFormFieldModule,
-      MatTooltipModule,
-      MatChipsModule,
-      DragDropModule,
-      MatDatepickerModule,
-      MatNativeDateModule,
-      MatAutocompleteModule,
-      MatRadioModule,
-      MatCheckboxModule,
-      ChartsModule
-    ],
-  providers: [],
+  imports: [
+    BrowserModule.withServerTransition({appId: 'ng-cli-universal'}),
+    HttpClientModule,
+    FormsModule,
+    ReactiveFormsModule,
+    MatRippleModule,
+    RouterModule.forRoot(routes),
+    BrowserAnimationsModule,
+    MatToolbarModule,
+    MatInputModule,
+    MatCardModule,
+    MatMenuModule,
+    MatIconModule,
+    MatButtonModule,
+    MatTableModule,
+    MatDividerModule,
+    MatSlideToggleModule,
+    MatSelectModule,
+    MatOptionModule,
+    MatProgressSpinnerModule,
+    MatExpansionModule,
+    MatSidenavModule,
+    MatListModule,
+    MatDialogModule,
+    MatTabsModule,
+    MatPaginatorModule,
+    MatButtonToggleModule,
+    MatSnackBarModule,
+    MatSortModule,
+    MatFormFieldModule,
+    MatTooltipModule,
+    MatChipsModule,
+    DragDropModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatAutocompleteModule,
+    MatRadioModule,
+    MatCheckboxModule,
+    ChartsModule,
+    MatProgressBarModule
+  ],
+  providers: [ThemeService],
   bootstrap: [AppComponent],
   entryComponents: [
     AddBoardComponent,

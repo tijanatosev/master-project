@@ -3,9 +3,8 @@
     {{ board.Name }}
   </mat-card-header>
   <mat-card-content>
-    {{ numberOfTickets }}
-    <br>
-    statistike
+    <span style="text-align: center;">Completed {{percentage}}%</span>
+    <mat-progress-bar [value]="percentage"></mat-progress-bar>
   </mat-card-content>
   <mat-card-actions class="board-card-actions">
     <button mat-icon-button (click)="goToBoard(board.Id)">
