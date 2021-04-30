@@ -1,32 +1,9 @@
-﻿.board-card {
-  width: 200px;
-  height: 200px;
-  border-radius: 15px;
-}
-
-.dashboard-card-header {
-  display: block;
-  text-align: center;
-  font-weight: bold;
-}
-
-.board-card-actions {
-  text-align: right;
-  padding-top: 20px;
-}
-
-.board-card-column {
+﻿.board-card-column {
   margin-top: 20px;
 }
 
 .team-card-column {
   margin-top: 20px;
-}
-
-.team-card {
-  width: 200px;
-  height: 200px;
-  border-radius: 15px;
 }
 
 .header {
@@ -38,23 +15,4 @@
   margin-top: 4px;
   height: 40px;
   border-radius: 20px;
-}
-
-.team-card-actions {
-  text-align: right;
-  padding-top: 20px;
-}
-
-.mat-card{
-  display:flex;
-  flex-direction: column;
-}
-
-.mat-card-header {
-  flex-shrink: 0;
-}
-
-.mat-card-content{
-  flex-grow: 1;
-  overflow: auto;
 }

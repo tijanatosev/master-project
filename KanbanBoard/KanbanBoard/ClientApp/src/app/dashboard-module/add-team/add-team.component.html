@@ -10,22 +10,22 @@
     </mat-error>
 
     <mat-form-field appearance="outline">
-      <mat-select placeholder="Choose admin" formControlName="admin" disableOptionCentering>
+      <mat-label>Admin</mat-label>
+      <mat-select placeholder="Choose admin" formControlName="admin">
         <mat-option *ngFor="let user of users" [value]="user.Username">
           {{ user.Username }}
         </mat-option>
       </mat-select>
     </mat-form-field>
-    
-    <div>
-      <mat-form-field appearance="outline">
-        <mat-select placeholder="Select team members" formControlName="members" disableOptionCentering multiple>
-          <mat-option *ngFor="let user of users" [value]="user.Id">
-            {{ user.Username }}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-    </div>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Members</mat-label>
+      <mat-select placeholder="Select team members" formControlName="members" multiple [(ngModel)]="selected">
+        <mat-option *ngFor="let user of users" [value]="user.Id">
+          {{ user.Username }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
   </ng-form>
 </mat-dialog-content>
 <mat-dialog-actions align="center">

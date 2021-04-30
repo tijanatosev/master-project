@@ -26,22 +26,7 @@
     </span>
     <div class="row row-cols-2">
       <div class="col-2 team-card-column my-3 mr-3 ml-3" *ngFor="let team of teams">
-        <mat-card class="team-card">
-          <mat-card-header class="dashboard-card-header">
-            {{ team.Name }}
-          </mat-card-header>
-          <mat-card-content>
-            {{ team.Admin }}
-          </mat-card-content>
-          <mat-card-actions class="team-card-actions">
-            <button mat-icon-button (click)="goToTeam(team.Id)">
-              <mat-icon color="primary">more_horiz</mat-icon>
-            </button>
-            <button mat-icon-button *ngIf="isAdmin" (click)="onTeamDelete(team.Id, team.Name)">
-              <mat-icon color="warn">delete</mat-icon>
-            </button>
-          </mat-card-actions>
-        </mat-card>
+        <app-team-card [team]="team" [isAdmin]="isAdmin" (teamDelete)="onTeamDelete($event)"></app-team-card>
       </div>
     </div>
   </div>

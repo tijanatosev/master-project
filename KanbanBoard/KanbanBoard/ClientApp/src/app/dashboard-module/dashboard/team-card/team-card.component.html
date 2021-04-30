@@ -1,0 +1,22 @@
+<mat-card class="team-card mat-elevation-z4">
+  <mat-card-header class="dashboard-card-header">
+    {{ team.Name }}
+  </mat-card-header>
+  <mat-card-content>
+    <span>Members: <b>{{ numberOfMembers }}</b></span>
+    <br>
+    <span>Boards: <b>{{ numberOfBoards }}</b></span>
+    <br>
+    <span>Tickets: <b>{{ numberOfTickets }}</b></span>
+  </mat-card-content>
+  <mat-card-actions class="team-card-actions">
+    <span style="font-size: 14px; float: left; text-indent: 8px;">Admin: <b>{{ team.Admin }}</b></span>
+    <br>
+    <button mat-icon-button (click)="goToTeam(team.Id)">
+      <mat-icon color="primary">more_horiz</mat-icon>
+    </button>
+    <button mat-icon-button *ngIf="isAdmin" (click)="onTeamDelete(team.Id, team.Name)">
+      <mat-icon color="warn">delete</mat-icon>
+    </button>
+  </mat-card-actions>
+</mat-card>

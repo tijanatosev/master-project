@@ -12,7 +12,7 @@
   overflow: auto;
 }
 
-.board-card {
+.team-card {
   width: 215px;
   height: 215px;
   border-radius: 15px;
@@ -24,7 +24,9 @@
   font-weight: bold;
 }
 
-.board-card-actions {
+.team-card-actions {
   text-align: right;
   padding-top: 20px;
 }
+
+

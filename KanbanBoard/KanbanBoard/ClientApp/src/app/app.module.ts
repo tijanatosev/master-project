@@ -63,6 +63,7 @@ import { MatCheckboxModule } from "@angular/material/checkbox";
 import { ChartsModule, ThemeService } from "ng2-charts";
 import { FinishedPercentageComponent } from './statistics-module/finished-percentage/finished-percentage.component';
 import { MatProgressBarModule } from "@angular/material/progress-bar";
+import { TeamCardComponent } from './dashboard-module/dashboard/team-card/team-card.component';
 
 const routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
@@ -102,7 +103,8 @@ const routes = [
     BoardColumnComponent,
     BoardTicketComponent,
     BoardCardComponent,
-    FinishedPercentageComponent
+    FinishedPercentageComponent,
+    TeamCardComponent
   ],
   imports: [
     BrowserModule.withServerTransition({appId: 'ng-cli-universal'}),

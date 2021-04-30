@@ -1,12 +1,21 @@
-<mat-card class="board-card">
+<mat-card class="board-card mat-elevation-z4">
   <mat-card-header class="dashboard-card-header">
     {{ board.Name }}
   </mat-card-header>
   <mat-card-content>
-    <span style="text-align: center;">Completed {{percentage}}%</span>
-    <mat-progress-bar [value]="percentage"></mat-progress-bar>
+    <span *ngIf="progressExists">Completed <b>{{ percentage }}%</b></span>
+    <mat-progress-bar [value]="percentage" *ngIf="progressExists"></mat-progress-bar>
+    <span *ngIf="!progressExists && columnsExist">Please choose which column represents done column.</span>
+    <span *ngIf="!columnsExist && !progressExists">Please create columns in Settings.</span>
+    <br *ngIf="columnsExist">
+    <span *ngIf="columnsExist">Tickets: <b>{{ numberOfTickets }}</b></span>
   </mat-card-content>
   <mat-card-actions class="board-card-actions">
+    <span style="font-size: 14px; padding-right: 10px;"><b>{{ team }}</b></span>
+    <br>
+    <button mat-icon-button style="float: left !important;">
+      <mat-icon color="primary">assessment</mat-icon>
+    </button>
     <button mat-icon-button (click)="goToBoard(board.Id)">
       <mat-icon color="primary">more_horiz</mat-icon>
     </button>

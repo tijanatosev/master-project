@@ -31,8 +31,7 @@ export class DashboardComponent implements OnInit {
               private teamDialog: MatDialog,
               private confirmBoardDialog: MatDialog,
               private confirmTeamDialog: MatDialog,
-              private authService: AuthService,
-              private router: Router) {
+              private authService: AuthService) {
   }
 
   ngOnInit(): void {
@@ -99,7 +98,9 @@ export class DashboardComponent implements OnInit {
     });
   }
 
-  public onTeamDelete(id, name) {
+  public onTeamDelete(data) {
+    let id = data.get("id");
+    let name = data.get("name");
     this.dialogConfirmTeamRef = this.confirmTeamDialog.open(ConfirmationDialogComponent);
     this.dialogConfirmTeamRef.componentInstance.message = "Are you sure you want to permanently delete team " + name + "?";
     this.dialogConfirmTeamRef.componentInstance.confirmText = "Yes";
@@ -120,7 +121,4 @@ export class DashboardComponent implements OnInit {
     });
   }
 
-  public goToTeam(id) {
-    this.router.navigate(['team', id]);
-  }
 }
