@@ -32,3 +32,19 @@ export namespace Colors {
     );
   }
 }
+
+export enum Priorities {
+  Lowest = 1,
+  Low = 2,
+  Medium = 3,
+  High = 4,
+  Highest = 5
+}
+
+export namespace Priorities {
+  export function values() {
+    return Object.keys(Priorities).filter(
+      (type) => isNaN(<any>type) && type !== 'values'
+    );
+  }
+}

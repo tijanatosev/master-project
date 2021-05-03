@@ -96,6 +96,15 @@
             </mat-select>
             <br>
 
+            <mat-label class="title-label">Priority</mat-label>
+            <br>
+            <mat-select [(value)]="ticket.Priority" (selectionChange)="updatePriority($event)">
+              <mat-option *ngFor="let priority of prioritiesValues" [value]="priorities[priority]">
+                {{ priority }}
+              </mat-option>
+            </mat-select>
+            <br>
+
             <mat-label class="title-label">Assigned to</mat-label>
             <br>
             <mat-select [(value)]="ticket.AssignedTo" (selectionChange)="updateAssignedTo($event)">

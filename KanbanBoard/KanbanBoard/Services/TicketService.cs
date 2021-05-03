@@ -183,5 +183,15 @@ namespace KanbanBoard.Services
 
             return ticketPersistenceManager.LoadFavoritesByUserId(userId);
         }
+
+        public bool UpdatePriority(int id, int priority)
+        {
+            if (!validationService.ValidateId(id) || ticketPersistenceManager.Load(id) == null)
+            {
+                return false;
+            }
+
+            return ticketPersistenceManager.UpdatePriority(id, priority) > 0;
+        }
     }
 }

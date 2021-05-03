@@ -15,7 +15,7 @@ import { COMMA, ENTER } from "@angular/cdk/keycodes";
 import { FormBuilder, FormControl, FormGroup } from "@angular/forms";
 import { MatChipInputEvent } from "@angular/material/chips";
 import { map, startWith } from "rxjs/operators";
-import { Responses } from "../../shared/enums";
+import { Priorities, Responses } from "../../shared/enums";
 import { SnackBarService } from "../../shared/snack-bar.service";
 import { FavoriteService } from "../../shared/services/favorite/favorite.service";
 import { AuthService } from "../../shared/auth/auth.service";
@@ -43,12 +43,13 @@ export class ViewTicketComponent implements OnInit {
   public maxDate = new Date("1/1/2050");
   private loggedInUser: number;
   public isFavorite: boolean = false;
-
   public selectable = true;
   public labelControl = new FormControl();
   public separatorKeysCodes: number[] = [ENTER, COMMA];
   public filteredLabels: Observable<Label[]>;
   public allLabels: Label[];
+  public priorities = Priorities;
+  public prioritiesValues = Priorities.values();
 
   @ViewChild("labelInput", { static: true }) fruitInput: ElementRef<HTMLInputElement>;
   @ViewChild("auto", { static: true }) matAutocomplete: MatAutocomplete;
@@ -189,6 +190,14 @@ export class ViewTicketComponent implements OnInit {
 
   public updateStoryPoints(event) {
     this.ticketService.updateStoryPoints(this.ticketId, event.value).subscribe(result => {
+      if (result != Responses.Successful) {
+        this.snackBarService.unsuccessful();
+      }
+    });
+  }
+
+  public updatePriority(event) {
+    this.ticketService.updatePriority(this.ticketId, parseInt(event.value)).subscribe(result => {
       if (result != Responses.Successful) {
         this.snackBarService.unsuccessful();
       }

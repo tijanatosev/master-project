@@ -163,5 +163,17 @@ namespace KanbanBoard.Controllers
         {
             return ticketService.GetFavoritesByUserId(userId);
         }
+
+        [HttpPut]
+        [Route("{id}/priority")]
+        public IActionResult UpdatePriority([FromRoute] int id, [FromBody] int priority)
+        {
+            if (!ticketService.UpdatePriority(id, priority))
+            {
+                return new NoContentResult();
+            }
+            
+            return new StatusCodeResult(200);
+        }
     }
 }
