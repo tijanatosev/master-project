@@ -15,6 +15,7 @@ namespace KanbanBoard.Models
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
         public int Rank { get; set; }
+        public int Priority { get; set; }
         public int BoardId { get; set; } 
         public int ColumnId { get; set; } 
     }

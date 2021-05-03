@@ -64,6 +64,7 @@ import { ChartsModule, ThemeService } from "ng2-charts";
 import { FinishedPercentageComponent } from './statistics-module/finished-percentage/finished-percentage.component';
 import { MatProgressBarModule } from "@angular/material/progress-bar";
 import { TeamCardComponent } from './dashboard-module/dashboard/team-card/team-card.component';
+import { TicketPriorityComponent } from './shared/ticket-priority/ticket-priority.component';
 
 const routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
@@ -104,7 +105,8 @@ const routes = [
     BoardTicketComponent,
     BoardCardComponent,
     FinishedPercentageComponent,
-    TeamCardComponent
+    TeamCardComponent,
+    TicketPriorityComponent
   ],
   imports: [
     BrowserModule.withServerTransition({appId: 'ng-cli-universal'}),

@@ -29,7 +29,7 @@ export class BoardTicketComponent implements OnInit {
         this.initials = user.FirstName.substring(0, 1) + user.LastName.substring(0, 1);
       });
     });
-    this.labelService.getLabelsByTicketId(this.ticketId).subscribe(labels => this.labels = labels);
+    this.labelService.getLabelsByTicketId(this.ticketId).subscribe(labels => this.labels = labels.slice(0, 5));
   }
 
   public goToTicket() {
