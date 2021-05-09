@@ -19,7 +19,7 @@ export class TicketsDatatableComponent implements OnInit, AfterViewInit {
   @ViewChild(MatPaginator, {static: true}) !paginator: MatPaginator;
   @ViewChild(MatSort, {static: true}) !sort: MatSort = new MatSort();
 
-  public displayedColumns: string[] = ['Id', 'Title', 'Description', 'Creator', 'StoryPoints', 'Status', 'DateCreated', 'AssignedTo', 'Visit'];
+  public displayedColumns: string[] = ['Id', 'Title', 'Description', 'Creator', 'StoryPoints', 'Status', 'DateCreated', 'AssignedTo', 'Priority', 'Visit'];
   public dataSource: MatTableDataSource<Ticket>;
 
   constructor(private ticketService: TicketService,

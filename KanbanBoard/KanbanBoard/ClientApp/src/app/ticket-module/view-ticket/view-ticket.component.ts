@@ -83,7 +83,11 @@ export class ViewTicketComponent implements OnInit {
         this.userService.getUsersByTeamId(board.TeamId).subscribe(users => {
           this.members = users;
           let reporter = users.filter(x => x.Username == this.ticket.Creator)[0];
-          this.reporter = reporter.FirstName + " " + reporter.LastName;
+          if (reporter && reporter.FirstName && reporter.LastName) {
+            this.reporter = reporter.FirstName + " " + reporter.LastName;
+          } else {
+            this.reporter = "";
+          }
         });
       });
     });
