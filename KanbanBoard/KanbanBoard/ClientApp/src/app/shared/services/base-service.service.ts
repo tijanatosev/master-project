@@ -32,4 +32,8 @@
   public favoritesUrl() {
     return this.url + 'favorites';
   }
+
+  public helpersUrl() {
+    return this.url + 'helpers';
+  }
 }

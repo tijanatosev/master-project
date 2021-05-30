@@ -20,6 +20,7 @@ import { SnackBarService } from "../../shared/snack-bar.service";
 import { FavoriteService } from "../../shared/services/favorite/favorite.service";
 import { AuthService } from "../../shared/auth/auth.service";
 import { Favorite } from "../../shared/services/favorite/favorite.model";
+import { HelperService } from "../../shared/helpers/helper.service";
 
 @Component({
   selector: 'app-view-ticket',
@@ -50,6 +51,7 @@ export class ViewTicketComponent implements OnInit {
   public allLabels: Label[];
   public priorities = Priorities;
   public prioritiesValues = Priorities.values();
+  private creator: User;
 
   @ViewChild("labelInput", { static: true }) fruitInput: ElementRef<HTMLInputElement>;
   @ViewChild("auto", { static: true }) matAutocomplete: MatAutocomplete;
@@ -63,7 +65,8 @@ export class ViewTicketComponent implements OnInit {
               private snackBarService: SnackBarService,
               private formBuilder: FormBuilder,
               private favoriteService: FavoriteService,
-              private authService: AuthService) {
+              private authService: AuthService,
+              private helperService: HelperService) {
   }
 
   ngOnInit() {
@@ -84,6 +87,7 @@ export class ViewTicketComponent implements OnInit {
           this.members = users;
           let reporter = users.filter(x => x.Username == this.ticket.Creator)[0];
           if (reporter && reporter.FirstName && reporter.LastName) {
+            this.creator = reporter;
             this.reporter = reporter.FirstName + " " + reporter.LastName;
           } else {
             this.reporter = "";
@@ -163,6 +167,8 @@ export class ViewTicketComponent implements OnInit {
       if (result != Responses.Successful) {
         this.snackBarService.unsuccessful();
       }
+      let previousStatus = this.statuses.find(x => x.Name == this.ticket.Status);
+      this.helperService.listenOnStatusChangeMine(previousStatus.Id, event.value, this.creator, this.ticketId, this.ticket.Title);
     });
   }
 

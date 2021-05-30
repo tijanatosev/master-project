@@ -66,7 +66,6 @@ export class SettingsNotificationsComponent implements OnInit {
       });
     } else {
       this.notificationService.addNotification(this.notification).subscribe(result => {
-        console.log(result);
         if (result != 0) {
           if (typeof result === "number") {
             this.notificationId = result;
