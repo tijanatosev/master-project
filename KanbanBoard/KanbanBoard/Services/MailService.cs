@@ -21,6 +21,7 @@ namespace KanbanBoard.Services
             mailMessage.Subject = email.Subject;
             mailMessage.BodyEncoding = Encoding.UTF8;
             mailMessage.SubjectEncoding = Encoding.UTF8;
+            mailMessage.IsBodyHtml = true;
 
             return mailMessage;
         }

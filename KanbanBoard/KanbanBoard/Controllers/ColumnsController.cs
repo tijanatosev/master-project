@@ -13,6 +13,13 @@ namespace KanbanBoard.Controllers
         private readonly IColumnService columnService = new ColumnService();
 
         [HttpGet]
+        [Route("")]
+        public IEnumerable<Column> GetAll()
+        {
+            return columnService.GetAll();
+        }
+
+        [HttpGet]
         [Route("boards/{boardId}")]
         public IEnumerable<Column> GetByBoardId([FromRoute] int boardId)
         {

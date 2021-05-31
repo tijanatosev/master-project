@@ -168,7 +168,11 @@ export class ViewTicketComponent implements OnInit {
         this.snackBarService.unsuccessful();
       }
       let previousStatus = this.statuses.find(x => x.Name == this.ticket.Status);
+      let assignedTo = this.members.find(x => x.Id == this.ticket.AssignedTo);
       this.helperService.listenOnStatusChangeMine(previousStatus.Id, event.value, this.creator, this.ticketId, this.ticket.Title);
+      if (assignedTo.Id != this.creator.Id) {
+        this.helperService.listenOnStatusChange(previousStatus.Id, event.value, assignedTo, this.ticketId, this.ticket.Title);
+      }
     });
   }
 

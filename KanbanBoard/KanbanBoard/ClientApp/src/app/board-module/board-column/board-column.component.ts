@@ -33,8 +33,9 @@ export class BoardColumnComponent implements OnInit {
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
     } else {
       let newColumnId = parseInt(event.container.id);
+      let oldColumnId = parseInt(event.previousContainer.id);
       let ticketId = event.previousContainer.data[event.previousIndex].Id;
-      this.changeColumns.emit([newColumnId, ticketId]);
+      this.changeColumns.emit([newColumnId, oldColumnId, ticketId]);
       transferArrayItem(event.previousContainer.data, event.container.data, event.previousIndex, event.currentIndex);
     }
     this.updateRank(event.container.data);

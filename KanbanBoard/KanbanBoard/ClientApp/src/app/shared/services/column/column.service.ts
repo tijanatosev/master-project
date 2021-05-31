@@ -13,6 +13,10 @@ export class ColumnService extends BaseService {
     super();
   }
 
+  public getColumns() {
+    return this.http.get<Column[]>(`${this.columnsUrl()}`);
+  }
+
   public getColumn(id) {
     return this.http.get<Column>(`${this.columnsUrl()}/${id}`);
   }

@@ -11,7 +11,12 @@ namespace KanbanBoard.Services
     {
         private readonly IColumnPersistenceManager columnPersistenceManager = new ColumnPersistenceManager();
         private readonly IValidationService validationService = new ValidationService();
-        
+
+        public IEnumerable<Column> GetAll()
+        {
+            return columnPersistenceManager.LoadAll();
+        }
+
         public IEnumerable<Column> GetByBoardId(int boardId)
         {
             if (!validationService.ValidateId(boardId))
