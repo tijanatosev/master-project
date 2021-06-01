@@ -6,6 +6,7 @@ import { NotificationService } from "../services/notification/notification.servi
 import { ColumnService } from "../services/column/column.service";
 import { Column } from "../services/column/column.model";
 import { AuthService } from "../auth/auth.service";
+import { ChangeType } from "../enums";
 
 @Injectable({
   providedIn: 'root'
@@ -13,12 +14,14 @@ import { AuthService } from "../auth/auth.service";
 export class HelperService {
 
   private statuses: Column[] = [];
+  private readonly user: string;
 
   constructor(private mailService: MailService,
               private notificationService: NotificationService,
               private columnService: ColumnService,
               private authService: AuthService) {
     this.columnService.getColumns().subscribe(statuses => this.statuses = statuses);
+    this.user = this.authService.getUsernameFromToken();
   }
 
   listenOnComment(currentUser: User, assignedToUser: User, ticketId: number, ticketTitle: string) {
@@ -34,11 +37,11 @@ export class HelperService {
     });
   }
 
-  listenOnCommentMine(currentUser: User, assignedToUser: User, ticketId: number, ticketTitle: string) {
-    this.notificationService.getNotificationByUserId(assignedToUser.Id).subscribe(notification => {
-      if (notification && notification.OnCommentMine && currentUser.Id != assignedToUser.Id) {
+  listenOnCommentMine(currentUser: User, creator: User, ticketId: number, ticketTitle: string) {
+    this.notificationService.getNotificationByUserId(creator.Id).subscribe(notification => {
+      if (notification && notification.OnCommentMine && currentUser.Id != creator.Id) {
         let email = new Email();
-        email.To = assignedToUser.Email;
+        email.To = creator.Email;
         email.Cc = "";
         email.Subject = this.createTitle(ticketId, ticketTitle);
         email.Content = "User commented on yours' ticket.";
@@ -62,7 +65,7 @@ export class HelperService {
 
   listenOnStatusChange(previousStatus: number, currentStatus: number, assignedToUser: User, ticketId: number, ticketTitle: string) {
     this.notificationService.getNotificationByUserId(assignedToUser.Id).subscribe(notification => {
-      if (notification && notification && notification.OnStatusChange && previousStatus != currentStatus) {
+      if (notification && notification.OnStatusChange && previousStatus != currentStatus) {
         let email = new Email();
         email.To = assignedToUser.Email;
         email.Cc = "";
@@ -73,17 +76,37 @@ export class HelperService {
     });
   }
 
-  listenOnChange(changeCondition: boolean, creator: User, ticketId: number, ticketTitle: string) {
+  listenOnChangeMine(changeCondition: boolean, type: ChangeType, creator: User, ticketId: number, ticketTitle: string) {
     this.notificationService.getNotificationByUserId(creator.Id).subscribe(notification => {
-      if (notification && notification.OnChange && changeCondition) {
+      if (notification && notification.OnChangeMine && changeCondition) {
         let email = new Email();
         email.To = creator.Email;
         email.Cc = "";
         email.Subject = this.createTitle(ticketId, ticketTitle);
-        email.Content = "Ticket was changed.";
+        email.Content = 'User <b>' + this.user + '</b> changed ' + ChangeType[type] + ' @<i>' + this.getTime() + '</i>.';
         this.mailService.sendMail(email).subscribe();
       }
     });
+  }
+
+  listenOnChange(changeCondition: boolean, type: ChangeType, assignedToUser: User, ticketId: number, ticketTitle: string) {
+    this.notificationService.getNotificationByUserId(assignedToUser.Id).subscribe(notification => {
+      if (notification && notification.OnChange && changeCondition) {
+        let email = new Email();
+        email.To = assignedToUser.Email;
+        email.Cc = "";
+        email.Subject = this.createTitle(ticketId, ticketTitle);
+        email.Content = 'User <b>' + this.user + '</b> changed ' + ChangeType[type] + ' @<i>' + this.getTime() + '</i>.';
+        this.mailService.sendMail(email).subscribe();
+      }
+    });
+  }
+
+  private getTime() {
+    let date = new Date();
+    let hours = date.getHours();
+    let minutes = date.getMinutes();
+    return (hours <= 9 && hours >= 0 ? '0' + hours : hours) + ':' + (minutes <= 9 && minutes >= 0 ? ('0' + minutes) : minutes);
   }
 
   private createTitle(ticketId, ticketTitle) {
@@ -93,9 +116,7 @@ export class HelperService {
   private createContentChangeStatus(previousStatus, currentStatus) {
     let previous = this.statuses.find(x => x.Id == previousStatus).Name;
     let current = this.statuses.find(x => x.Id == currentStatus).Name;
-    let date = new Date();
-    let time = date.getHours() + `:` + date.getMinutes();
 
-    return `User <b>`+ this.authService.getUsernameFromToken() + `</b> changed status from <b>` + previous + `</b> to <b>` + current + `</b> <i>@` + time + `</i>.`;
+    return 'User <b>' + this.user + '</b> changed status from <b>' + previous + '</b> to <b>' + current + '</b> <i>@' + this.getTime() + '</i>.';
   }
 }

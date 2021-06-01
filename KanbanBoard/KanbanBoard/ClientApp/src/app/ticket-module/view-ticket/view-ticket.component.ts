@@ -15,7 +15,7 @@ import { COMMA, ENTER } from "@angular/cdk/keycodes";
 import { FormBuilder, FormControl, FormGroup } from "@angular/forms";
 import { MatChipInputEvent } from "@angular/material/chips";
 import { map, startWith } from "rxjs/operators";
-import { Priorities, Responses } from "../../shared/enums";
+import { ChangeType, Priorities, Responses } from "../../shared/enums";
 import { SnackBarService } from "../../shared/snack-bar.service";
 import { FavoriteService } from "../../shared/services/favorite/favorite.service";
 import { AuthService } from "../../shared/auth/auth.service";
@@ -52,6 +52,7 @@ export class ViewTicketComponent implements OnInit {
   public priorities = Priorities;
   public prioritiesValues = Priorities.values();
   private creator: User;
+  private assignedTo: User;
 
   @ViewChild("labelInput", { static: true }) fruitInput: ElementRef<HTMLInputElement>;
   @ViewChild("auto", { static: true }) matAutocomplete: MatAutocomplete;
@@ -85,6 +86,7 @@ export class ViewTicketComponent implements OnInit {
       this.boardService.getBoard(this.ticket.BoardId).subscribe(board => {
         this.userService.getUsersByTeamId(board.TeamId).subscribe(users => {
           this.members = users;
+          this.assignedTo = this.members.find(x => x.Id == this.ticket.AssignedTo);
           let reporter = users.filter(x => x.Username == this.ticket.Creator)[0];
           if (reporter && reporter.FirstName && reporter.LastName) {
             this.creator = reporter;
@@ -168,10 +170,9 @@ export class ViewTicketComponent implements OnInit {
         this.snackBarService.unsuccessful();
       }
       let previousStatus = this.statuses.find(x => x.Name == this.ticket.Status);
-      let assignedTo = this.members.find(x => x.Id == this.ticket.AssignedTo);
       this.helperService.listenOnStatusChangeMine(previousStatus.Id, event.value, this.creator, this.ticketId, this.ticket.Title);
-      if (assignedTo.Id != this.creator.Id) {
-        this.helperService.listenOnStatusChange(previousStatus.Id, event.value, assignedTo, this.ticketId, this.ticket.Title);
+      if (this.assignedTo.Id != this.creator.Id) {
+        this.helperService.listenOnStatusChange(previousStatus.Id, event.value, this.assignedTo, this.ticketId, this.ticket.Title);
       }
     });
   }
@@ -206,6 +207,10 @@ export class ViewTicketComponent implements OnInit {
     this.ticketService.updateStoryPoints(this.ticketId, event.value).subscribe(result => {
       if (result != Responses.Successful) {
         this.snackBarService.unsuccessful();
+      }
+      this.helperService.listenOnChangeMine(true, ChangeType.StoryPoints, this.creator, this.ticketId, this.ticket.Title);
+      if (this.assignedTo.Id != this.creator.Id) {
+        this.helperService.listenOnChange(true, ChangeType.StoryPoints, this.assignedTo, this.ticketId, this.ticket.Title);
       }
     });
   }

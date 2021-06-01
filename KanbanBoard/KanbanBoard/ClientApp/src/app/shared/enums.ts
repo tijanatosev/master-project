@@ -48,3 +48,14 @@ export namespace Priorities {
     );
   }
 }
+
+export enum ChangeType {
+  StoryPoints = 1,
+  Priority = 2,
+  AssignedTo = 3,
+  StartDate = 4,
+  EndDate = 5,
+  Labels = 6,
+  Title = 7,
+  Description = 8
+}

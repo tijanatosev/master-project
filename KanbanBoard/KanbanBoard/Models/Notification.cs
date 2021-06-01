@@ -4,6 +4,7 @@
     {
         public int Id { get; set; }
         public bool OnChange { get; set; }
+        public bool OnChangeMine { get; set; }
         public bool OnComment { get; set; }
         public bool OnCommentMine { get; set; }
         public bool OnStatusChange { get; set; }
