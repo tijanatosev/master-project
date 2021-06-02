@@ -168,11 +168,12 @@ export class ViewTicketComponent implements OnInit {
     this.ticketService.updateColumn(this.ticketId, event.value).subscribe(result => {
       if (result != Responses.Successful) {
         this.snackBarService.unsuccessful();
-      }
-      let previousStatus = this.statuses.find(x => x.Name == this.ticket.Status);
-      this.helperService.listenOnStatusChangeMine(previousStatus.Id, event.value, this.creator, this.ticketId, this.ticket.Title);
-      if (this.assignedTo.Id != this.creator.Id) {
-        this.helperService.listenOnStatusChange(previousStatus.Id, event.value, this.assignedTo, this.ticketId, this.ticket.Title);
+      } else {
+        let previousStatus = this.statuses.find(x => x.Name == this.ticket.Status);
+        this.helperService.listenOnStatusChangeMine(previousStatus.Id, event.value, this.creator, this.ticketId, this.ticket.Title);
+        if (this.assignedTo.Id != this.creator.Id) {
+          this.helperService.listenOnStatusChange(previousStatus.Id, event.value, this.assignedTo, this.ticketId, this.ticket.Title);
+        }
       }
     });
   }
@@ -181,6 +182,11 @@ export class ViewTicketComponent implements OnInit {
     this.ticketService.updateAssignedTo(this.ticketId, event.value).subscribe(result => {
       if (result != Responses.Successful) {
         this.snackBarService.unsuccessful();
+      } else {
+        this.helperService.listenOnChangeMine(true, ChangeType.AssignedTo, this.creator, this.ticketId, this.ticket.Title);
+        if (this.assignedTo.Id != this.creator.Id) {
+          this.helperService.listenOnChange(true, ChangeType.AssignedTo, this.assignedTo, this.ticketId, this.ticket.Title);
+        }
       }
     });
   }
@@ -189,8 +195,13 @@ export class ViewTicketComponent implements OnInit {
     this.ticketService.updateStartDate(this.ticketId, event.value).subscribe(result => {
       if (result != Responses.Successful) {
         this.snackBarService.unsuccessful();
+      } else {
+        this.ticket.StartDate = event.value;
+        this.helperService.listenOnChangeMine(true, ChangeType.StartDate, this.creator, this.ticketId, this.ticket.Title);
+        if (this.assignedTo.Id != this.creator.Id) {
+          this.helperService.listenOnChange(true, ChangeType.StartDate, this.assignedTo, this.ticketId, this.ticket.Title);
+        }
       }
-      this.ticket.StartDate = event.value;
     });
   }
 
@@ -198,8 +209,13 @@ export class ViewTicketComponent implements OnInit {
     this.ticketService.updateEndDate(this.ticketId, event.value).subscribe(result => {
       if (result != Responses.Successful) {
         this.snackBarService.unsuccessful();
+      } else {
+        this.ticket.EndDate = event.value;
+        this.helperService.listenOnChangeMine(true, ChangeType.EndDate, this.creator, this.ticketId, this.ticket.Title);
+        if (this.assignedTo.Id != this.creator.Id) {
+          this.helperService.listenOnChange(true, ChangeType.EndDate, this.assignedTo, this.ticketId, this.ticket.Title);
+        }
       }
-      this.ticket.EndDate = event.value;
     });
   }
 
@@ -207,10 +223,11 @@ export class ViewTicketComponent implements OnInit {
     this.ticketService.updateStoryPoints(this.ticketId, event.value).subscribe(result => {
       if (result != Responses.Successful) {
         this.snackBarService.unsuccessful();
-      }
-      this.helperService.listenOnChangeMine(true, ChangeType.StoryPoints, this.creator, this.ticketId, this.ticket.Title);
-      if (this.assignedTo.Id != this.creator.Id) {
-        this.helperService.listenOnChange(true, ChangeType.StoryPoints, this.assignedTo, this.ticketId, this.ticket.Title);
+      } else {
+        this.helperService.listenOnChangeMine(true, ChangeType.StoryPoints, this.creator, this.ticketId, this.ticket.Title);
+        if (this.assignedTo.Id != this.creator.Id) {
+          this.helperService.listenOnChange(true, ChangeType.StoryPoints, this.assignedTo, this.ticketId, this.ticket.Title);
+        }
       }
     });
   }
@@ -219,22 +236,34 @@ export class ViewTicketComponent implements OnInit {
     this.ticketService.updatePriority(this.ticketId, parseInt(event.value)).subscribe(result => {
       if (result != Responses.Successful) {
         this.snackBarService.unsuccessful();
+      } else {
+        this.helperService.listenOnChangeMine(true, ChangeType.Priority, this.creator, this.ticketId, this.ticket.Title);
+        if (this.assignedTo.Id != this.creator.Id) {
+          this.helperService.listenOnChange(true, ChangeType.Priority, this.assignedTo, this.ticketId, this.ticket.Title);
+        }
       }
     });
   }
 
   public saveTitle(data) {
     this.titleClicked = false;
-    console.log(data, data.value.title)
     if (data.value.title.trim().length == 0) {
       return;
     }
-    this.ticket.Title = data.value.title.trim();
+
     let ticket = new Ticket();
     ticket.Title = data.value.title.trim();
+    
     this.ticketService.updateTitle(this.ticketId, ticket).subscribe(result => {
       if (result != Responses.Successful) {
         this.snackBarService.unsuccessful();
+      } else {
+        let previousTitle = this.ticket.Title;
+        this.ticket.Title = data.value.title.trim();
+        this.helperService.listenOnChangeMine(true, ChangeType.Title, this.creator, this.ticketId, this.ticket.Title);
+        if (this.assignedTo.Id != this.creator.Id) {
+          this.helperService.listenOnChange(true, ChangeType.Title, this.assignedTo, this.ticketId, this.ticket.Title);
+        }
       }
     });
   }
@@ -250,12 +279,20 @@ export class ViewTicketComponent implements OnInit {
     if (data.value.description.trim().length == 0) {
       return;
     }
-    this.ticket.Description = data.value.description;
+
     let ticket = new Ticket();
     ticket.Description = data.value.description;
+
     this.ticketService.updateDescription(this.ticketId, ticket).subscribe(result => {
       if (result != Responses.Successful) {
         this.snackBarService.unsuccessful();
+      } else {
+        let previousDescription = this.ticket.Description;
+        this.ticket.Description = data.value.description;
+        this.helperService.listenOnChangeMine(true, ChangeType.Description, this.creator, this.ticketId, this.ticket.Title);
+        if (this.assignedTo.Id != this.creator.Id) {
+          this.helperService.listenOnChange(true, ChangeType.Description, this.assignedTo, this.ticketId, this.ticket.Title);
+        }
       }
     });
   }
