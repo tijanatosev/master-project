@@ -5,6 +5,8 @@ namespace KanbanBoard.Services.Interfaces
 {
     public interface IColumnService
     {
+        IEnumerable<Column> GetAll();
+        
         IEnumerable<Column> GetByBoardId(int boardId);
 
         Column GetById(int id);

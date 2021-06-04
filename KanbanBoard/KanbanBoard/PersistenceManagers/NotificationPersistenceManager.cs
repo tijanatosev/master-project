@@ -60,12 +60,13 @@ namespace KanbanBoard.PersistenceManagers
 
         public int Add(Notification notification)
         {
-            string query = @"INSERT INTO Notifications (OnChange, OnComment, OnCommentMine, OnStatusChange, OnStatusChangeMine, UserId)
+            string query = @"INSERT INTO Notifications (OnChange, OnChangeMine, OnComment, OnCommentMine, OnStatusChange, OnStatusChangeMine, UserId)
 OUTPUT INSERTED.ID
-VALUES (@OnChange, @OnComment, @OnCommentMine, @OnStatusChange, @OnStatusChangeMine, @UserId)";
+VALUES (@OnChange, @OnChangeMine, @OnComment, @OnCommentMine, @OnStatusChange, @OnStatusChangeMine, @UserId)";
             DbParameter[] parameters = 
             {
                 new SqlParameter("@OnChange", notification.OnChange),
+                new SqlParameter("@OnChangeMine", notification.OnChangeMine),
                 new SqlParameter("@OnComment", notification.OnComment),
                 new SqlParameter("@OnCommentMine", notification.OnCommentMine),
                 new SqlParameter("@OnStatusChange", notification.OnStatusChange),
@@ -80,6 +81,7 @@ VALUES (@OnChange, @OnComment, @OnCommentMine, @OnStatusChange, @OnStatusChangeM
         {
             string query = @"UPDATE Notifications
 SET OnChange=@OnChange,
+OnChangeMine=@OnChangeMine,
 OnComment=@OnComment,
 OnCommentMine=@OnCommentMine,
 OnStatusChange=@OnStatusChange,
@@ -89,6 +91,7 @@ WHERE Id=@Id";
             DbParameter[] parameters = 
             {
                 new SqlParameter("@OnChange", notification.OnChange),
+                new SqlParameter("@OnChangeMine", notification.OnChangeMine),
                 new SqlParameter("@OnComment", notification.OnComment),
                 new SqlParameter("@OnCommentMine", notification.OnCommentMine),
                 new SqlParameter("@OnStatusChange", notification.OnStatusChange),
@@ -105,6 +108,7 @@ WHERE Id=@Id";
             {
                 Id = Convert.ToInt32(row["Id"]),
                 OnChange = Convert.ToBoolean(row["OnChange"]),
+                OnChangeMine = Convert.ToBoolean(row["OnChangeMine"]),
                 OnComment = Convert.ToBoolean(row["OnComment"]),
                 OnCommentMine = Convert.ToBoolean(row["OnCommentMine"]),
                 OnStatusChange = Convert.ToBoolean(row["OnStatusChange"]),

@@ -25,6 +25,7 @@ export class SettingsNotificationsComponent implements OnInit {
     this.notificationsForm = this.formBuilder.group({
       onCommentMine: [false],
       onComment: [false],
+      onChangeMine: [false],
       onChange: [false],
       onStatusChangeMine: [false],
       onStatusChange: [false]
@@ -37,6 +38,7 @@ export class SettingsNotificationsComponent implements OnInit {
           onCommentMine: [notification.OnCommentMine],
           onComment: [notification.OnComment],
           onChange: [notification.OnChange],
+          onChangeMine: [notification.OnChangeMine],
           onStatusChangeMine: [notification.OnStatusChangeMine],
           onStatusChange: [notification.OnStatusChange]
         });
@@ -66,7 +68,6 @@ export class SettingsNotificationsComponent implements OnInit {
       });
     } else {
       this.notificationService.addNotification(this.notification).subscribe(result => {
-        console.log(result);
         if (result != 0) {
           if (typeof result === "number") {
             this.notificationId = result;

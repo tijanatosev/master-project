@@ -20,6 +20,21 @@ namespace KanbanBoard.PersistenceManagers
             dbCommands = new DbCommands(serverName, dbName);
         }
 
+        public IEnumerable<Column> LoadAll()
+        {
+            List<Column> columns = new List<Column>();
+            string query = @"SELECT * FROM Columns";
+            DataTable result = dbCommands.ExecuteSqlQuery(query).Tables["Result"];
+            if (result.Rows.Count != 0)
+            {
+                foreach (DataRow row in result.Rows)
+                {
+                    columns.Add(LoadFromDataRow(row));
+                }
+            }
+            return columns;
+        }
+
         public Column Load(int id)
         {
             string sqlQuery = @"SELECT * FROM Columns WHERE Id=@Id";

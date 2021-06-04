@@ -20,7 +20,7 @@ namespace KanbanBoard.Controllers
         public string To { get; set; }
         public string Cc { get; set; }
         public string Subject { get; set; }
-        public string Text { get; set; }
+        public string Content { get; set; }
     }
     
     [Route("api/helpers")]

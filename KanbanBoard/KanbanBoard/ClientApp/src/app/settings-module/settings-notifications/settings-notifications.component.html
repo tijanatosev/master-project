@@ -3,13 +3,16 @@
   <mat-card>
     <mat-card-content>
       <form [formGroup]="notificationsForm">
-        <mat-slide-toggle color="primary" formControlName="onCommentMine">Email me when someone comments on my ticket</mat-slide-toggle>
+        <mat-slide-toggle color="primary" formControlName="onCommentMine">Email me when someone comments on my tickets</mat-slide-toggle>
         <br>
         <br>
-        <mat-slide-toggle color="primary" formControlName="onComment">Email me when someone comments on a ticket assigned to me</mat-slide-toggle>
+        <mat-slide-toggle color="primary" formControlName="onComment">Email me when someone comments on tickets assigned to me</mat-slide-toggle>
         <br>
         <br>
-        <mat-slide-toggle color="primary" formControlName="onChange">Email me when someone changes my ticket</mat-slide-toggle>
+        <mat-slide-toggle color="primary" formControlName="onChangeMine">Email me when someone changes my tickets</mat-slide-toggle>
+        <br>
+        <br>
+        <mat-slide-toggle color="primary" formControlName="onChange">Email me when someone changes tickets assigned to me</mat-slide-toggle>
         <br>
         <br>
         <mat-slide-toggle color="primary" formControlName="onStatusChangeMine">Email me when my tickets change status</mat-slide-toggle>

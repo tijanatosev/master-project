@@ -193,7 +193,7 @@ WHERE Id=@Id";
         public IEnumerable<Ticket> LoadFavoritesByUserId(int userId)
         {
             List<Ticket> tickets = new List<Ticket>();
-            string query = @"SELECT t.Id, t.Title, t.Description, t.Creator, t.StoryPoints, t.Status, t.DateCreated, t.AssignedTo, t.StartDate, t.EndDate, t.Rank, t.BoardId, t.ColumnId
+            string query = @"SELECT t.Id, t.Title, t.Description, t.Creator, t.StoryPoints, t.Status, t.DateCreated, t.AssignedTo, t.StartDate, t.EndDate, t.Rank, t.Priority, t.BoardId, t.ColumnId
 FROM Tickets t JOIN Favorites f ON t.Id = f.TicketId
 WHERE f.UserId=@UserId";
             DataTable result = dbCommands.ExecuteSqlQuery(query, new SqlParameter("@UserId", userId)).Tables["Result"];

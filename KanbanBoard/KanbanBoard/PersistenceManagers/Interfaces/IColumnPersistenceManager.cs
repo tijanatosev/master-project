@@ -5,6 +5,8 @@ namespace KanbanBoard.PersistenceManagers.Interfaces
 {
     public interface IColumnPersistenceManager : IPersistenceManager<Column>
     {
+        IEnumerable<Column> LoadAll();
+        
         Column Load(int id);
         
         IEnumerable<Column> LoadByBoardId(int boardId);
