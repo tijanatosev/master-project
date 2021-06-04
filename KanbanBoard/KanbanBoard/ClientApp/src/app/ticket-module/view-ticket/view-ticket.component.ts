@@ -126,6 +126,10 @@ export class ViewTicketComponent implements OnInit {
         this.labelService.addLabelByTicketId(label, this.ticketId).subscribe(x => {
           if (x > 0) {
             this.loadLabels();
+            this.helperService.listenOnChangeMine(true, ChangeType.Labels, this.creator, this.ticketId, this.ticket.Title);
+            if (this.assignedTo.Id != this.creator.Id) {
+              this.helperService.listenOnChange(true, ChangeType.Labels, this.assignedTo, this.ticketId, this.ticket.Title);
+            }
           }
         });
       }
@@ -146,6 +150,10 @@ export class ViewTicketComponent implements OnInit {
     this.labelService.addLabelByTicketId(event.option.value, this.ticketId).subscribe(x => {
       if (x > 0) {
         this.loadLabels();
+        this.helperService.listenOnChangeMine(true, ChangeType.Labels, this.creator, this.ticketId, this.ticket.Title);
+        if (this.assignedTo.Id != this.creator.Id) {
+          this.helperService.listenOnChange(true, ChangeType.Labels, this.assignedTo, this.ticketId, this.ticket.Title);
+        }
       }
     });
     this.labelControl.setValue(null);
@@ -253,7 +261,7 @@ export class ViewTicketComponent implements OnInit {
 
     let ticket = new Ticket();
     ticket.Title = data.value.title.trim();
-    
+
     this.ticketService.updateTitle(this.ticketId, ticket).subscribe(result => {
       if (result != Responses.Successful) {
         this.snackBarService.unsuccessful();
