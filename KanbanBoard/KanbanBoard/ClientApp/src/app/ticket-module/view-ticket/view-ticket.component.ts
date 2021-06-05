@@ -164,6 +164,10 @@ export class ViewTicketComponent implements OnInit {
     if (index >= 0) {
       this.labelService.deleteByTicketId(label.Id, this.ticketId).subscribe(x => {
         this.loadLabels();
+        this.helperService.listenOnChangeMine(true, ChangeType.Labels, this.creator, this.ticketId, this.ticket.Title);
+        if (this.assignedTo.Id != this.creator.Id) {
+          this.helperService.listenOnChange(true, ChangeType.Labels, this.assignedTo, this.ticketId, this.ticket.Title);
+        }
       });
     }
   }
