@@ -10,6 +10,8 @@ import { Responses } from "../../shared/enums";
 import { SnackBarService } from "../../shared/snack-bar.service";
 import { HelperService } from "../../shared/helpers/helper.service";
 import { UserService } from "../../shared/services/user/user.service";
+import { MatDialog, MatDialogRef } from "@angular/material/dialog";
+import { AddTicketComponent } from "../../ticket-module/add-ticket/add-ticket.component";
 
 @Component({
   selector: 'app-board',
@@ -21,6 +23,7 @@ export class BoardComponent implements OnInit {
   public board: Board;
   public tickets: Ticket[] = [];
   public columns: Column[] = [];
+  public dialogTicketRef: MatDialogRef<any>;
 
   constructor(private route: ActivatedRoute,
               private boardService: BoardService,
@@ -28,7 +31,8 @@ export class BoardComponent implements OnInit {
               private columnService: ColumnService,
               private snackBarService: SnackBarService,
               private helperService: HelperService,
-              private userService: UserService) { }
+              private userService: UserService,
+              private ticketDialog: MatDialog) { }
 
   ngOnInit() {
     this.route.params.subscribe((params: Params) => {
@@ -63,5 +67,14 @@ export class BoardComponent implements OnInit {
         });
       });
     });
+  }
+
+  public createTicket() {
+    this.dialogTicketRef = this.ticketDialog.open(AddTicketComponent, {
+      width: '400px',
+      height: '600px'
+    });
+
+    this.dialogTicketRef.afterClosed().subscribe(result => console.log(result));
   }
 }

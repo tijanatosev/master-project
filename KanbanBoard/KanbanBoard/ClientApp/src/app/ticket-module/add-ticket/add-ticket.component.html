@@ -1,0 +1,19 @@
+<ng-form [formGroup]="ticketForm">
+  <mat-form-field appearance="outline">
+    <mat-label>Title</mat-label>
+    <input matInput placeholder="Insert title" formControlName="title">
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Description</mat-label>
+    <textarea matInput formControlName="description" cdkTextareaAutosize="true" cdkAutosizeMinRows="10" cdkAutosizeMaxRows="20">
+    </textarea>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Priority</mat-label>
+  </mat-form-field>
+
+  <br>
+  <button mat-raised-button color="primary">create</button>
+</ng-form>
