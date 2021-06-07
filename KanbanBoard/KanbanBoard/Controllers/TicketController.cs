@@ -175,5 +175,12 @@ namespace KanbanBoard.Controllers
             
             return new StatusCodeResult(200);
         }
+        
+        [HttpGet]
+        [Route("{columnId}/rank/{boardId}")]
+        public int GetRankForColumn([FromRoute] int columnId, [FromRoute] int boardId)
+        {
+            return ticketService.GetRankForColumn(columnId, boardId);
+        }
     }
 }

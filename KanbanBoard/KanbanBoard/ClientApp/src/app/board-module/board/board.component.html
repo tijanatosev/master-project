@@ -1,4 +1,4 @@
-<h3>{{ board.Name }}</h3>
+<h3 *ngIf="board">{{ board.Name }}</h3>
 <button mat-raised-button color="primary" (click)="createTicket()">Create ticket</button>
 <div cdkDropListGroup class="row">
   <div *ngFor="let column of columns" class="col ticket-column my-2 mr-2 ml-2" >

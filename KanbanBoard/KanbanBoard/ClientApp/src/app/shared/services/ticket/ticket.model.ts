@@ -7,8 +7,8 @@
   public Status: string;
   public DateCreated: Date;
   public AssignedTo: number;
-  public StartDate: Date;
-  public EndDate: Date;
+  public StartDate?: Date;
+  public EndDate?: Date;
   public Rank: number;
   public Priority: number;
   public BoardId?: number;

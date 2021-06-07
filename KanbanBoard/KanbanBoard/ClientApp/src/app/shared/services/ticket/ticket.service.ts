@@ -91,4 +91,8 @@ export class TicketService extends BaseService{
     return this.http.put(`${this.ticketsUrl()}/${id}/priority`, priority,{ observe: "response" })
       .pipe(map(response => response.status));
   }
+
+  public getRankForColumn(columnId, boardId) {
+    return this.http.get<number>(`${this.ticketsUrl()}/${columnId}/rank/${boardId}`);
+  }
 }

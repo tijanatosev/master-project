@@ -39,5 +39,7 @@ namespace KanbanBoard.Services.Interfaces
         IEnumerable<Ticket> GetFavoritesByUserId(int userId);
 
         bool UpdatePriority(int id, int priority);
+        
+        int GetRankForColumn(int columnId, int boardId);
     }
 }

@@ -38,11 +38,7 @@ export class BoardComponent implements OnInit {
     this.route.params.subscribe((params: Params) => {
       this.boardId = +params['id'];
     });
-    this.boardService.getBoard(this.boardId).subscribe(board => {
-      this.board = board;
-      this.ticketService.getTicketsByTeamId(this.board.TeamId).subscribe(tickets => this.tickets = tickets);
-    });
-    this.columnService.getColumnsByBoardId(this.boardId).subscribe(columns => this.columns = columns);
+    this.loadBoard();
   }
 
   public onChangeColumns(event: number[]) {
@@ -70,11 +66,22 @@ export class BoardComponent implements OnInit {
   }
 
   public createTicket() {
-    this.dialogTicketRef = this.ticketDialog.open(AddTicketComponent, {
-      width: '400px',
-      height: '600px'
-    });
+    this.dialogTicketRef = this.ticketDialog.open(AddTicketComponent, {});
+    this.dialogTicketRef.componentInstance.boardId = this.board.Id;
+    this.dialogTicketRef.componentInstance.teamId = this.board.TeamId;
 
-    this.dialogTicketRef.afterClosed().subscribe(result => console.log(result));
+    this.dialogTicketRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.loadBoard();
+      }
+    });
+  }
+
+  private loadBoard() {
+    this.boardService.getBoard(this.boardId).subscribe(board => {
+      this.board = board;
+      this.ticketService.getTicketsByTeamId(this.board.TeamId).subscribe(tickets => this.tickets = tickets);
+    });
+    this.columnService.getColumnsByBoardId(this.boardId).subscribe(columns => this.columns = columns);
   }
 }

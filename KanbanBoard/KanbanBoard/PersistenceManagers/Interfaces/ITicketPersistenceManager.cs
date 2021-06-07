@@ -39,5 +39,7 @@ namespace KanbanBoard.PersistenceManagers.Interfaces
         IEnumerable<Ticket> LoadFavoritesByUserId(int userId);
 
         int UpdatePriority(int id, int priority);
+        
+        int GetRankForColumn(int columnId, int boardId);
     }
 }
