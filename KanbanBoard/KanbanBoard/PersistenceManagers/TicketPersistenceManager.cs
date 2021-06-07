@@ -48,9 +48,9 @@ namespace KanbanBoard.PersistenceManagers
 
         public int Add(Ticket ticket)
         {
-            string query = @"INSERT INTO Tickets (Title, Description, Creator, StoryPoints, Status, DateCreated, AssignedTo, StartDate, EndDate, Rank, Priority) 
+            string query = @"INSERT INTO Tickets (Title, Description, Creator, StoryPoints, Status, DateCreated, AssignedTo, StartDate, EndDate, Rank, Priority, ColumnId, BoardId) 
 OUTPUT INSERTED.ID
-VALUES (@Title, @Description, @Creator, @StoryPoints, @Status, @DateCreated, @AssignedTo, @StartDate, @EndDate, @Rank, @Priority)";
+VALUES (@Title, @Description, @Creator, @StoryPoints, @Status, @DateCreated, @AssignedTo, @StartDate, @EndDate, @Rank, @Priority, @ColumnId, @BoardId)";
             DbParameter[] parameters = 
             {
                 new SqlParameter("@Title", ticket.Title),
@@ -64,6 +64,8 @@ VALUES (@Title, @Description, @Creator, @StoryPoints, @Status, @DateCreated, @As
                 new SqlParameter("@EndDate", ticket.EndDate),
                 new SqlParameter("@Rank", ticket.Rank),
                 new SqlParameter("@Priority", ticket.Priority), 
+                new SqlParameter("ColumnId", ticket.ColumnId),
+                new SqlParameter("BoardId", ticket.BoardId), 
             };
             return dbCommands.ExecuteScalar(query, parameters);
         }
@@ -214,6 +216,18 @@ WHERE f.UserId=@UserId";
 SET Priority=@Priority
 WHERE Id=@Id";
             return dbCommands.ExecuteSqlNonQuery(query, new SqlParameter("@Priority", priority), new SqlParameter("@Id", id));
+        }
+        
+        public int GetRankForColumn(int columnId, int boardId)
+        {
+            string sqlQuery = "SELECT MAX(Rank) FROM Tickets WHERE ColumnId=@ColumnId and BoardId=@BoardId";
+            DataTable result = dbCommands.ExecuteSqlQuery(sqlQuery, new SqlParameter("@ColumnId", columnId), new SqlParameter("@BoardId", boardId)).Tables["Result"];
+            if (result.Rows.Count != 0)
+            {
+                return Convert.ToInt32(result.Rows[0][0]);
+            }
+
+            return -1;
         }
 
         public Ticket LoadFromDataRow(DataRow row)

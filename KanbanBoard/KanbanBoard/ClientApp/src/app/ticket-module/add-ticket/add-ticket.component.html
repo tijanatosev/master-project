@@ -1,0 +1,93 @@
+<h5 style="color: #3F51B5;">Create ticket</h5>
+<mat-dialog-content>
+  <ng-form [formGroup]="ticketForm">
+    <mat-form-field appearance="outline">
+      <mat-label>Title</mat-label>
+      <input matInput placeholder="Insert title" formControlName="title">
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Labels</mat-label>
+      <mat-select formControlName="labels" multiple>
+        <mat-option *ngFor="let label of labels" [value]="label" [style.color]="label.Color">
+          {{ label.Name }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Description</mat-label>
+      <textarea matInput formControlName="description" cdkTextareaAutosize="true" cdkAutosizeMinRows="10" cdkAutosizeMaxRows="20">
+      </textarea>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Assign To</mat-label>
+      <mat-select formControlName="assignedTo">
+        <mat-option *ngFor="let member of members" [value]="member.Id">
+          &nbsp;{{ member.FirstName }} {{ member.LastName }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Status</mat-label>
+      <mat-select formControlName="status">
+        <mat-option *ngFor="let status of statuses" [value]="[status.Name, status.Id]">
+          &nbsp;{{ status.Name }}&nbsp;
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <div class="row">
+      <div class="col">
+        <mat-form-field appearance="outline">
+          <mat-label>Story Points</mat-label>
+          <mat-select formControlName="storyPoints">
+            <mat-option *ngFor="let point of points" [value]="point">
+              {{ point }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="col">
+        <mat-form-field appearance="outline">
+          <mat-label>Priority</mat-label>
+          <mat-select formControlName="priority">
+            <mat-option *ngFor="let priority of prioritiesValues" [value]="priorities[priority]">
+              {{ priority }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col">
+        <mat-form-field appearance="outline">
+          <mat-label>Start Date</mat-label>
+          <input matInput [matDatepicker]="pickerStartDate" [min]="minDate" [max]="maxDate" formControlName="startDate">
+          <mat-datepicker-toggle matSuffix [for]="pickerStartDate"></mat-datepicker-toggle>
+          <mat-datepicker #pickerStartDate></mat-datepicker>
+
+          <mat-error *ngIf="ticketForm.get('startDate').errors && ticketForm.get('startDate').errors.startDateGreaterThanEndDate">
+            Start Date can't be bigger than End Date.
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="col">
+        <mat-form-field appearance="outline">
+          <mat-label>End Date</mat-label>
+          <input matInput [matDatepicker]="pickerEndDate" [min]="minDate" [max]="maxDate" formControlName="endDate">
+          <mat-datepicker-toggle matSuffix [for]="pickerEndDate"></mat-datepicker-toggle>
+          <mat-datepicker #pickerEndDate></mat-datepicker>
+        </mat-form-field>
+      </div>
+    </div>
+  </ng-form>
+</mat-dialog-content>
+<mat-dialog-actions align="center">
+  <button mat-raised-button type="submit" color="primary" [mat-dialog-close]="true" [disabled]="!ticketForm.valid" (click)="save(ticketForm)">Save</button>
+  <button mat-button mat-dialog-close>Cancel</button>
+</mat-dialog-actions>
+

@@ -1,3 +1,5 @@
+<h3 *ngIf="board">{{ board.Name }}</h3>
+<button mat-raised-button color="primary" (click)="createTicket()">Create ticket</button>
 <div cdkDropListGroup class="row">
   <div *ngFor="let column of columns" class="col ticket-column my-2 mr-2 ml-2" >
     <app-board-column [columnId]="column.Id" [columnName]="column.Name" [containerId]="column.ColumnOrder" (changeColumns)="onChangeColumns($event)"></app-board-column>

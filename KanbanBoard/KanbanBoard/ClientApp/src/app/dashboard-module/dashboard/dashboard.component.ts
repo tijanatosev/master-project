@@ -44,7 +44,6 @@ export class DashboardComponent implements OnInit {
       this.boardService.getBoards().subscribe(boards => this.boards = boards);
       this.teamService.getTeams().subscribe(teams => this.teams = teams);
     }
-
   }
 
   public openBoardDialog() {
@@ -59,7 +58,7 @@ export class DashboardComponent implements OnInit {
       } else {
         this.boardService.getBoards().subscribe(boards => this.boards = boards);
       }
-    })
+    });
   }
 
   public openTeamDialog() {

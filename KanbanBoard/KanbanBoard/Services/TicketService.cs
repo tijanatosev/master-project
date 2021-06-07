@@ -193,5 +193,15 @@ namespace KanbanBoard.Services
 
             return ticketPersistenceManager.UpdatePriority(id, priority) > 0;
         }
+        
+        public int GetRankForColumn(int columnId, int boardId)
+        {
+            if (!validationService.ValidateId(columnId) || !validationService.ValidateId(boardId))
+            {
+                return -1;
+            }
+
+            return ticketPersistenceManager.GetRankForColumn(columnId, boardId);
+        }
     }
 }
