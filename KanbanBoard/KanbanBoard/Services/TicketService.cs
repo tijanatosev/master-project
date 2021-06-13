@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Text;
 using KanbanBoard.Helpers;
 using KanbanBoard.Models;
 using KanbanBoard.PersistenceManagers;
 using KanbanBoard.PersistenceManagers.Interfaces;
 using KanbanBoard.Services.Interfaces;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Primitives;
 
 namespace KanbanBoard.Services
 {
@@ -16,8 +19,9 @@ namespace KanbanBoard.Services
         private readonly IValidationService validationService = new ValidationService();
         private readonly IUserService userService = new UserService();
         
-        public IEnumerable<Ticket> GetAll()
+        public IEnumerable<Ticket> GetAll(IQueryCollection queryCollection)
         {
+            string parsedQuery = ParseQueryCollection(queryCollection);
             return ticketPersistenceManager.LoadAll();
         }
 
@@ -202,6 +206,55 @@ namespace KanbanBoard.Services
             }
 
             return ticketPersistenceManager.GetRankForColumn(columnId, boardId);
+        }
+
+        private string ParseQueryCollection(IQueryCollection queryCollection)
+        {
+            StringBuilder whereClause = new StringBuilder();
+            foreach (KeyValuePair<string, StringValues> filterValues in queryCollection)
+            {
+                string condition = String.Empty;
+                string[] lines = filterValues.Value.ToString().Split(",");
+                for (int i = 0; i < lines.Length; i++)
+                {
+                    string[] values = lines[i].Split(" ");
+                    switch (values[1])
+                    {
+                        case "like":
+                            condition += values[0] + " = '%" + values[2].Substring(1, values[2].Length - 1) + "%'";
+                            break;
+                        case "eq":
+                            condition += values[0] + " = " + values[2];
+                            break;
+                        case "gt":
+                            condition += values[0] + " > " + values[2];
+                            break;
+                        case "ge":
+                            condition += values[0] + " >= " + values[2];
+                            break;
+                        case "le":
+                            condition += values[0] + " <= " + values[2];
+                            break;
+                        case "lt":
+                            condition += values[0] + " < " + values[2];
+                            break;
+                        case "ne":
+                            condition += values[0] + " <> " + values[2];
+                            break;
+                        default:
+                            condition += values[0] + " " + values[1] + " " + values[2];
+                            break;
+                    }
+
+                    if (i != lines.Length-1)
+                    {
+                        condition += " and ";
+                    }
+                }
+                whereClause.Append(condition);
+            }
+
+            return whereClause.ToString();
         }
     }
 }

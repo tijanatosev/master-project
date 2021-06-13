@@ -1,12 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using KanbanBoard.Models;
+using Microsoft.AspNetCore.Http;
 
 namespace KanbanBoard.Services.Interfaces
 {
     public interface ITicketService
     {
-        IEnumerable<Ticket> GetAll();
+        IEnumerable<Ticket> GetAll(IQueryCollection queryCollection);
         
         Ticket GetById(int id);
 
