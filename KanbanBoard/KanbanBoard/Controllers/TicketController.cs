@@ -66,7 +66,8 @@ namespace KanbanBoard.Controllers
         [Route("column/{columnId}")]
         public IEnumerable<Ticket> GetTicketsByColumnId([FromRoute] int columnId)
         {
-            return ticketService.GetByColumnId(columnId);
+            IQueryCollection queryCollection = httpContextAccessor.HttpContext.Request.Query;
+            return ticketService.GetByColumnId(columnId, queryCollection);
         }
 
         [HttpPut]

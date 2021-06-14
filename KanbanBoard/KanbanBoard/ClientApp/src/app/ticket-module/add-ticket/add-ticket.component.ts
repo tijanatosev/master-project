@@ -24,7 +24,7 @@ export class AddTicketComponent implements OnInit {
   public members: User[];
   public statuses: Column[];
   public points = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13];
-  public priorities = Priorities
+  public priorities = Priorities;
   public prioritiesValues = Priorities.values();
   public labels: Label[];
   public minDate = new Date("1/1/1970");

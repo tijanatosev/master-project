@@ -21,8 +21,13 @@ namespace KanbanBoard.Services
         
         public IEnumerable<Ticket> GetAll(IQueryCollection queryCollection)
         {
-            string parsedQuery = ParseQueryCollection(queryCollection);
-            return ticketPersistenceManager.LoadAll();
+            string parsedQuery = String.Empty;
+            if (queryCollection.Keys.Count > 0)
+            {
+                parsedQuery = ParseQueryCollection(queryCollection);
+            }
+
+            return ticketPersistenceManager.LoadAll(parsedQuery);
         }
 
         public Ticket GetById(int id)
@@ -70,14 +75,19 @@ namespace KanbanBoard.Services
             return ticketPersistenceManager.LoadByTeamId(teamId);
         }
 
-        public IEnumerable<Ticket> GetByColumnId(int columnId)
+        public IEnumerable<Ticket> GetByColumnId(int columnId, IQueryCollection queryCollection)
         {
             if (!validationService.ValidateId(columnId))
             {
                 return new List<Ticket>();
             }
+            string parsedQuery = String.Empty;
+            if (queryCollection.Keys.Count > 0)
+            {
+                parsedQuery = ParseQueryCollection(queryCollection);
+            }
 
-            return ticketPersistenceManager.LoadByColumnId(columnId);
+            return ticketPersistenceManager.LoadByColumnId(columnId, parsedQuery);
         }
 
         public bool UpdateColumn(int id, int columnId)
@@ -213,48 +223,44 @@ namespace KanbanBoard.Services
             StringBuilder whereClause = new StringBuilder();
             foreach (KeyValuePair<string, StringValues> filterValues in queryCollection)
             {
-                string condition = String.Empty;
-                string[] lines = filterValues.Value.ToString().Split(",");
-                for (int i = 0; i < lines.Length; i++)
+                string[] values = filterValues.Value.ToString().Split(",");
+                for (int i = 0; i < values.Length; i++)
                 {
-                    string[] values = lines[i].Split(" ");
-                    switch (values[1])
-                    {
-                        case "like":
-                            condition += values[0] + " = '%" + values[2].Substring(1, values[2].Length - 1) + "%'";
-                            break;
-                        case "eq":
-                            condition += values[0] + " = " + values[2];
-                            break;
-                        case "gt":
-                            condition += values[0] + " > " + values[2];
-                            break;
-                        case "ge":
-                            condition += values[0] + " >= " + values[2];
-                            break;
-                        case "le":
-                            condition += values[0] + " <= " + values[2];
-                            break;
-                        case "lt":
-                            condition += values[0] + " < " + values[2];
-                            break;
-                        case "ne":
-                            condition += values[0] + " <> " + values[2];
-                            break;
-                        default:
-                            condition += values[0] + " " + values[1] + " " + values[2];
-                            break;
-                    }
+                    whereClause.Append(ParseCondition(values[i]));
 
-                    if (i != lines.Length-1)
+                    if (i != values.Length - 1)
                     {
-                        condition += " and ";
+                        whereClause.Append(" and ");
                     }
                 }
-                whereClause.Append(condition);
             }
 
             return whereClause.ToString();
+        }
+
+        private string ParseCondition(string filter)
+        {
+            string[] values = filter.Split(" ");
+            int length = values.Length;
+            switch (values[1])
+            {
+                case "like":
+                    return values[0] + " = '%" + values[2].Substring(1, length - 1) + "%'";
+                case "eq":
+                    return values[0] + " = " + values[2];
+                case "gt":
+                    return values[0] + " > " + values[2];
+                case "ge":
+                    return values[0] + " >= " + values[2];
+                case "le":
+                    return values[0] + " <= " + values[2];
+                case "lt":
+                    return values[0] + " < " + values[2];
+                case "ne":
+                    return values[0] + " <> " + values[2];
+                default:
+                    return values[0] + " " + values[1] + " " + values[2];
+            }
         }
     }
 }

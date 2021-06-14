@@ -3,15 +3,18 @@ import { ActivatedRoute, Params } from "@angular/router";
 import { BoardService } from "../../shared/services/board/board.service";
 import { Board } from "../../shared/services/board/board.model";
 import { TicketService } from "../../shared/services/ticket/ticket.service";
-import { Ticket } from "../../shared/services/ticket/ticket.model";
 import { ColumnService } from "../../shared/services/column/column.service";
 import { Column } from "../../shared/services/column/column.model";
-import { Responses } from "../../shared/enums";
+import { Priorities, Responses } from "../../shared/enums";
 import { SnackBarService } from "../../shared/snack-bar.service";
 import { HelperService } from "../../shared/helpers/helper.service";
 import { UserService } from "../../shared/services/user/user.service";
 import { MatDialog, MatDialogRef } from "@angular/material/dialog";
 import { AddTicketComponent } from "../../ticket-module/add-ticket/add-ticket.component";
+import { User } from "../../shared/services/user/user.model";
+import { Label} from "../../shared/services/label/label.model";
+import { LabelService } from "../../shared/services/label/label.service";
+import { FormBuilder } from "@angular/forms";
 
 @Component({
   selector: 'app-board',
@@ -21,9 +24,14 @@ import { AddTicketComponent } from "../../ticket-module/add-ticket/add-ticket.co
 export class BoardComponent implements OnInit {
   public boardId: number;
   public board: Board;
-  public tickets: Ticket[] = [];
   public columns: Column[] = [];
   public dialogTicketRef: MatDialogRef<any>;
+  public members: User[] = [];
+  public labels: Label[] = [];
+  public priorities = Priorities;
+  public prioritiesValues = Priorities.values();
+  public filterForm;
+  public filter: string = "";
 
   constructor(private route: ActivatedRoute,
               private boardService: BoardService,
@@ -32,13 +40,20 @@ export class BoardComponent implements OnInit {
               private snackBarService: SnackBarService,
               private helperService: HelperService,
               private userService: UserService,
-              private ticketDialog: MatDialog) { }
+              private ticketDialog: MatDialog,
+              private labelService: LabelService,
+              private formBuilder: FormBuilder) { }
 
   ngOnInit() {
     this.route.params.subscribe((params: Params) => {
       this.boardId = +params['id'];
     });
     this.loadBoard();
+    this.filterForm = this.formBuilder.group({
+      assignedTo: [""],
+      label: [""],
+      priority: [""]
+    });
   }
 
   public onChangeColumns(event: number[]) {
@@ -77,11 +92,34 @@ export class BoardComponent implements OnInit {
     });
   }
 
+  public emitFilter(data) {
+    this.filter = "";
+    let assignedTo = data.value.assignedTo;
+    let label = data.value.label;
+    let priority = data.value.priority;
+    if (assignedTo != "" && assignedTo != undefined) {
+      this.filter += "$filter=AssignedTo eq " + assignedTo;
+    }
+    if (label != "" && label != undefined) {
+      if (this.filter != "") {
+        this.filter += "&";
+      }
+      this.filter += "$filter=LabelId eq " + label;
+    }
+    if (priority != "" && priority != undefined) {
+      if (this.filter != "") {
+        this.filter += "&";
+      }
+      this.filter += "$filter=Priority eq " + priority;
+    }
+  }
+
   private loadBoard() {
     this.boardService.getBoard(this.boardId).subscribe(board => {
       this.board = board;
-      this.ticketService.getTicketsByTeamId(this.board.TeamId).subscribe(tickets => this.tickets = tickets);
+      this.userService.getUsersByTeamId(this.board.TeamId).subscribe(users => this.members = users);
     });
     this.columnService.getColumnsByBoardId(this.boardId).subscribe(columns => this.columns = columns);
+    this.labelService.getLabels().subscribe(labels => this.labels = labels);
   }
 }

@@ -6,7 +6,7 @@ namespace KanbanBoard.PersistenceManagers.Interfaces
 {
     public interface ITicketPersistenceManager : IPersistenceManager<Ticket>
     {
-        IEnumerable<Ticket> LoadAll();
+        IEnumerable<Ticket> LoadAll(string whereQuery);
 
         Ticket Load(int id);
 
@@ -18,7 +18,7 @@ namespace KanbanBoard.PersistenceManagers.Interfaces
 
         IEnumerable<Ticket> LoadByTeamId(int teamId);
         
-        IEnumerable<Ticket> LoadByColumnId(int columnId);
+        IEnumerable<Ticket> LoadByColumnId(int columnId, string whereQuery);
 
         int UpdateColumn(int id, int columnId, string status);
 

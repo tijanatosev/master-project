@@ -34,7 +34,7 @@ export class BoardCardComponent implements OnInit {
         this.columnsExist = true;
         this.doneColumnId = columns.find(x => x.IsDone == true).Id;
         if (this.doneColumnId != 0) {
-          this.ticketService.getTicketsByColumnId(this.doneColumnId).subscribe(tickets => {
+          this.ticketService.getTicketsByColumnId(this.doneColumnId, "").subscribe(tickets => {
             this.doneTickets = tickets.length > 0 ? tickets.length : 0;
             if (this.doneTickets == 0 && this.numberOfTickets == 0) {
               this.percentage = 0;

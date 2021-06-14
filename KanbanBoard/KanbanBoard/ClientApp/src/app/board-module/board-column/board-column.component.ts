@@ -15,17 +15,20 @@ export class BoardColumnComponent implements OnInit {
   @Input() columnName: string;
   @Input() containerId: number;
   @Output() changeColumns = new EventEmitter<number[]>();
+  @Input()
+  set filters(data: any) {
+    this.filter = data;
+    this.loadTickets(this.filter);
+  }
   public tickets: Ticket[];
   public points: number = 0;
+  private filter: string;
 
   constructor(private ticketService: TicketService,
               private snackBarService: SnackBarService) { }
 
   ngOnInit() {
-    this.ticketService.getTicketsByColumnId(this.columnId).subscribe(tickets => {
-      this.tickets = tickets;
-      this.points = tickets.reduce((x, y) => x + y.StoryPoints, 0);
-    });
+    this.loadTickets("")
   }
 
   public drop(event: CdkDragDrop<Ticket[], any>) {
@@ -55,5 +58,12 @@ export class BoardColumnComponent implements OnInit {
       });
     }
     this.points = tickets.reduce((x, y) => x + y.StoryPoints, 0);
+  }
+
+  private loadTickets(filter) {
+    this.ticketService.getTicketsByColumnId(this.columnId, filter).subscribe(tickets => {
+      this.tickets = tickets;
+      this.points = tickets.reduce((x, y) => x + y.StoryPoints, 0);
+    });
   }
 }
