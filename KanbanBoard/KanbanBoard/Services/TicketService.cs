@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Text;
 using KanbanBoard.Helpers;
 using KanbanBoard.Models;
 using KanbanBoard.PersistenceManagers;
 using KanbanBoard.PersistenceManagers.Interfaces;
 using KanbanBoard.Services.Interfaces;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Primitives;
 
 namespace KanbanBoard.Services
 {
@@ -16,9 +19,15 @@ namespace KanbanBoard.Services
         private readonly IValidationService validationService = new ValidationService();
         private readonly IUserService userService = new UserService();
         
-        public IEnumerable<Ticket> GetAll()
+        public IEnumerable<Ticket> GetAll(IQueryCollection queryCollection)
         {
-            return ticketPersistenceManager.LoadAll();
+            string parsedQuery = String.Empty;
+            if (queryCollection.Keys.Count > 0)
+            {
+                parsedQuery = ParseQueryCollection(queryCollection);
+            }
+
+            return ticketPersistenceManager.LoadAll(parsedQuery);
         }
 
         public Ticket GetById(int id)
@@ -66,14 +75,19 @@ namespace KanbanBoard.Services
             return ticketPersistenceManager.LoadByTeamId(teamId);
         }
 
-        public IEnumerable<Ticket> GetByColumnId(int columnId)
+        public IEnumerable<Ticket> GetByColumnId(int columnId, IQueryCollection queryCollection)
         {
             if (!validationService.ValidateId(columnId))
             {
                 return new List<Ticket>();
             }
+            string parsedQuery = String.Empty;
+            if (queryCollection.Keys.Count > 0)
+            {
+                parsedQuery = ParseQueryCollection(queryCollection);
+            }
 
-            return ticketPersistenceManager.LoadByColumnId(columnId);
+            return ticketPersistenceManager.LoadByColumnId(columnId, parsedQuery);
         }
 
         public bool UpdateColumn(int id, int columnId)
@@ -202,6 +216,51 @@ namespace KanbanBoard.Services
             }
 
             return ticketPersistenceManager.GetRankForColumn(columnId, boardId);
+        }
+
+        private string ParseQueryCollection(IQueryCollection queryCollection)
+        {
+            StringBuilder whereClause = new StringBuilder();
+            foreach (KeyValuePair<string, StringValues> filterValues in queryCollection)
+            {
+                string[] values = filterValues.Value.ToString().Split(",");
+                for (int i = 0; i < values.Length; i++)
+                {
+                    whereClause.Append(ParseCondition(values[i]));
+
+                    if (i != values.Length - 1)
+                    {
+                        whereClause.Append(" and ");
+                    }
+                }
+            }
+
+            return whereClause.ToString();
+        }
+
+        private string ParseCondition(string filter)
+        {
+            string[] values = filter.Split(" ");
+            int length = values.Length;
+            switch (values[1])
+            {
+                case "like":
+                    return values[0] + " = '%" + values[2].Substring(1, length - 1) + "%'";
+                case "eq":
+                    return values[0] + " = " + values[2];
+                case "gt":
+                    return values[0] + " > " + values[2];
+                case "ge":
+                    return values[0] + " >= " + values[2];
+                case "le":
+                    return values[0] + " <= " + values[2];
+                case "lt":
+                    return values[0] + " < " + values[2];
+                case "ne":
+                    return values[0] + " <> " + values[2];
+                default:
+                    return values[0] + " " + values[1] + " " + values[2];
+            }
         }
     }
 }

@@ -39,7 +39,10 @@ export class TicketService extends BaseService{
     return this.http.get<Ticket[]>(`${this.ticketsUrl()}/team/${teamId}`);
   }
 
-  public getTicketsByColumnId(columnId) {
+  public getTicketsByColumnId(columnId, filter) {
+    if (filter != "") {
+      return this.http.get<Ticket[]>(`${this.ticketsUrl()}/column/${columnId}?${filter}`);
+    }
     return this.http.get<Ticket[]>(`${this.ticketsUrl()}/column/${columnId}`);
   }
 

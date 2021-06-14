@@ -20,10 +20,10 @@ namespace KanbanBoard.PersistenceManagers
             dbCommands = new DbCommands(serverName, dbName);
         }
 
-        public IEnumerable<Ticket> LoadAll()
+        public IEnumerable<Ticket> LoadAll(string whereQuery)
         {
             List<Ticket> tickets = new List<Ticket>();
-            DataTable result = dbCommands.ExecuteSqlQuery("SELECT * FROM Tickets").Tables["Result"];
+            DataTable result = dbCommands.ExecuteSqlQuery(BuildSqlQuery(whereQuery)).Tables["Result"];
             if (result.Rows.Count != 0)
             {
                 foreach (DataRow row in result.Rows)
@@ -111,11 +111,10 @@ WHERE ut.TeamId=@TeamId AND b.TeamId=@TeamId";
             return tickets;
         }
 
-        public IEnumerable<Ticket> LoadByColumnId(int columnId)
+        public IEnumerable<Ticket> LoadByColumnId(int columnId, string whereQuery)
         {
             List<Ticket> tickets = new List<Ticket>();
-            string query = @"SELECT * FROM Tickets WHERE ColumnId=@ColumnId ORDER BY Rank ASC";
-            DataTable result = dbCommands.ExecuteSqlQuery(query, new SqlParameter("@ColumnId", columnId)).Tables["Result"];
+            DataTable result = dbCommands.ExecuteSqlQuery(BuildSqlQueryColumn(whereQuery), new SqlParameter("@ColumnId", columnId)).Tables["Result"];
             
             if (result.Rows.Count != 0)
             {
@@ -249,6 +248,33 @@ WHERE Id=@Id";
                 BoardId = Convert.ToInt32(row["BoardId"]),
                 ColumnId = Convert.ToInt32(row["ColumnId"])
             };
+        }
+
+        private string BuildSqlQuery(string whereQuery)
+        {
+            string baseSql = "SELECT * FROM Tickets";
+            if (whereQuery == " ")
+            {
+                return baseSql;
+            }
+            
+            return baseSql + " WHERE " + whereQuery;
+        }
+
+        private string BuildSqlQueryColumn(string whereQuery)
+        {
+            if (whereQuery != "")
+            {
+                if (whereQuery.Contains("LabelId"))
+                {
+                    return @"SELECT t.Id, t.Title, t.Description, t.Creator, t.StoryPoints, t.Status, t.DateCreated, t.AssignedTo, t.StartDate, t.EndDate, t.Rank, t.Priority, t.BoardId, t.ColumnId
+FROM Tickets t JOIN LabelsTickets l ON t.Id = l.TicketId 
+WHERE ColumnId=@ColumnId and " + whereQuery + " ORDER BY Rank ASC";
+                }
+                return @"SELECT * FROM Tickets WHERE ColumnId=@ColumnId and " + whereQuery + " ORDER BY Rank ASC";
+            }
+
+            return @"SELECT * FROM Tickets WHERE ColumnId=@ColumnId ORDER BY Rank ASC";
         }
     }
 }

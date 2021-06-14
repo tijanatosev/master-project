@@ -24,7 +24,7 @@ export class FinishedPercentageComponent implements OnInit {
   ngOnInit() {
     this.columnService.getColumnsByBoardId(this.boardId).subscribe(columns => {
       this.doneColumnId = columns.find(x => x.IsDone == true).Id;
-      this.ticketService.getTicketsByColumnId(this.doneColumnId).subscribe(tickets => {
+      this.ticketService.getTicketsByColumnId(this.doneColumnId, "").subscribe(tickets => {
         this.doneTickets = tickets.length;
         this.percentage = (this.doneTickets * 100 / this.numberOfTickets).toFixed(1);
         this.data = [this.doneTickets, this.numberOfTickets - this.doneTickets];

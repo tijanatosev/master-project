@@ -1,8 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using KanbanBoard.Models;
 using KanbanBoard.Services;
 using KanbanBoard.Services.Interfaces;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace KanbanBoard.Controllers
@@ -10,13 +10,21 @@ namespace KanbanBoard.Controllers
     [Route("api/tickets")]
     public class TicketController : Controller
     {
-        private ITicketService ticketService = new TicketService();
+        private ITicketService ticketService;
+        private IHttpContextAccessor httpContextAccessor;
+
+        public TicketController(IHttpContextAccessor httpContextAccessor)
+        {
+            ticketService = new TicketService();
+            this.httpContextAccessor = httpContextAccessor;
+        }
         
         [HttpGet]
         [Route("")]
         public IEnumerable<Ticket> GetAll()
         {
-            return ticketService.GetAll();
+            IQueryCollection queryCollection = httpContextAccessor.HttpContext.Request.Query;
+            return ticketService.GetAll(queryCollection);
         }
 
         [HttpGet]
@@ -58,7 +66,8 @@ namespace KanbanBoard.Controllers
         [Route("column/{columnId}")]
         public IEnumerable<Ticket> GetTicketsByColumnId([FromRoute] int columnId)
         {
-            return ticketService.GetByColumnId(columnId);
+            IQueryCollection queryCollection = httpContextAccessor.HttpContext.Request.Query;
+            return ticketService.GetByColumnId(columnId, queryCollection);
         }
 
         [HttpPut]

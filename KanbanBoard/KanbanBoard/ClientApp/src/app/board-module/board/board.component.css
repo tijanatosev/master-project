@@ -3,3 +3,7 @@
   border: solid 1px #BDBDBD;
   border-radius: 3%;
 }
+
+.mat-form-field-appearance-outline {
+  margin-right: 10px;
+}
