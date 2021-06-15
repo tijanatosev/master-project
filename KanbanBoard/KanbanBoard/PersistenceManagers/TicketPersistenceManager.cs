@@ -72,8 +72,10 @@ VALUES (@Title, @Description, @Creator, @StoryPoints, @Status, @DateCreated, @As
 
         public void Delete(int id)
         {
-            string query = @"DELETE FROM Tickets WHERE Id=@Id";
-            dbCommands.ExecuteSqlNonQuery(query, new SqlParameter("@Id", id));
+            string queryCommentsTickets = @"DELETE FROM CommentsTickets WHERE TicketId=@TicketId";
+            string queryTickets = @"DELETE FROM Tickets WHERE Id=@Id";
+            dbCommands.ExecuteSqlNonQuery(queryCommentsTickets, new SqlParameter("@TicketId", id));
+            dbCommands.ExecuteSqlNonQuery(queryTickets, new SqlParameter("@Id", id));
         }
 
         public IEnumerable<Ticket> LoadByUserId(int userId)
