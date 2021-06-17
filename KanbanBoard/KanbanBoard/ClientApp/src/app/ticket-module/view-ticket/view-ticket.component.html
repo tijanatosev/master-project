@@ -1,151 +1,152 @@
 <div class="row">
-    <mat-card class="col-10">
-      <mat-card-content *ngIf="ticket">
-        <div class="row">
-          <div class="col">
-            <form [formGroup]="titleForm">
-              <textarea matInput
-                        formControlName="title"
-                        (click)="titleClicked = true"
-                        [ngClass]="{ title: titleClicked == true }"
-                        cdkTextareaAutosize="true"
-                        cdkAutosizeMinRows="2"
-                        cdkAutosizeMaxRows="4">
-              </textarea>
-              <button mat-icon-button color="primary" *ngIf="titleClicked" (click)="saveTitle(titleForm)">
-                <mat-icon>check</mat-icon>
-              </button>
-              <button mat-icon-button color="primary" *ngIf="titleClicked" (click)="closeTitle()">
-                <mat-icon>close</mat-icon>
-              </button>
-            </form>
-            <mat-form-field style="padding-top: 0;">
-              <mat-chip-list #chipList>
-                <mat-chip
-                  *ngFor="let label of labels"
-                  [style.background-color]="label.Color"
-                  [selectable]="selectable"
-                  [removable]="removable"
-                  (removed)="removeLabel(label)"
-                  class="mat-small-chip">
-                  {{ label.Name }}
-                  <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
-                </mat-chip>
-                <input
-                  #labelInput
-                  [formControl]="labelControl"
-                  [matAutocomplete]="auto"
-                  [matChipInputFor]="chipList"
-                  [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-                  (matChipInputTokenEnd)="addLabel($event)">
-              </mat-chip-list>
-              <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
-                <mat-option *ngFor="let label of filteredLabels | async" [value]="label" [style.color]="label.Color">
-                  {{ label.Name }}
-                </mat-option>
-              </mat-autocomplete>
-            </mat-form-field>
-            <mat-divider></mat-divider>
-            <h6>Description</h6>
-            <form [formGroup]="descriptionForm">
-              <textarea matInput
-                        formControlName="description"
-                        (click)="descriptionClicked = true"
-                        [ngClass]="{ area: descriptionClicked == true }"
-                        cdkTextareaAutosize="true"
-                        cdkAutosizeMinRows="10"
-                        cdkAutosizeMaxRows="20">
-              </textarea>
-              <br>
-              <br>
-              <button mat-raised-button color="primary" *ngIf="descriptionClicked" (click)="saveDescription(descriptionForm)">
-                Save
-              </button>
-              <button mat-button *ngIf="descriptionClicked" (click)="closeDescription()">
-                Cancel
-              </button>
-            </form>
-          </div>
-          <mat-divider vertical></mat-divider>
-          <div class="col-3">
-            <mat-label>
-              <button mat-icon-button color="primary" *ngIf="isFavorite" (click)="removeFromFavorites()" style="float: right">
-                <mat-icon>star</mat-icon>
-              </button>
-              <button mat-icon-button color="primary" *ngIf="!isFavorite" (click)="addToFavorites()" style="float: right">
-                <mat-icon>star_border</mat-icon>
-              </button>
-            </mat-label>
-            <br>
-            <br>
-
-            <mat-label class="title-label">Status</mat-label>
-            <br>
-            <mat-select [(value)]="ticket.ColumnId" (selectionChange)="updateStatus($event)">
-              <mat-option *ngFor="let status of statuses" [value]="status.Id">
-                &nbsp;{{ status.Name }}&nbsp;
+  <mat-card class="col-10">
+    <mat-card-content *ngIf="ticket">
+      <div class="row">
+        <div class="col">
+          <form [formGroup]="titleForm">
+            <textarea matInput
+                      formControlName="title"
+                      (click)="titleClicked = true"
+                      [ngClass]="{ title: titleClicked == true }"
+                      cdkTextareaAutosize="true"
+                      cdkAutosizeMinRows="2"
+                      cdkAutosizeMaxRows="4">
+            </textarea>
+            <button mat-icon-button color="primary" *ngIf="titleClicked" (click)="saveTitle(titleForm)">
+              <mat-icon>check</mat-icon>
+            </button>
+            <button mat-icon-button color="primary" *ngIf="titleClicked" (click)="closeTitle()">
+              <mat-icon>close</mat-icon>
+            </button>
+          </form>
+          <mat-form-field style="padding-top: 0;">
+            <mat-chip-list #chipList>
+              <mat-chip
+                *ngFor="let label of labels"
+                [style.background-color]="label.Color"
+                [selectable]="selectable"
+                [removable]="removable"
+                (removed)="removeLabel(label)"
+                class="mat-small-chip">
+                {{ label.Name }}
+                <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+              </mat-chip>
+              <input
+                #labelInput
+                [formControl]="labelControl"
+                [matAutocomplete]="auto"
+                [matChipInputFor]="chipList"
+                [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                (matChipInputTokenEnd)="addLabel($event)">
+            </mat-chip-list>
+            <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+              <mat-option *ngFor="let label of filteredLabels | async" [value]="label" [style.color]="label.Color">
+                {{ label.Name }}
               </mat-option>
-            </mat-select>
-
-            <mat-label class="title-label">Story Points</mat-label>
+            </mat-autocomplete>
+          </mat-form-field>
+          <mat-divider></mat-divider>
+          <h6>Description</h6>
+          <form [formGroup]="descriptionForm">
+            <textarea matInput
+                      formControlName="description"
+                      (click)="descriptionClicked = true"
+                      [ngClass]="{ area: descriptionClicked == true }"
+                      cdkTextareaAutosize="true"
+                      cdkAutosizeMinRows="10"
+                      cdkAutosizeMaxRows="20">
+            </textarea>
             <br>
-            <mat-select [(value)]="ticket.StoryPoints" (selectionChange)="updateStoryPoints($event)">
-              <mat-option *ngFor="let point of points" [value]="point">
-                {{ point }}
-              </mat-option>
-            </mat-select>
             <br>
-
-            <mat-label class="title-label">Priority</mat-label>
-            <br>
-            <mat-select [(value)]="ticket.Priority" (selectionChange)="updatePriority($event)">
-              <mat-option *ngFor="let priority of prioritiesValues" [value]="priorities[priority]">
-                {{ priority }}
-              </mat-option>
-            </mat-select>
-            <br>
-
-            <mat-label class="title-label">Assigned to</mat-label>
-            <br>
-            <mat-select [(value)]="ticket.AssignedTo" (selectionChange)="updateAssignedTo($event)">
-              <mat-option *ngFor="let member of members" [value]="member.Id">
-                &nbsp;{{ member.FirstName }} {{ member.LastName }}
-              </mat-option>
-            </mat-select>
-
-            <mat-label class="title-label">Start Date</mat-label>
-            <br>
-            <mat-form-field>
-              <input matInput [matDatepicker]="pickerStartDate"
-                     [value]="ticket.StartDate"
-                     [min]="minDate" [max]="ticket.EndDate"
-                     style="display: inline-block"
-                     (dateChange)="updateStartDate($event)">
-              <mat-datepicker-toggle matSuffix [for]="pickerStartDate"></mat-datepicker-toggle>
-              <mat-datepicker #pickerStartDate></mat-datepicker>
-            </mat-form-field>
-
-            <mat-label class="title-label">End Date</mat-label>
-            <br>
-            <mat-form-field>
-              <input matInput [matDatepicker]="pickerEndDate"
-                     [value]="ticket.EndDate"
-                     [min]="ticket.StartDate" [max]="maxDate"
-                     style="display: inline-block"
-                     (dateChange)="updateEndDate($event)">
-              <mat-datepicker-toggle matSuffix [for]="pickerEndDate"></mat-datepicker-toggle>
-              <mat-datepicker #pickerEndDate></mat-datepicker>
-            </mat-form-field>
-
-            <mat-label class="title-label">Reporter</mat-label>
-            <br>
-            <mat-label class="value-label">{{ reporter }}</mat-label>
-
-            <mat-label class="title-label">Created at</mat-label>
-            <br>
-            <mat-label class="value-label">{{ ticket.DateCreated | date: 'M/d/yyyy' }}</mat-label>
-          </div>
+            <button mat-raised-button color="primary" *ngIf="descriptionClicked" (click)="saveDescription(descriptionForm)">
+              Save
+            </button>
+            <button mat-button *ngIf="descriptionClicked" (click)="closeDescription()">
+              Cancel
+            </button>
+          </form>
         </div>
-      </mat-card-content>
-    </mat-card>
+        <mat-divider vertical></mat-divider>
+        <div class="col-3">
+          <mat-label>
+            <button mat-icon-button color="primary" *ngIf="isFavorite" (click)="removeFromFavorites()" style="float: right">
+              <mat-icon>star</mat-icon>
+            </button>
+            <button mat-icon-button color="primary" *ngIf="!isFavorite" (click)="addToFavorites()" style="float: right">
+              <mat-icon>star_border</mat-icon>
+            </button>
+          </mat-label>
+          <br>
+          <br>
+
+          <mat-label class="title-label">Status</mat-label>
+          <br>
+          <mat-select [(value)]="ticket.ColumnId" (selectionChange)="updateStatus($event)">
+            <mat-option *ngFor="let status of statuses" [value]="status.Id">
+              &nbsp;{{ status.Name }}&nbsp;
+            </mat-option>
+          </mat-select>
+
+          <mat-label class="title-label">Story Points</mat-label>
+          <br>
+          <mat-select [(value)]="ticket.StoryPoints" (selectionChange)="updateStoryPoints($event)">
+            <mat-option *ngFor="let point of points" [value]="point">
+              {{ point }}
+            </mat-option>
+          </mat-select>
+          <br>
+
+          <mat-label class="title-label">Priority</mat-label>
+          <br>
+          <mat-select [(value)]="ticket.Priority" (selectionChange)="updatePriority($event)">
+            <mat-option *ngFor="let priority of prioritiesValues" [value]="priorities[priority]">
+              {{ priority }}
+            </mat-option>
+          </mat-select>
+          <br>
+
+          <mat-label class="title-label">Assigned to</mat-label>
+          <br>
+          <mat-select [(value)]="ticket.AssignedTo" (selectionChange)="updateAssignedTo($event)">
+            <mat-option *ngFor="let member of members" [value]="member.Id">
+              &nbsp;{{ member.FirstName }} {{ member.LastName }}
+            </mat-option>
+          </mat-select>
+
+          <mat-label class="title-label">Start Date</mat-label>
+          <br>
+          <mat-form-field>
+            <input matInput [matDatepicker]="pickerStartDate"
+                   [value]="ticket.StartDate"
+                   [min]="minDate" [max]="ticket.EndDate"
+                   style="display: inline-block"
+                   (dateChange)="updateStartDate($event)">
+            <mat-datepicker-toggle matSuffix [for]="pickerStartDate"></mat-datepicker-toggle>
+            <mat-datepicker #pickerStartDate></mat-datepicker>
+          </mat-form-field>
+
+          <mat-label class="title-label">End Date</mat-label>
+          <br>
+          <mat-form-field>
+            <input matInput [matDatepicker]="pickerEndDate"
+                   [value]="ticket.EndDate"
+                   [min]="ticket.StartDate" [max]="maxDate"
+                   style="display: inline-block"
+                   (dateChange)="updateEndDate($event)">
+            <mat-datepicker-toggle matSuffix [for]="pickerEndDate"></mat-datepicker-toggle>
+            <mat-datepicker #pickerEndDate></mat-datepicker>
+          </mat-form-field>
+
+          <mat-label class="title-label">Reporter</mat-label>
+          <br>
+          <mat-label class="value-label">{{ reporter }}</mat-label>
+
+          <mat-label class="title-label">Created at</mat-label>
+          <br>
+          <mat-label class="value-label">{{ ticket.DateCreated | date: 'M/d/yyyy' }}</mat-label>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+  <app-comment-section class="col-10" style="max-width: 900px;"></app-comment-section>
 </div>

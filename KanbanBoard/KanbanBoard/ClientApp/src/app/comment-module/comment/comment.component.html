@@ -1,0 +1,9 @@
+<mat-card *ngIf="comment" class="col-10">
+  <mat-card-header *ngIf="user">
+    <span style="float: left;">{{ user.FirstName }} {{ user.LastName }} | {{ user.Username }}</span>
+    <span style="float: right;">{{ comment.CommentedAt | date }}</span>
+  </mat-card-header>
+  <mat-card-content>
+    {{ comment.Text }}
+  </mat-card-content>
+</mat-card>
