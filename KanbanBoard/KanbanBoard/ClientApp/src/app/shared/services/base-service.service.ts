@@ -36,4 +36,8 @@
   public helpersUrl() {
     return this.url + 'helpers';
   }
+
+  public commentsUrl() {
+    return this.url + 'comments';
+  }
 }

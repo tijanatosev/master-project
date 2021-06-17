@@ -1,0 +1,15 @@
+<br>
+<br>
+<form [formGroup]="commentForm" class="col-10">
+  <textarea matInput class="area" formControlName="text" placeholder="Add comment"
+            cdkTextareaAutosize="true" cdkAutosizeMinRows="2" cdkAutosizeMaxRows="4">
+  </textarea>
+  <br>
+  <br>
+  <button mat-raised-button color="primary" [disabled]="!commentForm.valid" (click)="save(commentForm)">Save</button>
+</form>
+<br>
+<div *ngFor="let comment of comments">
+  <app-comment [comment]="comment"></app-comment>
+  <br>
+</div>

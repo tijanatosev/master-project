@@ -32,14 +32,24 @@ namespace KanbanBoard.Services
             return commentPersistenceManager.Add(comment, ticketId);
         }
 
-        public void Delete(int commentId, int ticketId)
+        public int Update(int id, string text)
         {
-            if (!validationService.ValidateId(ticketId) || !validationService.ValidateId(commentId))
+            if (!validationService.ValidateId(id))
+            {
+                return 0;
+            }
+
+            return commentPersistenceManager.Update(id, text);
+        }
+
+        public void Delete(int commentId)
+        {
+            if (!validationService.ValidateId(commentId))
             {
                 return;
             }
             
-            commentPersistenceManager.Delete(commentId, ticketId);
+            commentPersistenceManager.Delete(commentId);
         }
     }
 }

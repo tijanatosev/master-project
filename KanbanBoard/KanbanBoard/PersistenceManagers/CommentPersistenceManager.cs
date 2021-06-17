@@ -23,7 +23,7 @@ namespace KanbanBoard.PersistenceManagers
         public IEnumerable<Comment> LoadByTicketId(int ticketId)
         {
             List<Comment> comments = new List<Comment>();
-            string query = @"SELECT c.Id, c.CommentedAt, c.Text, c.UserId FROM Comments c JOIN CommentsTickets ct where c.Id = ct.CommentId";
+            string query = @"SELECT c.Id, c.CommentedAt, c.Text, c.UserId FROM Comments c JOIN CommentsTickets ct ON c.Id = ct.CommentId";
             DataTable result = dbCommands.ExecuteSqlQuery(query).Tables["Result"];
             if (result.Rows.Count != 0)
             {
@@ -51,14 +51,22 @@ VALUES (@CommentedAt, @Text, @UserId)";
             string queryCommentsTickets = @"INSERT INTO CommentsTickets (CommentId, TicketId)
 VALUES (@CommentId, @TicketId)";
             
-            return dbCommands.ExecuteScalar(queryCommentsTickets, new SqlParameter("@CommentId", commentId), new SqlParameter("@TicketId", ticketId));
+            return dbCommands.ExecuteSqlNonQuery(queryCommentsTickets, new SqlParameter("@CommentId", commentId), new SqlParameter("@TicketId", ticketId));
         }
 
-        public void Delete(int commentId, int ticketId)
+        public int Update(int id, string text)
         {
-            string queryCommentsTickets = @"DELETE FROM CommentsTickets WHERE CommentId = @CommentId AND TicketId = @TicketId";
+            string query = @"UPDATE Comments
+SET Text=@Text
+WHERE Id=@Id";
+            return dbCommands.ExecuteSqlNonQuery(query, new SqlParameter("@Text", text), new SqlParameter("@Id", id));
+        }
+
+        public void Delete(int commentId)
+        {
+            string queryCommentsTickets = @"DELETE FROM CommentsTickets WHERE CommentId = @CommentId";
             string queryComments = @"DELETE FROM Comments WHERE Id = @Id";
-            dbCommands.ExecuteSqlNonQuery(queryCommentsTickets, new SqlParameter("@CommentId", commentId), new SqlParameter("@TicketId", ticketId));
+            dbCommands.ExecuteSqlNonQuery(queryCommentsTickets, new SqlParameter("@CommentId", commentId));
             dbCommands.ExecuteSqlNonQuery(queryComments, new SqlParameter("@Id", commentId));
         }
 

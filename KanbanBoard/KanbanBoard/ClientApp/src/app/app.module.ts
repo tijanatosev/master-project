@@ -66,6 +66,8 @@ import { MatProgressBarModule } from "@angular/material/progress-bar";
 import { TeamCardComponent } from './dashboard-module/dashboard/team-card/team-card.component';
 import { TicketPriorityComponent } from './shared/ticket-priority/ticket-priority.component';
 import { AddTicketComponent } from './ticket-module/add-ticket/add-ticket.component';
+import { CommentComponent } from './comment-module/comment/comment.component';
+import { CommentSectionComponent } from './comment-module/comment-section/comment-section.component';
 
 const routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
@@ -108,7 +110,9 @@ const routes = [
     FinishedPercentageComponent,
     TeamCardComponent,
     TicketPriorityComponent,
-    AddTicketComponent
+    AddTicketComponent,
+    CommentComponent,
+    CommentSectionComponent
   ],
   imports: [
     BrowserModule.withServerTransition({appId: 'ng-cli-universal'}),

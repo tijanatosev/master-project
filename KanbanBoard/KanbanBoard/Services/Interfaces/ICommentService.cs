@@ -9,6 +9,8 @@ namespace KanbanBoard.Services.Interfaces
         
         int Add(Comment comment, int ticketId);
 
-        void Delete(int commentId, int ticketId);
+        int Update(int id, string text);
+
+        void Delete(int commentId);
     }
 }
