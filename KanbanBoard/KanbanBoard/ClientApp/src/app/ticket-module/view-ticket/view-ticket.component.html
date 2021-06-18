@@ -10,7 +10,8 @@
                       [ngClass]="{ title: titleClicked == true }"
                       cdkTextareaAutosize="true"
                       cdkAutosizeMinRows="2"
-                      cdkAutosizeMaxRows="4">
+                      cdkAutosizeMaxRows="4"
+                      class="title-bold">
             </textarea>
             <button mat-icon-button color="primary" *ngIf="titleClicked" (click)="saveTitle(titleForm)">
               <mat-icon>check</mat-icon>
@@ -148,5 +149,5 @@
       </div>
     </mat-card-content>
   </mat-card>
-  <app-comment-section class="col-10" style="max-width: 900px;"></app-comment-section>
+  <app-comment-section class="col-10" style="margin-top: 10px; margin-left: 20px !important;"></app-comment-section>
 </div>
