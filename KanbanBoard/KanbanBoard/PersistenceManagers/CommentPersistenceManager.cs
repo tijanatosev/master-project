@@ -23,8 +23,10 @@ namespace KanbanBoard.PersistenceManagers
         public IEnumerable<Comment> LoadByTicketId(int ticketId)
         {
             List<Comment> comments = new List<Comment>();
-            string query = @"SELECT c.Id, c.CommentedAt, c.Text, c.UserId FROM Comments c JOIN CommentsTickets ct ON c.Id = ct.CommentId";
-            DataTable result = dbCommands.ExecuteSqlQuery(query).Tables["Result"];
+            string query = @"SELECT c.Id, c.CommentedAt, c.Text, c.UserId 
+FROM Comments c JOIN CommentsTickets ct ON c.Id = ct.CommentId 
+WHERE ct.TicketId = @TicketId";
+            DataTable result = dbCommands.ExecuteSqlQuery(query, new SqlParameter("@TicketId", ticketId)).Tables["Result"];
             if (result.Rows.Count != 0)
             {
                 foreach (DataRow row in result.Rows)
@@ -75,7 +77,7 @@ WHERE Id=@Id";
             return new Comment
             {
                 Id = Convert.ToInt32(row["Id"]),
-                CommentedAt = Convert.ToDateTime(row["CommentedAt"]).Date,
+                CommentedAt = Convert.ToDateTime(row["CommentedAt"]),
                 Text = row["Text"].ToString(),
                 UserId = Convert.ToInt32(row["UserId"])
             };

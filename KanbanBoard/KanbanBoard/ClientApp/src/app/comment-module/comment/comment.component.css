@@ -1,8 +1,13 @@
 mat-card {
   max-width: 100%;
   display: block;
+  background: #fafafa;
 }
 
 .row {
   justify-content: center;
+}
+
+textarea:hover, span:hover {
+  cursor: default;
 }
