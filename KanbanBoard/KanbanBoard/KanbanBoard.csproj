@@ -31,6 +31,7 @@
       <Folder Include="ClientApp\src\app\statistics-module" />
       <Folder Include="ClientApp\src\app\team-module" />
       <Folder Include="ClientApp\src\app\ticket-module" />
+      <Folder Include="ClientApp\src\app\timer-module" />
     </ItemGroup>
 
     <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">

@@ -68,6 +68,7 @@ import { TicketPriorityComponent } from './shared/ticket-priority/ticket-priorit
 import { AddTicketComponent } from './ticket-module/add-ticket/add-ticket.component';
 import { CommentComponent } from './comment-module/comment/comment.component';
 import { CommentSectionComponent } from './comment-module/comment-section/comment-section.component';
+import { TimerComponent } from './timer-module/timer/timer.component';
 
 const routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
@@ -112,7 +113,8 @@ const routes = [
     TicketPriorityComponent,
     AddTicketComponent,
     CommentComponent,
-    CommentSectionComponent
+    CommentSectionComponent,
+    TimerComponent
   ],
   imports: [
     BrowserModule.withServerTransition({appId: 'ng-cli-universal'}),
