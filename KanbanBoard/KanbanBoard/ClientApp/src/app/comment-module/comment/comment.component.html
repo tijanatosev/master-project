@@ -1,10 +1,10 @@
 <mat-card *ngIf="comment" class="mat-elevation-z4">
-  <mat-card-header *ngIf="user" style="display: block !important;">
-    <span style="float: left !important;">{{ user.FirstName }} {{ user.LastName }} | {{ user.Username }}</span>
-    <span style="float: right !important;">{{ comment.CommentedAt | date: 'short' }}</span>
+  <mat-card-header *ngIf="user" class="display-block">
+    <span class="round"> <img src="{{user.Image}}" class="img-comment mr-2"> </span>
+    <span style="float: left !important; padding-top: 6px;">{{ user.FirstName }} {{ user.LastName }}</span>
+    <span style="float: right !important; padding-top: 6px;">{{ comment.CommentedAt | date: 'short' }}</span>
   </mat-card-header>
-  <br>
-  <mat-card-content style="display: block !important;">
+  <mat-card-content class="display-block">
     <textarea matInput [mat-autosize]="true" style="overflow: hidden;" readonly>
     {{ comment.Text }}
     </textarea>

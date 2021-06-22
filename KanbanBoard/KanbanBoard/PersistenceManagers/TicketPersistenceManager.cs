@@ -225,7 +225,7 @@ WHERE Id=@Id";
             DataTable result = dbCommands.ExecuteSqlQuery(sqlQuery, new SqlParameter("@ColumnId", columnId), new SqlParameter("@BoardId", boardId)).Tables["Result"];
             if (result.Rows.Count != 0)
             {
-                return Convert.ToInt32(result.Rows[0][0]);
+                return result.Rows[0][0].ToString() == "" ? 0 : Convert.ToInt32(result.Rows[0][0]);
             }
 
             return -1;

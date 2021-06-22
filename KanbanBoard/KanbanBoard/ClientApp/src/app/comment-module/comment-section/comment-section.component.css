@@ -19,7 +19,7 @@ input {
 
 .areaNotClicked {
   border-radius: 5px;
-  border: 2px solid grey;
+  border: 2px solid lightgray;
 }
 
 .form {

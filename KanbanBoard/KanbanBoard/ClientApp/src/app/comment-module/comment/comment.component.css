@@ -11,3 +11,14 @@ mat-card {
 textarea:hover, span:hover {
   cursor: default;
 }
+
+.display-block {
+  display: block !important;
+}
+
+.round .img-comment {
+  border-radius: 100%;
+  width: 30px;
+  height: 30px;
+  float: left !important;
+}

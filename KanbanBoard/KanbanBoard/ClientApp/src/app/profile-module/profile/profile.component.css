@@ -21,3 +21,9 @@ h4, h5 {
   color: #3F51B5;
   vertical-align: top;
 }
+
+.round .img-profile {
+  border-radius: 100%;
+  width: 150px;
+  height: 150px;
+}
