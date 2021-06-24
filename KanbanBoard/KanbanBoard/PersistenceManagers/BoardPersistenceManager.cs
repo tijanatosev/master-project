@@ -48,12 +48,19 @@ namespace KanbanBoard.PersistenceManagers
 
         public int Add(Board board)
         {
-            string query = @"INSERT INTO Boards (Name, Admin, TeamId) OUTPUT INSERTED.ID VALUES(@Name, @Admin, @TeamId)";
+            string query = @"INSERT INTO Boards (Name, Admin, TeamId, IsPomodoro, WorkTime, BreakTime, Iterations, LongerBreak) 
+OUTPUT INSERTED.ID 
+VALUES(@Name, @Admin, @TeamId, @IsPomodoro, @WorkTime, @BreakTime, @Iterations, @LongerBreak)";
             DbParameter[] parameters = 
             {
                 new SqlParameter("@Name", board.Name),
                 new SqlParameter("@Admin", board.Admin),
-                new SqlParameter("@TeamId", board.TeamId), 
+                new SqlParameter("@TeamId", board.TeamId),
+                new SqlParameter("@IsPomodoro", board.IsPomodoro),
+                new SqlParameter("@WorkTime", board.WorkTime),
+                new SqlParameter("@BreakTime", board.BreakTime),
+                new SqlParameter("@Iterations", board.Iterations), 
+                new SqlParameter("@LongerBreak", board.LongerBreak), 
             };
             return dbCommands.ExecuteScalar(query, parameters);
         }
@@ -72,28 +79,40 @@ namespace KanbanBoard.PersistenceManagers
             string query = @"UPDATE Boards SET
 Name=@Name,
 Admin=@Admin,
-TeamId=@TeamId
+TeamId=@TeamId,
+IsPomodoro=@IsPomodoro,
+WorkTime=@WorkTime,
+BreakTime=@BreakTime,
+Iterations=@Iterations,
+LongerBreak=@LongerBreak
 WHERE Id=@Id";
             DbParameter[] parameters = 
             {
                 new SqlParameter("@Name", board.Name),
                 new SqlParameter("@Admin", board.Admin),
                 teamId,
-                new SqlParameter("@Id", board.Id), 
+                new SqlParameter("@IsPomodoro", board.IsPomodoro),
+                new SqlParameter("@WorkTime", board.WorkTime),
+                new SqlParameter("@BreakTime", board.BreakTime), 
+                new SqlParameter("@Iterations", board.Iterations), 
+                new SqlParameter("@LongerBreak", board.LongerBreak),
+                new SqlParameter("@Id", board.Id),
             };
             return dbCommands.ExecuteSqlNonQuery(query, parameters);
         }
 
         public void Delete(int id)
         {
+            string queryColumns = @"DELETE FROM Columns WHERE BoardId=@BoardId";
             string query = @"DELETE FROM Boards WHERE Id=@Id";
+            dbCommands.ExecuteSqlNonQuery(queryColumns, new SqlParameter("@BoardId", id));
             dbCommands.ExecuteSqlNonQuery(query, new SqlParameter("@Id", id));
         }
 
         public IEnumerable<Board> LoadByUserId(int userId)
         {
             List<Board> boards = new List<Board>();
-            string sqlQuery = @"SELECT b.Id, b.Name, b.Admin, b.TeamId
+            string sqlQuery = @"SELECT b.Id, b.Name, b.Admin, b.TeamId, b.IsPomodoro, b.WorkTime, b.BreakTime, b.Iterations, b.LongerBreak
 FROM Boards b JOIN Teams t ON b.TeamId=t.Id
 JOIN UsersTeams ut ON ut.TeamId=b.TeamId
 WHERE ut.UserId=@UserId";
@@ -130,7 +149,12 @@ WHERE ut.UserId=@UserId";
                 Id = Convert.ToInt32(row["Id"]),
                 Name = row["Name"].ToString(),
                 Admin = row["Admin"].ToString(),
-                TeamId = row["TeamId"] as int?
+                TeamId = row["TeamId"] as int?,
+                IsPomodoro = Convert.ToBoolean(row["IsPomodoro"]),
+                WorkTime = Convert.ToInt32(row["WorkTime"]),
+                BreakTime = Convert.ToInt32(row["BreakTime"]),
+                Iterations = Convert.ToInt32(row["Iterations"]),
+                LongerBreak = Convert.ToInt32(row["LongerBreak"])
             };
         }
     }

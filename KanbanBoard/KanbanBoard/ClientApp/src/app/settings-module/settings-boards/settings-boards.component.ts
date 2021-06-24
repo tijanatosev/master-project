@@ -19,7 +19,7 @@ export class SettingsBoardsComponent implements OnInit, AfterViewInit {
   public deleteDialogRef: MatDialogRef<any>;
   @ViewChild(MatPaginator, {static: true}) !paginator: MatPaginator;
   @ViewChild(MatSort, {static: true}) !sort: MatSort = new MatSort();
-  public displayedColumns: string[] = [ 'Id', 'Name', 'Admin', 'Team', 'Actions'];
+  public displayedColumns: string[] = [ 'Id', 'Name', 'Admin', 'Team', 'Use Pomodoro', 'Actions'];
   public dataSource: MatTableDataSource<Board>;
 
   @Output() editBoard = new EventEmitter<Board>();
@@ -58,6 +58,10 @@ export class SettingsBoardsComponent implements OnInit, AfterViewInit {
 
   public edit(board) {
     this.editBoard.emit(board);
+  }
+
+  public getPomodoro(element) {
+    return element.IsPomodoro ? "yes" : "no";
   }
 
   private loadBoards() {

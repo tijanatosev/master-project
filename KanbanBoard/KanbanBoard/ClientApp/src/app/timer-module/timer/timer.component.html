@@ -1,5 +1,3 @@
-<div class="timer">
-  <h4> Count down timer </h4>
-  <span id="minutes"> {{minutesToDday}} </span>Min
-  <span id="seconds"> {{secondsToDday}} </span>S
-</div>
+<button mat-raised-button (click)="showTimerOptions()">
+  <mat-icon>timer</mat-icon><span>0:{{minutesToDday}}:<span *ngIf="secondsToDday < 10">0</span>{{secondsToDday}}</span>
+</button>

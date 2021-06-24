@@ -21,6 +21,7 @@ import { FavoriteService } from "../../shared/services/favorite/favorite.service
 import { AuthService } from "../../shared/auth/auth.service";
 import { Favorite } from "../../shared/services/favorite/favorite.model";
 import { HelperService } from "../../shared/helpers/helper.service";
+import { TimerService } from "../../shared/timer.service";
 
 @Component({
   selector: 'app-view-ticket',
@@ -53,6 +54,8 @@ export class ViewTicketComponent implements OnInit {
   public prioritiesValues = Priorities.values();
   private creator: User;
   private assignedTo: User;
+  public startStopTimer: boolean = false;
+  public isPomodoro: boolean = false;
 
   @ViewChild("labelInput", { static: true }) fruitInput: ElementRef<HTMLInputElement>;
   @ViewChild("auto", { static: true }) matAutocomplete: MatAutocomplete;
@@ -67,7 +70,8 @@ export class ViewTicketComponent implements OnInit {
               private formBuilder: FormBuilder,
               private favoriteService: FavoriteService,
               private authService: AuthService,
-              private helperService: HelperService) {
+              private helperService: HelperService,
+              private timerService: TimerService) {
   }
 
   ngOnInit() {
@@ -84,6 +88,7 @@ export class ViewTicketComponent implements OnInit {
       this.initDescriptionForm();
       this.columnService.getColumnsByBoardId(this.ticket.BoardId).subscribe(statuses => this.statuses = statuses);
       this.boardService.getBoard(this.ticket.BoardId).subscribe(board => {
+        this.isPomodoro = board.IsPomodoro;
         this.userService.getUsersByTeamId(board.TeamId).subscribe(users => {
           this.members = users;
           this.assignedTo = this.members.find(x => x.Id == this.ticket.AssignedTo);
@@ -328,6 +333,12 @@ export class ViewTicketComponent implements OnInit {
         this.isFavorite = true;
       }
     });
+  }
+
+  public startOrStopTimer() {
+    this.startStopTimer = !this.startStopTimer;
+    let startStop = this.startStopTimer ? 1 : 0;
+    this.timerService.startStopTimer(startStop, this.ticketId, this.ticket.BoardId);
   }
 
   private initTitleForm() {
