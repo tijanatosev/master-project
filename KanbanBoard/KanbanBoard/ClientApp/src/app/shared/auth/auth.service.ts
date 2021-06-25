@@ -69,4 +69,16 @@ export class AuthService {
   public setLastVisited(page) {
     localStorage.setItem("lastVisited", page);
   }
+
+  public getTimer() {
+    const timer = JSON.parse(localStorage.getItem('timer'));
+    if (!(timer === undefined || timer === null || timer === 'undefined' || timer === 'null' || timer === '')) {
+      return timer;
+    }
+    return null;
+  }
+
+  public setTimer(timer) {
+    localStorage.setItem("timer", JSON.stringify(timer));
+  }
 }

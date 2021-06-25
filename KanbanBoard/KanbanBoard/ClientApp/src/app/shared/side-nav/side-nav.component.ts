@@ -22,8 +22,13 @@ export class SideNavComponent implements OnInit {
   ngOnInit() {
     this.isLoggedIn = this.authService.isLoggedIn;
     this.userId = this.authService.getUserIdFromToken();
+    let timer = this.authService.getTimer();
+    if (timer != null) {
+      this.showTimer = true;
+    }
     this.timerService.showTimer.subscribe(value => {
       if (value[1] && value[2]) {
+        this.updateTimerInLocalStorage(value[0], value[1], value[2]);
         this.showTimer = value[0] == 1;
       }
     });
@@ -32,5 +37,14 @@ export class SideNavComponent implements OnInit {
   public logout() {
     this.authService.logout();
     this.router.navigate(['/login']);
+  }
+
+  private updateTimerInLocalStorage(startStop, ticketId, boardId) {
+    if (startStop == 0) {
+      this.authService.setTimer(null);
+      return;
+    }
+    let timer = { "ticketId": ticketId, "boardId": boardId };
+    this.authService.setTimer(timer);
   }
 }

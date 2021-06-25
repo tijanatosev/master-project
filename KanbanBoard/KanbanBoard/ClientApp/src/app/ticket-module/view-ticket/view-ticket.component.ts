@@ -77,6 +77,10 @@ export class ViewTicketComponent implements OnInit {
   ngOnInit() {
     this.route.params.subscribe((params: Params) => {
       this.ticketId = +params['id'];
+      let timer = this.authService.getTimer();
+      if (timer != null && timer.ticketId == this.ticketId) {
+        this.startStopTimer = true;
+      }
     });
     this.loggedInUser = this.authService.getUserIdFromToken();
     this.favoriteService.isFavorite(this.ticketId, this.loggedInUser).subscribe(result => {
@@ -336,9 +340,14 @@ export class ViewTicketComponent implements OnInit {
   }
 
   public startOrStopTimer() {
-    this.startStopTimer = !this.startStopTimer;
-    let startStop = this.startStopTimer ? 1 : 0;
-    this.timerService.startStopTimer(startStop, this.ticketId, this.ticket.BoardId);
+    let timer = this.authService.getTimer();
+    if (timer == null || timer.ticketId == this.ticketId) {
+      this.startStopTimer = !this.startStopTimer;
+      let startStop = this.startStopTimer ? 1 : 0;
+      this.timerService.startStopTimer(startStop, this.ticketId, this.ticket.BoardId);
+    } else {
+      this.snackBarService.timerAlreadyRunning(timer.ticketId);
+    }
   }
 
   private initTitleForm() {
