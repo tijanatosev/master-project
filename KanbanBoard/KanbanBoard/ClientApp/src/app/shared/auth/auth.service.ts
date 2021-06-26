@@ -59,11 +59,7 @@ export class AuthService {
   }
 
   public getLastVisited() {
-    const lastVisited = localStorage.getItem('lastVisited');
-    if (!(lastVisited === undefined || lastVisited === null || lastVisited === 'undefined' || lastVisited === 'null' || lastVisited === '')) {
-      return lastVisited;
-    }
-    return null;
+    return this.getFromLocalStorage("lastVisited");
   }
 
   public setLastVisited(page) {
@@ -80,5 +76,29 @@ export class AuthService {
 
   public setTimer(timer) {
     localStorage.setItem("timer", JSON.stringify(timer));
+  }
+
+  public getCreated() {
+    return this.getFromLocalStorage("created");
+  }
+
+  public setCreated(time) {
+    localStorage.setItem("created", time);
+  }
+
+  public getIterations() {
+    return this.getFromLocalStorage("iterations");
+  }
+
+  public setIterations(iterations) {
+    localStorage.setItem("iterations", iterations);
+  }
+
+  private getFromLocalStorage(item) {
+    const value = localStorage.getItem(item);
+    if (!(value === undefined || value === null || value === 'undefined' || value === 'null' || value === '')) {
+      return value;
+    }
+    return null;
   }
 }
