@@ -56,6 +56,9 @@
             <input matInput formControlName="longerBreak" type="number">
           </mat-form-field>
         </form>
+        <br *ngIf="checkIfTimerIsRunning() && !board.IsPomodoro">
+        <span *ngIf="checkIfTimerIsRunning()">Timer is currently running for this board, so board settings can't updated now. Stop the timer or update board settings later.</span>
+        <br *ngIf="checkIfTimerIsRunning()">
         <br>
         <mat-divider style="width: 96%; margin-left: 2%;"></mat-divider>
         <br>
@@ -139,7 +142,7 @@
         <mat-divider style="width: 96%; margin-left: 2%;"></mat-divider>
         <br>
 
-        <button mat-raised-button color="primary" style="float: right;" [disabled]="!columnForm.valid || !doneColumnForm.valid || !boardForm.valid" (click)="save(boardForm)">
+        <button mat-raised-button color="primary" style="float: right;" [disabled]="!columnForm.valid || !doneColumnForm.valid || !boardForm.valid || checkIfTimerIsRunning()" (click)="save(boardForm)">
           Save
         </button>
         <button mat-button style="float: right; margin-right: 10px;" (click)="goBack()">

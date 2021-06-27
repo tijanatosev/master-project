@@ -17,6 +17,8 @@ namespace KanbanBoard.PersistenceManagers.Interfaces
         IEnumerable<Ticket> LoadByUserId(int userId);
 
         IEnumerable<Ticket> LoadByTeamId(int teamId);
+
+        IEnumerable<Ticket> LoadByBoardId(int boardId);
         
         IEnumerable<Ticket> LoadByColumnId(int columnId, string whereQuery);
 

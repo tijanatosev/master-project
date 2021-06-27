@@ -28,9 +28,9 @@ namespace KanbanBoard.Controllers
         
         [HttpPut]
         [Route("{id}")]
-        public int Update([FromRoute] int id, [FromBody] string text)
+        public int Update([FromRoute] int id, [FromBody] Comment comment)
         {
-            return commentService.Update(id, text);
+            return commentService.Update(id, comment.Text);
         }
 
         [HttpDelete]

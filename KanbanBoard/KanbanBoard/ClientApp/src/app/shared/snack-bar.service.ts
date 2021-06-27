@@ -35,7 +35,7 @@ export class SnackBarService {
 
   public timerFinishedPomodoro(ticketId) {
     this.ticketService.getTicket(ticketId).subscribe(ticket => {
-      this.snackBar.open("Congrats! Timer for ticket " + ticket.Title + " is finished!", "DISMISS", {
+      this.snackBar.open("Congrats! Timer for ticket " + ticket.Title + " is finished! It's starting again..", "DISMISS", {
         duration: 7000,
         panelClass: ["snack-bar-timer"]
       });
