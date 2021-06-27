@@ -1,12 +1,14 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from "rxjs";
+import { TimerService } from "../timer.service";
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
   private loggedIn: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
-  constructor() { }
+
+  constructor(private timerService: TimerService) { }
 
   public isAuthenticated(): boolean {
     const token = localStorage.getItem('token');
@@ -25,6 +27,12 @@ export class AuthService {
   public logout() {
     this.loggedIn.next(false);
     localStorage.setItem('token', undefined);
+    let timer = this.getTimer();
+    if (timer != null) {
+      this.timerService.startStopTimer(0, timer.ticketId, timer.boardId, timer.workTime, timer.breakTime, timer.longerBreak, timer.iterations);
+      localStorage.setItem('timer', null);
+      localStorage.setItem('startedTime', null);
+    }
   }
 
   get isLoggedIn() {
