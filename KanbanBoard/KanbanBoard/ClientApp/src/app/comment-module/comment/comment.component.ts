@@ -52,7 +52,10 @@ export class CommentComponent implements OnInit {
   }
 
   public deleteComment() {
-    this.commentService.deleteComment(this.comment.Id).subscribe();
+    this.commentService.deleteComment(this.comment.Id).subscribe(result => {
+      this.commentUpdated.emit(true);
+      this.snackBarService.successful();
+    });
   }
 
 }
