@@ -66,7 +66,9 @@ export class TimerComponent implements OnInit, OnDestroy {
     this.isBreak = this.modSeconds >= workTimeInSeconds;
 
     if (this.timeDifference > (secondsInAllIterations + longerBreakInSeconds)) {
-      this.destroyTimer();
+      this.authService.setStartedTime(new Date().getTime());
+      this.snackBarService.timerFinishedPomodoro(this.timer.ticketId);
+      return;
     }
 
     this.allocateTimeUnits(this.determineTimeInSeconds(this.modSeconds, workTimeInSeconds, breakTimeInSeconds, longerBreakInSeconds));

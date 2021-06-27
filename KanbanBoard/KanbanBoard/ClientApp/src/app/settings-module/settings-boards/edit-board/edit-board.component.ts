@@ -13,6 +13,7 @@ import { Responses } from "../../../shared/enums";
 import { SnackBarService } from "../../../shared/snack-bar.service";
 import { MatDialog, MatDialogRef } from "@angular/material/dialog";
 import { ConfirmationDialogComponent } from "../../../shared/confirmation-dialog/confirmation-dialog.component";
+import { AuthService } from "../../../shared/auth/auth.service";
 
 @Component({
   selector: 'app-edit-board',
@@ -43,7 +44,8 @@ export class EditBoardComponent implements OnInit {
               private columnService: ColumnService,
               private formBuilder: FormBuilder,
               private snackBarService: SnackBarService,
-              private confirmDialog: MatDialog) { }
+              private confirmDialog: MatDialog,
+              private authService: AuthService) { }
 
   ngOnInit() {
     this.teamService.getTeams().subscribe(teams => this.teams = teams);
@@ -134,6 +136,11 @@ export class EditBoardComponent implements OnInit {
         this.snackBarService.unsuccessful();
       }
     });
+  }
+
+  public checkIfTimerIsRunning() {
+    let timer = this.authService.getTimer();
+    return timer == null || timer.boardId == this.board.Id;
   }
 
   private loadColumns() {
