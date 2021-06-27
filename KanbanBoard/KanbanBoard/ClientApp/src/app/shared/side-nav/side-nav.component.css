@@ -4,11 +4,3 @@
   align-items: center;
   justify-content: center;
 }
-
-.displayTimer {
-  display: block;
-}
-
-.hideTimer {
-  display: none;
-}

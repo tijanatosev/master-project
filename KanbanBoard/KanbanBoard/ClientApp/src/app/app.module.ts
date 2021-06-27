@@ -69,7 +69,6 @@ import { AddTicketComponent } from './ticket-module/add-ticket/add-ticket.compon
 import { CommentComponent } from './comment-module/comment/comment.component';
 import { CommentSectionComponent } from './comment-module/comment-section/comment-section.component';
 import { TimerComponent } from './timer-module/timer/timer.component';
-import { TimerOptionsComponent } from './timer-module/timer-options/timer-options.component';
 
 const routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
@@ -115,8 +114,7 @@ const routes = [
     AddTicketComponent,
     CommentComponent,
     CommentSectionComponent,
-    TimerComponent,
-    TimerOptionsComponent
+    TimerComponent
   ],
   imports: [
     BrowserModule.withServerTransition({appId: 'ng-cli-universal'}),
@@ -166,8 +164,7 @@ const routes = [
     AddTeamComponent,
     ConfirmationDialogComponent,
     AddLabelComponent,
-    AddTicketComponent,
-    TimerOptionsComponent
+    AddTicketComponent
   ]
 })
 export class AppModule { }

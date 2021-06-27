@@ -6,16 +6,10 @@
 export class TimerService {
 
   @Output() showTimer = new EventEmitter<number[]>();
-  @Output() break = new EventEmitter<number[]>();
 
   constructor() { }
 
-  public startStopTimer(startStop, ticketId, boardId) {
-    this.showTimer.emit([startStop, ticketId, boardId]);
+  public startStopTimer(startStop, ticketId, boardId, workTime, breakTime, longerBreak, iterations) {
+    this.showTimer.emit([startStop, ticketId, boardId, workTime, breakTime, longerBreak, iterations]);
   }
-
-  public startBreak(ticketId, boardId) {
-    this.break.emit([1, ticketId, boardId]);
-  }
-
 }

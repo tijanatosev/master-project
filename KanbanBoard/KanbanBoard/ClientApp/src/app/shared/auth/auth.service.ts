@@ -78,20 +78,12 @@ export class AuthService {
     localStorage.setItem("timer", JSON.stringify(timer));
   }
 
-  public getCreated() {
-    return this.getFromLocalStorage("created");
+  public getStartedTime() {
+    return this.getFromLocalStorage("startedTime");
   }
 
-  public setCreated(time) {
-    localStorage.setItem("created", time);
-  }
-
-  public getIterations() {
-    return this.getFromLocalStorage("iterations");
-  }
-
-  public setIterations(iterations) {
-    localStorage.setItem("iterations", iterations);
+  public setStartedTime(time) {
+    localStorage.setItem("startedTime", time);
   }
 
   private getFromLocalStorage(item) {

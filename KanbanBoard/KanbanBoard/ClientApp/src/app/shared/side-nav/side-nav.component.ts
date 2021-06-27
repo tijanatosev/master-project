@@ -3,8 +3,6 @@ import { AuthService } from "../auth/auth.service";
 import { Observable } from "rxjs";
 import { Router } from "@angular/router";
 import { TimerService } from "../timer.service";
-import {BoardService} from "../services/board/board.service";
-import {Board} from "../services/board/board.model";
 
 @Component({
   selector: 'app-side-nav',
@@ -17,12 +15,10 @@ export class SideNavComponent implements OnInit {
   public userId: number;
   public showTimer: boolean = false;
   public timer: number;
-  private board: Board;
 
   constructor(private authService: AuthService,
               private router: Router,
-              private timerService: TimerService,
-              private boardService: BoardService) { }
+              private timerService: TimerService) { }
 
   ngOnInit() {
     this.isLoggedIn = this.authService.isLoggedIn;
@@ -30,30 +26,11 @@ export class SideNavComponent implements OnInit {
     let timer = this.authService.getTimer();
     if (timer != null) {
       this.showTimer = true;
-      this.timer = parseInt(this.authService.getCreated());
+      this.timer = parseInt(this.authService.getStartedTime());
     }
     this.timerService.showTimer.subscribe(value => {
-      if (value[1] && value[2]) {
-        this.showTimer = value[0] == 1;
-        this.createTimer(value[1], value[2], 0);
-        this.updateTimerInLocalStorage(value[0], value[1], value[2]);
-      }
-    });
-    this.timerService.break.subscribe(value => {
-      if (value[0]) {
-        this.createTimer(value[1], value[2], 1);
-        this.updateTimerInLocalStorage(value[0], value[1], value[2]);
-      }
-    });
-  }
-
-  private createTimer(ticketId, boardId, type) {
-    this.boardService.getBoard(boardId).subscribe(board => {
-      this.board = board;
-      let time = type == 0 ? this.board.WorkTime : this.board.BreakTime;
-      this.timer = new Date(new Date().getTime() + (time * 60 * 1000)).getTime();
-      this.authService.setCreated(this.timer);
-      this.authService.setIterations(this.board.Iterations);
+      this.createTimer(value[0], value[1], value[2], value[3], value[4], value[5], value[6]);
+      this.showTimer = value[0] == 1;
     });
   }
 
@@ -62,12 +39,18 @@ export class SideNavComponent implements OnInit {
     this.router.navigate(['/login']);
   }
 
-  private updateTimerInLocalStorage(startStop, ticketId, boardId) {
+  private createTimer(startStop, ticketId, boardId, workTime, breakTime, longerBreak, iterations) {
+    this.timer = new Date().getTime();
+    this.authService.setStartedTime(this.timer);
+    this.updateTimerInLocalStorage(startStop, ticketId, boardId, workTime, breakTime, longerBreak, iterations);
+  }
+
+  private updateTimerInLocalStorage(startStop, ticketId, boardId, workTime, breakTime, longerBreak, iterations) {
     if (startStop == 0) {
       this.authService.setTimer(null);
       return;
     }
-    let timer = { "ticketId": ticketId, "boardId": boardId };
+    let timer = { "ticketId": ticketId, "boardId": boardId, "workTime": workTime, "breakTime": breakTime, "longerBreak": longerBreak, "iterations": iterations };
     this.authService.setTimer(timer);
   }
 }

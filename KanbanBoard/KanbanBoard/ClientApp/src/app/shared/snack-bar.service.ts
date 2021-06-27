@@ -20,16 +20,25 @@ export class SnackBarService {
   public unsuccessful() {
     this.snackBar.open("Unsuccessful", "DISMISS", {
       duration: 5000,
-      panelClass: ["snack-bar"]
+      panelClass: ["snack-bar-unsuccessful"]
     });
   }
 
   public timerAlreadyRunning(ticketId) {
     this.ticketService.getTicket(ticketId).subscribe(ticket => {
       this.snackBar.open("Timer is already running for ticket " + ticket.Title + "!", "DISMISS", {
-        duration: 5000,
-        panelClass: ["snack-bar"]
+        duration: 7000,
+        panelClass: ["snack-bar-unsuccessful"]
       });
     })
+  }
+
+  public timerFinishedPomodoro(ticketId) {
+    this.ticketService.getTicket(ticketId).subscribe(ticket => {
+      this.snackBar.open("Congrats! Timer for ticket " + ticket.Title + " is finished!", "DISMISS", {
+        duration: 7000,
+        panelClass: ["snack-bar-timer"]
+      });
+    });
   }
 }
