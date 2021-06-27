@@ -44,7 +44,6 @@ export class SettingsNotificationsComponent implements OnInit {
         });
       } else {
         this.notificationId = 0;
-
       }
     });
   }

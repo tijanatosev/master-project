@@ -59,14 +59,38 @@ export class AuthService {
   }
 
   public getLastVisited() {
-    const lastVisited = localStorage.getItem('lastVisited');
-    if (!(lastVisited === undefined || lastVisited === null || lastVisited === 'undefined' || lastVisited === 'null' || lastVisited === '')) {
-      return lastVisited;
-    }
-    return null;
+    return this.getFromLocalStorage("lastVisited");
   }
 
   public setLastVisited(page) {
     localStorage.setItem("lastVisited", page);
+  }
+
+  public getTimer() {
+    const timer = JSON.parse(localStorage.getItem('timer'));
+    if (!(timer === undefined || timer === null || timer === 'undefined' || timer === 'null' || timer === '')) {
+      return timer;
+    }
+    return null;
+  }
+
+  public setTimer(timer) {
+    localStorage.setItem("timer", JSON.stringify(timer));
+  }
+
+  public getStartedTime() {
+    return this.getFromLocalStorage("startedTime");
+  }
+
+  public setStartedTime(time) {
+    localStorage.setItem("startedTime", time);
+  }
+
+  private getFromLocalStorage(item) {
+    const value = localStorage.getItem(item);
+    if (!(value === undefined || value === null || value === 'undefined' || value === 'null' || value === '')) {
+      return value;
+    }
+    return null;
   }
 }

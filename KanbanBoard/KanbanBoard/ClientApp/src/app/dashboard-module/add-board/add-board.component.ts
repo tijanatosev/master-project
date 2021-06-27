@@ -19,6 +19,11 @@ export class AddBoardComponent implements OnInit {
   public teams: Team[] = [];
   public users: User[] = [];
   public loggedInUser;
+  public isPomodoro: boolean = false;
+  private defaultWorkTime = 25;
+  private defaultBreakTime = 5;
+  private defaultIterations = 4;
+  private defaultLongerBreak = 30;
 
   constructor(private teamService: TeamService,
               private boardService: BoardService,
@@ -32,7 +37,12 @@ export class AddBoardComponent implements OnInit {
     this.boardForm = this.formBuilder.group( {
       name: ['', { validators: Validators.required, updateOn: "change" }],
       admin: [this.loggedInUser, { validators: Validators.required }],
-      team: ['', { validators: Validators.required }]
+      team: ['', { validators: Validators.required }],
+      isPomodoro: [''],
+      workTime: [this.defaultWorkTime],
+      breakTime: [this.defaultBreakTime],
+      iterations: [this.defaultIterations],
+      longerBreak: [this.defaultLongerBreak]
     }, {
       validators: [this.validateName()]
     });
@@ -45,6 +55,11 @@ export class AddBoardComponent implements OnInit {
     board.Name = boardForm.value.name;
     board.Admin = boardForm.value.admin;
     board.TeamId = boardForm.value.team.Id;
+    board.IsPomodoro = boardForm.value.isPomodoro;
+    board.WorkTime = board.IsPomodoro ? boardForm.value.workTime : this.defaultWorkTime;
+    board.BreakTime = board.IsPomodoro ? boardForm.value.breakTime : this.defaultBreakTime;
+    board.Iterations = board.IsPomodoro ? boardForm.value.iterations : this.defaultIterations;
+    board.LongerBreak = board.IsPomodoro ? boardForm.value.longerBreak : this.defaultLongerBreak;
     this.boardService.addBoard(board).subscribe(boardId => {
       if (boardId > 0) {
         this.snackBarService.successful();

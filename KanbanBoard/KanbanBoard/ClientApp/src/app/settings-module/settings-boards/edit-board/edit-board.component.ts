@@ -32,6 +32,10 @@ export class EditBoardComponent implements OnInit {
   public columnForm: FormGroup;
   public selected = -1;
   public doneColumnForm: FormGroup;
+  private defaultWorkTime = 25;
+  private defaultBreakTime = 5;
+  private defaultIterations = 4;
+  private defaultLongerBreak = 30;
 
   constructor(private boardService: BoardService,
               private teamService: TeamService,
@@ -62,6 +66,11 @@ export class EditBoardComponent implements OnInit {
     board.Name = boardForm.value.name;
     board.Admin = boardForm.value.admin;
     board.TeamId = boardForm.value.team;
+    board.IsPomodoro = boardForm.value.isPomodoro;
+    board.WorkTime = board.IsPomodoro ? boardForm.value.workTime : this.defaultWorkTime;
+    board.BreakTime = board.IsPomodoro ? boardForm.value.breakTime : this.defaultBreakTime;
+    board.Iterations = board.IsPomodoro ? boardForm.value.iterations : this.defaultIterations;
+    board.LongerBreak = board.IsPomodoro ? boardForm.value.longerBreak : this.defaultLongerBreak;
     this.boardService.updateBoard(this.board.Id, board).subscribe(result => {
       if (result == Responses.Successful) {
         this.snackBarService.successful();
@@ -143,7 +152,12 @@ export class EditBoardComponent implements OnInit {
     this.boardForm = this.formBuilder.group({
       name: [this.board.Name, { validators: [Validators.maxLength(20), Validators.required], updateOn: "blur" }],
       admin: [this.board.Admin, { validators: [Validators.required] }],
-      team: [this.board.TeamId, { validators: [Validators.required] }]
+      team: [this.board.TeamId, { validators: [Validators.required] }],
+      isPomodoro: [this.board.IsPomodoro],
+      workTime: [this.board.WorkTime],
+      breakTime: [this.board.BreakTime],
+      iterations: [this.board.Iterations],
+      longerBreak: [this.board.LongerBreak]
     }, {
       validators: [this.validateName()]
     });

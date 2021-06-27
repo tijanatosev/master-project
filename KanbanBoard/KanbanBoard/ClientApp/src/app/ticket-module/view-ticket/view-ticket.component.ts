@@ -21,6 +21,8 @@ import { FavoriteService } from "../../shared/services/favorite/favorite.service
 import { AuthService } from "../../shared/auth/auth.service";
 import { Favorite } from "../../shared/services/favorite/favorite.model";
 import { HelperService } from "../../shared/helpers/helper.service";
+import { TimerService } from "../../shared/timer.service";
+import { Board } from "../../shared/services/board/board.model";
 
 @Component({
   selector: 'app-view-ticket',
@@ -53,6 +55,9 @@ export class ViewTicketComponent implements OnInit {
   public prioritiesValues = Priorities.values();
   private creator: User;
   private assignedTo: User;
+  public startStopTimer: boolean = false;
+  public isPomodoro: boolean = false;
+  private board: Board;
 
   @ViewChild("labelInput", { static: true }) fruitInput: ElementRef<HTMLInputElement>;
   @ViewChild("auto", { static: true }) matAutocomplete: MatAutocomplete;
@@ -67,12 +72,17 @@ export class ViewTicketComponent implements OnInit {
               private formBuilder: FormBuilder,
               private favoriteService: FavoriteService,
               private authService: AuthService,
-              private helperService: HelperService) {
+              private helperService: HelperService,
+              private timerService: TimerService) {
   }
 
   ngOnInit() {
     this.route.params.subscribe((params: Params) => {
       this.ticketId = +params['id'];
+      let timer = this.authService.getTimer();
+      if (timer != null && timer.ticketId == this.ticketId) {
+        this.startStopTimer = true;
+      }
     });
     this.loggedInUser = this.authService.getUserIdFromToken();
     this.favoriteService.isFavorite(this.ticketId, this.loggedInUser).subscribe(result => {
@@ -84,6 +94,8 @@ export class ViewTicketComponent implements OnInit {
       this.initDescriptionForm();
       this.columnService.getColumnsByBoardId(this.ticket.BoardId).subscribe(statuses => this.statuses = statuses);
       this.boardService.getBoard(this.ticket.BoardId).subscribe(board => {
+        this.board = board;
+        this.isPomodoro = board.IsPomodoro;
         this.userService.getUsersByTeamId(board.TeamId).subscribe(users => {
           this.members = users;
           this.assignedTo = this.members.find(x => x.Id == this.ticket.AssignedTo);
@@ -98,6 +110,11 @@ export class ViewTicketComponent implements OnInit {
       });
     });
     this.loadLabels();
+    this.timerService.showTimer.subscribe(value => {
+      if (value[0] == 0) {
+        this.startStopTimer = false;
+      }
+    });
   }
 
   private loadLabels() {
@@ -328,6 +345,17 @@ export class ViewTicketComponent implements OnInit {
         this.isFavorite = true;
       }
     });
+  }
+
+  public startOrStopTimer() {
+    let timer = this.authService.getTimer();
+    if (timer == null || timer.ticketId == this.ticketId) {
+      this.startStopTimer = !this.startStopTimer;
+      let startStop = this.startStopTimer ? 1 : 0;
+      this.timerService.startStopTimer(startStop, this.ticketId, this.ticket.BoardId, this.board.WorkTime, this.board.BreakTime, this.board.LongerBreak, this.board.Iterations);
+    } else {
+      this.snackBarService.timerAlreadyRunning(timer.ticketId);
+    }
   }
 
   private initTitleForm() {

@@ -11,6 +11,11 @@ mat-form-field {
   width: 45%;
 }
 
+.pomodoro-mat-form-field {
+  margin-right: 4%;
+  width: 21% !important;
+}
+
 mat-label {
   color: #3F51B5;
 }

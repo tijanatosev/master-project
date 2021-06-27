@@ -34,8 +34,29 @@
               </mat-option>
             </mat-select>
           </mat-form-field>
+          <br>
+          <mat-slide-toggle color="primary" formControlName="isPomodoro" [(ngModel)]="board.IsPomodoro">Use Pomodoro Technique</mat-slide-toggle>
+          <br *ngIf="board.IsPomodoro">
+          <br *ngIf="board.IsPomodoro">
+          <mat-form-field appearance="outline" *ngIf="board.IsPomodoro" class="pomodoro-mat-form-field">
+            <mat-label>Work time</mat-label>
+            <input matInput formControlName="workTime" type="number">
+          </mat-form-field>
+          <mat-form-field appearance="outline" *ngIf="board.IsPomodoro" class="pomodoro-mat-form-field">
+            <mat-label>Break time</mat-label>
+            <input matInput formControlName="breakTime" type="number">
+          </mat-form-field>
+          <br>
+          <mat-form-field appearance="outline" *ngIf="board.IsPomodoro" class="pomodoro-mat-form-field">
+            <mat-label>Number of iterations</mat-label>
+            <input matInput formControlName="iterations" type="number">
+          </mat-form-field>
+          <mat-form-field appearance="outline" *ngIf="board.IsPomodoro" class="pomodoro-mat-form-field">
+            <mat-label>Longer break</mat-label>
+            <input matInput formControlName="longerBreak" type="number">
+          </mat-form-field>
         </form>
-
+        <br>
         <mat-divider style="width: 96%; margin-left: 2%;"></mat-divider>
         <br>
 

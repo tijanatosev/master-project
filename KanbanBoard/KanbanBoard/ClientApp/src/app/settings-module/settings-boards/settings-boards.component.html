@@ -23,6 +23,11 @@
           <td mat-cell *matCellDef="let element" width="180"> {{ getTeamName(element) }} </td>
         </ng-container>
 
+        <ng-container matColumnDef="Use Pomodoro">
+          <th mat-header-cell *matHeaderCellDef> Use Pomodoro </th>
+          <td mat-cell *matCellDef="let element" width="60"> {{ getPomodoro(element) }} </td>
+        </ng-container>
+
         <ng-container matColumnDef="Actions">
           <th mat-header-cell *matHeaderCellDef> Actions </th>
           <td mat-cell *matCellDef="let element" width="180">
