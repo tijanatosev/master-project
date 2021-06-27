@@ -112,6 +112,23 @@ WHERE ut.TeamId=@TeamId AND b.TeamId=@TeamId";
             }
             return tickets;
         }
+        
+        public IEnumerable<Ticket> LoadByBoardId(int boardId)
+        {
+            List<Ticket> tickets = new List<Ticket>();
+            string query = @"SELECT t.Id, t.Title, t.Description, t.Creator, t.StoryPoints, t.Status, t.DateCreated, t.AssignedTo, t.StartDate, t.EndDate, t.Rank, t.Priority, t.BoardId, t.ColumnId 
+FROM Tickets t JOIN Boards b ON b.Id=t.BoardId
+WHERE t.BoardId=@BoardId";
+            DataTable result = dbCommands.ExecuteSqlQuery(query, new SqlParameter("@BoardId", boardId)).Tables["Result"];
+            if (result.Rows.Count != 0)
+            {
+                foreach (DataRow row in result.Rows)
+                {
+                    tickets.Add(LoadFromDataRow(row));
+                }
+            }
+            return tickets;
+        }
 
         public IEnumerable<Ticket> LoadByColumnId(int columnId, string whereQuery)
         {

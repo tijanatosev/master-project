@@ -49,7 +49,7 @@ export class CommentSectionComponent implements OnInit {
     });
   }
 
-  private loadComments() {
+  public loadComments() {
     this.commentService.getCommentsByTicketId(this.ticketId).subscribe(comments => this.comments = comments);
   }
 }

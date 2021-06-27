@@ -5,8 +5,24 @@
     <span style="float: right !important; padding-top: 6px;">{{ comment.CommentedAt | date: 'short' }}</span>
   </mat-card-header>
   <mat-card-content class="display-block">
-    <textarea matInput [mat-autosize]="true" style="overflow: hidden;" readonly>
+    <br>
+    <br>
+    <textarea matInput [mat-autosize]="true" style="overflow: hidden;" readonly *ngIf="!edit">
     {{ comment.Text }}
     </textarea>
+    <form [formGroup]="commentForm" *ngIf="edit">
+      <textarea matInput class="area" formControlName="textComment"
+                cdkTextareaAutosize="true" cdkAutosizeMinRows="2" cdkAutosizeMaxRows="10"
+                [ngClass]="{ areaClicked: editCommentClicked == true, areaNotClicked: editCommentClicked == false }">
+      </textarea>
+      <br>
+      <br>
+      <button mat-raised-button color="primary" [disabled]="!commentForm.valid" (click)="updateComment(commentForm)">Save</button>&nbsp;
+      <button mat-raised-button (click)="edit = false">Cancel</button>
+    </form>
   </mat-card-content>
+  <mat-card-actions class="card-actions">
+    <button mat-icon-button color="primary" *ngIf="!edit" (click)="edit = true;"><mat-icon>edit</mat-icon></button>
+    <button mat-icon-button color="primary" *ngIf="!edit" (click)="deleteComment()"><mat-icon>delete</mat-icon></button>
+  </mat-card-actions>
 </mat-card>

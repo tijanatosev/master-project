@@ -63,6 +63,13 @@ namespace KanbanBoard.Controllers
         }
 
         [HttpGet]
+        [Route("board/{boardId}")]
+        public IEnumerable<Ticket> GetTicketsByBoardId([FromRoute] int boardId)
+        {
+            return ticketService.GetByBoardId(boardId);
+        }
+
+        [HttpGet]
         [Route("column/{columnId}")]
         public IEnumerable<Ticket> GetTicketsByColumnId([FromRoute] int columnId)
         {

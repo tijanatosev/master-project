@@ -28,7 +28,7 @@ export class BoardCardComponent implements OnInit {
               private teamService: TeamService) { }
 
   ngOnInit() {
-    this.ticketService.getTicketsByTeamId(this.board.TeamId).subscribe(tickets => this.numberOfTickets = tickets.length);
+    this.ticketService.getTicketsByBoardId(this.board.Id).subscribe(tickets => this.numberOfTickets = tickets.length);
     this.columnService.getColumnsByBoardId(this.board.Id).subscribe(columns => {
       if (columns.length > 0) {
         this.columnsExist = true;

@@ -75,6 +75,16 @@ namespace KanbanBoard.Services
             return ticketPersistenceManager.LoadByTeamId(teamId);
         }
 
+        public IEnumerable<Ticket> GetByBoardId(int boardId)
+        {
+            if (!validationService.ValidateId(boardId))
+            {
+                return new List<Ticket>();
+            }
+
+            return ticketPersistenceManager.LoadByBoardId(boardId);
+        }
+
         public IEnumerable<Ticket> GetByColumnId(int columnId, IQueryCollection queryCollection)
         {
             if (!validationService.ValidateId(columnId))
