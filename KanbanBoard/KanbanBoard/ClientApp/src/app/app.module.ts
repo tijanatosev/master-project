@@ -70,6 +70,22 @@ import { CommentComponent } from './comment-module/comment/comment.component';
 import { CommentSectionComponent } from './comment-module/comment-section/comment-section.component';
 import { TimerComponent } from './timer-module/timer/timer.component';
 import { StatisticsComponent } from './statistics-module/statistics/statistics.component';
+import { CalendarModule, DateAdapter } from 'angular-calendar';
+import { adapterFactory } from 'angular-calendar/date-adapters/moment';
+import * as moment from 'moment';
+import { CommonModule } from "@angular/common";
+import { ViewWeekComponent } from "./statistics-module/view-week/view-week.component";
+
+export function momentAdapterFactory() {
+  return adapterFactory(moment);
+};
+
+moment.updateLocale('en', {
+  week: {
+    dow: 1,
+    doy: 0
+  }
+});
 
 const routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
@@ -81,7 +97,8 @@ const routes = [
   { path: 'team/:id', component: TeamComponent, canActivate: [AuthGuard] },
   { path: 'ticket/:id', component: ViewTicketComponent, canActivate: [AuthGuard] },
   { path: 'board/:id', component: BoardComponent, canActivate: [AuthGuard] },
-  { path: 'statistics/:id', component: StatisticsComponent, canActivate: [AuthGuard] }
+  { path: 'statistics/:id', component: StatisticsComponent, canActivate: [AuthGuard] },
+  { path: 'weekView/:id', component: ViewWeekComponent, canActivate: [AuthGuard] }
 ];
 
 @NgModule({
@@ -117,7 +134,8 @@ const routes = [
     CommentComponent,
     CommentSectionComponent,
     TimerComponent,
-    StatisticsComponent
+    StatisticsComponent,
+    ViewWeekComponent
   ],
   imports: [
     BrowserModule.withServerTransition({appId: 'ng-cli-universal'}),
@@ -158,7 +176,9 @@ const routes = [
     MatRadioModule,
     MatCheckboxModule,
     ChartsModule,
-    MatProgressBarModule
+    MatProgressBarModule,
+    CalendarModule.forRoot({ provide: DateAdapter, useFactory: momentAdapterFactory }),
+    CommonModule
   ],
   providers: [ThemeService],
   bootstrap: [AppComponent],

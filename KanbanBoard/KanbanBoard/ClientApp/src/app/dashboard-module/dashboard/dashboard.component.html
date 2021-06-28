@@ -8,7 +8,7 @@
     </h1>
     <div class="row row-cols-2">
       <div class="col-2 board-card-column my-3 mr-3 ml-3" *ngFor="let board of boards">
-        <app-board-card [board]="board" [isAdmin]="isAdmin" (boardDelete)="onBoardDelete($event)"></app-board-card>
+        <app-board-card [board]="board" [isAdmin]="isAdmin" (boardDelete)="onBoardDelete($event)" (click)="goToBoard(board.Id)"></app-board-card>
       </div>
     </div>
   </div>

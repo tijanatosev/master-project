@@ -1,0 +1,32 @@
+<ng-template #currentTimeMarkerTemplate let-columnDate="columnDate" let-dayStartHour="dayStartHour" let-dayStartMinute="dayStartMinute" let-dayEndHour="dayEndHour"
+             let-dayEndMinute="dayEndMinute" let-isVisible="isVisible" let-topPx="topPx">
+  <div class="cal-current-time-marker" *ngIf="false" [style.top.px]="topPx"></div>
+</ng-template>
+
+<div class="row text-center">
+  <div class="col-md-4">
+    <button mat-raised-button color="primary" mwlCalendarPreviousView [view]="view" [(viewDate)]="viewDate" (viewDateChange)="viewDateChange.next(viewDate)">
+      Previous
+    </button>
+    &nbsp;
+    <button mat-raised-button mwlCalendarToday [(viewDate)]="viewDate" (viewDateChange)="viewDateChange.next(viewDate)">
+      Today
+    </button>
+    &nbsp;
+    <button mat-raised-button color="primary" mwlCalendarNextView [view]="view" [(viewDate)]="viewDate" (viewDateChange)="viewDateChange.next(viewDate)">
+      Next
+    </button>
+  </div>
+  <div class="col-md-4">
+    <h5 style="padding-top: 2%">{{ viewDate | calendarDate:(view + 'ViewTitle'):locale }}</h5>
+  </div>
+</div>
+<br>
+<mwl-calendar-week-view
+  [viewDate]="viewDate"
+  [events]="events"
+  [refresh]="refresh"
+  [hourSegments]="0"
+  [currentTimeMarkerTemplate]="currentTimeMarkerTemplate"
+  (eventTimesChanged)="eventTimesChanged($event)">
+</mwl-calendar-week-view>
