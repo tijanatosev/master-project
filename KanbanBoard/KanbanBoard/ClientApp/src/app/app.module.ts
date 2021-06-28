@@ -69,6 +69,7 @@ import { AddTicketComponent } from './ticket-module/add-ticket/add-ticket.compon
 import { CommentComponent } from './comment-module/comment/comment.component';
 import { CommentSectionComponent } from './comment-module/comment-section/comment-section.component';
 import { TimerComponent } from './timer-module/timer/timer.component';
+import { StatisticsComponent } from './statistics-module/statistics/statistics.component';
 
 const routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
@@ -79,7 +80,8 @@ const routes = [
   { path: 'profile/:id', component: ProfileComponent, canActivate: [AuthGuard] },
   { path: 'team/:id', component: TeamComponent, canActivate: [AuthGuard] },
   { path: 'ticket/:id', component: ViewTicketComponent, canActivate: [AuthGuard] },
-  { path: 'board/:id', component: BoardComponent, canActivate: [AuthGuard] }
+  { path: 'board/:id', component: BoardComponent, canActivate: [AuthGuard] },
+  { path: 'statistics/:id', component: StatisticsComponent, canActivate: [AuthGuard] }
 ];
 
 @NgModule({
@@ -114,7 +116,8 @@ const routes = [
     AddTicketComponent,
     CommentComponent,
     CommentSectionComponent,
-    TimerComponent
+    TimerComponent,
+    StatisticsComponent
   ],
   imports: [
     BrowserModule.withServerTransition({appId: 'ng-cli-universal'}),

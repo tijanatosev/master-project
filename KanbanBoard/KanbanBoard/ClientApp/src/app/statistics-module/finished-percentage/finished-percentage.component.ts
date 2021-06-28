@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
-import {TicketService} from "../../shared/services/ticket/ticket.service";
-import {ColumnService} from "../../shared/services/column/column.service";
-import {SingleDataSet} from "ng2-charts";
+import { TicketService } from "../../shared/services/ticket/ticket.service";
+import { ColumnService } from "../../shared/services/column/column.service";
+import { SingleDataSet } from "ng2-charts";
 
 @Component({
   selector: 'app-finished-percentage',

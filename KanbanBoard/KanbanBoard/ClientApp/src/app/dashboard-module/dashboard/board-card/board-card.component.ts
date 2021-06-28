@@ -53,6 +53,10 @@ export class BoardCardComponent implements OnInit {
     this.router.navigate(['board', id]);
   }
 
+  public goToStats(id) {
+    this.router.navigate(['statistics', id]);
+  }
+
   public onBoardDelete(id, name) {
     let values = new Map<string, string>();
     values.set("id", id);

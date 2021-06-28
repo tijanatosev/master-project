@@ -13,7 +13,7 @@
   <mat-card-actions class="board-card-actions">
     <span style="font-size: 14px; padding-right: 10px;"><b>{{ team }}</b></span>
     <br>
-    <button mat-icon-button style="float: left !important;">
+    <button mat-icon-button style="float: left !important;" (click)="goToStats(board.Id)">
       <mat-icon color="primary">assessment</mat-icon>
     </button>
     <button mat-icon-button (click)="goToBoard(board.Id)">
