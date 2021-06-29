@@ -20,5 +20,7 @@ namespace KanbanBoard.Services.Interfaces
         void DeleteByTicketId(int labelId, int ticketId);
 
         int AddByTicketId(Label label, int ticketId);
+
+        IEnumerable<Label> GetByBoardId(int boardId);
     }
 }

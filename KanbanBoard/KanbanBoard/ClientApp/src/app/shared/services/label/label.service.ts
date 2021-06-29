@@ -47,4 +47,8 @@ export class LabelService extends BaseService {
     return this.http.post(`${this.labelsUrl()}/tickets/${ticketId}`, label, { observe: "response" })
       .pipe(map(response => response.body));
   }
+
+  public getLabelsByBoardId(boardId) {
+    return this.http.get<Label[]>(`${this.labelsUrl()}/boards/${boardId}`);
+  }
 }

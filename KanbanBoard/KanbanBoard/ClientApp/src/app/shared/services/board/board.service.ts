@@ -43,4 +43,12 @@ export class BoardService extends BaseService {
     return this.http.put(`${this.boardsUrl()}/${id}`, board, { observe: "response"})
       .pipe(map(response => response.status));
   }
+
+  public getNumberOfTicketsPerColumn(id): Observable<Map<string, number>> {
+    return this.http.get<Map<string, number>>(`${this.boardsUrl()}/stats/${id}/columns`);
+  }
+
+  public getNumberOfTicketsPerLabel(id): Observable<Map<string, number>> {
+    return this.http.get<Map<string, number>>(`${this.boardsUrl()}/stats/${id}/labels`);
+  }
 }

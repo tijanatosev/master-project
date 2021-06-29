@@ -1,1 +1,22 @@
-<p>statistics works!</p>
+<div>
+  <div style="display: block">
+    <canvas baseChart
+      [datasets]="ticketsPerColumnData"
+      [labels]="ticketsPerColumnLabels"
+      [options]="chartOptions"
+      [legend]="chartLegend"
+      [chartType]="chartType">
+    </canvas>
+  </div>
+</div>
+<div>
+  <div style="display: block">
+    <canvas baseChart
+      [datasets]="ticketsPerLabelData"
+      [labels]="ticketsPerLabelLabels"
+      [options]="chartOptions"
+      [legend]="chartLegend"
+      [chartType]="chartType">
+    </canvas>
+  </div>
+</div>

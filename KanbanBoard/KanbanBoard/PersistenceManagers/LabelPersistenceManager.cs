@@ -107,6 +107,24 @@ WHERE lt.TicketId=@TicketId";
             return dbCommands.ExecuteScalar(query, parameters);
         }
 
+        public IEnumerable<Label> LoadByBoardId(int boardId)
+        {
+            List<Label> labels = new List<Label>();
+            string query = @"SELECT l.Id, l.Name, l.Color
+FROM Tickets t JOIN LabelsTickets lt ON t.Id=lt.TicketId JOIN Labels l ON l.Id=lt.LabelId
+WHERE t.BoardId=@BoardId
+GROUP BY l.Name, l.Id, l.Color";
+            DataTable result = dbCommands.ExecuteSqlQuery(query,new SqlParameter("@BoardId", boardId)).Tables["Result"];
+            if (result.Rows.Count != 0)
+            {
+                foreach (DataRow row in result.Rows)
+                {
+                    labels.Add(LoadFromDataRow(row));
+                }
+            }
+            return labels;
+        }
+
         public Label LoadFromDataRow(DataRow row)
         {
             return new Label
