@@ -1,22 +1,24 @@
-<div>
-  <div style="display: block">
-    <canvas baseChart
-      [datasets]="ticketsPerColumnData"
-      [labels]="ticketsPerColumnLabels"
-      [options]="chartOptions"
-      [legend]="chartLegend"
-      [chartType]="chartType">
-    </canvas>
-  </div>
-</div>
-<div>
-  <div style="display: block">
-    <canvas baseChart
-      [datasets]="ticketsPerLabelData"
-      [labels]="ticketsPerLabelLabels"
-      [options]="chartOptions"
-      [legend]="chartLegend"
-      [chartType]="chartType">
-    </canvas>
-  </div>
+<div class="row">
+  <mat-card class="col mr-2">
+    <div class="bar-chart-card">
+      <canvas baseChart
+        [datasets]="ticketsPerColumnData"
+        [labels]="ticketsPerColumnLabels"
+        [options]="chartOptions"
+        [legend]="chartLegend"
+        [chartType]="chartType">
+      </canvas>
+    </div>
+  </mat-card>
+  <mat-card class="col">
+    <div class="bar-chart-card">
+      <canvas baseChart
+        [datasets]="ticketsPerLabelData"
+        [labels]="ticketsPerLabelLabels"
+        [options]="chartOptions"
+        [legend]="chartLegend"
+        [chartType]="chartType">
+      </canvas>
+    </div>
+  </mat-card>
 </div>

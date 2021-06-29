@@ -15,6 +15,7 @@ export class StatisticsComponent implements OnInit {
   private boardId: number;
   public chartOptions: ChartOptions = {
     responsive: true,
+    maintainAspectRatio: false,
     scales: { xAxes: [{ }], yAxes: [{
         ticks: {
           beginAtZero: true,
