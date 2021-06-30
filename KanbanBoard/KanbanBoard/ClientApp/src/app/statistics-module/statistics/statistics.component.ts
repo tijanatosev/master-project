@@ -2,10 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from "@angular/router";
 import { ColumnService } from "../../shared/services/column/column.service";
 import { Label } from "ng2-charts";
-import { ChartDataSets, ChartOptions, ChartType } from "chart.js";
+import { ChartDataSets, ChartOptions } from "chart.js";
 import { LabelService } from "../../shared/services/label/label.service";
 import { BoardService } from "../../shared/services/board/board.service";
 import { TicketService } from "../../shared/services/ticket/ticket.service";
+import { Ticket } from "../../shared/services/ticket/ticket.model";
 
 @Component({
   selector: 'app-statistics',
@@ -14,7 +15,7 @@ import { TicketService } from "../../shared/services/ticket/ticket.service";
 })
 export class StatisticsComponent implements OnInit {
   private boardId: number;
-  public chartOptions: ChartOptions = {
+  public optionsForBarChart: ChartOptions = {
     responsive: true,
     maintainAspectRatio: false,
     scales: { xAxes: [{ }], yAxes: [{
@@ -30,10 +31,38 @@ export class StatisticsComponent implements OnInit {
       }
     }
   };
+  public optionsForLineChart: ChartOptions = {
+    scales: {
+      xAxes: [{
+        type: 'time',
+        ticks: {
+          stepSize: 1,
+          autoSkip: true,
+          maxTicksLimit: 15
+        },
+        time: {
+          unit: 'day',
+          unitStepSize: 30,
+          displayFormats: { day: 'MMM D' },
+        },
+      }]
+    }
+  };
+  public optionsForPieChart: ChartOptions = {
+    responsive: true,
+    legend: {
+      position: 'top',
+    },
+    plugins: {
+      datalabels: {
+        formatter: (value, ctx) => {
+          return ctx.chart.data.labels[ctx.dataIndex]
+        },
+      },
+    }
+  };
   public ticketsPerColumnLabels: Label[] = [];
   public ticketsPerLabelLabels: Label[] = [];
-  public chartType: ChartType = 'bar';
-  public chartLegend = true;
   public ticketsPerColumnData: ChartDataSets[] = [{
     label: 'Tickets per column',
     data: []
@@ -42,29 +71,18 @@ export class StatisticsComponent implements OnInit {
     label: 'Tickets per label',
     data: []
   }];
-
-  public burnup: ChartDataSets[] = [{
-    label: 'Burnup chart',
-    data: []
-  }];
-
-  public data = [];
-
-  public chartOption = {
-    scales: {
-      xAxes: [
-        {
-          type: 'time',
-          time: {
-            unit: 'day',
-            displayFormats: {
-              day: 'MMM D', // This is the default
-            },
-          },
-        },
-      ]
-    }
-  }
+  public burnUpData = [];
+  private tickets: Ticket[] = [];
+  private lessTimeSpent = 0;
+  private moreTimeSpent = 0;
+  private exactTimeSpent = 0;
+  public completedStatsData: number[] = [];
+  public colorsForPieChart = [
+    {
+      backgroundColor: ['rgba(255,0,0,0.3)', 'rgba(0,255,0,0.3)', 'rgba(0,0,255,0.3)'],
+    },
+  ];
+  public completedStatsLabels: Label[] = ["Completed on time", "Completed early", "Completed late"];
 
   constructor(private route: ActivatedRoute,
               private columnService: ColumnService,
@@ -96,32 +114,33 @@ export class StatisticsComponent implements OnInit {
     });
 
     this.ticketService.getTicketsByBoardId(this.boardId).subscribe(tickets => {
-      console.log(this.data);
-      this.data.push({
-        x: new Date(tickets.filter(x => x.CompletedAt != null).sort((x, y) => {
-          if (x.StartDate != undefined && y.StartDate != undefined) {
-            return new Date(x.StartDate).getTime() - new Date(y.StartDate).getTime();
-          }
-        })[0].StartDate),
-        y: 0
+      this.tickets = tickets.filter(x => x.CompletedAt != null).sort((a,b) => new Date(a.CompletedAt).getTime() - new Date(b.CompletedAt).getTime());
+      let y = 0;
+      let firstDate = new Date(this.tickets[0].CompletedAt);
+      this.burnUpData.push({
+        x: new Date(firstDate.setDate(firstDate.getDate() - 7)),
+        y: y
       });
-      tickets.sort((a,b) => new Date(a.CompletedAt).getTime() - new Date(b.CompletedAt).getTime() ).forEach(t => {
-        this.data.push({
-          x: t.CompletedAt == null ? new Date(t.StartDate) : new Date(t.CompletedAt),
-          y: t.StoryPoints
+      for (let ticket of this.tickets) {
+        this.calculateStatsForGuessingTimeOfEndDate(ticket.EndDate, ticket.CompletedAt)
+        y += ticket.StoryPoints;
+        this.burnUpData.push({
+          x: new Date(ticket.CompletedAt),
+          y: y
         });
-      });
-      this.data.push({
-        x: new Date(tickets.filter(x => x.CompletedAt != null).sort((x, y) => {
-          if (x.EndDate != undefined && y.EndDate != undefined) {
-            return new Date(x.EndDate).getTime() - new Date(y.EndDate).getTime();
-          }
-        })[0].EndDate),
-        y: 100
-      });
-      console.log(this.burnup);
-      console.log(this.data);
+      }
+      this.completedStatsData = [this.lessTimeSpent, this.exactTimeSpent, this.moreTimeSpent];
     });
+  }
+
+  private calculateStatsForGuessingTimeOfEndDate(endDate, completedAt) {
+    if (endDate > completedAt) {
+      this.moreTimeSpent += 1;
+    } else if (endDate == completedAt) {
+      this.exactTimeSpent += 1;
+    } else {
+      this.lessTimeSpent += 1;
+    }
   }
 
 }

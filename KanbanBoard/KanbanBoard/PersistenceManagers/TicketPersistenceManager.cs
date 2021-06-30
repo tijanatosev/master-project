@@ -145,13 +145,20 @@ WHERE t.BoardId=@BoardId";
             return tickets;
         }
 
-        public int UpdateColumn(int id, Column column)
+        public int UpdateColumn(int id, Column column, bool removeFromDone)
         {
             string query = @"UPDATE Tickets
 SET ColumnId=@ColumnId,
 Status=@Status
 WHERE Id=@Id";
-            if (column.IsDone)
+            if (removeFromDone)
+            {
+                string queryCompletedAt = @"UPDATE Tickets
+SET CompletedAt=@CompletedAt
+WHERE Id=@Id";
+                dbCommands.ExecuteSqlNonQuery(queryCompletedAt, new SqlParameter("@CompletedAt", DBNull.Value), new SqlParameter("@Id", id));
+            } 
+            else if (column.IsDone)
             {
                 string queryCompletedAt = @"UPDATE Tickets
 SET CompletedAt=@CompletedAt

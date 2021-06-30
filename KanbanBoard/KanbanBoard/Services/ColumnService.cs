@@ -81,5 +81,10 @@ namespace KanbanBoard.Services
             
             return columnPersistenceManager.UpdateIsDone(id, boardId) > 0;
         }
+
+        public Column GetDoneColumnForBoard(int boardId)
+        {
+            return columnPersistenceManager.GetDoneColumnForBoard(boardId);
+        }
     }
 }

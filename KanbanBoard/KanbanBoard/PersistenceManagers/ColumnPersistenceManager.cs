@@ -108,6 +108,17 @@ WHERE Id=@Id";
             return dbCommands.ExecuteSqlNonQuery(queryOne, new SqlParameter("@IsDone", true), new SqlParameter("@Id", id));
         }
 
+        public Column GetDoneColumnForBoard(int boardId)
+        {
+            string sqlQuery = @"SELECT * FROM Columns WHERE BoardId=@BoardId and IsDone = 1";
+            DataTable result = dbCommands.ExecuteSqlQuery(sqlQuery, new SqlParameter("@BoardId", boardId)).Tables["Result"];
+            if (result.Rows.Count != 0)
+            {
+                return LoadFromDataRow(result.Rows[0]);
+            }
+            return null;
+        }
+
         public Column LoadFromDataRow(DataRow row)
         {
             return new Column

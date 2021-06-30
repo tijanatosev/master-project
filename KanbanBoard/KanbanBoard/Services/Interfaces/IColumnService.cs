@@ -20,5 +20,7 @@ namespace KanbanBoard.Services.Interfaces
         void DeleteByBoardId(int boardId);
 
         bool UpdateIsDone(int id, int boardId);
+
+        Column GetDoneColumnForBoard(int boardId);
     }
 }
