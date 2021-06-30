@@ -18,5 +18,6 @@ namespace KanbanBoard.Models
         public int Priority { get; set; }
         public int BoardId { get; set; } 
         public int ColumnId { get; set; } 
+        public DateTime? CompletedAt { get; set; }
     }
 }

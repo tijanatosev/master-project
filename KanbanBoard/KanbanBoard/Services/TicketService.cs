@@ -113,7 +113,7 @@ namespace KanbanBoard.Services
                 return false;
             }
 
-            return ticketPersistenceManager.UpdateColumn(id, columnId, column.Name) > 0;
+            return ticketPersistenceManager.UpdateColumn(id, column) > 0;
         }
 
         public bool UpdateRank(int id, int rank)

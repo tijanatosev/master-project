@@ -22,7 +22,7 @@ namespace KanbanBoard.PersistenceManagers.Interfaces
         
         IEnumerable<Ticket> LoadByColumnId(int columnId, string whereQuery);
 
-        int UpdateColumn(int id, int columnId, string status);
+        int UpdateColumn(int id, Column column);
 
         int UpdateRank(int id, int rank);
         

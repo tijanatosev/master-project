@@ -52,7 +52,7 @@ export class AddTicketComponent implements OnInit {
     }, {
       validators: [this.validateStartDateEndDate()]
     });
-    this.columnService.getColumnsByBoardId(this.boardId).subscribe(statuses => this.statuses = statuses);
+    this.columnService.getColumnsByBoardId(this.boardId).subscribe(statuses => this.statuses = statuses.filter(x => !x.IsDone));
     this.userService.getUsersByTeamId(this.teamId).subscribe(users => {
       this.members = users;
     });
@@ -60,7 +60,6 @@ export class AddTicketComponent implements OnInit {
   }
 
   public save(data) {
-    console.log(data.value)
     let ticket = new Ticket();
     ticket.Title = data.value.title;
     ticket.Description = data.value.description;
@@ -74,6 +73,7 @@ export class AddTicketComponent implements OnInit {
     ticket.StartDate = data.value.startDate == "" ? null : data.value.startDate;
     ticket.EndDate = data.value.endDate == "" ? null : data.value.endDate;
     ticket.Priority = data.value.priority;
+    ticket.CompletedAt = null;
     this.ticketService.getRankForColumn(ticket.ColumnId, ticket.BoardId).subscribe(rank => {
       if (rank > -1) {
         ticket.Rank = rank + 1;

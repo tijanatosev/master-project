@@ -22,3 +22,11 @@
     </div>
   </mat-card>
 </div>
+<br>
+<div class="row">
+  <mat-card class="col">
+    <div class="bar-chart-card">
+      <canvas baseChart [datasets]="[{ data: data, label: 'My data' }]" [options]="chartOption" chartType="line"> </canvas>
+    </div>
+  </mat-card>
+</div>
