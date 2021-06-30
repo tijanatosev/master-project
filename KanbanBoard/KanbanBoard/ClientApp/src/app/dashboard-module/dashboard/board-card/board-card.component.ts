@@ -49,8 +49,12 @@ export class BoardCardComponent implements OnInit {
     this.teamService.getTeam(this.board.TeamId).subscribe(team => this.team = team.Name);
   }
 
-  public goToBoard(id) {
-    this.router.navigate(['board', id]);
+  public goToStats(id) {
+    this.router.navigate(['statistics', id]);
+  }
+
+  public goToViewWeek(id) {
+    this.router.navigate(['weekView', id]);
   }
 
   public onBoardDelete(id, name) {

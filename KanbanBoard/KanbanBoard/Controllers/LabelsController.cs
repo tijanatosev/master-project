@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using KanbanBoard.Models;
 using KanbanBoard.Services;
+using KanbanBoard.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace KanbanBoard.Controllers
@@ -9,7 +10,7 @@ namespace KanbanBoard.Controllers
     [Route("api/labels")]
     public class LabelsController
     {
-        private readonly LabelService labelService = new LabelService();
+        private readonly ILabelService labelService = new LabelService();
 
         [HttpGet]
         [Route("")]
@@ -65,6 +66,13 @@ namespace KanbanBoard.Controllers
         public int AddByTicketId([FromBody] Label label, [FromRoute] int ticketId)
         {
             return labelService.AddByTicketId(label, ticketId);
+        }
+
+        [HttpGet]
+        [Route("boards/{boardId}")]
+        public IEnumerable<Label> GetByBoardId([FromRoute] int boardId)
+        {
+            return labelService.GetByBoardId(boardId);
         }
     }
 }

@@ -31,7 +31,8 @@ export class DashboardComponent implements OnInit {
               private teamDialog: MatDialog,
               private confirmBoardDialog: MatDialog,
               private confirmTeamDialog: MatDialog,
-              private authService: AuthService) {
+              private authService: AuthService,
+              private router: Router) {
   }
 
   ngOnInit(): void {
@@ -118,6 +119,10 @@ export class DashboardComponent implements OnInit {
         });
       }
     });
+  }
+
+  public goToBoard(id) {
+    this.router.navigate(['board', id]);
   }
 
 }

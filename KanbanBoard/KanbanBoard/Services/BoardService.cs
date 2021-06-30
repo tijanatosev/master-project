@@ -19,7 +19,7 @@ namespace KanbanBoard.Services
 
         public Board GetById(int id)
         {
-            if (!ValidateId(id))
+            if (!validationService.ValidateId(id))
             {
                 return null;
             }
@@ -34,7 +34,7 @@ namespace KanbanBoard.Services
 
         public bool Update(int id, Board board)
         {
-            if (!ValidateId(id) || boardPersistenceManager.Load(id) == null)
+            if (!validationService.ValidateId(id) || boardPersistenceManager.Load(id) == null)
             {
                 return false;
             }
@@ -44,7 +44,7 @@ namespace KanbanBoard.Services
 
         public void Delete(int id)
         {
-            if (!ValidateId(id))
+            if (!validationService.ValidateId(id))
             {
                 return;
             }
@@ -54,7 +54,7 @@ namespace KanbanBoard.Services
 
         public IEnumerable<Board> GetByUserId(int userId)
         {
-            if (!ValidateId(userId))
+            if (!validationService.ValidateId(userId))
             {
                 return new List<Board>();
             }
@@ -64,7 +64,7 @@ namespace KanbanBoard.Services
 
         public IEnumerable<Board> GetByTeamId(int teamId)
         {
-            if (!ValidateId(teamId))
+            if (!validationService.ValidateId(teamId))
             {
                 return new List<Board>();
             }
@@ -72,9 +72,22 @@ namespace KanbanBoard.Services
             return boardPersistenceManager.LoadByTeamId(teamId);
         }
 
-        private bool ValidateId(int id)
+        public Dictionary<string, int> GetNumberOfTicketsPerColumn(int id)
         {
-            return id > 0;
+            if (!validationService.ValidateId(id))
+            {
+                return new Dictionary<string, int>();
+            }
+            return boardPersistenceManager.GetNumberOfTicketsPerColumn(id);
+        }
+        
+        public Dictionary<string, int> GetNumberOfTicketsPerLabel(int id)
+        {
+            if (!validationService.ValidateId(id))
+            {
+                return new Dictionary<string, int>();
+            }
+            return boardPersistenceManager.GetNumberOfTicketsPerLabel(id);
         }
     }
 }

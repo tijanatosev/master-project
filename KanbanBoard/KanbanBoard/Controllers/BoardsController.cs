@@ -10,7 +10,7 @@ namespace KanbanBoard.Controllers
     [Route("api/boards")]
     public class BoardsController
     {
-        private IBoardService boardService = new BoardService();
+        private readonly IBoardService boardService = new BoardService();
 
         [HttpGet]
         [Route("")]
@@ -64,6 +64,20 @@ namespace KanbanBoard.Controllers
         public IEnumerable<Board> GetByTeamId([FromRoute] int teamId)
         {
             return boardService.GetByTeamId(teamId);
+        }
+        
+        [HttpGet]
+        [Route("stats/{id}/columns")]
+        public Dictionary<string, int> GetNumberOfTicketsPerColumn([FromRoute] int id)
+        {
+            return boardService.GetNumberOfTicketsPerColumn(id);
+        }
+        
+        [HttpGet]
+        [Route("stats/{id}/labels")]
+        public Dictionary<string, int> GetNumberOfTicketsPerLabel([FromRoute] int id)
+        {
+            return boardService.GetNumberOfTicketsPerLabel(id);
         }
     }
 }

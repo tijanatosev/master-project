@@ -1,0 +1,62 @@
+<div class="row">
+  <mat-card class="col mr-2">
+    <mat-card-header>
+      Number of tickets per columns
+    </mat-card-header>
+    <div class="bar-chart-card">
+      <canvas baseChart
+        [datasets]="ticketsPerColumnData"
+        [labels]="ticketsPerColumnLabels"
+        [options]="optionsForBarChart"
+        [legend]="false"
+        chartType="bar">
+      </canvas>
+    </div>
+  </mat-card>
+  <mat-card class="col">
+    <mat-card-header>
+      Number of tickets per label
+    </mat-card-header>
+    <div class="bar-chart-card">
+      <canvas baseChart
+        [datasets]="ticketsPerLabelData"
+        [labels]="ticketsPerLabelLabels"
+        [options]="optionsForBarChart"
+        [legend]="false"
+        chartType="bar">
+      </canvas>
+    </div>
+  </mat-card>
+</div>
+<br>
+<div class="row">
+  <mat-card class="col mr-2">
+    <mat-card-header>
+      BurnUp Chart
+    </mat-card-header>
+    <div>
+      <canvas baseChart
+        [datasets]="[{ data: burnUpData, label: 'Burnup chart' }]"
+        [options]="optionsForLineChart"
+        [legend]="false"
+        chartType="line">
+      </canvas>
+    </div>
+  </mat-card>
+  <mat-card class="col">
+    <mat-card-header>
+      How many tickets were completed on time, early or late
+    </mat-card-header>
+    <div>
+      <canvas baseChart
+        [data]="completedStatsData"
+        [labels]="completedStatsLabels"
+        [options]="optionsForPieChart"
+        [colors]="colorsForPieChart"
+        [legend]="true"
+        chartType="pie">
+      </canvas>
+    </div>
+  </mat-card>
+</div>
+

@@ -102,7 +102,9 @@ namespace KanbanBoard.Services
 
         public bool UpdateColumn(int id, int columnId)
         {
-            if (!validationService.ValidateId(id) || ticketPersistenceManager.Load(id) == null)
+            bool removeFromDone = false;
+            Ticket ticket = ticketPersistenceManager.Load(id);
+            if (!validationService.ValidateId(id) || ticket == null)
             {
                 return false;
             }
@@ -113,7 +115,18 @@ namespace KanbanBoard.Services
                 return false;
             }
 
-            return ticketPersistenceManager.UpdateColumn(id, columnId, column.Name) > 0;
+            if (!column.IsDone)
+            {
+                Column doneColumn = columnService.GetDoneColumnForBoard(ticket.BoardId);
+                if (doneColumn == null)
+                {
+                    return false;
+                }
+
+                removeFromDone = doneColumn.Id == ticket.ColumnId && ticket.ColumnId != columnId;
+            }
+
+            return ticketPersistenceManager.UpdateColumn(id, column, removeFromDone) > 0;
         }
 
         public bool UpdateRank(int id, int rank)
@@ -149,7 +162,7 @@ namespace KanbanBoard.Services
                 return false;
             }
 
-            return ticketPersistenceManager.UpdateStartDate(id, date.Date) > 0;
+            return ticketPersistenceManager.UpdateStartDate(id, date) > 0;
         }
 
         public bool UpdateEndDate(int id, string endDate)
@@ -165,7 +178,7 @@ namespace KanbanBoard.Services
                 return false;
             }
 
-            return ticketPersistenceManager.UpdateEndDate(id, date.Date) > 0;
+            return ticketPersistenceManager.UpdateEndDate(id, date) > 0;
         }
 
         public bool UpdateStoryPoints(int id, int storyPoints)

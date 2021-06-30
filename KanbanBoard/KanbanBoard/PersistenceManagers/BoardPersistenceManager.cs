@@ -142,6 +142,42 @@ WHERE ut.UserId=@UserId";
             return boards;
         }
 
+        public Dictionary<string, int> GetNumberOfTicketsPerColumn(int id)
+        {
+            Dictionary<string, int> values = new Dictionary<string, int>();
+            string sql = @"SELECT COUNT(*) AS NumOfTickets, c.Name AS ColumnName
+FROM Tickets t JOIN Columns c ON t.ColumnId=c.Id 
+WHERE t.BoardId=@BoardId
+GROUP BY c.Name";
+            DataTable result = dbCommands.ExecuteSqlQuery(sql, new SqlParameter("@BoardId", id)).Tables["Result"];
+            if (result.Rows.Count != 0)
+            {
+                foreach (DataRow row in result.Rows)
+                {
+                    values.Add(row["ColumnName"].ToString()!, Convert.ToInt32(row["NumOfTickets"]));
+                }
+            }
+            return values;
+        }
+
+        public Dictionary<string, int> GetNumberOfTicketsPerLabel(int id)
+        {
+            Dictionary<string, int> values = new Dictionary<string, int>();
+            string sql = @"SELECT COUNT(*) AS NumOfTickets, l.Name AS LabelName
+FROM Tickets t JOIN LabelsTickets lt ON t.Id=lt.TicketId JOIN Labels l ON l.Id=lt.LabelId
+WHERE t.BoardId=@BoardId
+GROUP BY l.Name";
+            DataTable result = dbCommands.ExecuteSqlQuery(sql, new SqlParameter("@BoardId", id)).Tables["Result"];
+            if (result.Rows.Count != 0)
+            {
+                foreach (DataRow row in result.Rows)
+                {
+                    values.Add(row["LabelName"].ToString()!, Convert.ToInt32(row["NumOfTickets"]));
+                }
+            }
+            return values;
+        }
+
         public Board LoadFromDataRow(DataRow row)
         {
             return new Board

@@ -1,0 +1,12 @@
+mat-card {
+  text-align: -webkit-center;
+}
+
+mat-card-header {
+  justify-content: center;
+}
+
+.bar-chart-card {
+  height:25vh;
+  width:30vw;
+}

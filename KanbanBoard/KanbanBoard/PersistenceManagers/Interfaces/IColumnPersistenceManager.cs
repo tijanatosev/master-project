@@ -20,5 +20,7 @@ namespace KanbanBoard.PersistenceManagers.Interfaces
         void DeleteByBoardId(int boardId);
 
         int UpdateIsDone(int id, int boardId);
+
+        Column GetDoneColumnForBoard(int boardId);
     }
 }

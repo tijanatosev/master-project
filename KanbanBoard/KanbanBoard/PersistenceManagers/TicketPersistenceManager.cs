@@ -64,8 +64,8 @@ VALUES (@Title, @Description, @Creator, @StoryPoints, @Status, @DateCreated, @As
                 new SqlParameter("@EndDate", ticket.EndDate),
                 new SqlParameter("@Rank", ticket.Rank),
                 new SqlParameter("@Priority", ticket.Priority), 
-                new SqlParameter("ColumnId", ticket.ColumnId),
-                new SqlParameter("BoardId", ticket.BoardId), 
+                new SqlParameter("@ColumnId", ticket.ColumnId),
+                new SqlParameter("@BoardId", ticket.BoardId)
             };
             return dbCommands.ExecuteScalar(query, parameters);
         }
@@ -97,7 +97,7 @@ VALUES (@Title, @Description, @Creator, @StoryPoints, @Status, @DateCreated, @As
         public IEnumerable<Ticket> LoadByTeamId(int teamId)
         {
             List<Ticket> tickets = new List<Ticket>();
-            string query = @"SELECT t.Id, t.Title, t.Description, t.Creator, t.StoryPoints, t.Status, t.DateCreated, t.AssignedTo, t.StartDate, t.EndDate, t.Rank, t.Priority, t.BoardId, t.ColumnId 
+            string query = @"SELECT t.Id, t.Title, t.Description, t.Creator, t.StoryPoints, t.Status, t.DateCreated, t.AssignedTo, t.StartDate, t.EndDate, t.Rank, t.Priority, t.BoardId, t.ColumnId, t.CompletedAt 
 FROM Tickets t JOIN Users u on t.AssignedTo=u.Id
 JOIN UsersTeams ut ON ut.UserId=u.Id
 JOIN Boards b ON b.Id=t.BoardId
@@ -116,7 +116,7 @@ WHERE ut.TeamId=@TeamId AND b.TeamId=@TeamId";
         public IEnumerable<Ticket> LoadByBoardId(int boardId)
         {
             List<Ticket> tickets = new List<Ticket>();
-            string query = @"SELECT t.Id, t.Title, t.Description, t.Creator, t.StoryPoints, t.Status, t.DateCreated, t.AssignedTo, t.StartDate, t.EndDate, t.Rank, t.Priority, t.BoardId, t.ColumnId 
+            string query = @"SELECT t.Id, t.Title, t.Description, t.Creator, t.StoryPoints, t.Status, t.DateCreated, t.AssignedTo, t.StartDate, t.EndDate, t.Rank, t.Priority, t.BoardId, t.ColumnId, t.CompletedAt 
 FROM Tickets t JOIN Boards b ON b.Id=t.BoardId
 WHERE t.BoardId=@BoardId";
             DataTable result = dbCommands.ExecuteSqlQuery(query, new SqlParameter("@BoardId", boardId)).Tables["Result"];
@@ -145,13 +145,27 @@ WHERE t.BoardId=@BoardId";
             return tickets;
         }
 
-        public int UpdateColumn(int id, int columnId, string status)
+        public int UpdateColumn(int id, Column column, bool removeFromDone)
         {
             string query = @"UPDATE Tickets
 SET ColumnId=@ColumnId,
 Status=@Status
 WHERE Id=@Id";
-            return dbCommands.ExecuteSqlNonQuery(query, new SqlParameter("@ColumnId", columnId), new SqlParameter("@Status", status), new SqlParameter("@Id", id));
+            if (removeFromDone)
+            {
+                string queryCompletedAt = @"UPDATE Tickets
+SET CompletedAt=@CompletedAt
+WHERE Id=@Id";
+                dbCommands.ExecuteSqlNonQuery(queryCompletedAt, new SqlParameter("@CompletedAt", DBNull.Value), new SqlParameter("@Id", id));
+            } 
+            else if (column.IsDone)
+            {
+                string queryCompletedAt = @"UPDATE Tickets
+SET CompletedAt=@CompletedAt
+WHERE Id=@Id";
+                dbCommands.ExecuteSqlNonQuery(queryCompletedAt, new SqlParameter("@CompletedAt", DateTime.Now.Date), new SqlParameter("@Id", id));
+            }
+            return dbCommands.ExecuteSqlNonQuery(query, new SqlParameter("@ColumnId", column.Id), new SqlParameter("@Status", column.Name), new SqlParameter("@Id", id));
         }
 
         public int UpdateRank(int id, int rank)
@@ -213,7 +227,7 @@ WHERE Id=@Id";
         public IEnumerable<Ticket> LoadFavoritesByUserId(int userId)
         {
             List<Ticket> tickets = new List<Ticket>();
-            string query = @"SELECT t.Id, t.Title, t.Description, t.Creator, t.StoryPoints, t.Status, t.DateCreated, t.AssignedTo, t.StartDate, t.EndDate, t.Rank, t.Priority, t.BoardId, t.ColumnId
+            string query = @"SELECT t.Id, t.Title, t.Description, t.Creator, t.StoryPoints, t.Status, t.DateCreated, t.AssignedTo, t.StartDate, t.EndDate, t.Rank, t.Priority, t.BoardId, t.ColumnId, t.CompletedAt
 FROM Tickets t JOIN Favorites f ON t.Id = f.TicketId
 WHERE f.UserId=@UserId";
             DataTable result = dbCommands.ExecuteSqlQuery(query, new SqlParameter("@UserId", userId)).Tables["Result"];
@@ -260,12 +274,13 @@ WHERE Id=@Id";
                 Status = row["Status"].ToString(),
                 DateCreated = Convert.ToDateTime(row["DateCreated"]).Date,
                 AssignedTo = Convert.ToInt32(row["AssignedTo"]),
-                StartDate = Convert.ToDateTime(row["StartDate"]).Date,
-                EndDate = Convert.ToDateTime(row["EndDate"]).Date,
+                StartDate = row["StartDate"] != DBNull.Value ? Convert.ToDateTime(row["StartDate"]).Date : (DateTime?) null,
+                EndDate = row["EndDate"] != DBNull.Value ? Convert.ToDateTime(row["EndDate"]).Date : (DateTime?) null,
                 Rank = Convert.ToInt32(row["Rank"]),
                 Priority = Convert.ToInt32(row["Priority"]),
                 BoardId = Convert.ToInt32(row["BoardId"]),
-                ColumnId = Convert.ToInt32(row["ColumnId"])
+                ColumnId = Convert.ToInt32(row["ColumnId"]),
+                CompletedAt = row["CompletedAt"] != DBNull.Value ? Convert.ToDateTime(row["CompletedAt"]).Date : (DateTime?) null
             };
         }
 

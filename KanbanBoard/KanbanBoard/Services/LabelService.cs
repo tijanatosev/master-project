@@ -71,5 +71,15 @@ namespace KanbanBoard.Services
         {
             return labelPersistenceManager.AddByTicketId(label, ticketId);
         }
+
+        public IEnumerable<Label> GetByBoardId(int boardId)
+        {
+            if (!validationService.ValidateId(boardId))
+            {
+                return new List<Label>();
+            }
+
+            return labelPersistenceManager.LoadByBoardId(boardId);
+        }
     }
 }

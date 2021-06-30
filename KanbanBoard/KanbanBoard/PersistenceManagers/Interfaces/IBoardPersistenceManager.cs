@@ -18,5 +18,9 @@ namespace KanbanBoard.PersistenceManagers.Interfaces
         IEnumerable<Board> LoadByUserId(int userId);
         
         IEnumerable<Board> LoadByTeamId(int teamId);
+        
+        Dictionary<string, int> GetNumberOfTicketsPerColumn(int id);
+        
+        Dictionary<string, int> GetNumberOfTicketsPerLabel(int id);
     }
 }

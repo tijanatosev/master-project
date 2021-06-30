@@ -18,5 +18,9 @@ namespace KanbanBoard.Services.Interfaces
         IEnumerable<Board> GetByUserId(int userId);
         
         IEnumerable<Board> GetByTeamId(int teamId);
+
+        Dictionary<string, int> GetNumberOfTicketsPerColumn(int id);
+        
+        Dictionary<string, int> GetNumberOfTicketsPerLabel(int id);
     }
 }
