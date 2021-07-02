@@ -10,6 +10,10 @@
       <mat-icon mat-list-icon>home</mat-icon>
       <p matLine *ngIf="isExpanded">Dashboard</p>
     </mat-list-item>
+    <mat-list-item [routerLink]="['/verticalView']">
+      <mat-icon mat-list-icon>calendar_view_week</mat-icon>
+      <p matLine *ngIf="isExpanded">Vertical View</p>
+    </mat-list-item>
     <mat-list-item [routerLink]="['/profile', userId]">
       <mat-icon mat-list-icon>person</mat-icon>
       <p matLine *ngIf="isExpanded">Profile</p>

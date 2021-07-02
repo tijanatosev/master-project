@@ -75,6 +75,7 @@ import { adapterFactory } from 'angular-calendar/date-adapters/moment';
 import * as moment from 'moment';
 import { CommonModule } from "@angular/common";
 import { ViewWeekComponent } from "./statistics-module/view-week/view-week.component";
+import { VerticalViewComponent } from "./statistics-module/vertical-view/vertical-view.component";
 
 export function momentAdapterFactory() {
   return adapterFactory(moment);
@@ -98,7 +99,8 @@ const routes = [
   { path: 'ticket/:id', component: ViewTicketComponent, canActivate: [AuthGuard] },
   { path: 'board/:id', component: BoardComponent, canActivate: [AuthGuard] },
   { path: 'statistics/:id', component: StatisticsComponent, canActivate: [AuthGuard] },
-  { path: 'weekView/:id', component: ViewWeekComponent, canActivate: [AuthGuard] }
+  { path: 'weekView/:id', component: ViewWeekComponent, canActivate: [AuthGuard] },
+  { path: 'verticalView', component: VerticalViewComponent, canActivate: [AuthGuard] }
 ];
 
 @NgModule({
@@ -135,7 +137,8 @@ const routes = [
     CommentSectionComponent,
     TimerComponent,
     StatisticsComponent,
-    ViewWeekComponent
+    ViewWeekComponent,
+    VerticalViewComponent
   ],
   imports: [
     BrowserModule.withServerTransition({appId: 'ng-cli-universal'}),
