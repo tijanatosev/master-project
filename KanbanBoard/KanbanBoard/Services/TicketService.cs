@@ -241,6 +241,36 @@ namespace KanbanBoard.Services
             return ticketPersistenceManager.GetRankForColumn(columnId, boardId);
         }
 
+        public IEnumerable<Ticket> GetDependency(int id)
+        {
+            if (!validationService.ValidateId(id) || ticketPersistenceManager.Load(id) == null)
+            {
+                return new List<Ticket>();
+            }
+
+            return ticketPersistenceManager.GetDependency(id);
+        }
+
+        public int AddDependency(int id, int dependencyId)
+        {
+            if (!validationService.ValidateId(id) || ticketPersistenceManager.Load(id) == null)
+            {
+                return 0;
+            }
+
+            return ticketPersistenceManager.AddDependency(id, dependencyId);
+        }
+
+        public void DeleteDependency(int id, int dependencyId)
+        {
+            if (!validationService.ValidateId(id) || ticketPersistenceManager.Load(id) == null)
+            {
+                return;
+            }
+
+            ticketPersistenceManager.DeleteDependency(id, dependencyId);
+        }
+
         private string ParseQueryCollection(IQueryCollection queryCollection)
         {
             StringBuilder whereClause = new StringBuilder();

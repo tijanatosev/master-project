@@ -198,5 +198,26 @@ namespace KanbanBoard.Controllers
         {
             return ticketService.GetRankForColumn(columnId, boardId);
         }
+
+        [HttpGet]
+        [Route("{id}/dependency")]
+        public IEnumerable<Ticket> GetDependency([FromRoute] int id)
+        {
+            return ticketService.GetDependency(id);
+        }
+
+        [HttpPost]
+        [Route("{id}/dependency")]
+        public int AddDependentOn([FromRoute] int id, [FromBody] int dependencyId)
+        {
+            return ticketService.AddDependency(id, dependencyId);
+        }
+
+        [HttpDelete]
+        [Route("{id}/dependency/{dependencyId}")]
+        public void DeleteDependency([FromRoute] int id, [FromRoute] int dependencyId)
+        {
+            ticketService.DeleteDependency(id, dependencyId);
+        }
     }
 }

@@ -43,5 +43,12 @@ namespace KanbanBoard.Services.Interfaces
         bool UpdatePriority(int id, int priority);
         
         int GetRankForColumn(int columnId, int boardId);
+
+        IEnumerable<Ticket> GetDependency(int id);
+
+        int AddDependency(int id, int dependencyId);
+
+        void DeleteDependency(int id, int dependencyId);
+        
     }
 }
