@@ -1,0 +1,13 @@
+<mwl-calendar-week-view
+  [viewDate]="viewDate"
+  [events]="events"
+  [refresh]="refresh"
+  [hourSegments]="0"
+  [currentTimeMarkerTemplate]="currentTimeMarkerTemplate"
+  (eventTimesChanged)="eventTimesChanged($event)">
+</mwl-calendar-week-view>
+
+<ng-template #currentTimeMarkerTemplate let-columnDate="columnDate" let-dayStartHour="dayStartHour" let-dayStartMinute="dayStartMinute" let-dayEndHour="dayEndHour"
+             let-dayEndMinute="dayEndMinute" let-isVisible="isVisible" let-topPx="topPx">
+  <div class="cal-current-time-marker" *ngIf="false" [style.top.px]="topPx"></div>
+</ng-template>

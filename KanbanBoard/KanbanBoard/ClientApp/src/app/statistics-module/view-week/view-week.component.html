@@ -22,11 +22,4 @@
   </div>
 </div>
 <br>
-<mwl-calendar-week-view
-  [viewDate]="viewDate"
-  [events]="events"
-  [refresh]="refresh"
-  [hourSegments]="0"
-  [currentTimeMarkerTemplate]="currentTimeMarkerTemplate"
-  (eventTimesChanged)="eventTimesChanged($event)">
-</mwl-calendar-week-view>
+<app-single-view-week [events]="events" [viewDate]="viewDate" [refresh]="refresh"></app-single-view-week>

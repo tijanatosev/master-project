@@ -1,6 +1,6 @@
 <h2 mat-dialog-title style="text-align: right;">Add New Team</h2>
 <mat-dialog-content class="mat-typography">
-  <ng-form [formGroup]="teamForm">
+  <form [formGroup]="teamForm">
     <mat-form-field appearance="outline">
       <mat-label>Name</mat-label>
       <input matInput placeholder="Name" formControlName="name">
@@ -26,7 +26,7 @@
         </mat-option>
       </mat-select>
     </mat-form-field>
-  </ng-form>
+  </form>
 </mat-dialog-content>
 <mat-dialog-actions align="center">
   <button mat-raised-button color="primary" [mat-dialog-close]="true" type="submit" [disabled]="!teamForm.valid" (click)="save(teamForm)">Save</button>

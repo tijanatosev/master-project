@@ -76,6 +76,7 @@ import * as moment from 'moment';
 import { CommonModule } from "@angular/common";
 import { ViewWeekComponent } from "./statistics-module/view-week/view-week.component";
 import { VerticalViewComponent } from "./statistics-module/vertical-view/vertical-view.component";
+import { SingleViewWeekComponent } from './statistics-module/single-view-week/single-view-week.component';
 
 export function momentAdapterFactory() {
   return adapterFactory(moment);
@@ -138,7 +139,8 @@ const routes = [
     TimerComponent,
     StatisticsComponent,
     ViewWeekComponent,
-    VerticalViewComponent
+    VerticalViewComponent,
+    SingleViewWeekComponent
   ],
   imports: [
     BrowserModule.withServerTransition({appId: 'ng-cli-universal'}),

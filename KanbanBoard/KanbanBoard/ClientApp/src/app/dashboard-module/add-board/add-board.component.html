@@ -1,6 +1,6 @@
 <h2 mat-dialog-title style="text-align: right;">Add New Board</h2>
 <mat-dialog-content class="mat-typography">
-  <ng-form [formGroup]="boardForm">
+  <form [formGroup]="boardForm">
     <mat-form-field appearance="outline">
       <mat-label>Name</mat-label>
       <input matInput placeholder="Name" formControlName="name">
@@ -46,7 +46,7 @@
       <mat-label>Longer break</mat-label>
       <input matInput formControlName="longerBreak" type="number">
     </mat-form-field>
-  </ng-form>
+  </form>
 </mat-dialog-content>
 <mat-dialog-actions align="center">
   <button mat-raised-button color="primary" [mat-dialog-close]="true" type="submit" [disabled]="!boardForm.valid" (click)="save(boardForm)">Save</button>

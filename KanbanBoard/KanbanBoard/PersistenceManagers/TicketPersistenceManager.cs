@@ -333,7 +333,7 @@ VALUES (@TicketId, @DependencyId)";
             {
                 if (whereQuery.Contains("LabelId"))
                 {
-                    return @"SELECT t.Id, t.Title, t.Description, t.Creator, t.StoryPoints, t.Status, t.DateCreated, t.AssignedTo, t.StartDate, t.EndDate, t.Rank, t.Priority, t.BoardId, t.ColumnId
+                    return @"SELECT t.Id, t.Title, t.Description, t.Creator, t.StoryPoints, t.Status, t.DateCreated, t.AssignedTo, t.StartDate, t.EndDate, t.Rank, t.Priority, t.BoardId, t.ColumnId, t.CompletedAt
 FROM Tickets t JOIN LabelsTickets l ON t.Id = l.TicketId 
 WHERE ColumnId=@ColumnId and " + whereQuery + " ORDER BY Rank ASC";
                 }

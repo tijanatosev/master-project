@@ -1,1 +1,95 @@
-<p>vertical-view works!</p>
+<div style="font-size: 13px;">
+  <form [formGroup]="boardsForm">
+    <mat-form-field appearance="outline">
+      <mat-label>First board</mat-label>
+      <mat-select formControlName="firstBoard">
+        <mat-option [value]=""></mat-option>
+        <mat-option *ngFor="let board of boards" [value]="board.Id">
+          {{ board.Name }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Second board</mat-label>
+      <mat-select formControlName="secondBoard">
+        <mat-option [value]=""></mat-option>
+        <mat-option *ngFor="let board of boards" [value]="board.Id">
+          {{ board.Name }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Third board</mat-label>
+      <mat-select formControlName="thirdBoard">
+        <mat-option [value]=""></mat-option>
+        <mat-option *ngFor="let board of boards" [value]="board.Id">
+          {{ board.Name }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <button mat-raised-button color="primary" (click)="showVerticalView(boardsForm)">Show</button>
+    <mat-error *ngIf="boardsForm.get('secondBoard').errors && boardsForm.get('secondBoard').errors.selectedBoardsMustBeDifferent">
+      You must select different second board.
+    </mat-error>
+    <mat-error *ngIf="boardsForm.get('thirdBoard').errors && boardsForm.get('thirdBoard').errors.selectedBoardsMustBeDifferent">
+      You must select different third board.
+    </mat-error>
+  </form>
+</div>
+
+<mat-divider></mat-divider>
+<br>
+
+<div class="row text-center">
+  <div class="col-md-4">
+  </div>
+  <div class="col-md-4">
+    <h5 style="padding-top: 2%">{{ viewDate | calendarDate:(view + 'ViewTitle'):locale }}</h5>
+  </div>
+  <div class="col-md-4">
+    <button mat-raised-button color="primary" mwlCalendarPreviousView [view]="view" [(viewDate)]="viewDate" (viewDateChange)="viewDateChange.next(viewDate)">
+      Previous
+    </button>
+    &nbsp;
+    <button mat-raised-button mwlCalendarToday [(viewDate)]="viewDate" (viewDateChange)="viewDateChange.next(viewDate)">
+      Today
+    </button>
+    &nbsp;
+    <button mat-raised-button color="primary" mwlCalendarNextView [view]="view" [(viewDate)]="viewDate" (viewDateChange)="viewDateChange.next(viewDate)">
+      Next
+    </button>
+  </div>
+</div>
+<br>
+<app-single-view-week [events]="events" [viewDate]="viewDate" [refresh]="refresh"></app-single-view-week>
+<!--<mwl-calendar-week-view-->
+<!--  [viewDate]="viewDate"-->
+<!--  [events]="events"-->
+<!--  [refresh]="refresh"-->
+<!--  [hourSegments]="0"-->
+<!--  [currentTimeMarkerTemplate]="currentTimeMarkerTemplate">-->
+<!--</mwl-calendar-week-view>-->
+<!--<mwl-calendar-week-view-->
+<!--  [viewDate]="viewDate"-->
+<!--  [events]="events"-->
+<!--  [refresh]="refresh"-->
+<!--  [hourSegments]="0"-->
+<!--  [currentTimeMarkerTemplate]="currentTimeMarkerTemplate">-->
+<!--</mwl-calendar-week-view>-->
+<!--<mwl-calendar-week-view-->
+<!--  [viewDate]="viewDate"-->
+<!--  [events]="events"-->
+<!--  [refresh]="refresh"-->
+<!--  [hourSegments]="0"-->
+<!--  [currentTimeMarkerTemplate]="currentTimeMarkerTemplate">-->
+<!--</mwl-calendar-week-view>-->
+
+
+
+<!--<ng-template #currentTimeMarkerTemplate let-columnDate="columnDate" let-dayStartHour="dayStartHour" let-dayStartMinute="dayStartMinute" let-dayEndHour="dayEndHour"-->
+<!--             let-dayEndMinute="dayEndMinute" let-isVisible="isVisible" let-topPx="topPx">-->
+<!--  <div class="cal-current-time-marker" *ngIf="false" [style.top.px]="topPx"></div>-->
+<!--</ng-template>-->
