@@ -140,7 +140,7 @@ export class EditBoardComponent implements OnInit {
 
   public checkIfTimerIsRunning() {
     let timer = this.authService.getTimer();
-    return timer == null || timer.boardId == this.board.Id;
+    return timer != null && timer.boardId == this.board.Id;
   }
 
   private loadColumns() {

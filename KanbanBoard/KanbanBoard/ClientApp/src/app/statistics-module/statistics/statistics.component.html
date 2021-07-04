@@ -1,7 +1,7 @@
 <div class="row">
   <mat-card class="col mr-2">
     <mat-card-header>
-      Number of tickets per columns
+      Number of tickets per status
     </mat-card-header>
     <div class="bar-chart-card">
       <canvas baseChart
@@ -9,6 +9,7 @@
         [labels]="ticketsPerColumnLabels"
         [options]="optionsForBarChart"
         [legend]="false"
+        [colors]="ticketsPerStatusColors"
         chartType="bar">
       </canvas>
     </div>
@@ -23,6 +24,7 @@
         [labels]="ticketsPerLabelLabels"
         [options]="optionsForBarChart"
         [legend]="false"
+        [colors]="ticketsPerLabelColors"
         chartType="bar">
       </canvas>
     </div>
@@ -32,13 +34,14 @@
 <div class="row">
   <mat-card class="col mr-2">
     <mat-card-header>
-      BurnUp Chart
+      Burnup chart
     </mat-card-header>
     <div>
       <canvas baseChart
         [datasets]="[{ data: burnUpData, label: 'Burnup chart' }]"
         [options]="optionsForLineChart"
         [legend]="false"
+        [colors]="burnUpColors"
         chartType="line">
       </canvas>
     </div>

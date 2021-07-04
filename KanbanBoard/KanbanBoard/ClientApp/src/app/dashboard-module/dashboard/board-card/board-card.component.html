@@ -16,7 +16,7 @@
     <button mat-icon-button style="float: left !important;" (click)="goToViewWeek(board.Id)" matTooltip="View week">
       <mat-icon color="primary">view_week</mat-icon>
     </button>
-    <button mat-icon-button style="float: left !important;" (click)="goToStats(board.Id)" matTooltip="Statistics">
+    <button mat-icon-button style="float: left !important;" *ngIf="numberOfTickets != 0" (click)="goToStats(board.Id)" matTooltip="Statistics">
       <mat-icon color="primary">analytics</mat-icon>
     </button>
     <button mat-icon-button *ngIf="isAdmin" (click)="onBoardDelete(board.Id, board.Name)" matTooltip="Delete">
