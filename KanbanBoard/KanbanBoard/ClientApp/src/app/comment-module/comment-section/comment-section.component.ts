@@ -5,6 +5,10 @@ import { CommentService } from "../../shared/services/comment/comment.service";
 import { FormBuilder, Validators } from "@angular/forms";
 import { AuthService } from "../../shared/auth/auth.service";
 import { SnackBarService } from "../../shared/snack-bar.service";
+import { HelperService } from "../../shared/helpers/helper.service";
+import { UserService } from "../../shared/services/user/user.service";
+import { TicketService } from "../../shared/services/ticket/ticket.service";
+import { Ticket } from "../../shared/services/ticket/ticket.model";
 
 @Component({
   selector: 'app-comment-section',
@@ -16,16 +20,21 @@ export class CommentSectionComponent implements OnInit {
   public comments: Comment[] = [];
   public commentForm;
   public commentClicked: boolean = false;
+  private ticket: Ticket;
 
   constructor(private route: ActivatedRoute,
               private commentService: CommentService,
               private formBuilder: FormBuilder,
               private authService: AuthService,
-              private snackBarService: SnackBarService) { }
+              private snackBarService: SnackBarService,
+              private helperService: HelperService,
+              private userService: UserService,
+              private ticketService: TicketService) { }
 
   ngOnInit() {
     this.route.params.subscribe((params: Params) => {
       this.ticketId = +params['id'];
+      this.ticketService.getTicket(this.ticketId).subscribe(ticket => this.ticket = ticket);
     });
     this.loadComments();
     this.commentForm = this.formBuilder.group({
@@ -43,6 +52,17 @@ export class CommentSectionComponent implements OnInit {
         this.snackBarService.successful();
         this.commentForm.reset();
         this.loadComments();
+        this.userService.getUsers().subscribe(users => {
+          let creator = users.find(x => x.Username == this.ticket.Creator);
+          let assignedTo = users.find(x => x.Id == this.ticket.AssignedTo);
+          console.log(comment.UserId, creator.Id, assignedTo.Id);
+          if (comment.UserId != creator.Id) {
+            this.helperService.listenOnComment(assignedTo, this.ticketId, this.ticket.Title, comment.Text);
+          }
+          if (creator.Id != assignedTo.Id && comment.UserId != assignedTo.Id) {
+            this.helperService.listenOnCommentMine(creator, this.ticketId, this.ticket.Title, comment.Text);
+          }
+        });
       } else {
         this.snackBarService.unsuccessful();
       }

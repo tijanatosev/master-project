@@ -79,10 +79,22 @@ export class StatisticsComponent implements OnInit {
   public completedStatsData: number[] = [];
   public colorsForPieChart = [
     {
-      backgroundColor: ['rgba(255,0,0,0.3)', 'rgba(0,255,0,0.3)', 'rgba(0,0,255,0.3)'],
-    },
+      backgroundColor: ['rgb(255,221,0)', 'rgb(22,187,30)', 'rgb(22,130,253)'],
+    }
   ];
-  public completedStatsLabels: Label[] = ["Completed on time", "Completed early", "Completed late"];
+  public completedStatsLabels: Label[] = ["Completed early", "Completed on time", "Completed late"];
+  public ticketsPerStatusColors = [];
+  public ticketsPerLabelColors = [];
+  public burnUpColors = [
+    {
+      backgroundColor: 'rgba(255,0,0,0.3)',
+      borderColor: 'red',
+      pointBackgroundColor: 'rgba(255,0,0,0.3)',
+      pointBorderColor: '#fff',
+      pointHoverBackgroundColor: '#fff',
+      pointHoverBorderColor: 'rgba(148,159,177,0.8)'
+    }
+  ]
 
   constructor(private route: ActivatedRoute,
               private columnService: ColumnService,
@@ -97,18 +109,28 @@ export class StatisticsComponent implements OnInit {
 
     this.boardService.getNumberOfTicketsPerColumn(this.boardId).subscribe(values => {
       this.columnService.getColumnsByBoardId(this.boardId).subscribe(columns => {
+        let colors = [];
         columns.forEach(column => {
           this.ticketsPerColumnLabels.push(column.Name);
           this.ticketsPerColumnData[0].data.push(values[column.Name]);
+          colors.push("#c61dc9");
+        });
+        this.ticketsPerStatusColors.push({
+          backgroundColor: colors
         });
       });
     });
 
     this.boardService.getNumberOfTicketsPerLabel(this.boardId).subscribe(values => {
       this.labelService.getLabelsByBoardId(this.boardId).subscribe(labels => {
+        let colors = [];
         labels.forEach(label => {
           this.ticketsPerLabelLabels.push(label.Name);
           this.ticketsPerLabelData[0].data.push(values[label.Name]);
+          colors.push(label.Color);
+        });
+        this.ticketsPerLabelColors.push({
+          backgroundColor: colors
         });
       });
     });
