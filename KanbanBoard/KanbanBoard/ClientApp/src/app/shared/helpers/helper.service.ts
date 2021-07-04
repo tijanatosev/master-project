@@ -76,9 +76,9 @@ export class HelperService {
     });
   }
 
-  listenOnChangeMine(changeCondition: boolean, type: ChangeType, creator: User, ticketId: number, ticketTitle: string) {
+  listenOnChangeMine(type: ChangeType, creator: User, ticketId: number, ticketTitle: string) {
     this.notificationService.getNotificationByUserId(creator.Id).subscribe(notification => {
-      if (notification && notification.OnChangeMine && changeCondition) {
+      if (notification && notification.OnChangeMine) {
         let email = new Email();
         email.To = creator.Email;
         email.Cc = "";
@@ -89,9 +89,9 @@ export class HelperService {
     });
   }
 
-  listenOnChange(changeCondition: boolean, type: ChangeType, assignedToUser: User, ticketId: number, ticketTitle: string) {
+  listenOnChange(type: ChangeType, assignedToUser: User, ticketId: number, ticketTitle: string) {
     this.notificationService.getNotificationByUserId(assignedToUser.Id).subscribe(notification => {
-      if (notification && notification.OnChange && changeCondition) {
+      if (notification && notification.OnChange) {
         let email = new Email();
         email.To = assignedToUser.Email;
         email.Cc = "";
