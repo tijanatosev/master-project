@@ -35,10 +35,13 @@ code {
 }
 
 .cal-today {
-  background-color: #3F51B5 !important;
+  background-color: #757575 !important;
   color: white !important;
 }
 
+.cal-event-action {
+  color: white !important;
+}
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

@@ -64,32 +64,12 @@
   </div>
 </div>
 <br>
-<app-single-view-week [events]="events" [viewDate]="viewDate" [refresh]="refresh"></app-single-view-week>
-<!--<mwl-calendar-week-view-->
-<!--  [viewDate]="viewDate"-->
-<!--  [events]="events"-->
-<!--  [refresh]="refresh"-->
-<!--  [hourSegments]="0"-->
-<!--  [currentTimeMarkerTemplate]="currentTimeMarkerTemplate">-->
-<!--</mwl-calendar-week-view>-->
-<!--<mwl-calendar-week-view-->
-<!--  [viewDate]="viewDate"-->
-<!--  [events]="events"-->
-<!--  [refresh]="refresh"-->
-<!--  [hourSegments]="0"-->
-<!--  [currentTimeMarkerTemplate]="currentTimeMarkerTemplate">-->
-<!--</mwl-calendar-week-view>-->
-<!--<mwl-calendar-week-view-->
-<!--  [viewDate]="viewDate"-->
-<!--  [events]="events"-->
-<!--  [refresh]="refresh"-->
-<!--  [hourSegments]="0"-->
-<!--  [currentTimeMarkerTemplate]="currentTimeMarkerTemplate">-->
-<!--</mwl-calendar-week-view>-->
-
-
-
-<!--<ng-template #currentTimeMarkerTemplate let-columnDate="columnDate" let-dayStartHour="dayStartHour" let-dayStartMinute="dayStartMinute" let-dayEndHour="dayEndHour"-->
-<!--             let-dayEndMinute="dayEndMinute" let-isVisible="isVisible" let-topPx="topPx">-->
-<!--  <div class="cal-current-time-marker" *ngIf="false" [style.top.px]="topPx"></div>-->
-<!--</ng-template>-->
+<app-single-view-week *ngIf="firstBoardId != 0" [boardId]="firstBoardId" [viewDate]="viewDate" [refresh]="refresh"
+                      [usePriorityColors]="false" [primaryColor]="primaryColorFirstBoard" [secondaryColor]="secondaryColorFirstBoard"></app-single-view-week>
+<br>
+<app-single-view-week *ngIf="secondBoardId != 0" [boardId]="secondBoardId" [viewDate]="viewDate" [refresh]="refresh"
+                      [usePriorityColors]="false" [primaryColor]="primaryColorSecondBoard" [secondaryColor]="secondaryColorSecondBoard"></app-single-view-week>
+<br>
+<app-single-view-week *ngIf="thirdBoardId != 0" [boardId]="thirdBoardId" [viewDate]="viewDate" [refresh]="refresh"
+                      [usePriorityColors]="false" [primaryColor]="primaryColorThirdBoard" [secondaryColor]="secondaryColorThirdBoard"></app-single-view-week>
+<br>

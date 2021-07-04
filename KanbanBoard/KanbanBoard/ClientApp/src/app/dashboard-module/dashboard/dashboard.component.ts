@@ -125,4 +125,7 @@ export class DashboardComponent implements OnInit {
     this.router.navigate(['board', id]);
   }
 
+  public goToTeam(id) {
+    this.router.navigate(['team', id]);
+  }
 }

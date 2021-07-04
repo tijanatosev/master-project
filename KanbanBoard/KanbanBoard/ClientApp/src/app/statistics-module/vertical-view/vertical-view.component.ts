@@ -3,7 +3,6 @@ import { AbstractControl, FormBuilder } from "@angular/forms";
 import { BoardService } from "../../shared/services/board/board.service";
 import { Board } from "../../shared/services/board/board.model";
 import { CalendarView } from "angular-calendar";
-import { CalendarEvent } from "calendar-utils";
 import { Subject } from "rxjs";
 
 @Component({
@@ -19,8 +18,16 @@ export class VerticalViewComponent implements OnInit {
   public locale: string = 'en';
   @Output() viewChange: EventEmitter<string> = new EventEmitter();
   @Output() viewDateChange: EventEmitter<Date> = new EventEmitter();
-  public events: CalendarEvent[] = [];
+  public firstBoardId: number = 0;
+  public secondBoardId: number = 0;
+  public thirdBoardId: number = 0;
   public refresh: Subject<any> = new Subject();
+  public primaryColorFirstBoard: string = "LightCoral";
+  public secondaryColorFirstBoard: string = "LightCoral";
+  public primaryColorSecondBoard: string = "Teal";
+  public secondaryColorSecondBoard: string = "Teal";
+  public primaryColorThirdBoard: string = "SeaGreen";
+  public secondaryColorThirdBoard: string = "SeaGreen";
 
   constructor(private formBuilder: FormBuilder,
               private boardService: BoardService) { }
@@ -39,6 +46,9 @@ export class VerticalViewComponent implements OnInit {
   }
 
   public showVerticalView(data) {
+    this.firstBoardId = data.value.firstBoard != null ? data.value.firstBoard : 0;
+    this.secondBoardId = data.value.secondBoard != null ? data.value.secondBoard : 0;
+    this.thirdBoardId = data.value.thirdBoard != null ? data.value.thirdBoard : 0;
   }
 
   private validateSelectedBoards() {
