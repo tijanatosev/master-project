@@ -27,11 +27,11 @@ export class TicketService extends BaseService{
       .pipe(map(response => response.body));
   }
 
-  public deleteTicket(id) : Observable<any> {
+  public deleteTicket(id) {
     return this.http.delete(`${this.ticketsUrl()}/${id}`);
   }
 
-  public getTicketsByUserId(userId): Observable<Ticket[]> {
+  public getTicketsByUserId(userId) {
     return this.http.get<Ticket[]>(`${this.ticketsUrl()}/assigned/${userId}`);
   }
 
@@ -101,5 +101,18 @@ export class TicketService extends BaseService{
 
   public getRankForColumn(columnId, boardId) {
     return this.http.get<number>(`${this.ticketsUrl()}/${columnId}/rank/${boardId}`);
+  }
+
+  public getDependency(id) {
+    return this.http.get<Ticket[]>(`${this.ticketsUrl()}/${id}/dependency`);
+  }
+
+  public addDependency(id, dependencyId) {
+    return this.http.post(`${this.ticketsUrl()}/${id}/dependency`, dependencyId, { observe: "response" })
+      .pipe(map(response => response.body));
+  }
+
+  public deleteDependency(id, dependencyId) {
+    return this.http.delete(`${this.ticketsUrl()}/${id}/dependency/${dependencyId}`);
   }
 }

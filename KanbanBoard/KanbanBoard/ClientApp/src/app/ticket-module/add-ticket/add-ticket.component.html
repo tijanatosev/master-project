@@ -1,6 +1,6 @@
 <h5 style="color: #3F51B5;">Create ticket</h5>
 <mat-dialog-content>
-  <ng-form [formGroup]="ticketForm">
+  <form [formGroup]="ticketForm">
     <mat-form-field appearance="outline">
       <mat-label>Title</mat-label>
       <input matInput placeholder="Insert title" formControlName="title">
@@ -84,7 +84,7 @@
         </mat-form-field>
       </div>
     </div>
-  </ng-form>
+  </form>
 </mat-dialog-content>
 <mat-dialog-actions align="center">
   <button mat-raised-button type="submit" color="primary" [mat-dialog-close]="true" [disabled]="!ticketForm.valid" (click)="save(ticketForm)">Save</button>

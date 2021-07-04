@@ -1,8 +1,3 @@
-<ng-template #currentTimeMarkerTemplate let-columnDate="columnDate" let-dayStartHour="dayStartHour" let-dayStartMinute="dayStartMinute" let-dayEndHour="dayEndHour"
-             let-dayEndMinute="dayEndMinute" let-isVisible="isVisible" let-topPx="topPx">
-  <div class="cal-current-time-marker" *ngIf="false" [style.top.px]="topPx"></div>
-</ng-template>
-
 <div class="row text-center">
   <div class="col-md-4">
     <button mat-raised-button color="primary" mwlCalendarPreviousView [view]="view" [(viewDate)]="viewDate" (viewDateChange)="viewDateChange.next(viewDate)">
@@ -22,11 +17,4 @@
   </div>
 </div>
 <br>
-<mwl-calendar-week-view
-  [viewDate]="viewDate"
-  [events]="events"
-  [refresh]="refresh"
-  [hourSegments]="0"
-  [currentTimeMarkerTemplate]="currentTimeMarkerTemplate"
-  (eventTimesChanged)="eventTimesChanged($event)">
-</mwl-calendar-week-view>
+<app-single-view-week [boardId]="boardId" [viewDate]="viewDate" [refresh]="refresh" [usePriorityColors]="true" [primaryColor]="null" [secondaryColor]="null"></app-single-view-week>

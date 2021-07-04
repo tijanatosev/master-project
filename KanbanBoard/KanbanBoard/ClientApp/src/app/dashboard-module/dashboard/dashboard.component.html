@@ -26,7 +26,7 @@
     </span>
     <div class="row row-cols-2">
       <div class="col-2 team-card-column my-3 mr-3 ml-3" *ngFor="let team of teams">
-        <app-team-card [team]="team" [isAdmin]="isAdmin" (teamDelete)="onTeamDelete($event)"></app-team-card>
+        <app-team-card [team]="team" [isAdmin]="isAdmin" (teamDelete)="onTeamDelete($event)" (click)="goToTeam(team.Id)"></app-team-card>
       </div>
     </div>
   </div>
