@@ -268,8 +268,8 @@ WHERE Id=@Id";
         {
             List<Ticket> tickets = new List<Ticket>();
             DataTable result = dbCommands.ExecuteSqlQuery(@"SELECT t.Id, t.Title, t.Description, t.Creator, t.StoryPoints, t.Status, t.DateCreated, t.AssignedTo, t.StartDate, t.EndDate, t.Rank, t.Priority, t.BoardId, t.ColumnId, t.CompletedAt 
-FROM Tickets t JOIN TicketsDependencies td ON t.Id=td.TicketId 
-WHERE td.DependencyId=@TicketId", new SqlParameter("@TicketId", id)).Tables["Result"];
+FROM Tickets t JOIN TicketsDependencies td ON t.Id=td.DependencyId 
+WHERE td.TicketId=@TicketId", new SqlParameter("@TicketId", id)).Tables["Result"];
             if (result.Rows.Count != 0)
             {
                 foreach (DataRow row in result.Rows)
@@ -283,7 +283,7 @@ WHERE td.DependencyId=@TicketId", new SqlParameter("@TicketId", id)).Tables["Res
         public int AddDependency(int id, int dependencyId)
         {
             string sqlQuery = @"INSERT INTO TicketsDependencies (TicketId, DependencyId)
-INSERTED OUTPUT.ID
+OUTPUT INSERTED.ID
 VALUES (@TicketId, @DependencyId)";
             return dbCommands.ExecuteScalar(sqlQuery, new SqlParameter("@TicketId", id), new SqlParameter("@DependencyId", dependencyId));
         }
