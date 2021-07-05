@@ -76,27 +76,27 @@ export class HelperService {
     });
   }
 
-  listenOnChangeMine(type: ChangeType, creator: User, ticketId: number, ticketTitle: string) {
+  listenOnChangeMine(type: ChangeType, creator: User, ticketId: number, ticketTitle: string, previousValue: string, newValue: string) {
     this.notificationService.getNotificationByUserId(creator.Id).subscribe(notification => {
       if (notification && notification.OnChangeMine) {
         let email = new Email();
         email.To = creator.Email;
         email.Cc = "";
         email.Subject = this.createTitle(ticketId, ticketTitle);
-        email.Content = 'User <b>' + this.user + '</b> changed ' + ChangeType[type] + ' @<i>' + this.getTime() + '</i>.';
+        email.Content = this.createContentChange(type, previousValue, newValue);
         this.mailService.sendMail(email).subscribe();
       }
     });
   }
 
-  listenOnChange(type: ChangeType, assignedToUser: User, ticketId: number, ticketTitle: string) {
+  listenOnChange(type: ChangeType, assignedToUser: User, ticketId: number, ticketTitle: string, previousValue: string, newValue: string) {
     this.notificationService.getNotificationByUserId(assignedToUser.Id).subscribe(notification => {
       if (notification && notification.OnChange) {
         let email = new Email();
         email.To = assignedToUser.Email;
         email.Cc = "";
         email.Subject = this.createTitle(ticketId, ticketTitle);
-        email.Content = 'User <b>' + this.user + '</b> changed ' + ChangeType[type] + ' @<i>' + this.getTime() + '</i>.';
+        email.Content = this.createContentChange(type, previousValue, newValue);
         this.mailService.sendMail(email).subscribe();
       }
     });
@@ -122,5 +122,12 @@ export class HelperService {
 
   private createContentComment(ticketTitle, commentText) {
     return 'User <b>' + this.user + '</b> commented on ticket <b>' + ticketTitle + '</b> <i>@' + this.getTime() + '</i>: \n\n <b><pre>' + commentText + '</pre></b>';
+  }
+
+  private createContentChange(changeType, previousValue, newValue) {
+    if (changeType == ChangeType.Title || changeType == ChangeType.Description) {
+      return 'User <b>' + this.user + '</b> changed ' + ChangeType[changeType] + ' from <pre>' + previousValue + '</pre> to <pre>' + newValue + '</pre> @<i>' + this.getTime() + '</i>.';
+    }
+    return 'User <b>' + this.user + '</b> changed ' + ChangeType[changeType] + ' @<i>' + this.getTime() + '</i>.';
   }
 }

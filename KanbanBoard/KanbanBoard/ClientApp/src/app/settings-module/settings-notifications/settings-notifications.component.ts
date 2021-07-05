@@ -51,6 +51,7 @@ export class SettingsNotificationsComponent implements OnInit {
   save(data) {
     this.notification = new Notification();
     this.notification.OnChange = data.value.onChange;
+    this.notification.OnChangeMine = data.value.onChangeMine;
     this.notification.OnComment = data.value.onComment;
     this.notification.OnCommentMine = data.value.onCommentMine;
     this.notification.OnStatusChange = data.value.onStatusChange;
