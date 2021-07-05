@@ -143,9 +143,9 @@ export class ViewTicketComponent implements OnInit {
         this.labelService.addLabelByTicketId(label, this.ticketId).subscribe(x => {
           if (x > 0) {
             this.loadLabels();
-            this.helperService.listenOnChangeMine(ChangeType.Labels, this.creator, this.ticketId, this.ticket.Title);
+            this.helperService.listenOnChangeMine(ChangeType.Labels, this.creator, this.ticketId, this.ticket.Title, "", "");
             if (this.assignedTo.Id != this.creator.Id) {
-              this.helperService.listenOnChange(ChangeType.Labels, this.assignedTo, this.ticketId, this.ticket.Title);
+              this.helperService.listenOnChange(ChangeType.Labels, this.assignedTo, this.ticketId, this.ticket.Title, "", "");
             }
           }
         });
@@ -167,9 +167,9 @@ export class ViewTicketComponent implements OnInit {
     this.labelService.addLabelByTicketId(event.option.value, this.ticketId).subscribe(x => {
       if (x > 0) {
         this.loadLabels();
-        this.helperService.listenOnChangeMine(ChangeType.Labels, this.creator, this.ticketId, this.ticket.Title);
+        this.helperService.listenOnChangeMine(ChangeType.Labels, this.creator, this.ticketId, this.ticket.Title, "", "");
         if (this.assignedTo.Id != this.creator.Id) {
-          this.helperService.listenOnChange(ChangeType.Labels, this.assignedTo, this.ticketId, this.ticket.Title);
+          this.helperService.listenOnChange(ChangeType.Labels, this.assignedTo, this.ticketId, this.ticket.Title, "", "");
         }
       }
     });
@@ -181,9 +181,9 @@ export class ViewTicketComponent implements OnInit {
     if (index >= 0) {
       this.labelService.deleteByTicketId(label.Id, this.ticketId).subscribe(x => {
         this.loadLabels();
-        this.helperService.listenOnChangeMine(ChangeType.Labels, this.creator, this.ticketId, this.ticket.Title);
+        this.helperService.listenOnChangeMine(ChangeType.Labels, this.creator, this.ticketId, this.ticket.Title, "", "");
         if (this.assignedTo.Id != this.creator.Id) {
-          this.helperService.listenOnChange(ChangeType.Labels, this.assignedTo, this.ticketId, this.ticket.Title);
+          this.helperService.listenOnChange(ChangeType.Labels, this.assignedTo, this.ticketId, this.ticket.Title, "", "");
         }
       });
     }
@@ -212,9 +212,9 @@ export class ViewTicketComponent implements OnInit {
       if (result != Responses.Successful) {
         this.snackBarService.unsuccessful();
       } else {
-        this.helperService.listenOnChangeMine(ChangeType.AssignedTo, this.creator, this.ticketId, this.ticket.Title);
+        this.helperService.listenOnChangeMine(ChangeType.AssignedTo, this.creator, this.ticketId, this.ticket.Title, "", "");
         if (this.assignedTo.Id != this.creator.Id) {
-          this.helperService.listenOnChange(ChangeType.AssignedTo, this.assignedTo, this.ticketId, this.ticket.Title);
+          this.helperService.listenOnChange(ChangeType.AssignedTo, this.assignedTo, this.ticketId, this.ticket.Title, "", "");
         }
       }
     });
@@ -226,9 +226,9 @@ export class ViewTicketComponent implements OnInit {
         this.snackBarService.unsuccessful();
       } else {
         this.ticket.StartDate = event.value;
-        this.helperService.listenOnChangeMine(ChangeType.StartDate, this.creator, this.ticketId, this.ticket.Title);
+        this.helperService.listenOnChangeMine(ChangeType.StartDate, this.creator, this.ticketId, this.ticket.Title, "", "");
         if (this.assignedTo.Id != this.creator.Id) {
-          this.helperService.listenOnChange(ChangeType.StartDate, this.assignedTo, this.ticketId, this.ticket.Title);
+          this.helperService.listenOnChange(ChangeType.StartDate, this.assignedTo, this.ticketId, this.ticket.Title, "", "");
         }
       }
     });
@@ -240,9 +240,9 @@ export class ViewTicketComponent implements OnInit {
         this.snackBarService.unsuccessful();
       } else {
         this.ticket.EndDate = event.value;
-        this.helperService.listenOnChangeMine(ChangeType.EndDate, this.creator, this.ticketId, this.ticket.Title);
+        this.helperService.listenOnChangeMine(ChangeType.EndDate, this.creator, this.ticketId, this.ticket.Title, "", "");
         if (this.assignedTo.Id != this.creator.Id) {
-          this.helperService.listenOnChange(ChangeType.EndDate, this.assignedTo, this.ticketId, this.ticket.Title);
+          this.helperService.listenOnChange(ChangeType.EndDate, this.assignedTo, this.ticketId, this.ticket.Title, "", "");
         }
       }
     });
@@ -253,9 +253,9 @@ export class ViewTicketComponent implements OnInit {
       if (result != Responses.Successful) {
         this.snackBarService.unsuccessful();
       } else {
-        this.helperService.listenOnChangeMine(ChangeType.StoryPoints, this.creator, this.ticketId, this.ticket.Title);
+        this.helperService.listenOnChangeMine(ChangeType.StoryPoints, this.creator, this.ticketId, this.ticket.Title, "", "");
         if (this.assignedTo.Id != this.creator.Id) {
-          this.helperService.listenOnChange(ChangeType.StoryPoints, this.assignedTo, this.ticketId, this.ticket.Title);
+          this.helperService.listenOnChange(ChangeType.StoryPoints, this.assignedTo, this.ticketId, this.ticket.Title, "", "");
         }
       }
     });
@@ -266,9 +266,9 @@ export class ViewTicketComponent implements OnInit {
       if (result != Responses.Successful) {
         this.snackBarService.unsuccessful();
       } else {
-        this.helperService.listenOnChangeMine(ChangeType.Priority, this.creator, this.ticketId, this.ticket.Title);
+        this.helperService.listenOnChangeMine(ChangeType.Priority, this.creator, this.ticketId, this.ticket.Title, "", "");
         if (this.assignedTo.Id != this.creator.Id) {
-          this.helperService.listenOnChange(ChangeType.Priority, this.assignedTo, this.ticketId, this.ticket.Title);
+          this.helperService.listenOnChange(ChangeType.Priority, this.assignedTo, this.ticketId, this.ticket.Title, "", "");
         }
       }
     });
@@ -289,9 +289,9 @@ export class ViewTicketComponent implements OnInit {
       } else {
         let previousTitle = this.ticket.Title;
         this.ticket.Title = data.value.title.trim();
-        this.helperService.listenOnChangeMine(ChangeType.Title, this.creator, this.ticketId, this.ticket.Title);
+        this.helperService.listenOnChangeMine(ChangeType.Title, this.creator, this.ticketId, this.ticket.Title, previousTitle, this.ticket.Title);
         if (this.assignedTo.Id != this.creator.Id) {
-          this.helperService.listenOnChange(ChangeType.Title, this.assignedTo, this.ticketId, this.ticket.Title);
+          this.helperService.listenOnChange(ChangeType.Title, this.assignedTo, this.ticketId, this.ticket.Title, previousTitle, this.ticket.Title);
         }
       }
     });
@@ -318,9 +318,9 @@ export class ViewTicketComponent implements OnInit {
       } else {
         let previousDescription = this.ticket.Description;
         this.ticket.Description = data.value.description;
-        this.helperService.listenOnChangeMine(ChangeType.Description, this.creator, this.ticketId, this.ticket.Title);
+        this.helperService.listenOnChangeMine(ChangeType.Description, this.creator, this.ticketId, this.ticket.Title, previousDescription, this.ticket.Description);
         if (this.assignedTo.Id != this.creator.Id) {
-          this.helperService.listenOnChange(ChangeType.Description, this.assignedTo, this.ticketId, this.ticket.Title);
+          this.helperService.listenOnChange(ChangeType.Description, this.assignedTo, this.ticketId, this.ticket.Title, previousDescription, this.ticket.Description);
         }
       }
     });
