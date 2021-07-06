@@ -67,3 +67,7 @@ mat-form-field {
 .title-bold {
   font-weight: bold;
 }
+
+.dependencies {
+  margin: 2px 2px 2px 2px;
+}
