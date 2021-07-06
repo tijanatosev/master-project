@@ -6,7 +6,7 @@
           <div *ngIf="dependentOn.length != 0">
             <span><b>Dependending on:</b></span>&nbsp;
             <mat-chip *ngFor="let dependency of dependentOn" [selectable]="false" [removable]="true" (removed)="removeDependency(dependency)" class="mat-small-chip dependencies">
-              {{ dependency.Title }}<mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+              {{ dependency.Title }}<mat-icon matChipRemove>cancel</mat-icon>
             </mat-chip>
           </div>
           <mat-divider *ngIf="dependentOn.length != 0"></mat-divider>
@@ -29,8 +29,8 @@
             </button>
           </form>
           <mat-divider></mat-divider>
-          <mat-form-field style="padding-top: 0;">
-            <h6>Labels</h6>
+          <h6>Labels</h6>
+          <mat-form-field floatLabel="never">
             <mat-chip-list #chipList>
               <mat-chip
                 *ngFor="let label of labels"
@@ -40,10 +40,11 @@
                 (removed)="removeLabel(label)"
                 class="mat-small-chip">
                 {{ label.Name }}
-                <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+                <mat-icon matChipRemove>cancel</mat-icon>
               </mat-chip>
               <input
                 #labelInput
+                placeholder="Choose labels"
                 [formControl]="labelControl"
                 [matAutocomplete]="auto"
                 [matChipInputFor]="chipList"
