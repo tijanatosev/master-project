@@ -3,15 +3,23 @@
     <mat-card-content *ngIf="ticket">
       <div class="row">
         <div class="col">
+          <div *ngIf="dependentOn.length != 0">
+            <span><b>Dependending on:</b></span>&nbsp;
+            <mat-chip *ngFor="let dependency of dependentOn" [selectable]="false" [removable]="true" (removed)="removeDependency(dependency)" class="mat-small-chip dependencies">
+              {{ dependency.Title }}<mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+            </mat-chip>
+          </div>
+          <mat-divider *ngIf="dependentOn.length != 0"></mat-divider>
+          <br *ngIf="dependentOn.length != 0">
           <form [formGroup]="titleForm">
+            <h6>Title</h6>
             <textarea matInput
                       formControlName="title"
                       (click)="titleClicked = true"
                       [ngClass]="{ title: titleClicked == true }"
                       cdkTextareaAutosize="true"
                       cdkAutosizeMinRows="2"
-                      cdkAutosizeMaxRows="4"
-                      class="title-bold">
+                      cdkAutosizeMaxRows="4">
             </textarea>
             <button mat-icon-button color="primary" *ngIf="titleClicked" (click)="saveTitle(titleForm)">
               <mat-icon>check</mat-icon>
@@ -20,7 +28,9 @@
               <mat-icon>close</mat-icon>
             </button>
           </form>
+          <mat-divider></mat-divider>
           <mat-form-field style="padding-top: 0;">
+            <h6>Labels</h6>
             <mat-chip-list #chipList>
               <mat-chip
                 *ngFor="let label of labels"
@@ -40,15 +50,15 @@
                 [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
                 (matChipInputTokenEnd)="addLabel($event)">
             </mat-chip-list>
-            <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+            <mat-autocomplete #auto="matAutocomplete" (optionSelected)="labelSelected($event)">
               <mat-option *ngFor="let label of filteredLabels | async" [value]="label" [style.color]="label.Color">
                 {{ label.Name }}
               </mat-option>
             </mat-autocomplete>
           </mat-form-field>
           <mat-divider></mat-divider>
-          <h6>Description</h6>
           <form [formGroup]="descriptionForm">
+            <h6>Description</h6>
             <textarea matInput
                       formControlName="description"
                       (click)="descriptionClicked = true"
@@ -117,6 +127,14 @@
           <mat-select [(value)]="ticket.AssignedTo" (selectionChange)="updateAssignedTo($event)">
             <mat-option *ngFor="let member of members" [value]="member.Id">
               &nbsp;{{ member.FirstName }} {{ member.LastName }}
+            </mat-option>
+          </mat-select>
+
+          <mat-label class="title-label">Dependency on:</mat-label>
+          <br>
+          <mat-select [(value)]="dependentOn" [compareWith]="compareSelectedDependentOn" multiple>
+            <mat-option *ngFor="let ticket of ticketsForDependencies" [value]="ticket" (onSelectionChange)="onSelectionChange($event)">
+              &nbsp;{{ ticket.Title }}
             </mat-option>
           </mat-select>
 

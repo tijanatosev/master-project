@@ -58,6 +58,8 @@ export class ViewTicketComponent implements OnInit {
   public startStopTimer: boolean = false;
   public isPomodoro: boolean = false;
   private board: Board;
+  public dependentOn: Ticket[] = [];
+  public ticketsForDependencies: Ticket[] = [];
 
   @ViewChild("labelInput", { static: true }) fruitInput: ElementRef<HTMLInputElement>;
   @ViewChild("auto", { static: true }) matAutocomplete: MatAutocomplete;
@@ -108,6 +110,12 @@ export class ViewTicketComponent implements OnInit {
           }
         });
       });
+      this.ticketService.getTicketsByBoardId(this.ticket.BoardId).subscribe(tickets => {
+        this.ticketsForDependencies = tickets.filter(t => t.Id != this.ticketId);
+      });
+      this.ticketService.getDependency(this.ticketId).subscribe(tickets => {
+        this.dependentOn = tickets;
+      });
     });
     this.loadLabels();
     this.timerService.showTimer.subscribe(value => {
@@ -117,19 +125,29 @@ export class ViewTicketComponent implements OnInit {
     });
   }
 
-  private loadLabels() {
-    this.labelService.getLabelsByTicketId(this.ticketId).subscribe(labels => this.labels = labels);
-    this.labelService.getLabels().subscribe(labels => {
-      this.allLabels = labels;
-      this.labels.forEach(label => {
-        let index = this.allLabels.findIndex(x => x.Id == label.Id);
-        if (index >= 0) {
-          this.allLabels.splice(index, 1)
-        }
-      });
-      this.filteredLabels = this.labelControl.valueChanges.pipe(
-        startWith(null),
-        map((label: Label | null) => label ? this._filter(label) : this.allLabels.slice()));
+  public compareSelectedDependentOn(ticket1: Ticket, ticket2: Ticket) {
+    return ticket1.Id == ticket2.Id;
+  }
+
+  public onSelectionChange(data) {
+    let isUserInput = data.isUserInput;
+    let changedOption = data.source;
+    if (isUserInput) {
+      if (changedOption._selected == true) {
+        this.ticketService.addDependency(this.ticketId,changedOption.value.Id).subscribe(result => {
+          if (result < 0) {
+            this.snackBarService.unsuccessful();
+          }
+        });
+      } else {
+        this.ticketService.deleteDependency(this.ticketId, changedOption.value.Id).subscribe();
+      }
+    }
+  }
+
+  public removeDependency(data) {
+    this.ticketService.deleteDependency(this.ticketId, data.Id).subscribe(result => {
+      this.dependentOn = this.dependentOn.filter(t => t.Id != data.Id);
     });
   }
 
@@ -158,7 +176,7 @@ export class ViewTicketComponent implements OnInit {
     this.labelControl.setValue(null);
   }
 
-  public selected(event: MatAutocompleteSelectedEvent) {
+  public labelSelected(event: MatAutocompleteSelectedEvent) {
     let index = this.labels.findIndex(x => x.Id == event.option.value.Id);
     if (index >= 0) {
       return;
@@ -367,6 +385,22 @@ export class ViewTicketComponent implements OnInit {
   private initDescriptionForm() {
     this.descriptionForm = this.formBuilder.group({
       description: [this.ticket.Description]
+    });
+  }
+
+  private loadLabels() {
+    this.labelService.getLabelsByTicketId(this.ticketId).subscribe(labels => this.labels = labels);
+    this.labelService.getLabels().subscribe(labels => {
+      this.allLabels = labels;
+      this.labels.forEach(label => {
+        let index = this.allLabels.findIndex(x => x.Id == label.Id);
+        if (index >= 0) {
+          this.allLabels.splice(index, 1)
+        }
+      });
+      this.filteredLabels = this.labelControl.valueChanges.pipe(
+        startWith(null),
+        map((label: Label | null) => label ? this._filter(label) : this.allLabels.slice()));
     });
   }
 }
