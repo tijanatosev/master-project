@@ -98,6 +98,6 @@ export class TimerComponent implements OnInit, OnDestroy {
   }
 
   public showTimerOptions() {
-    this.router.navigate(["ticket", this.timer.ticketId])
+    this.router.navigate(["task", this.timer.ticketId])
   }
 }

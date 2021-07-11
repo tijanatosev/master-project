@@ -97,7 +97,7 @@ const routes = [
   { path: 'settings/:id', component: SettingsComponent, canActivate: [AuthGuard] },
   { path: 'profile/:id', component: ProfileComponent, canActivate: [AuthGuard] },
   { path: 'team/:id', component: TeamComponent, canActivate: [AuthGuard] },
-  { path: 'ticket/:id', component: ViewTicketComponent, canActivate: [AuthGuard] },
+  { path: 'task/:id', component: ViewTicketComponent, canActivate: [AuthGuard] },
   { path: 'board/:id', component: BoardComponent, canActivate: [AuthGuard] },
   { path: 'statistics/:id', component: StatisticsComponent, canActivate: [AuthGuard] },
   { path: 'weekView/:id', component: ViewWeekComponent, canActivate: [AuthGuard] },

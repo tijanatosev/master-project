@@ -14,7 +14,7 @@
   </mat-card>
 </div>
 <br>
-<h5>Boards</h5>
+<h5>Projects</h5>
 <div class="row mx-2 row-cols-2">
   <mat-card *ngFor="let board of boards" class="col-2 my-2 mr-2 ml-2" style="vertical-align: bottom">
     <mat-card-content>
@@ -28,7 +28,7 @@
   </mat-card>
 </div>
 <br>
-<h5>Tickets</h5>
+<h5>Tasks</h5>
 <div class="row mx-2">
   <mat-card class="col my-2 mr-2 ml-2">
     <app-tickets-datatable [user]="null" [team]="teamId" [favorites]="null"></app-tickets-datatable>

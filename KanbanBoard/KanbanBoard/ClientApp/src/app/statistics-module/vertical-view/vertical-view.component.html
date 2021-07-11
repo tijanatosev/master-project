@@ -1,7 +1,7 @@
 <div style="font-size: 13px;">
   <form [formGroup]="boardsForm">
     <mat-form-field appearance="outline">
-      <mat-label>First board</mat-label>
+      <mat-label>First project</mat-label>
       <mat-select formControlName="firstBoard">
         <mat-option [value]=""></mat-option>
         <mat-option *ngFor="let board of boards" [value]="board.Id">
@@ -11,7 +11,7 @@
     </mat-form-field>
 
     <mat-form-field appearance="outline">
-      <mat-label>Second board</mat-label>
+      <mat-label>Second project</mat-label>
       <mat-select formControlName="secondBoard">
         <mat-option [value]=""></mat-option>
         <mat-option *ngFor="let board of boards" [value]="board.Id">
@@ -21,7 +21,7 @@
     </mat-form-field>
 
     <mat-form-field appearance="outline">
-      <mat-label>Third board</mat-label>
+      <mat-label>Third project</mat-label>
       <mat-select formControlName="thirdBoard">
         <mat-option [value]=""></mat-option>
         <mat-option *ngFor="let board of boards" [value]="board.Id">
@@ -32,10 +32,10 @@
 
     <button mat-raised-button color="primary" (click)="showVerticalView(boardsForm)">Show</button>
     <mat-error *ngIf="boardsForm.get('secondBoard').errors && boardsForm.get('secondBoard').errors.selectedBoardsMustBeDifferent">
-      You must select different second board.
+      You must select different second project.
     </mat-error>
     <mat-error *ngIf="boardsForm.get('thirdBoard').errors && boardsForm.get('thirdBoard').errors.selectedBoardsMustBeDifferent">
-      You must select different third board.
+      You must select different third project.
     </mat-error>
   </form>
 </div>

@@ -1,24 +1,24 @@
 <div>
-  <h5>Notifications settings</h5>
+  <h5>Notification settings</h5>
   <mat-card>
     <mat-card-content>
       <form [formGroup]="notificationsForm">
-        <mat-slide-toggle color="primary" formControlName="onCommentMine">Email me when someone comments on my tickets</mat-slide-toggle>
+        <mat-slide-toggle color="primary" formControlName="onCommentMine">Email me when someone comments on my tasks</mat-slide-toggle>
         <br>
         <br>
-        <mat-slide-toggle color="primary" formControlName="onComment">Email me when someone comments on tickets assigned to me</mat-slide-toggle>
+        <mat-slide-toggle color="primary" formControlName="onComment">Email me when someone comments on tasks assigned to me</mat-slide-toggle>
         <br>
         <br>
-        <mat-slide-toggle color="primary" formControlName="onChangeMine">Email me when someone changes my tickets</mat-slide-toggle>
+        <mat-slide-toggle color="primary" formControlName="onChangeMine">Email me when someone changes my tasks</mat-slide-toggle>
         <br>
         <br>
-        <mat-slide-toggle color="primary" formControlName="onChange">Email me when someone changes tickets assigned to me</mat-slide-toggle>
+        <mat-slide-toggle color="primary" formControlName="onChange">Email me when someone changes tasks assigned to me</mat-slide-toggle>
         <br>
         <br>
-        <mat-slide-toggle color="primary" formControlName="onStatusChangeMine">Email me when my tickets change status</mat-slide-toggle>
+        <mat-slide-toggle color="primary" formControlName="onStatusChangeMine">Email me when my tasks change status</mat-slide-toggle>
         <br>
         <br>
-        <mat-slide-toggle color="primary" formControlName="onStatusChange">Email me when tickets assigned to me change status</mat-slide-toggle>
+        <mat-slide-toggle color="primary" formControlName="onStatusChange">Email me when tasks assigned to me change status</mat-slide-toggle>
         <br>
         <br>
         <button mat-raised-button color="primary" (click)="save(notificationsForm)">

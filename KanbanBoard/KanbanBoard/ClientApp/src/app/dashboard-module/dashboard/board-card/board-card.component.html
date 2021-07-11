@@ -8,7 +8,7 @@
     <span *ngIf="!progressExists && columnsExist">Please choose which column represents done column.</span>
     <span *ngIf="!columnsExist && !progressExists">Please create columns in Settings.</span>
     <br *ngIf="columnsExist">
-    <span *ngIf="columnsExist">Tickets: <b>{{ numberOfTickets }}</b></span>
+    <span *ngIf="columnsExist">Tasks: <b>{{ numberOfTickets }}</b></span>
   </mat-card-content>
   <mat-card-actions class="board-card-actions">
     <span style="font-size: 14px; padding-right: 10px;"><b>{{ team }}</b></span>
