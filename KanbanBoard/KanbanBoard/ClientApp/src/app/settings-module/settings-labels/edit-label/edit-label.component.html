@@ -1,0 +1,27 @@
+<h2 mat-dialog-title>Edit Label</h2>
+<mat-dialog-content class="mat-typography">
+  <form [formGroup]="labelForm">
+    <mat-form-field appearance="outline">
+      <mat-label>Name</mat-label>
+      <input matInput placeholder="Name" formControlName="name">
+    </mat-form-field>
+    <mat-error *ngIf="labelForm.get('name').errors && labelForm.get('name').errors.maxlength">
+      Name is too long. It should be 20 characters long.
+    </mat-error>
+    <mat-error *ngIf="labelForm.get('name').errors && labelForm.get('name').errors.nameInvalid">
+      Name can't be empty.
+    </mat-error>
+
+    <mat-form-field appearance="outline">
+      <mat-select placeholder="Choose color" formControlName="color">
+        <mat-option *ngFor="let value of colorsValues" [value]="colors[value]">
+          {{ value }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions align="center">
+  <button mat-raised-button color="primary" [mat-dialog-close]="true" type="submit" [disabled]="!labelForm.valid" (click)="save(labelForm)">Save</button>
+  <button mat-button mat-dialog-close>Cancel</button>
+</mat-dialog-actions>

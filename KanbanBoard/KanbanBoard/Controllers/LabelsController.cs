@@ -33,6 +33,18 @@ namespace KanbanBoard.Controllers
             return labelService.Add(label);
         }
 
+        [HttpPut]
+        [Route("{id}")]
+        public IActionResult Update([FromRoute] int id, [FromBody] Label label)
+        {
+            if (!labelService.Update(id, label))
+            {
+                return new NoContentResult();
+            }
+            
+            return new StatusCodeResult(200);
+        }
+
         [HttpDelete]
         [Route("{id}")]
         public void Delete([FromRoute] int id)

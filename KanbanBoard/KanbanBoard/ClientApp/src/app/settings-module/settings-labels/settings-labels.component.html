@@ -27,7 +27,7 @@
           {{ label.Name }}
         </mat-card-content>
         <mat-card-actions>
-          <button mat-icon-button>
+          <button mat-icon-button (click)="openEditDialog(label)">
             <mat-icon>edit</mat-icon>
           </button>
           <button mat-icon-button style="float: right;" (click)="openDeleteDialog(label.Id, label.Name)">

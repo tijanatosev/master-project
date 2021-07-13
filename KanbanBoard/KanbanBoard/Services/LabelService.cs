@@ -32,6 +32,16 @@ namespace KanbanBoard.Services
             return labelPersistenceManager.Add(label);
         }
 
+        public bool Update(int id, Label label)
+        {
+            if (!validationService.ValidateId(id))
+            {
+                return false;
+            }
+
+            return labelPersistenceManager.Update(id, label) > 0;
+        }
+
         public void Delete(int id)
         {
             if (!validationService.ValidateId(id))

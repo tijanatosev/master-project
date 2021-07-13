@@ -11,6 +11,8 @@ namespace KanbanBoard.PersistenceManagers.Interfaces
 
         int Add(Label label);
 
+        int Update(int id, Label label);
+
         void Delete(int id);
 
         void DeleteAll();

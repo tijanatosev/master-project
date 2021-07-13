@@ -27,6 +27,11 @@ export class LabelService extends BaseService {
       .pipe(map(response => response.body));
   }
 
+  public updateLabel(id, label) {
+    return this.http.put(`${this.labelsUrl()}/${id}`, label, { observe: "response" })
+      .pipe(map(response => response.status))
+  }
+
   public deleteLabel(id) {
     return this.http.delete(`${this.labelsUrl()}/${id}`);
   }

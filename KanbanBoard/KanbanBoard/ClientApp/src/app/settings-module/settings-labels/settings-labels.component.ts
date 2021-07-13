@@ -4,6 +4,7 @@ import { Label } from "../../shared/services/label/label.model";
 import { MatDialog, MatDialogRef } from "@angular/material/dialog";
 import { ConfirmationDialogComponent } from "../../shared/confirmation-dialog/confirmation-dialog.component";
 import { AddLabelComponent } from "./add-label/add-label.component";
+import { EditLabelComponent } from "./edit-label/edit-label.component";
 
 @Component({
   selector: 'app-settings-labels',
@@ -13,8 +14,9 @@ import { AddLabelComponent } from "./add-label/add-label.component";
 export class SettingsLabelsComponent implements OnInit {
   public labels: Label[];
   public confirmDialogRef: MatDialogRef<any>;
-  public dialogLabelRef: MatDialogRef<any>;
+  public dialogAddLabelRef: MatDialogRef<any>;
   public confirmAllDialogRef: MatDialogRef<any>;
+  public dialogEditLabelRef: MatDialogRef<any>;
 
   constructor(private labelService: LabelService,
               private confirmDialog: MatDialog,
@@ -26,12 +28,12 @@ export class SettingsLabelsComponent implements OnInit {
   }
 
   public openAddDialog() {
-    this.dialogLabelRef = this.labelDialog.open(AddLabelComponent, {
+    this.dialogAddLabelRef = this.labelDialog.open(AddLabelComponent, {
       width: '430px',
       height: '320px'
     });
 
-    this.dialogLabelRef.afterClosed().subscribe(result => {
+    this.dialogAddLabelRef.afterClosed().subscribe(result => {
       this.loadLabels();
     });
   }
@@ -63,6 +65,18 @@ export class SettingsLabelsComponent implements OnInit {
           this.loadLabels();
         });
       }
+    });
+  }
+
+  public openEditDialog(label) {
+    this.dialogEditLabelRef = this.labelDialog.open(EditLabelComponent, {
+      width: '430px',
+      height: '320px'
+    });
+    this.dialogEditLabelRef.componentInstance.label = label;
+
+    this.dialogEditLabelRef.afterClosed().subscribe(result => {
+      this.loadLabels();
     });
   }
 

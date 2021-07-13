@@ -11,6 +11,8 @@ namespace KanbanBoard.Services.Interfaces
 
         int Add(Label label);
 
+        bool Update(int id, Label label);
+
         void Delete(int id);
 
         void DeleteAll();
