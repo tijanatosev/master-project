@@ -100,7 +100,7 @@ const routes = [
   { path: 'team/:id', component: TeamComponent, canActivate: [AuthGuard] },
   { path: 'task/:id', component: ViewTicketComponent, canActivate: [AuthGuard] },
   { path: 'board/:id', component: BoardComponent, canActivate: [AuthGuard] },
-  { path: 'statistics/:id', component: StatisticsComponent, canActivate: [AuthGuard] },
+  { path: 'statistics/:board/:id', component: StatisticsComponent, canActivate: [AuthGuard] },
   { path: 'weekView/:id', component: ViewWeekComponent, canActivate: [AuthGuard] },
   { path: 'verticalView', component: VerticalViewComponent, canActivate: [AuthGuard] }
 ];

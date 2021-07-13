@@ -10,3 +10,7 @@ mat-card-header {
   height:25vh;
   width:30vw;
 }
+
+h4 {
+  text-align: center;
+}
