@@ -70,7 +70,7 @@ export class SingleViewWeekComponent implements OnInit, OnChanges {
           {
             label: '<i class="fas fa-fw fa-pencil-alt"></i>',
             onClick: ({ event }: { event: CalendarEvent }): void => {
-              this.router.navigate(["ticket", event.id]);
+              this.router.navigate(["task", event.id]);
             },
           },
         ],

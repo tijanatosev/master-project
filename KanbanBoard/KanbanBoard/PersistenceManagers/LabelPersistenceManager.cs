@@ -57,6 +57,21 @@ namespace KanbanBoard.PersistenceManagers
             return dbCommands.ExecuteScalar(query, parameters);
         }
 
+        public int Update(int id, Label label)
+        {
+            string query = @"UPDATE Labels
+SET Name=@Name,
+Color=@Color
+WHERE Id=@Id";
+            DbParameter[] parameters = 
+            {
+                new SqlParameter("@Name", label.Name),
+                new SqlParameter("@Color", label.Color),
+                new SqlParameter("@Id", id) 
+            };
+            return dbCommands.ExecuteSqlNonQuery(query, parameters);
+        }
+
         public void Delete(int id)
         {
             string queryLabelsTickets = @"DELETE FROM LabelsTickets WHERE LabelId=@LabelId";

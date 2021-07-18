@@ -54,7 +54,7 @@ export class TicketsDatatableComponent implements OnInit, AfterViewInit {
   }
 
   public goToTicket(id) {
-    this.router.navigate(['ticket', id]);
+    this.router.navigate(['task', id]);
   }
 
 }

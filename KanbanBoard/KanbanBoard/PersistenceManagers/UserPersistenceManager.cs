@@ -62,9 +62,9 @@ namespace KanbanBoard.PersistenceManagers
 
         public int Add(User user)
         {
-            string query = @"INSERT INTO Users (FirstName, LastName, Username, Password, Email, UserType) 
+            string query = @"INSERT INTO Users (FirstName, LastName, Username, Password, Email, UserType, Image) 
 OUTPUT INSERTED.ID
-VALUES (@FirstName, @LastName, @Username, @Password, @Email, @UserType)";
+VALUES (@FirstName, @LastName, @Username, @Password, @Email, @UserType, @Image)";
             DbParameter[] parameters = 
             {
                 new SqlParameter("@FirstName", user.FirstName),

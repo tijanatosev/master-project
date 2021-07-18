@@ -33,6 +33,6 @@ export class BoardTicketComponent implements OnInit {
   }
 
   public goToTicket() {
-    this.router.navigate(["ticket", this.ticketId]);
+    this.router.navigate(["task", this.ticketId]);
   }
 }

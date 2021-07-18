@@ -1,16 +1,16 @@
 <div>
-  <h5>Boards settings</h5>
+  <h5>Project settings</h5>
   <div *ngIf="board">
     <mat-card>
       <mat-card-content>
-        <h6>Board</h6>
+        <h6>Project</h6>
         <form [formGroup]="boardForm">
           <mat-form-field appearance="outline">
             <mat-label>Name</mat-label>
             <input matInput formControlName="name" value="{{ board.Name }}">
           </mat-form-field>
           <mat-error *ngIf="boardForm.get('name').errors && boardForm.get('name').errors.maxlength">
-            Board name is too long.
+            Project name is too long.
           </mat-error>
           <mat-error *ngIf="boardForm.get('name').errors && boardForm.get('name').errors.nameInvalid">
             Name can't be empty.
@@ -63,13 +63,13 @@
         <mat-divider style="width: 96%; margin-left: 2%;"></mat-divider>
         <br>
 
-        <h6>Columns</h6>
+        <h6>Statuses</h6>
 
 
         <div class="row">
           <div class="col">
             <button mat-raised-button color="primary" (click)="showAddColumn = true">
-              Add column
+              Add status
             </button>
             &nbsp;&nbsp;
             <button mat-raised-button color="primary" (click)="openRemoveDialog()">
@@ -94,10 +94,10 @@
                 </button>
 
                 <mat-error *ngIf="columnForm.get('columnName').errors && columnForm.get('columnName').errors.nameInvalid">
-                  Column name can't be empty.
+                  Status name can't be empty.
                 </mat-error>
                 <mat-error *ngIf="columnForm.get('columnName').errors && columnForm.get('columnName').errors.maxlength">
-                  &nbsp;Column name is too long.
+                  &nbsp;Status name is too long.
                 </mat-error>
               </form>
               <br>
@@ -117,14 +117,14 @@
               </div>
             </div>
             <div *ngIf="columns.length == 0">
-              <p>There are no defined columns for this board.</p>
+              <p>There are no defined statuses for this project.</p>
             </div>
           </div>
           <div class="col">
             <form [formGroup]="doneColumnForm">
-              <span>Define which column represents the <b>done</b> column based on which the statistics will be calculated.</span>
+              <span>Define which status represents the <b>done</b> status based on which the statistics will be calculated.</span>
               <mat-form-field appearance="outline" style="float: right; margin-right: 1%; width: 100%;">
-                <mat-label>Done column</mat-label>
+                <mat-label>Done status</mat-label>
                 <mat-select [(value)]="selected" (selectionChange)="isDone(selected)" formControlName="doneColumn">
                   <mat-option *ngFor="let column of columns" [value]="column.Id" (onSelectionChange)="selected = column.Id">
                     {{ column.Name }}

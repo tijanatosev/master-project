@@ -77,6 +77,7 @@ import { CommonModule } from "@angular/common";
 import { ViewWeekComponent } from "./statistics-module/view-week/view-week.component";
 import { VerticalViewComponent } from "./statistics-module/vertical-view/vertical-view.component";
 import { SingleViewWeekComponent } from './statistics-module/single-view-week/single-view-week.component';
+import { EditLabelComponent } from './settings-module/settings-labels/edit-label/edit-label.component';
 
 export function momentAdapterFactory() {
   return adapterFactory(moment);
@@ -97,9 +98,9 @@ const routes = [
   { path: 'settings/:id', component: SettingsComponent, canActivate: [AuthGuard] },
   { path: 'profile/:id', component: ProfileComponent, canActivate: [AuthGuard] },
   { path: 'team/:id', component: TeamComponent, canActivate: [AuthGuard] },
-  { path: 'ticket/:id', component: ViewTicketComponent, canActivate: [AuthGuard] },
+  { path: 'task/:id', component: ViewTicketComponent, canActivate: [AuthGuard] },
   { path: 'board/:id', component: BoardComponent, canActivate: [AuthGuard] },
-  { path: 'statistics/:id', component: StatisticsComponent, canActivate: [AuthGuard] },
+  { path: 'statistics/:board/:id', component: StatisticsComponent, canActivate: [AuthGuard] },
   { path: 'weekView/:id', component: ViewWeekComponent, canActivate: [AuthGuard] },
   { path: 'verticalView', component: VerticalViewComponent, canActivate: [AuthGuard] }
 ];
@@ -140,7 +141,8 @@ const routes = [
     StatisticsComponent,
     ViewWeekComponent,
     VerticalViewComponent,
-    SingleViewWeekComponent
+    SingleViewWeekComponent,
+    EditLabelComponent
   ],
   imports: [
     BrowserModule.withServerTransition({appId: 'ng-cli-universal'}),
@@ -192,7 +194,8 @@ const routes = [
     AddTeamComponent,
     ConfirmationDialogComponent,
     AddLabelComponent,
-    AddTicketComponent
+    AddTicketComponent,
+    EditLabelComponent
   ]
 })
 export class AppModule { }

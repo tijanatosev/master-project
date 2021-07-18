@@ -3,6 +3,7 @@ import { CalendarView } from "angular-calendar";
 import { BoardService } from "../../shared/services/board/board.service";
 import { ActivatedRoute, Params } from "@angular/router";
 import { Subject } from "rxjs";
+import { Board } from "../../shared/services/board/board.model";
 
 @Component({
   selector: 'app-view-week',
@@ -17,6 +18,7 @@ export class ViewWeekComponent implements OnInit {
   public view: CalendarView = CalendarView.Week;
   public boardId: number;
   public refresh: Subject<any> = new Subject();
+  public board: Board;
 
   constructor(private boardService: BoardService,
               private route: ActivatedRoute) { }
@@ -25,5 +27,6 @@ export class ViewWeekComponent implements OnInit {
     this.route.params.subscribe((params: Params) => {
       this.boardId = +params['id'];
     });
+    this.boardService.getBoard(this.boardId).subscribe(board => this.board = board);
   }
 }

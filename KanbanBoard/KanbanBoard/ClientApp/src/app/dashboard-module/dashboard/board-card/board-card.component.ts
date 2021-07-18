@@ -50,7 +50,7 @@ export class BoardCardComponent implements OnInit {
   }
 
   public goToStats(id) {
-    this.router.navigate(['statistics', id]);
+    this.router.navigate(['statistics', this.board.Name, id]);
   }
 
   public goToViewWeek(id) {

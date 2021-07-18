@@ -15,6 +15,7 @@ import { Ticket } from "../../shared/services/ticket/ticket.model";
 })
 export class StatisticsComponent implements OnInit {
   private boardId: number;
+  public boardName: string;
   public optionsForBarChart: ChartOptions = {
     responsive: true,
     maintainAspectRatio: false,
@@ -105,6 +106,7 @@ export class StatisticsComponent implements OnInit {
   ngOnInit() {
     this.route.params.subscribe((params: Params) => {
       this.boardId = +params['id'];
+      this.boardName = params['board'];
     });
 
     this.boardService.getNumberOfTicketsPerColumn(this.boardId).subscribe(values => {
