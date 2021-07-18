@@ -28,7 +28,10 @@ export class TimerComponent implements OnInit, OnDestroy {
   public hours;
 
   public isBreak: boolean = false;
-  public isLongerBreak;
+  public isLongerBreak: boolean = false;
+  private firstTimeBreak: boolean = false;
+  private secondsForAlarm: number = 1;
+  private alarm;
 
   constructor(private boardService: BoardService,
               private authService: AuthService,
@@ -45,6 +48,7 @@ export class TimerComponent implements OnInit, OnDestroy {
           this.getTimeDifference(this.authService.getStartedTime(), this.timer.workTime, this.timer.breakTime, this.timer.longerBreak, this.timer.iterations);
         });
     }
+    this.alarm = new Audio("../../../Resources/Sounds/alarm.wav");
   }
 
   ngOnDestroy() {
@@ -64,6 +68,19 @@ export class TimerComponent implements OnInit, OnDestroy {
       this.timeDifference % (workTimeInSeconds + breakTimeInSeconds);
 
     this.isBreak = this.modSeconds >= workTimeInSeconds;
+
+    this.firstTimeBreak = this.isBreak || this.isLongerBreak;
+    if (this.firstTimeBreak && this.secondsForAlarm > 0) {
+      this.firstTimeBreak = false;
+      this.secondsForAlarm--;
+      this.alarm.load();
+      this.alarm.play();
+    }
+    if (!this.isBreak && !this.isLongerBreak && this.secondsForAlarm == 0) {
+      this.secondsForAlarm = 1;
+      this.alarm.load();
+      this.alarm.play();
+    }
 
     if (this.timeDifference > (secondsInAllIterations + longerBreakInSeconds)) {
       this.authService.setStartedTime(new Date().getTime());
