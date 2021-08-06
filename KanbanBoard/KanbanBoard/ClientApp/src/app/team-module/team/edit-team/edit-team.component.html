@@ -1,0 +1,16 @@
+<h2 mat-dialog-title>Edit team members</h2>
+<mat-dialog-content class="mat-typography">
+  <form [formGroup]="teamForm">
+    <mat-form-field appearance="outline">
+      <mat-select placeholder="Select members" [(value)]="members" [compareWith]="compareSelectedUsers" multiple>
+        <mat-option *ngFor="let user of users" [value]="user.Id" (onSelectionChange)="selectionChange($event)">
+          {{ user.Username }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions align="center">
+  <button mat-raised-button color="primary" [mat-dialog-close]="true" type="submit" [disabled]="members.length == 0" (click)="save()">Save</button>
+  <button mat-button mat-dialog-close>Cancel</button>
+</mat-dialog-actions>

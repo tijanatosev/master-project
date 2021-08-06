@@ -12,5 +12,6 @@
     <p> {{ticket.Title}} </p>
     <mat-label style="font-weight: 600; color: #3F51B5;">{{ initials }}</mat-label>
     &nbsp;<app-ticket-priority [priority]="ticket.Priority"></app-ticket-priority>
+    <mat-label style="font-weight: 600; color: #3F51B5; float: right;">SP: {{ ticket.StoryPoints }}</mat-label>
   </mat-card-content>
 </mat-card>
