@@ -78,6 +78,7 @@ import { ViewWeekComponent } from "./statistics-module/view-week/view-week.compo
 import { VerticalViewComponent } from "./statistics-module/vertical-view/vertical-view.component";
 import { SingleViewWeekComponent } from './statistics-module/single-view-week/single-view-week.component';
 import { EditLabelComponent } from './settings-module/settings-labels/edit-label/edit-label.component';
+import { EditTeamComponent } from './team-module/team/edit-team/edit-team.component';
 
 export function momentAdapterFactory() {
   return adapterFactory(moment);
@@ -142,7 +143,8 @@ const routes = [
     ViewWeekComponent,
     VerticalViewComponent,
     SingleViewWeekComponent,
-    EditLabelComponent
+    EditLabelComponent,
+    EditTeamComponent
   ],
   imports: [
     BrowserModule.withServerTransition({appId: 'ng-cli-universal'}),
@@ -195,7 +197,8 @@ const routes = [
     ConfirmationDialogComponent,
     AddLabelComponent,
     AddTicketComponent,
-    EditLabelComponent
+    EditLabelComponent,
+    EditTeamComponent
   ]
 })
 export class AppModule { }

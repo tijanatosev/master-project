@@ -15,11 +15,6 @@ h5 {
   font-weight: 400;
 }
 
-.visit-button {
-  color: #3F51B5;
-  vertical-align: middle;
-}
-
 .mat-card{
   display:flex;
   flex-direction: column;

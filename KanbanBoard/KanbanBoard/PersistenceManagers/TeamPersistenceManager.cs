@@ -99,6 +99,8 @@ WHERE ut.UserId=@UserId";
         public int AddUsersToTeam(int teamId, List<int> userIds)
         {
             int rowsAdded = 0;
+            string queryDelete = @"DELETE FROM UsersTeams where TeamId=@TeamId";
+            dbCommands.ExecuteSqlNonQuery(queryDelete, new SqlParameter("@TeamId", teamId));
             string query = @"INSERT INTO UsersTeams (UserId, TeamId) VALUES (@UserId, " + teamId + ")";
             foreach (int userId in userIds)
             {
