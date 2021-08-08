@@ -6,6 +6,7 @@ import { CommentService } from "../../shared/services/comment/comment.service";
 import { FormBuilder, Validators } from "@angular/forms";
 import { Responses } from "../../shared/enums";
 import { SnackBarService } from "../../shared/snack-bar.service";
+import { AuthService } from "../../shared/auth/auth.service";
 
 @Component({
   selector: 'app-comment',
@@ -19,17 +20,20 @@ export class CommentComponent implements OnInit {
   public edit: boolean = false;
   public commentForm;
   public editCommentClicked: boolean = false;
+  public viewEdit: boolean = false;
 
   constructor(private userService: UserService,
               private commentService: CommentService,
               private formBuilder: FormBuilder,
-              private snackBarService: SnackBarService) { }
+              private snackBarService: SnackBarService,
+              private authService: AuthService) { }
 
   ngOnInit() {
     this.userService.getUser(this.comment.UserId).subscribe(user => this.user = user);
     this.commentForm = this.formBuilder.group({
       textComment: [this.comment.Text, [Validators.required, Validators.minLength(1)]]
     });
+    this.viewEdit = this.comment.UserId == this.authService.getUserIdFromToken();
   }
 
   public updateComment(data) {
@@ -39,6 +43,7 @@ export class CommentComponent implements OnInit {
     }
     let comment = new Comment();
     comment.Text = data.value.textComment;
+    comment.TicketId = this.comment.TicketId;
     this.commentService.updateComment(this.comment.Id, comment).subscribe(result => {
       if (result == Responses.Successful) {
         this.comment.Text = comment.Text;

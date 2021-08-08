@@ -15,13 +15,9 @@ export class AuthService {
     return (!(token === undefined || token === null || token === 'undefined' || token === 'null' || token === ''));
   }
 
-  public setToken(data) {
-    localStorage.setItem('token', JSON.stringify(data));
-  }
-
   public login(data) {
     this.loggedIn.next(true);
-    this.setToken(data);
+    localStorage.setItem('token', JSON.stringify(data));
   }
 
   public logout() {

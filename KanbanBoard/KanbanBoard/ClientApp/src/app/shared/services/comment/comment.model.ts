@@ -3,4 +3,5 @@
   public CommentedAt: Date;
   public Text: string;
   public UserId: number;
+  public TicketId: number;
 }

@@ -11,19 +11,12 @@ namespace KanbanBoard.PersistenceManagers
 {
     public class UserPersistenceManager : IUserPersistenceManager
     {
-        private string serverName = "W-PF1EP858\\SQLEXPRESS";
-        private string dbName = "KanbanBoard";
-        private IDbCommands dbCommands;
-
-        public UserPersistenceManager()
-        {
-            dbCommands = new DbCommands(serverName, dbName);
-        }
+        private readonly IDbCommands dbCommands = new DbCommands();
 
         public IEnumerable<User> LoadAll()
         {
             List<User> users = new List<User>();
-            DataTable result = dbCommands.ExecuteSqlQuery("SELECT * FROM Users").Tables["Result"];
+            DataTable result = dbCommands.ExecuteSqlQuery("SELECT * FROM Users WHERE Id > 1").Tables["Result"];
             if (result.Rows.Count != 0)
             {
                 foreach (DataRow row in result.Rows)

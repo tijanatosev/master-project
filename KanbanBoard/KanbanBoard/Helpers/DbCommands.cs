@@ -10,14 +10,15 @@ namespace KanbanBoard.Helpers
         private readonly SqlConnection sqlConnection;
         private SqlCommand sqlCommand;
         private SqlDataAdapter sqlDataAdapter;
-        private SqlConnectionStringBuilder connectionStringBuilder;
+        private const string ServerName = "W-PF1EP858\\SQLEXPRESS";
+        private const string DatabaseName = "KanbanBoard";
 
-        public DbCommands(string serverName, string dbName)
+        public DbCommands()
         {
-            connectionStringBuilder = new SqlConnectionStringBuilder
+            SqlConnectionStringBuilder connectionStringBuilder = new SqlConnectionStringBuilder
             {
-                DataSource = serverName,
-                InitialCatalog = dbName,
+                DataSource = ServerName,
+                InitialCatalog = DatabaseName,
                 IntegratedSecurity = true
             };
 
@@ -27,16 +28,16 @@ namespace KanbanBoard.Helpers
             };
         }
 
-        public DbCommands(string serverName, string dbName, string dbUser, string dbPassword)
+        public DbCommands(string dbUser, string dbPassword)
         {
-            connectionStringBuilder = new SqlConnectionStringBuilder
+            SqlConnectionStringBuilder connectionStringBuilder = new SqlConnectionStringBuilder
             {
-                DataSource = serverName,
-                InitialCatalog = dbName,
+                DataSource = ServerName,
+                InitialCatalog = DatabaseName,
                 UserID = dbUser,
                 Password = dbPassword
             };
-            
+
             sqlConnection = new SqlConnection
             {
                 ConnectionString = connectionStringBuilder.ConnectionString

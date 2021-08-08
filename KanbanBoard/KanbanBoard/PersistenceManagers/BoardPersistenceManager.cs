@@ -11,15 +11,8 @@ namespace KanbanBoard.PersistenceManagers
 {
     public class BoardPersistenceManager : IBoardPersistenceManager
     {
-        private string serverName = "W-PF1EP858\\SQLEXPRESS";
-        private string dbName = "KanbanBoard";
-        private IDbCommands dbCommands;
+        private readonly IDbCommands dbCommands = new DbCommands();
 
-        public BoardPersistenceManager()
-        {
-            dbCommands = new DbCommands(serverName, dbName);
-        }
-        
         public IEnumerable<Board> LoadAll()
         {
             List<Board> boards = new List<Board>();

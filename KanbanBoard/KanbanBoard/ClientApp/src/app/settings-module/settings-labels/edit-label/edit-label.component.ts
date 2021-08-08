@@ -37,7 +37,6 @@ export class EditLabelComponent implements OnInit {
   }
 
   public save(labelForm) {
-    console.log(labelForm.value);
     let label = new Label();
     label.Name = labelForm.value.name;
     label.Color = labelForm.value.color;
