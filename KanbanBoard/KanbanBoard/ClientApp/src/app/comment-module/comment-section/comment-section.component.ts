@@ -47,6 +47,7 @@ export class CommentSectionComponent implements OnInit {
     comment.Text = data.value.text;
     comment.CommentedAt = new Date();
     comment.UserId = this.authService.getUserIdFromToken();
+    comment.TicketId = this.ticketId;
     this.commentService.addComment(comment, this.ticketId).subscribe(result => {
       if (result > 0) {
         this.snackBarService.successful();
@@ -55,7 +56,6 @@ export class CommentSectionComponent implements OnInit {
         this.userService.getUsers().subscribe(users => {
           let creator = users.find(x => x.Username == this.ticket.Creator);
           let assignedTo = users.find(x => x.Id == this.ticket.AssignedTo);
-          console.log(comment.UserId, creator.Id, assignedTo.Id);
           if (comment.UserId != creator.Id) {
             this.helperService.listenOnComment(assignedTo, this.ticketId, this.ticket.Title, comment.Text);
           }

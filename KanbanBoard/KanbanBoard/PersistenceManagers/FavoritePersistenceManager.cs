@@ -11,14 +11,7 @@ namespace KanbanBoard.PersistenceManagers
 {
     public class FavoritePersistenceManager : IFavoritePersistenceManager
     {
-        private string serverName = "W-PF1EP858\\SQLEXPRESS";
-        private string dbName = "KanbanBoard";
-        private IDbCommands dbCommands;
-
-        public FavoritePersistenceManager()
-        {
-            dbCommands = new DbCommands(serverName, dbName);
-        }
+        private readonly IDbCommands dbCommands = new DbCommands();
 
         public IEnumerable<Favorite> LoadByUserId(int userId)
         {

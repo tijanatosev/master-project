@@ -11,21 +11,14 @@ namespace KanbanBoard.PersistenceManagers
 {
     public class CommentPersistenceManager : ICommentPersistenceManager
     {
-        private string serverName = "W-PF1EP858\\SQLEXPRESS";
-        private string dbName = "KanbanBoard";
-        private IDbCommands dbCommands;
-
-        public CommentPersistenceManager()
-        {
-            dbCommands = new DbCommands(serverName, dbName);
-        }
+        private readonly IDbCommands dbCommands = new DbCommands();
 
         public IEnumerable<Comment> LoadByTicketId(int ticketId)
         {
             List<Comment> comments = new List<Comment>();
-            string query = @"SELECT c.Id, c.CommentedAt, c.Text, c.UserId 
-FROM Comments c JOIN CommentsTickets ct ON c.Id = ct.CommentId 
-WHERE ct.TicketId = @TicketId";
+            string query = @"SELECT Id, CommentedAt, Text, UserId 
+FROM Comments 
+WHERE TicketId = @TicketId";
             DataTable result = dbCommands.ExecuteSqlQuery(query, new SqlParameter("@TicketId", ticketId)).Tables["Result"];
             if (result.Rows.Count != 0)
             {
@@ -39,21 +32,17 @@ WHERE ct.TicketId = @TicketId";
 
         public int Add(Comment comment, int ticketId)
         {
-            string queryComments = @"INSERT INTO Comments (CommentedAt, Text, UserId)
+            string query = @"INSERT INTO Comments (CommentedAt, Text, UserId, TicketId)
 OUTPUT INSERTED.ID
-VALUES (@CommentedAt, @Text, @UserId)";
+VALUES (@CommentedAt, @Text, @UserId, @TicketId)";
             DbParameter[] parameters = 
             {
                 new SqlParameter("@CommentedAt", comment.CommentedAt),
                 new SqlParameter("@Text", comment.Text),
                 new SqlParameter("@UserId", comment.UserId),
+                new SqlParameter("@TicketId", comment.TicketId) 
             };
-            int commentId = dbCommands.ExecuteScalar(queryComments, parameters);
-            
-            string queryCommentsTickets = @"INSERT INTO CommentsTickets (CommentId, TicketId)
-VALUES (@CommentId, @TicketId)";
-            
-            return dbCommands.ExecuteSqlNonQuery(queryCommentsTickets, new SqlParameter("@CommentId", commentId), new SqlParameter("@TicketId", ticketId));
+            return dbCommands.ExecuteScalar(query, parameters);
         }
 
         public int Update(int id, string text)
@@ -66,10 +55,8 @@ WHERE Id=@Id";
 
         public void Delete(int commentId)
         {
-            string queryCommentsTickets = @"DELETE FROM CommentsTickets WHERE CommentId = @CommentId";
-            string queryComments = @"DELETE FROM Comments WHERE Id = @Id";
-            dbCommands.ExecuteSqlNonQuery(queryCommentsTickets, new SqlParameter("@CommentId", commentId));
-            dbCommands.ExecuteSqlNonQuery(queryComments, new SqlParameter("@Id", commentId));
+            string query = @"DELETE FROM Comments WHERE Id = @Id";
+            dbCommands.ExecuteSqlNonQuery(query, new SqlParameter("@Id", commentId));
         }
 
         public Comment LoadFromDataRow(DataRow row)
@@ -79,7 +66,8 @@ WHERE Id=@Id";
                 Id = Convert.ToInt32(row["Id"]),
                 CommentedAt = Convert.ToDateTime(row["CommentedAt"]),
                 Text = row["Text"].ToString(),
-                UserId = Convert.ToInt32(row["UserId"])
+                UserId = Convert.ToInt32(row["UserId"]),
+                TicketId = Convert.ToInt32(row["TicketId"])
             };
         }
     }
