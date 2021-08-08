@@ -20,6 +20,7 @@ export class CommentComponent implements OnInit {
   public edit: boolean = false;
   public commentForm;
   public editCommentClicked: boolean = false;
+  public viewEdit: boolean = false;
 
   constructor(private userService: UserService,
               private commentService: CommentService,
@@ -32,7 +33,7 @@ export class CommentComponent implements OnInit {
     this.commentForm = this.formBuilder.group({
       textComment: [this.comment.Text, [Validators.required, Validators.minLength(1)]]
     });
-    this.edit = this.comment.UserId == this.authService.getUserIdFromToken();
+    this.viewEdit = this.comment.UserId == this.authService.getUserIdFromToken();
   }
 
   public updateComment(data) {

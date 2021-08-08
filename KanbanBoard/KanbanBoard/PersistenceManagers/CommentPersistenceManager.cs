@@ -16,7 +16,7 @@ namespace KanbanBoard.PersistenceManagers
         public IEnumerable<Comment> LoadByTicketId(int ticketId)
         {
             List<Comment> comments = new List<Comment>();
-            string query = @"SELECT Id, CommentedAt, Text, UserId 
+            string query = @"SELECT Id, CommentedAt, Text, UserId, TicketId 
 FROM Comments 
 WHERE TicketId = @TicketId";
             DataTable result = dbCommands.ExecuteSqlQuery(query, new SqlParameter("@TicketId", ticketId)).Tables["Result"];
