@@ -3,7 +3,13 @@
 <br>
 <mat-divider></mat-divider>
 <br>
-<h5>Team members</h5>
+<div style="display: inline-flex;">
+  <h5>Team members</h5>
+  &nbsp;&nbsp;
+  <button mat-icon-button color="primary" style="bottom: 10px;" (click)="edit()" *ngIf="canEdit">
+    <mat-icon style="vertical-align: middle !important;">edit</mat-icon>
+  </button>
+</div>
 <div class="row mx-2 row-cols-3">
   <mat-card *ngFor="let member of members" class="col my-2 mr-2 ml-2">
     <mat-card-content>

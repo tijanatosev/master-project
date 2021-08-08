@@ -58,7 +58,7 @@ namespace KanbanBoard.Services
 
         public bool AddUsersToTeam(int teamId, List<int> userIds)
         {
-            if (!validationService.ValidateId(teamId) || teamPersistenceManager.Load(teamId) == null || userIds.Count < 0)
+            if (!validationService.ValidateId(teamId) || teamPersistenceManager.Load(teamId) == null || userIds.Count == 0)
             {
                 return false;
             }
