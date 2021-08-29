@@ -103,7 +103,7 @@ namespace KanbanBoard.Helpers
                     {
                         sqlCommand.Parameters.Add(parameter);
                     }
-                    return (int) sqlCommand.ExecuteScalar();
+                    return Convert.ToInt32(sqlCommand.ExecuteScalar());
                 }
             }
             catch (Exception ex)

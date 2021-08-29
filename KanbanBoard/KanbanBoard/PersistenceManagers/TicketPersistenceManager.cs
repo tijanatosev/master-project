@@ -287,6 +287,21 @@ VALUES (@TicketId, @DependencyId)";
             dbCommands.ExecuteSqlNonQuery(sqlQuery, new MySqlParameter("@TicketId", id), new MySqlParameter("@DependencyId", dependencyId));
         }
 
+        public IEnumerable<int> GetCircularDependencies(int dependencyId)
+        {
+            List<int> dependencies = new List<int>();
+            string query = @"SELECT td.TicketId as Id
+FROM Tickets t JOIN TicketsDependencies td ON t.Id=td.DependencyId 
+WHERE td.DependencyId=@DependencyId";
+            DataTable result = dbCommands.ExecuteSqlQuery(query, new MySqlParameter("@DependencyId", dependencyId)).Tables["Result"];
+            foreach (DataRow row in result.Rows)
+            {
+                dependencies.Add(Convert.ToInt32(row["Id"]));
+            }
+
+            return dependencies;
+        }
+
         public Ticket LoadFromDataRow(DataRow row)
         {
             return new Ticket

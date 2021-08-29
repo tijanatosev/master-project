@@ -271,6 +271,16 @@ namespace KanbanBoard.Services
             ticketPersistenceManager.DeleteDependency(id, dependencyId);
         }
 
+        public IEnumerable<int> GetCircularDependencies(int dependencyId)
+        {
+            if (!validationService.ValidateId(dependencyId) || ticketPersistenceManager.Load(dependencyId) == null)
+            {
+                return new List<int>();
+            }
+
+            return ticketPersistenceManager.GetCircularDependencies(dependencyId);
+        }
+
         private string ParseQueryCollection(IQueryCollection queryCollection)
         {
             StringBuilder whereClause = new StringBuilder();

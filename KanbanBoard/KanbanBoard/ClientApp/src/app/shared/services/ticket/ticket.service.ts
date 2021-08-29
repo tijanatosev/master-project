@@ -115,4 +115,8 @@ export class TicketService extends BaseService{
   public deleteDependency(id, dependencyId) {
     return this.http.delete(`${this.ticketsUrl()}/${id}/dependency/${dependencyId}`);
   }
+
+  public getCircular(id) {
+    return this.http.get<number[]>(`${this.ticketsUrl()}/${id}/circular`);
+  }
 }
