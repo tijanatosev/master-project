@@ -41,8 +41,7 @@ namespace KanbanBoard.PersistenceManagers
 
         public int Add(Ticket ticket)
         {
-            string sqlQuery = @"INSERT INTO Tickets (Title, Description, Creator, StoryPoints, Status, DateCreated, AssignedTo, StartDate, EndDate, ColumnRank, Priority, ColumnId, BoardId) 
-OUTPUT INSERTED.ID
+            string query = @"INSERT INTO Tickets (Title, Description, Creator, StoryPoints, Status, DateCreated, AssignedTo, StartDate, EndDate, ColumnRank, Priority, ColumnId, BoardId) 
 VALUES (@Title, @Description, @Creator, @StoryPoints, @Status, @DateCreated, @AssignedTo, @StartDate, @EndDate, @ColumnRank, @Priority, @ColumnId, @BoardId)";
             DbParameter[] parameters = 
             {
@@ -60,7 +59,8 @@ VALUES (@Title, @Description, @Creator, @StoryPoints, @Status, @DateCreated, @As
                 new MySqlParameter("@ColumnId", ticket.ColumnId),
                 new MySqlParameter("@BoardId", ticket.BoardId)
             };
-            return dbCommands.ExecuteScalar(sqlQuery, parameters);
+            dbCommands.ExecuteSqlNonQuery(query, parameters);
+            return Convert.ToInt32(dbCommands.ExecuteScalar("SELECT LAST_INSERT_ID();"));
         }
 
         public void Delete(int id)
@@ -276,9 +276,9 @@ WHERE td.TicketId=@TicketId", new MySqlParameter("@TicketId", id)).Tables["Resul
         public int AddDependency(int id, int dependencyId)
         {
             string sqlQuery = @"INSERT INTO TicketsDependencies (TicketId, DependencyId)
-OUTPUT INSERTED.ID
 VALUES (@TicketId, @DependencyId)";
-            return dbCommands.ExecuteScalar(sqlQuery, new MySqlParameter("@TicketId", id), new MySqlParameter("@DependencyId", dependencyId));
+            dbCommands.ExecuteSqlNonQuery(sqlQuery, new MySqlParameter("@TicketId", id), new MySqlParameter("@DependencyId", dependencyId));
+            return Convert.ToInt32(dbCommands.ExecuteScalar("SELECT LAST_INSERT_ID();"));
         }
 
         public void DeleteDependency(int id, int dependencyId)

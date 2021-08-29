@@ -44,14 +44,14 @@ namespace KanbanBoard.PersistenceManagers
         public int Add(Favorite favorite)
         {
             string query = @"INSERT INTO Favorites (TicketId, UserId) 
-OUTPUT INSERTED.ID
 VALUES (@TicketId, @UserId)";
             DbParameter[] parameters = 
             {
                 new MySqlParameter("@TicketId", favorite.TicketId),
                 new MySqlParameter("@UserId", favorite.UserId)
             };
-            return dbCommands.ExecuteScalar(query, parameters);
+            dbCommands.ExecuteSqlNonQuery(query, parameters);
+            return Convert.ToInt32(dbCommands.ExecuteScalar("SELECT LAST_INSERT_ID();"));
         }
 
         public void Delete(int ticketId, int userId)

@@ -56,7 +56,6 @@ namespace KanbanBoard.PersistenceManagers
         public int Add(User user)
         {
             string query = @"INSERT INTO Users (FirstName, LastName, Username, Password, Email, UserType, Image) 
-OUTPUT INSERTED.ID
 VALUES (@FirstName, @LastName, @Username, @Password, @Email, @UserType, @Image)";
             DbParameter[] parameters = 
             {
@@ -68,7 +67,8 @@ VALUES (@FirstName, @LastName, @Username, @Password, @Email, @UserType, @Image)"
                 new MySqlParameter("@UserType", user.UserType),
                 new MySqlParameter("@Image", "Resources\\Images\\profile.png"), 
             };
-            return dbCommands.ExecuteScalar(query, parameters);
+            dbCommands.ExecuteSqlNonQuery(query, parameters);
+            return Convert.ToInt32(dbCommands.ExecuteScalar("SELECT LAST_INSERT_ID();"));
         }
 
         public int Update(User user)

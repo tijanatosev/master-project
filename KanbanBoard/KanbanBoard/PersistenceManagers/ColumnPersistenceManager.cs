@@ -57,8 +57,7 @@ namespace KanbanBoard.PersistenceManagers
         public int Add(Column column)
         {
             string query = @"INSERT INTO Columns (Name, ColumnOrder, IsDone, BoardId) 
-OUTPUT INSERTED.ID VALUES 
-(@Name, @ColumnOrder, @IsDone, @BoardId)";
+VALUES (@Name, @ColumnOrder, @IsDone, @BoardId)";
             DbParameter[] parameters = 
             {
                 new MySqlParameter("@Name", column.Name),
@@ -66,7 +65,8 @@ OUTPUT INSERTED.ID VALUES
                 new MySqlParameter("@IsDone", column.IsDone), 
                 new MySqlParameter("@BoardId", column.BoardId)
             };
-            return dbCommands.ExecuteScalar(query, parameters);
+            dbCommands.ExecuteSqlNonQuery(query, parameters);
+            return Convert.ToInt32(dbCommands.ExecuteScalar("SELECT LAST_INSERT_ID();"));
         }
         
         public void Delete(int id)

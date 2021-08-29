@@ -53,13 +53,15 @@ namespace KanbanBoard.PersistenceManagers
 
         public int Add(Team team)
         {
-            string query = @"INSERT INTO Teams (Name, Admin) OUTPUT INSERTED.ID VALUES(@Name, @Admin)";
+            string query = @"INSERT INTO Teams (Name, Admin)
+VALUES(@Name, @Admin)";
             DbParameter[] parameters = 
             {
                 new MySqlParameter("@Name", team.Name),
                 new MySqlParameter("@Admin", team.Admin)
             };
-            return dbCommands.ExecuteScalar(query, parameters);
+            dbCommands.ExecuteSqlNonQuery(query, parameters);
+            return Convert.ToInt32(dbCommands.ExecuteScalar("SELECT LAST_INSERT_ID();"));
         }
 
         public void Delete(int id)

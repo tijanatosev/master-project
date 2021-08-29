@@ -33,7 +33,6 @@ WHERE TicketId = @TicketId";
         public int Add(Comment comment, int ticketId)
         {
             string query = @"INSERT INTO Comments (CommentedAt, Text, UserId, TicketId)
-OUTPUT INSERTED.ID
 VALUES (@CommentedAt, @Text, @UserId, @TicketId)";
             DbParameter[] parameters = 
             {
@@ -42,7 +41,8 @@ VALUES (@CommentedAt, @Text, @UserId, @TicketId)";
                 new MySqlParameter("@UserId", comment.UserId),
                 new MySqlParameter("@TicketId", comment.TicketId) 
             };
-            return dbCommands.ExecuteScalar(query, parameters);
+            dbCommands.ExecuteSqlNonQuery(query, parameters);
+            return Convert.ToInt32(dbCommands.ExecuteScalar("SELECT LAST_INSERT_ID();"));
         }
 
         public int Update(int id, string text)

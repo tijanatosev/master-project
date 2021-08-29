@@ -42,7 +42,6 @@ namespace KanbanBoard.PersistenceManagers
         public int Add(Board board)
         {
             string query = @"INSERT INTO Boards (Name, Admin, TeamId, IsPomodoro, WorkTime, BreakTime, Iterations, LongerBreak) 
-OUTPUT INSERTED.ID 
 VALUES(@Name, @Admin, @TeamId, @IsPomodoro, @WorkTime, @BreakTime, @Iterations, @LongerBreak)";
             DbParameter[] parameters = 
             {
@@ -55,7 +54,8 @@ VALUES(@Name, @Admin, @TeamId, @IsPomodoro, @WorkTime, @BreakTime, @Iterations, 
                 new MySqlParameter("@Iterations", board.Iterations), 
                 new MySqlParameter("@LongerBreak", board.LongerBreak), 
             };
-            return dbCommands.ExecuteScalar(query, parameters);
+            dbCommands.ExecuteSqlNonQuery(query, parameters);
+            return Convert.ToInt32(dbCommands.ExecuteScalar("SELECT LAST_INSERT_ID();"));
         }
 
         public int Update(int id, Board board)

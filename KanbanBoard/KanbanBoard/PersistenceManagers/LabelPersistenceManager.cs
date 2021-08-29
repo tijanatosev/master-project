@@ -41,13 +41,14 @@ namespace KanbanBoard.PersistenceManagers
 
         public int Add(Label label)
         {
-            string query = @"INSERT INTO Labels (Name, Color) OUTPUT INSERTED.ID VALUES (@Name, @Color)";
+            string query = @"INSERT INTO Labels (Name, Color) VALUES (@Name, @Color)";
             DbParameter[] parameters = 
             {
                 new MySqlParameter("@Name", label.Name),
                 new MySqlParameter("@Color", label.Color)
             };
-            return dbCommands.ExecuteScalar(query, parameters);
+            dbCommands.ExecuteSqlNonQuery(query, parameters);
+            return Convert.ToInt32(dbCommands.ExecuteScalar("SELECT LAST_INSERT_ID();"));
         }
 
         public int Update(int id, Label label)
@@ -106,13 +107,14 @@ WHERE lt.TicketId=@TicketId";
 
         public int AddByTicketId(Label label, int ticketId)
         {
-            string query = @"INSERT INTO LabelsTickets (LabelId, TicketId) OUTPUT INSERTED.ID VALUES (@LabelId, @TicketId)";
+            string query = @"INSERT INTO LabelsTickets (LabelId, TicketId) VALUES (@LabelId, @TicketId)";
             DbParameter[] parameters = 
             {
                 new MySqlParameter("@LabelId", label.Id),
                 new MySqlParameter("@TicketId", ticketId)
             };
-            return dbCommands.ExecuteScalar(query, parameters);
+            dbCommands.ExecuteSqlNonQuery(query, parameters);
+            return Convert.ToInt32(dbCommands.ExecuteScalar("SELECT LAST_INSERT_ID();"));
         }
 
         public IEnumerable<Label> LoadByBoardId(int boardId)

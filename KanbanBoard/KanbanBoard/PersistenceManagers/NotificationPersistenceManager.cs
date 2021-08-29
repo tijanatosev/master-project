@@ -54,7 +54,6 @@ namespace KanbanBoard.PersistenceManagers
         public int Add(Notification notification)
         {
             string query = @"INSERT INTO Notifications (OnChange, OnChangeMine, OnComment, OnCommentMine, OnStatusChange, OnStatusChangeMine, UserId)
-OUTPUT INSERTED.ID
 VALUES (@OnChange, @OnChangeMine, @OnComment, @OnCommentMine, @OnStatusChange, @OnStatusChangeMine, @UserId)";
             DbParameter[] parameters = 
             {
@@ -67,7 +66,8 @@ VALUES (@OnChange, @OnChangeMine, @OnComment, @OnCommentMine, @OnStatusChange, @
                 new MySqlParameter("@UserId", notification.UserId),
                 new MySqlParameter("@Id", notification.Id) 
             };
-            return dbCommands.ExecuteScalar(query, parameters);
+            dbCommands.ExecuteSqlNonQuery(query, parameters);
+            return Convert.ToInt32(dbCommands.ExecuteScalar("SELECT LAST_INSERT_ID();"));
         }
 
         public int Update(Notification notification)
