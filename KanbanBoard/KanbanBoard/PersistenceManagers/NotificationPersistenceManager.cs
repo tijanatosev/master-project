@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
-using System.Data.SqlClient;
 using KanbanBoard.Helpers;
 using KanbanBoard.Models;
 using KanbanBoard.PersistenceManagers.Interfaces;
+using MySqlConnector;
 
 namespace KanbanBoard.PersistenceManagers
 {
@@ -30,7 +30,7 @@ namespace KanbanBoard.PersistenceManagers
         public Notification Load(int id)
         {
             string query = @"SELECT * FROM Notifications WHERE Id=@Id";
-            DataTable result = dbCommands.ExecuteSqlQuery(query, new SqlParameter("@Id", id)).Tables["Result"];
+            DataTable result = dbCommands.ExecuteSqlQuery(query, new MySqlParameter("@Id", id)).Tables["Result"];
 
             if (result.Rows.Count != 0)
             {
@@ -42,7 +42,7 @@ namespace KanbanBoard.PersistenceManagers
         public Notification LoadByUserId(int userId)
         {
             string query = @"SELECT * FROM Notifications WHERE UserId=@UserId";
-            DataTable result = dbCommands.ExecuteSqlQuery(query, new SqlParameter("@UserId", userId)).Tables["Result"];
+            DataTable result = dbCommands.ExecuteSqlQuery(query, new MySqlParameter("@UserId", userId)).Tables["Result"];
 
             if (result.Rows.Count != 0)
             {
@@ -58,14 +58,14 @@ OUTPUT INSERTED.ID
 VALUES (@OnChange, @OnChangeMine, @OnComment, @OnCommentMine, @OnStatusChange, @OnStatusChangeMine, @UserId)";
             DbParameter[] parameters = 
             {
-                new SqlParameter("@OnChange", notification.OnChange),
-                new SqlParameter("@OnChangeMine", notification.OnChangeMine),
-                new SqlParameter("@OnComment", notification.OnComment),
-                new SqlParameter("@OnCommentMine", notification.OnCommentMine),
-                new SqlParameter("@OnStatusChange", notification.OnStatusChange),
-                new SqlParameter("@OnStatusChangeMine", notification.OnStatusChangeMine),
-                new SqlParameter("@UserId", notification.UserId),
-                new SqlParameter("@Id", notification.Id) 
+                new MySqlParameter("@OnChange", notification.OnChange),
+                new MySqlParameter("@OnChangeMine", notification.OnChangeMine),
+                new MySqlParameter("@OnComment", notification.OnComment),
+                new MySqlParameter("@OnCommentMine", notification.OnCommentMine),
+                new MySqlParameter("@OnStatusChange", notification.OnStatusChange),
+                new MySqlParameter("@OnStatusChangeMine", notification.OnStatusChangeMine),
+                new MySqlParameter("@UserId", notification.UserId),
+                new MySqlParameter("@Id", notification.Id) 
             };
             return dbCommands.ExecuteScalar(query, parameters);
         }
@@ -83,14 +83,14 @@ UserId=@UserId
 WHERE Id=@Id";
             DbParameter[] parameters = 
             {
-                new SqlParameter("@OnChange", notification.OnChange),
-                new SqlParameter("@OnChangeMine", notification.OnChangeMine),
-                new SqlParameter("@OnComment", notification.OnComment),
-                new SqlParameter("@OnCommentMine", notification.OnCommentMine),
-                new SqlParameter("@OnStatusChange", notification.OnStatusChange),
-                new SqlParameter("@OnStatusChangeMine", notification.OnStatusChangeMine),
-                new SqlParameter("@UserId", notification.UserId),
-                new SqlParameter("@Id", notification.Id) 
+                new MySqlParameter("@OnChange", notification.OnChange),
+                new MySqlParameter("@OnChangeMine", notification.OnChangeMine),
+                new MySqlParameter("@OnComment", notification.OnComment),
+                new MySqlParameter("@OnCommentMine", notification.OnCommentMine),
+                new MySqlParameter("@OnStatusChange", notification.OnStatusChange),
+                new MySqlParameter("@OnStatusChangeMine", notification.OnStatusChangeMine),
+                new MySqlParameter("@UserId", notification.UserId),
+                new MySqlParameter("@Id", notification.Id) 
             };
             return dbCommands.ExecuteSqlNonQuery(query, parameters);
         }

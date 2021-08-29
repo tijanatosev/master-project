@@ -1,49 +1,21 @@
 ﻿using System;
 using System.Data;
 using System.Data.Common;
-using System.Data.SqlClient;
+using MySqlConnector;
 
 namespace KanbanBoard.Helpers
 {
     public class DbCommands : IDbCommands
     {
-        private readonly SqlConnection sqlConnection;
-        private SqlCommand sqlCommand;
-        private SqlDataAdapter sqlDataAdapter;
-        private const string ServerName = "W-PF1EP858\\SQLEXPRESS";
-        private const string DatabaseName = "KanbanBoard";
+        private readonly MySqlConnection sqlConnection;
+        private MySqlCommand sqlCommand;
+        private MySqlDataAdapter sqlDataAdapter;
 
         public DbCommands()
         {
-            SqlConnectionStringBuilder connectionStringBuilder = new SqlConnectionStringBuilder
-            {
-                DataSource = ServerName,
-                InitialCatalog = DatabaseName,
-                IntegratedSecurity = true
-            };
-
-            sqlConnection = new SqlConnection
-            {
-                ConnectionString = connectionStringBuilder.ConnectionString
-            };
+            sqlConnection = new MySqlConnection("server=localhost;user=root;password=Password123;port=3306;database=kanbanboard");
         }
 
-        public DbCommands(string dbUser, string dbPassword)
-        {
-            SqlConnectionStringBuilder connectionStringBuilder = new SqlConnectionStringBuilder
-            {
-                DataSource = ServerName,
-                InitialCatalog = DatabaseName,
-                UserID = dbUser,
-                Password = dbPassword
-            };
-
-            sqlConnection = new SqlConnection
-            {
-                ConnectionString = connectionStringBuilder.ConnectionString
-            };
-        }
-        
         public int ExecuteSqlNonQuery(string sqlQuery, params DbParameter[] parameters)
         {
             try
@@ -53,7 +25,7 @@ namespace KanbanBoard.Helpers
                     sqlConnection.Open();
                 }
 
-                using (sqlCommand = new SqlCommand(sqlQuery))
+                using (sqlCommand = new MySqlCommand(sqlQuery))
                 {
                     sqlCommand.Connection = sqlConnection;
                     foreach (DbParameter parameter in parameters)
@@ -86,7 +58,7 @@ namespace KanbanBoard.Helpers
                 }
                 
                 DataSet result = new DataSet();
-                using (sqlCommand = new SqlCommand(sqlQuery))
+                using (sqlCommand = new MySqlCommand(sqlQuery))
                 {
                     sqlCommand.Connection = sqlConnection;
                     if (parameters != null)
@@ -96,7 +68,7 @@ namespace KanbanBoard.Helpers
                             sqlCommand.Parameters.Add(parameter);
                         }
                     }
-                    sqlDataAdapter = new SqlDataAdapter(sqlCommand.CommandText, sqlCommand.Connection);
+                    sqlDataAdapter = new MySqlDataAdapter(sqlCommand.CommandText, sqlCommand.Connection);
                     sqlDataAdapter.SelectCommand = sqlCommand;
                     sqlDataAdapter.Fill(result, "Result");
                     return result;
@@ -124,7 +96,7 @@ namespace KanbanBoard.Helpers
                     sqlConnection.Open();
                 }
 
-                using (sqlCommand = new SqlCommand(sqlQuery))
+                using (sqlCommand = new MySqlCommand(sqlQuery))
                 {
                     sqlCommand.Connection = sqlConnection;
                     foreach (DbParameter parameter in parameters)

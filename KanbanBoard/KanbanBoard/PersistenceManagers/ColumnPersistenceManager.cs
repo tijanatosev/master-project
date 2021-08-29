@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
-using System.Data.SqlClient;
 using KanbanBoard.Helpers;
 using KanbanBoard.Models;
 using KanbanBoard.PersistenceManagers.Interfaces;
+using MySqlConnector;
 
 namespace KanbanBoard.PersistenceManagers
 {
@@ -31,7 +31,7 @@ namespace KanbanBoard.PersistenceManagers
         public Column Load(int id)
         {
             string sqlQuery = @"SELECT * FROM Columns WHERE Id=@Id";
-            DataTable result = dbCommands.ExecuteSqlQuery(sqlQuery, new SqlParameter("@Id", id)).Tables["Result"];
+            DataTable result = dbCommands.ExecuteSqlQuery(sqlQuery, new MySqlParameter("@Id", id)).Tables["Result"];
             if (result.Rows.Count != 0)
             {
                 return LoadFromDataRow(result.Rows[0]);
@@ -43,7 +43,7 @@ namespace KanbanBoard.PersistenceManagers
         {
             List<Column> columns = new List<Column>();
             string query = @"SELECT * FROM Columns WHERE BoardId=@BoardId ORDER BY ColumnOrder ASC";
-            DataTable result = dbCommands.ExecuteSqlQuery(query, new SqlParameter("@BoardId", boardId)).Tables["Result"];
+            DataTable result = dbCommands.ExecuteSqlQuery(query, new MySqlParameter("@BoardId", boardId)).Tables["Result"];
             if (result.Rows.Count != 0)
             {
                 foreach (DataRow row in result.Rows)
@@ -61,10 +61,10 @@ OUTPUT INSERTED.ID VALUES
 (@Name, @ColumnOrder, @IsDone, @BoardId)";
             DbParameter[] parameters = 
             {
-                new SqlParameter("@Name", column.Name),
-                new SqlParameter("@ColumnOrder", column.ColumnOrder),
-                new SqlParameter("@IsDone", column.IsDone), 
-                new SqlParameter("@BoardId", column.BoardId)
+                new MySqlParameter("@Name", column.Name),
+                new MySqlParameter("@ColumnOrder", column.ColumnOrder),
+                new MySqlParameter("@IsDone", column.IsDone), 
+                new MySqlParameter("@BoardId", column.BoardId)
             };
             return dbCommands.ExecuteScalar(query, parameters);
         }
@@ -72,7 +72,7 @@ OUTPUT INSERTED.ID VALUES
         public void Delete(int id)
         {
             string query = @"DELETE FROM Columns WHERE Id=@Id";
-            dbCommands.ExecuteSqlNonQuery(query, new SqlParameter("@Id", id));
+            dbCommands.ExecuteSqlNonQuery(query, new MySqlParameter("@Id", id));
         }
 
         public int UpdateColumnOrder(int id, int columnOrder)
@@ -80,13 +80,13 @@ OUTPUT INSERTED.ID VALUES
             string query = @"UPDATE Columns
 SET ColumnOrder=@ColumnOrder
 WHERE Id=@Id";
-            return dbCommands.ExecuteSqlNonQuery(query, new SqlParameter("@ColumnOrder", columnOrder), new SqlParameter("@Id", id));
+            return dbCommands.ExecuteSqlNonQuery(query, new MySqlParameter("@ColumnOrder", columnOrder), new MySqlParameter("@Id", id));
         }
 
         public void DeleteByBoardId(int boardId)
         {
             string query = @"DELETE FROM Columns WHERE BoardId=@BoardId";
-            dbCommands.ExecuteSqlNonQuery(query, new SqlParameter("@BoardId", boardId));
+            dbCommands.ExecuteSqlNonQuery(query, new MySqlParameter("@BoardId", boardId));
         }
 
         public int UpdateIsDone(int id, int boardId)
@@ -97,14 +97,14 @@ WHERE BoardId=@BoardId";
             string queryOne = @"UPDATE Columns
 SET IsDone=@IsDone
 WHERE Id=@Id";
-            dbCommands.ExecuteSqlNonQuery(queryAll, new SqlParameter("@BoardId", boardId));
-            return dbCommands.ExecuteSqlNonQuery(queryOne, new SqlParameter("@IsDone", true), new SqlParameter("@Id", id));
+            dbCommands.ExecuteSqlNonQuery(queryAll, new MySqlParameter("@BoardId", boardId));
+            return dbCommands.ExecuteSqlNonQuery(queryOne, new MySqlParameter("@IsDone", true), new MySqlParameter("@Id", id));
         }
 
         public Column GetDoneColumnForBoard(int boardId)
         {
             string sqlQuery = @"SELECT * FROM Columns WHERE BoardId=@BoardId and IsDone = 1";
-            DataTable result = dbCommands.ExecuteSqlQuery(sqlQuery, new SqlParameter("@BoardId", boardId)).Tables["Result"];
+            DataTable result = dbCommands.ExecuteSqlQuery(sqlQuery, new MySqlParameter("@BoardId", boardId)).Tables["Result"];
             if (result.Rows.Count != 0)
             {
                 return LoadFromDataRow(result.Rows[0]);

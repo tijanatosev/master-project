@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
-using System.Data.SqlClient;
 using KanbanBoard.Helpers;
 using KanbanBoard.Models;
 using KanbanBoard.PersistenceManagers.Interfaces;
+using MySqlConnector;
 
 namespace KanbanBoard.PersistenceManagers
 {
@@ -32,7 +32,7 @@ namespace KanbanBoard.PersistenceManagers
         public User Load(int id)
         {
             string query = @"SELECT * FROM Users WHERE Id=@Id";
-            DataTable result = dbCommands.ExecuteSqlQuery(query, new SqlParameter("@Id", id)).Tables["Result"];
+            DataTable result = dbCommands.ExecuteSqlQuery(query, new MySqlParameter("@Id", id)).Tables["Result"];
             
             if (result.Rows.Count != 0)
             {
@@ -44,7 +44,7 @@ namespace KanbanBoard.PersistenceManagers
         public User Load(string username)
         {
             string query = @"SELECT * FROM Users WHERE Username=@Username";
-            DataTable result = dbCommands.ExecuteSqlQuery(query, new SqlParameter("@Username", username)).Tables["Result"];
+            DataTable result = dbCommands.ExecuteSqlQuery(query, new MySqlParameter("@Username", username)).Tables["Result"];
             
             if (result.Rows.Count != 0)
             {
@@ -60,13 +60,13 @@ OUTPUT INSERTED.ID
 VALUES (@FirstName, @LastName, @Username, @Password, @Email, @UserType, @Image)";
             DbParameter[] parameters = 
             {
-                new SqlParameter("@FirstName", user.FirstName),
-                new SqlParameter("@LastName", user.LastName),
-                new SqlParameter("@Username", user.Username),
-                new SqlParameter("@Password", user.Password),
-                new SqlParameter("@Email", user.Email),
-                new SqlParameter("@UserType", user.UserType),
-                new SqlParameter("@Image", "Resources\\Images\\profile.png"), 
+                new MySqlParameter("@FirstName", user.FirstName),
+                new MySqlParameter("@LastName", user.LastName),
+                new MySqlParameter("@Username", user.Username),
+                new MySqlParameter("@Password", user.Password),
+                new MySqlParameter("@Email", user.Email),
+                new MySqlParameter("@UserType", user.UserType),
+                new MySqlParameter("@Image", "Resources\\Images\\profile.png"), 
             };
             return dbCommands.ExecuteScalar(query, parameters);
         }
@@ -81,11 +81,11 @@ Email=@Email
 WHERE Id=@Id";
             DbParameter[] parameters = 
             {
-                new SqlParameter("@Username", user.Username),
-                new SqlParameter("@FirstName", user.FirstName),
-                new SqlParameter("@LastName", user.LastName),
-                new SqlParameter("@Email", user.Email),
-                new SqlParameter("@Id", user.Id) 
+                new MySqlParameter("@Username", user.Username),
+                new MySqlParameter("@FirstName", user.FirstName),
+                new MySqlParameter("@LastName", user.LastName),
+                new MySqlParameter("@Email", user.Email),
+                new MySqlParameter("@Id", user.Id) 
             };
             return dbCommands.ExecuteSqlNonQuery(query, parameters);
         }
@@ -95,8 +95,8 @@ WHERE Id=@Id";
             string query = @"UPDATE Users SET Password=@Password WHERE Id=@Id";
             DbParameter[] parameters = 
             {
-                new SqlParameter("@Password", password),
-                new SqlParameter("@Id", id)
+                new MySqlParameter("@Password", password),
+                new MySqlParameter("@Id", id)
             };
             return dbCommands.ExecuteSqlNonQuery(query, parameters);
         }
@@ -105,8 +105,8 @@ WHERE Id=@Id";
         {
             string queryUsersTeams = @"DELETE FROM UsersTeams WHERE UserId=@UserId";
             string queryUsers = @"DELETE FROM Users WHERE Id=@Id";
-            dbCommands.ExecuteSqlNonQuery(queryUsersTeams, new SqlParameter("@UserId", id));
-            dbCommands.ExecuteSqlNonQuery(queryUsers, new SqlParameter("@Id", id));
+            dbCommands.ExecuteSqlNonQuery(queryUsersTeams, new MySqlParameter("@UserId", id));
+            dbCommands.ExecuteSqlNonQuery(queryUsers, new MySqlParameter("@Id", id));
         }
 
         public IEnumerable<User> LoadByTeamId(int teamId)
@@ -115,7 +115,7 @@ WHERE Id=@Id";
             string query = @"SELECT u.Id, u.Username, u.Password, u.FirstName, u.LastName, u.Email, u.UserType, u.Image 
 FROM UsersTeams ut JOIN Users u ON ut.UserId=u.Id 
 WHERE ut.TeamId=@TeamId";
-            DataTable result = dbCommands.ExecuteSqlQuery(query, new SqlParameter("@TeamId", teamId)).Tables["Result"];
+            DataTable result = dbCommands.ExecuteSqlQuery(query, new MySqlParameter("@TeamId", teamId)).Tables["Result"];
 
             if (result.Rows.Count != 0)
             {
@@ -135,7 +135,7 @@ WHERE ut.TeamId=@TeamId";
             string query = @"UPDATE Users SET
 Image=@Image
 WHERE Id=@Id";
-            return dbCommands.ExecuteSqlNonQuery(query, new SqlParameter("@Image", image), new SqlParameter("@Id", id));
+            return dbCommands.ExecuteSqlNonQuery(query, new MySqlParameter("@Image", image), new MySqlParameter("@Id", id));
         }
 
         public User LoadFromDataRow(DataRow row)

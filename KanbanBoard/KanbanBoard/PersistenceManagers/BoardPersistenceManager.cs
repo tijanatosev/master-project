@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
-using System.Data.SqlClient;
 using KanbanBoard.Helpers;
 using KanbanBoard.Models;
 using KanbanBoard.PersistenceManagers.Interfaces;
+using MySqlConnector;
 
 namespace KanbanBoard.PersistenceManagers
 {
@@ -30,7 +30,7 @@ namespace KanbanBoard.PersistenceManagers
         public Board Load(int id)
         {
             string sqlQuery = @"SELECT * FROM Boards WHERE Id=@Id";
-            DataTable result = dbCommands.ExecuteSqlQuery(sqlQuery, new SqlParameter("@Id", id)).Tables["Result"];
+            DataTable result = dbCommands.ExecuteSqlQuery(sqlQuery, new MySqlParameter("@Id", id)).Tables["Result"];
 
             if (result.Rows.Count != 0)
             {
@@ -46,14 +46,14 @@ OUTPUT INSERTED.ID
 VALUES(@Name, @Admin, @TeamId, @IsPomodoro, @WorkTime, @BreakTime, @Iterations, @LongerBreak)";
             DbParameter[] parameters = 
             {
-                new SqlParameter("@Name", board.Name),
-                new SqlParameter("@Admin", board.Admin),
-                new SqlParameter("@TeamId", board.TeamId),
-                new SqlParameter("@IsPomodoro", board.IsPomodoro),
-                new SqlParameter("@WorkTime", board.WorkTime),
-                new SqlParameter("@BreakTime", board.BreakTime),
-                new SqlParameter("@Iterations", board.Iterations), 
-                new SqlParameter("@LongerBreak", board.LongerBreak), 
+                new MySqlParameter("@Name", board.Name),
+                new MySqlParameter("@Admin", board.Admin),
+                new MySqlParameter("@TeamId", board.TeamId),
+                new MySqlParameter("@IsPomodoro", board.IsPomodoro),
+                new MySqlParameter("@WorkTime", board.WorkTime),
+                new MySqlParameter("@BreakTime", board.BreakTime),
+                new MySqlParameter("@Iterations", board.Iterations), 
+                new MySqlParameter("@LongerBreak", board.LongerBreak), 
             };
             return dbCommands.ExecuteScalar(query, parameters);
         }
@@ -63,11 +63,11 @@ VALUES(@Name, @Admin, @TeamId, @IsPomodoro, @WorkTime, @BreakTime, @Iterations, 
             DbParameter teamId;
             if (board.TeamId == null)
             {
-                teamId = new SqlParameter("@TeamId", DBNull.Value);
+                teamId = new MySqlParameter("@TeamId", DBNull.Value);
             }
             else
             {
-                teamId = new SqlParameter("@TeamId", board.TeamId);
+                teamId = new MySqlParameter("@TeamId", board.TeamId);
             }
             string query = @"UPDATE Boards SET
 Name=@Name,
@@ -81,15 +81,15 @@ LongerBreak=@LongerBreak
 WHERE Id=@Id";
             DbParameter[] parameters = 
             {
-                new SqlParameter("@Name", board.Name),
-                new SqlParameter("@Admin", board.Admin),
+                new MySqlParameter("@Name", board.Name),
+                new MySqlParameter("@Admin", board.Admin),
                 teamId,
-                new SqlParameter("@IsPomodoro", board.IsPomodoro),
-                new SqlParameter("@WorkTime", board.WorkTime),
-                new SqlParameter("@BreakTime", board.BreakTime), 
-                new SqlParameter("@Iterations", board.Iterations), 
-                new SqlParameter("@LongerBreak", board.LongerBreak),
-                new SqlParameter("@Id", board.Id),
+                new MySqlParameter("@IsPomodoro", board.IsPomodoro),
+                new MySqlParameter("@WorkTime", board.WorkTime),
+                new MySqlParameter("@BreakTime", board.BreakTime), 
+                new MySqlParameter("@Iterations", board.Iterations), 
+                new MySqlParameter("@LongerBreak", board.LongerBreak),
+                new MySqlParameter("@Id", board.Id),
             };
             return dbCommands.ExecuteSqlNonQuery(query, parameters);
         }
@@ -98,8 +98,8 @@ WHERE Id=@Id";
         {
             string queryColumns = @"DELETE FROM Columns WHERE BoardId=@BoardId";
             string query = @"DELETE FROM Boards WHERE Id=@Id";
-            dbCommands.ExecuteSqlNonQuery(queryColumns, new SqlParameter("@BoardId", id));
-            dbCommands.ExecuteSqlNonQuery(query, new SqlParameter("@Id", id));
+            dbCommands.ExecuteSqlNonQuery(queryColumns, new MySqlParameter("@BoardId", id));
+            dbCommands.ExecuteSqlNonQuery(query, new MySqlParameter("@Id", id));
         }
 
         public IEnumerable<Board> LoadByUserId(int userId)
@@ -109,7 +109,7 @@ WHERE Id=@Id";
 FROM Boards b JOIN Teams t ON b.TeamId=t.Id
 JOIN UsersTeams ut ON ut.TeamId=b.TeamId
 WHERE ut.UserId=@UserId";
-            DataTable result = dbCommands.ExecuteSqlQuery(sqlQuery, new SqlParameter("@UserId", userId)).Tables["Result"];
+            DataTable result = dbCommands.ExecuteSqlQuery(sqlQuery, new MySqlParameter("@UserId", userId)).Tables["Result"];
             if (result.Rows.Count != 0)
             {
                 foreach (DataRow row in result.Rows)
@@ -124,7 +124,7 @@ WHERE ut.UserId=@UserId";
         { 
             List<Board> boards = new List<Board>();
             string sqlQuery = @"SELECT * FROM Boards WHERE TeamId=@TeamId";
-            DataTable result = dbCommands.ExecuteSqlQuery(sqlQuery, new SqlParameter("@TeamId", teamId)).Tables["Result"];
+            DataTable result = dbCommands.ExecuteSqlQuery(sqlQuery, new MySqlParameter("@TeamId", teamId)).Tables["Result"];
             if (result.Rows.Count != 0)
             {
                 foreach (DataRow row in result.Rows)
@@ -142,7 +142,7 @@ WHERE ut.UserId=@UserId";
 FROM Tickets t JOIN Columns c ON t.ColumnId=c.Id 
 WHERE t.BoardId=@BoardId
 GROUP BY c.Name";
-            DataTable result = dbCommands.ExecuteSqlQuery(sql, new SqlParameter("@BoardId", id)).Tables["Result"];
+            DataTable result = dbCommands.ExecuteSqlQuery(sql, new MySqlParameter("@BoardId", id)).Tables["Result"];
             if (result.Rows.Count != 0)
             {
                 foreach (DataRow row in result.Rows)
@@ -160,7 +160,7 @@ GROUP BY c.Name";
 FROM Tickets t JOIN LabelsTickets lt ON t.Id=lt.TicketId JOIN Labels l ON l.Id=lt.LabelId
 WHERE t.BoardId=@BoardId
 GROUP BY l.Name";
-            DataTable result = dbCommands.ExecuteSqlQuery(sql, new SqlParameter("@BoardId", id)).Tables["Result"];
+            DataTable result = dbCommands.ExecuteSqlQuery(sql, new MySqlParameter("@BoardId", id)).Tables["Result"];
             if (result.Rows.Count != 0)
             {
                 foreach (DataRow row in result.Rows)

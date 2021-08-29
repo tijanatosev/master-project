@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
-using System.Data.SqlClient;
 using KanbanBoard.Helpers;
 using KanbanBoard.Models;
 using KanbanBoard.PersistenceManagers.Interfaces;
+using MySqlConnector;
 
 namespace KanbanBoard.PersistenceManagers
 {
@@ -30,7 +30,7 @@ namespace KanbanBoard.PersistenceManagers
         public Label Load(int id)
         {
             string sqlQuery = @"SELECT * FROM Labels WHERE Id=@Id";
-            DataTable result = dbCommands.ExecuteSqlQuery(sqlQuery, new SqlParameter("@Id", id)).Tables["Result"];
+            DataTable result = dbCommands.ExecuteSqlQuery(sqlQuery, new MySqlParameter("@Id", id)).Tables["Result"];
 
             if (result.Rows.Count != 0)
             {
@@ -44,8 +44,8 @@ namespace KanbanBoard.PersistenceManagers
             string query = @"INSERT INTO Labels (Name, Color) OUTPUT INSERTED.ID VALUES (@Name, @Color)";
             DbParameter[] parameters = 
             {
-                new SqlParameter("@Name", label.Name),
-                new SqlParameter("@Color", label.Color)
+                new MySqlParameter("@Name", label.Name),
+                new MySqlParameter("@Color", label.Color)
             };
             return dbCommands.ExecuteScalar(query, parameters);
         }
@@ -58,9 +58,9 @@ Color=@Color
 WHERE Id=@Id";
             DbParameter[] parameters = 
             {
-                new SqlParameter("@Name", label.Name),
-                new SqlParameter("@Color", label.Color),
-                new SqlParameter("@Id", id) 
+                new MySqlParameter("@Name", label.Name),
+                new MySqlParameter("@Color", label.Color),
+                new MySqlParameter("@Id", id) 
             };
             return dbCommands.ExecuteSqlNonQuery(query, parameters);
         }
@@ -69,8 +69,8 @@ WHERE Id=@Id";
         {
             string queryLabelsTickets = @"DELETE FROM LabelsTickets WHERE LabelId=@LabelId";
             string queryLabels = @"DELETE FROM Labels WHERE Id=@Id";
-            dbCommands.ExecuteSqlNonQuery(queryLabelsTickets, new SqlParameter("@LabelId", id));
-            dbCommands.ExecuteSqlNonQuery(queryLabels, new SqlParameter("@Id", id));
+            dbCommands.ExecuteSqlNonQuery(queryLabelsTickets, new MySqlParameter("@LabelId", id));
+            dbCommands.ExecuteSqlNonQuery(queryLabels, new MySqlParameter("@Id", id));
         }
 
         public void DeleteAll()
@@ -87,7 +87,7 @@ WHERE Id=@Id";
             string query = @"SELECT l.Id, l.Name, l.Color
 FROM Labels l join LabelsTickets lt ON l.Id=lt.LabelId
 WHERE lt.TicketId=@TicketId";
-            DataTable result = dbCommands.ExecuteSqlQuery(query,new SqlParameter("@TicketId", ticketId)).Tables["Result"];
+            DataTable result = dbCommands.ExecuteSqlQuery(query,new MySqlParameter("@TicketId", ticketId)).Tables["Result"];
             if (result.Rows.Count != 0)
             {
                 foreach (DataRow row in result.Rows)
@@ -101,7 +101,7 @@ WHERE lt.TicketId=@TicketId";
         public void DeleteByTicketId(int labelId, int ticketId)
         {
             string query = @"DELETE FROM LabelsTickets WHERE LabelId=@LabelId AND TicketId=@TicketId";
-            dbCommands.ExecuteSqlNonQuery(query, new SqlParameter("@LabelId", labelId), new SqlParameter("@TicketId", ticketId));
+            dbCommands.ExecuteSqlNonQuery(query, new MySqlParameter("@LabelId", labelId), new MySqlParameter("@TicketId", ticketId));
         }
 
         public int AddByTicketId(Label label, int ticketId)
@@ -109,8 +109,8 @@ WHERE lt.TicketId=@TicketId";
             string query = @"INSERT INTO LabelsTickets (LabelId, TicketId) OUTPUT INSERTED.ID VALUES (@LabelId, @TicketId)";
             DbParameter[] parameters = 
             {
-                new SqlParameter("@LabelId", label.Id),
-                new SqlParameter("@TicketId", ticketId)
+                new MySqlParameter("@LabelId", label.Id),
+                new MySqlParameter("@TicketId", ticketId)
             };
             return dbCommands.ExecuteScalar(query, parameters);
         }
@@ -122,7 +122,7 @@ WHERE lt.TicketId=@TicketId";
 FROM Tickets t JOIN LabelsTickets lt ON t.Id=lt.TicketId JOIN Labels l ON l.Id=lt.LabelId
 WHERE t.BoardId=@BoardId
 GROUP BY l.Name, l.Id, l.Color";
-            DataTable result = dbCommands.ExecuteSqlQuery(query,new SqlParameter("@BoardId", boardId)).Tables["Result"];
+            DataTable result = dbCommands.ExecuteSqlQuery(query,new MySqlParameter("@BoardId", boardId)).Tables["Result"];
             if (result.Rows.Count != 0)
             {
                 foreach (DataRow row in result.Rows)

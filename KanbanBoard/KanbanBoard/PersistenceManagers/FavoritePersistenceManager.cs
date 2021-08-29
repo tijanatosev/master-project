@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
-using System.Data.SqlClient;
 using KanbanBoard.Helpers;
 using KanbanBoard.Models;
 using KanbanBoard.PersistenceManagers.Interfaces;
+using MySqlConnector;
 
 namespace KanbanBoard.PersistenceManagers
 {
@@ -17,7 +17,7 @@ namespace KanbanBoard.PersistenceManagers
         {
             List<Favorite> favorites = new List<Favorite>();
             string query = @"SELECT * FROM Favorites WHERE UserId=@UserId";
-            DataTable result = dbCommands.ExecuteSqlQuery(query, new SqlParameter("@UserId", userId)).Tables["Result"];
+            DataTable result = dbCommands.ExecuteSqlQuery(query, new MySqlParameter("@UserId", userId)).Tables["Result"];
             
             if (result.Rows.Count != 0)
             {
@@ -32,7 +32,7 @@ namespace KanbanBoard.PersistenceManagers
         public Favorite Load(int ticketId, int userId)
         {
             string query = @"SELECT * FROM Favorites WHERE TicketId=@TicketId AND UserId=@UserId";
-            DataTable result = dbCommands.ExecuteSqlQuery(query, new SqlParameter("@TicketId", ticketId), new SqlParameter("@UserId", userId)).Tables["Result"];
+            DataTable result = dbCommands.ExecuteSqlQuery(query, new MySqlParameter("@TicketId", ticketId), new MySqlParameter("@UserId", userId)).Tables["Result"];
             
             if (result.Rows.Count != 0)
             {
@@ -48,8 +48,8 @@ OUTPUT INSERTED.ID
 VALUES (@TicketId, @UserId)";
             DbParameter[] parameters = 
             {
-                new SqlParameter("@TicketId", favorite.TicketId),
-                new SqlParameter("@UserId", favorite.UserId)
+                new MySqlParameter("@TicketId", favorite.TicketId),
+                new MySqlParameter("@UserId", favorite.UserId)
             };
             return dbCommands.ExecuteScalar(query, parameters);
         }
@@ -57,7 +57,7 @@ VALUES (@TicketId, @UserId)";
         public void Delete(int ticketId, int userId)
         {
             string query = @"DELETE FROM Favorites WHERE TicketId=@TicketId AND UserId=@UserId";
-            dbCommands.ExecuteSqlNonQuery(query, new SqlParameter("@TicketId", ticketId), new SqlParameter("@UserId", userId));
+            dbCommands.ExecuteSqlNonQuery(query, new MySqlParameter("@TicketId", ticketId), new MySqlParameter("@UserId", userId));
         }
         
         public Favorite LoadFromDataRow(DataRow row)
