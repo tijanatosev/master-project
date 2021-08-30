@@ -14,11 +14,19 @@ namespace KanbanBoard.Services
 {
     public class TicketService : ITicketService
     {
-        private readonly ITicketPersistenceManager ticketPersistenceManager = new TicketPersistenceManager();
-        private readonly IColumnService columnService = new ColumnService();
-        private readonly IValidationService validationService = new ValidationService();
-        private readonly IUserService userService = new UserService();
-        
+        private readonly ITicketPersistenceManager ticketPersistenceManager;
+        private readonly IColumnService columnService;
+        private readonly IValidationService validationService;
+        private readonly IUserService userService;
+
+        public TicketService(ConnectionStringConfiguration connectionStringConfiguration)
+        {
+            columnService = new ColumnService(connectionStringConfiguration);
+            userService = new UserService(connectionStringConfiguration);
+            ticketPersistenceManager = new TicketPersistenceManager(connectionStringConfiguration);
+            validationService = new ValidationService();
+        }
+
         public IEnumerable<Ticket> GetAll(IQueryCollection queryCollection)
         {
             string parsedQuery = String.Empty;

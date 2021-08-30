@@ -8,8 +8,14 @@ namespace KanbanBoard.Services
 {
     public class TeamService : ITeamService
     {
-        private readonly TeamPersistenceManager teamPersistenceManager = new TeamPersistenceManager();
-        private readonly IValidationService validationService = new ValidationService();
+        private readonly TeamPersistenceManager teamPersistenceManager;
+        private readonly IValidationService validationService;
+
+        public TeamService(ConnectionStringConfiguration connectionStringConfiguration)
+        {
+            teamPersistenceManager = new TeamPersistenceManager(connectionStringConfiguration);
+            validationService = new ValidationService();
+        }
 
         public IEnumerable<Team> GetAll()
         {

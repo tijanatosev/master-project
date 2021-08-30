@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using KanbanBoard.Helpers;
 using KanbanBoard.Models;
 using KanbanBoard.Services;
 using KanbanBoard.Services.Interfaces;
@@ -10,7 +11,12 @@ namespace KanbanBoard.Controllers
     [Route("api/teams")]
     public class TeamsController
     {
-        private readonly ITeamService teamService = new TeamService();
+        private readonly ITeamService teamService;
+
+        public TeamsController(ConnectionStringConfiguration connectionStringConfiguration)
+        {
+            teamService = new TeamService(connectionStringConfiguration);
+        }
 
         [HttpGet]
         [Route("")]

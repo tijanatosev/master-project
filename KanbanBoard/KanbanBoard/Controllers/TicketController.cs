@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using KanbanBoard.Helpers;
 using KanbanBoard.Models;
 using KanbanBoard.Services;
 using KanbanBoard.Services.Interfaces;
@@ -10,12 +11,12 @@ namespace KanbanBoard.Controllers
     [Route("api/tickets")]
     public class TicketController : Controller
     {
-        private ITicketService ticketService;
-        private IHttpContextAccessor httpContextAccessor;
+        private readonly ITicketService ticketService;
+        private readonly IHttpContextAccessor httpContextAccessor;
 
-        public TicketController(IHttpContextAccessor httpContextAccessor)
+        public TicketController(IHttpContextAccessor httpContextAccessor, ConnectionStringConfiguration connectionStringConfiguration)
         {
-            ticketService = new TicketService();
+            ticketService = new TicketService(connectionStringConfiguration);
             this.httpContextAccessor = httpContextAccessor;
         }
         

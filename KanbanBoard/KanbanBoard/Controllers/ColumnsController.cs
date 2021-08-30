@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using KanbanBoard.Helpers;
 using KanbanBoard.Models;
 using KanbanBoard.Services;
 using KanbanBoard.Services.Interfaces;
@@ -10,7 +11,12 @@ namespace KanbanBoard.Controllers
     [Route("api/columns")]
     public class ColumnsController
     {
-        private readonly IColumnService columnService = new ColumnService();
+        private readonly IColumnService columnService;
+
+        public ColumnsController(ConnectionStringConfiguration connectionStringConfiguration)
+        {
+            this.columnService = new ColumnService(connectionStringConfiguration);
+        }
 
         [HttpGet]
         [Route("")]

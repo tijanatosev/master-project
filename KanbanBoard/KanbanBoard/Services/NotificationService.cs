@@ -9,9 +9,15 @@ namespace KanbanBoard.Services
 {
     public class NotificationService : INotificationService
     {
-        private readonly INotificationPersistenceManager notificationPersistenceManager = new NotificationPersistenceManager();
-        private readonly IValidationService validationService = new ValidationService();
-        
+        private readonly INotificationPersistenceManager notificationPersistenceManager;
+        private readonly IValidationService validationService;
+
+        public NotificationService(ConnectionStringConfiguration connectionStringConfiguration)
+        {
+            notificationPersistenceManager = new NotificationPersistenceManager(connectionStringConfiguration);
+            validationService = new ValidationService();
+        }
+
         public IEnumerable<Notification> GetAll()
         {
             return notificationPersistenceManager.LoadAll();

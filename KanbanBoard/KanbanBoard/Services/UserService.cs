@@ -10,9 +10,16 @@ namespace KanbanBoard.Services
 {
     public class UserService : IUserService
     {
-        private readonly IUserPersistenceManager userPersistenceManager = new UserPersistenceManager();
-        private readonly IHashingManager hashingManager = new HashingManager();
-        private readonly IValidationService validationService = new ValidationService();
+        private readonly IUserPersistenceManager userPersistenceManager;
+        private readonly IHashingManager hashingManager;
+        private readonly IValidationService validationService;
+
+        public UserService(ConnectionStringConfiguration connectionStringConfiguration)
+        {
+            userPersistenceManager = new UserPersistenceManager(connectionStringConfiguration);
+            validationService = new ValidationService();
+            hashingManager = new HashingManager();
+        }
 
         public IEnumerable<User> GetAll()
         {

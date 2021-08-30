@@ -11,7 +11,12 @@ namespace KanbanBoard.PersistenceManagers
 {
     public class FavoritePersistenceManager : IFavoritePersistenceManager
     {
-        private readonly IDbCommands dbCommands = new DbCommands();
+        private readonly IDbCommands dbCommands;
+
+        public FavoritePersistenceManager(ConnectionStringConfiguration connectionStringConfiguration)
+        {
+            dbCommands = new DbCommands(connectionStringConfiguration);
+        }
 
         public IEnumerable<Favorite> LoadByUserId(int userId)
         {

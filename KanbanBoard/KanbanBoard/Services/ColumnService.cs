@@ -9,8 +9,14 @@ namespace KanbanBoard.Services
 {
     public class ColumnService : IColumnService
     {
-        private readonly IColumnPersistenceManager columnPersistenceManager = new ColumnPersistenceManager();
-        private readonly IValidationService validationService = new ValidationService();
+        private readonly IColumnPersistenceManager columnPersistenceManager;
+        private readonly IValidationService validationService;
+
+        public ColumnService(ConnectionStringConfiguration connectionStringConfiguration)
+        {
+            columnPersistenceManager = new ColumnPersistenceManager(connectionStringConfiguration);
+            validationService = new ValidationService();
+        }
 
         public IEnumerable<Column> GetAll()
         {

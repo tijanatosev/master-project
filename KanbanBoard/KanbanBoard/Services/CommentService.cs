@@ -9,9 +9,15 @@ namespace KanbanBoard.Services
 {
     public class CommentService : ICommentService
     {
-        private readonly ICommentPersistenceManager commentPersistenceManager = new CommentPersistenceManager();
-        private readonly IValidationService validationService = new ValidationService();
-        
+        private readonly ICommentPersistenceManager commentPersistenceManager;
+        private readonly IValidationService validationService;
+
+        public CommentService(ConnectionStringConfiguration connectionStringConfiguration)
+        {
+            commentPersistenceManager = new CommentPersistenceManager(connectionStringConfiguration);
+            validationService = new ValidationService();
+        }
+
         public IEnumerable<Comment> GetByTicketId(int ticketId)
         {
             if (!validationService.ValidateId(ticketId))

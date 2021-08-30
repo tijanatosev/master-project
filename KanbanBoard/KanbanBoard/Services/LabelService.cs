@@ -9,9 +9,15 @@ namespace KanbanBoard.Services
 {
     public class LabelService : ILabelService
     {
-        private readonly ILabelPersistenceManager labelPersistenceManager = new LabelPersistenceManager();
-        private readonly IValidationService validationService = new ValidationService();
-        
+        private readonly ILabelPersistenceManager labelPersistenceManager;
+        private readonly IValidationService validationService;
+
+        public LabelService(ConnectionStringConfiguration connectionStringConfiguration)
+        {
+            labelPersistenceManager = new LabelPersistenceManager(connectionStringConfiguration);
+            validationService = new ValidationService();
+        }
+
         public IEnumerable<Label> GetAll()
         {
             return labelPersistenceManager.LoadAll();

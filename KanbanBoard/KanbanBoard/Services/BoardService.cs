@@ -9,8 +9,15 @@ namespace KanbanBoard.Services
 {
     public class BoardService : IBoardService
     {
-        private readonly IBoardPersistenceManager boardPersistenceManager = new BoardPersistenceManager();
-        private readonly IValidationService validationService = new ValidationService();
+        private readonly IBoardPersistenceManager boardPersistenceManager;
+        private readonly IValidationService validationService;
+
+        public BoardService(ConnectionStringConfiguration connectionStringConfiguration)
+        {
+            boardPersistenceManager = new BoardPersistenceManager(connectionStringConfiguration);
+            validationService = new ValidationService();
+        }
+
 
         public IEnumerable<Board> GetAll()
         {
