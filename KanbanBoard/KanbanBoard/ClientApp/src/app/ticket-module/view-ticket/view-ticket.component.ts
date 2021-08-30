@@ -112,6 +112,9 @@ export class ViewTicketComponent implements OnInit {
       });
       this.ticketService.getTicketsByBoardId(this.ticket.BoardId).subscribe(tickets => {
         this.ticketsForDependencies = tickets.filter(t => t.Id != this.ticketId);
+        this.ticketService.getCircular(this.ticketId).subscribe(ticketIds => {
+          ticketIds.forEach(id => this.ticketsForDependencies = this.ticketsForDependencies.filter(x => x.Id != id));
+        });
       });
       this.ticketService.getDependency(this.ticketId).subscribe(tickets => {
         this.dependentOn = tickets;

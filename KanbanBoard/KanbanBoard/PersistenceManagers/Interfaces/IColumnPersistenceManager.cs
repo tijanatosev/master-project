@@ -14,6 +14,8 @@ namespace KanbanBoard.PersistenceManagers.Interfaces
         int Add(Column column);
         
         void Delete(int id);
+
+        int Update(int id, Column column);
         
         int UpdateColumnOrder(int id, int columnOrder);
 

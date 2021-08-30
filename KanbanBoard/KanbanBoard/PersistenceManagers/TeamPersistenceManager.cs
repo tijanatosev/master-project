@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
-using System.Data.SqlClient;
 using KanbanBoard.Helpers;
 using KanbanBoard.Models;
 using KanbanBoard.PersistenceManagers.Interfaces;
+using MySqlConnector;
 
 namespace KanbanBoard.PersistenceManagers
 {
@@ -30,7 +30,7 @@ namespace KanbanBoard.PersistenceManagers
         public Team Load(int id)
         {
             string sqlQuery = @"SELECT * FROM Teams WHERE Id=@Id";
-            DataTable result = dbCommands.ExecuteSqlQuery(sqlQuery, new SqlParameter("@Id", id)).Tables["Result"];
+            DataTable result = dbCommands.ExecuteSqlQuery(sqlQuery, new MySqlParameter("@Id", id)).Tables["Result"];
 
             if (result.Rows.Count != 0)
             {
@@ -42,7 +42,7 @@ namespace KanbanBoard.PersistenceManagers
         public Team LoadByName(string name)
         {
             string sqlQuery = @"SELECT * FROM Teams WHERE Name=@Name";
-            DataTable result = dbCommands.ExecuteSqlQuery(sqlQuery, new SqlParameter("@Name", name)).Tables["Result"];
+            DataTable result = dbCommands.ExecuteSqlQuery(sqlQuery, new MySqlParameter("@Name", name)).Tables["Result"];
 
             if (result.Rows.Count != 0)
             {
@@ -53,13 +53,15 @@ namespace KanbanBoard.PersistenceManagers
 
         public int Add(Team team)
         {
-            string query = @"INSERT INTO Teams (Name, Admin) OUTPUT INSERTED.ID VALUES(@Name, @Admin)";
+            string query = @"INSERT INTO Teams (Name, Admin)
+VALUES(@Name, @Admin)";
             DbParameter[] parameters = 
             {
-                new SqlParameter("@Name", team.Name),
-                new SqlParameter("@Admin", team.Admin)
+                new MySqlParameter("@Name", team.Name),
+                new MySqlParameter("@Admin", team.Admin)
             };
-            return dbCommands.ExecuteScalar(query, parameters);
+            dbCommands.ExecuteSqlNonQuery(query, parameters);
+            return Convert.ToInt32(dbCommands.ExecuteScalar("SELECT LAST_INSERT_ID();"));
         }
 
         public void Delete(int id)
@@ -67,9 +69,9 @@ namespace KanbanBoard.PersistenceManagers
             string queryUsersTeams = @"DELETE FROM UsersTeams WHERE TeamId=@TeamId";
             string queryBoards = @"DELETE FROM Boards WHERE TeamId=@TeamId";
             string queryTeams = @"DELETE FROM Teams WHERE Id=@Id";
-            dbCommands.ExecuteSqlNonQuery(queryUsersTeams, new SqlParameter("@TeamId", id));
-            dbCommands.ExecuteSqlNonQuery(queryBoards, new SqlParameter("@TeamId", id));
-            dbCommands.ExecuteSqlNonQuery(queryTeams, new SqlParameter("@Id", id));
+            dbCommands.ExecuteSqlNonQuery(queryUsersTeams, new MySqlParameter("@TeamId", id));
+            dbCommands.ExecuteSqlNonQuery(queryBoards, new MySqlParameter("@TeamId", id));
+            dbCommands.ExecuteSqlNonQuery(queryTeams, new MySqlParameter("@Id", id));
         }
 
         public IEnumerable<Team> LoadByUserId(int userId)
@@ -78,7 +80,7 @@ namespace KanbanBoard.PersistenceManagers
             string query = @"SELECT t.Id, t.Admin, t.Name
 FROM Teams t JOIN UsersTeams ut ON t.Id=ut.TeamId
 WHERE ut.UserId=@UserId";
-            DataTable result = dbCommands.ExecuteSqlQuery(query, new SqlParameter("@UserId", userId)).Tables["Result"];
+            DataTable result = dbCommands.ExecuteSqlQuery(query, new MySqlParameter("@UserId", userId)).Tables["Result"];
             if (result.Rows.Count != 0)
             {
                 foreach (DataRow row in result.Rows)
@@ -93,11 +95,11 @@ WHERE ut.UserId=@UserId";
         {
             int rowsAdded = 0;
             string queryDelete = @"DELETE FROM UsersTeams where TeamId=@TeamId";
-            dbCommands.ExecuteSqlNonQuery(queryDelete, new SqlParameter("@TeamId", teamId));
+            dbCommands.ExecuteSqlNonQuery(queryDelete, new MySqlParameter("@TeamId", teamId));
             string query = @"INSERT INTO UsersTeams (UserId, TeamId) VALUES (@UserId, " + teamId + ")";
             foreach (int userId in userIds)
             {
-                rowsAdded += dbCommands.ExecuteSqlNonQuery(query, new SqlParameter("@UserId", userId));
+                rowsAdded += dbCommands.ExecuteSqlNonQuery(query, new MySqlParameter("@UserId", userId));
             }
 
             return rowsAdded;

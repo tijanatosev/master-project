@@ -15,6 +15,8 @@ namespace KanbanBoard.Services.Interfaces
 
         void Delete(int id);
 
+        bool Update(int id, Column column);
+
         bool UpdateColumnOrder(int id, int columnOrder);
 
         void DeleteByBoardId(int boardId);

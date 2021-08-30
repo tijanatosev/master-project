@@ -219,5 +219,12 @@ namespace KanbanBoard.Controllers
         {
             ticketService.DeleteDependency(id, dependencyId);
         }
+
+        [HttpGet]
+        [Route("{id}/circular")]
+        public IEnumerable<int> GetCircularDependencies([FromRoute] int id)
+        {
+            return ticketService.GetCircularDependencies(id);
+        }
     }
 }

@@ -49,6 +49,7 @@ namespace KanbanBoard.Services.Interfaces
         int AddDependency(int id, int dependencyId);
 
         void DeleteDependency(int id, int dependencyId);
-        
+
+        IEnumerable<int> GetCircularDependencies(int dependencyId);
     }
 }
