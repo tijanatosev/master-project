@@ -75,6 +75,14 @@ VALUES (@Name, @ColumnOrder, @IsDone, @BoardId)";
             dbCommands.ExecuteSqlNonQuery(query, new MySqlParameter("@Id", id));
         }
 
+        public int Update(int id, Column column)
+        {
+            string query = @"UPDATE Columns
+SET Name=@Name
+WHERE Id=@Id";
+            return dbCommands.ExecuteSqlNonQuery(query, new MySqlParameter("@Name", column.Name), new MySqlParameter("@Id", id));
+        }
+
         public int UpdateColumnOrder(int id, int columnOrder)
         {
             string query = @"UPDATE Columns

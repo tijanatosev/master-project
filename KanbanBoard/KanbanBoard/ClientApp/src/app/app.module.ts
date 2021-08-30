@@ -79,6 +79,7 @@ import { VerticalViewComponent } from "./statistics-module/vertical-view/vertica
 import { SingleViewWeekComponent } from './statistics-module/single-view-week/single-view-week.component';
 import { EditLabelComponent } from './settings-module/settings-labels/edit-label/edit-label.component';
 import { EditTeamComponent } from './team-module/team/edit-team/edit-team.component';
+import { RenameColumnComponent } from './settings-module/settings-boards/edit-board/rename-column/rename-column.component';
 
 export function momentAdapterFactory() {
   return adapterFactory(moment);
@@ -144,7 +145,8 @@ const routes = [
     VerticalViewComponent,
     SingleViewWeekComponent,
     EditLabelComponent,
-    EditTeamComponent
+    EditTeamComponent,
+    RenameColumnComponent
   ],
   imports: [
     BrowserModule.withServerTransition({appId: 'ng-cli-universal'}),
@@ -198,7 +200,8 @@ const routes = [
     AddLabelComponent,
     AddTicketComponent,
     EditLabelComponent,
-    EditTeamComponent
+    EditTeamComponent,
+    RenameColumnComponent
   ]
 })
 export class AppModule { }

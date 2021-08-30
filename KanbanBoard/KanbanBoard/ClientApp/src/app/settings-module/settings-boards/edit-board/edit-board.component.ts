@@ -14,6 +14,7 @@ import { SnackBarService } from "../../../shared/snack-bar.service";
 import { MatDialog, MatDialogRef } from "@angular/material/dialog";
 import { ConfirmationDialogComponent } from "../../../shared/confirmation-dialog/confirmation-dialog.component";
 import { AuthService } from "../../../shared/auth/auth.service";
+import {RenameColumnComponent} from "./rename-column/rename-column.component";
 
 @Component({
   selector: 'app-edit-board',
@@ -37,6 +38,7 @@ export class EditBoardComponent implements OnInit {
   private defaultBreakTime = 5;
   private defaultIterations = 4;
   private defaultLongerBreak = 30;
+  public renameDialogRef: MatDialogRef<any>;
 
   constructor(private boardService: BoardService,
               private teamService: TeamService,
@@ -45,7 +47,8 @@ export class EditBoardComponent implements OnInit {
               private formBuilder: FormBuilder,
               private snackBarService: SnackBarService,
               private confirmDialog: MatDialog,
-              private authService: AuthService) { }
+              private authService: AuthService,
+              private renameDialog: MatDialog) { }
 
   ngOnInit() {
     this.teamService.getTeams().subscribe(teams => this.teams = teams);
@@ -105,6 +108,21 @@ export class EditBoardComponent implements OnInit {
         this.columnService.deleteColumnsByBoardId(this.board.Id).subscribe(() => this.columns = []);
       }
     });
+  }
+
+  public openEditColumn(columnId, columnName) {
+    this.renameDialogRef = this.renameDialog.open(RenameColumnComponent, {
+      width: '430px',
+      height: '320px'
+    });
+    this.renameDialogRef.componentInstance.id = columnId;
+    this.renameDialogRef.componentInstance.boardId = this.board.Id;
+    this.renameDialogRef.componentInstance.name = columnName;
+
+    this.renameDialogRef.afterClosed().subscribe(result => {
+      this.columnService.getColumnsByBoardId(this.board.Id).subscribe(columns => this.columns = columns);
+    });
+
   }
 
   public addColumn(columnForm) {

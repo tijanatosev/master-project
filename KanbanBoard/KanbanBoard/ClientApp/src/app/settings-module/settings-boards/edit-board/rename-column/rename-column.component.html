@@ -1,0 +1,22 @@
+<h2 mat-dialog-title>Edit status</h2>
+<mat-dialog-content class="mat-typography">
+  <form [formGroup]="columnForm">
+    <mat-form-field appearance="outline">
+      <mat-label>Name</mat-label>
+      <input matInput placeholder="Name" formControlName="columnName">
+    </mat-form-field>
+    <mat-error *ngIf="columnForm.get('columnName').errors && columnForm.get('columnName').errors.maxlength">
+      Name is too long. It should be 20 characters long.
+    </mat-error>
+    <mat-error *ngIf="columnForm.get('columnName').errors && columnForm.get('columnName').errors.nameInvalid">
+      Name can't be empty.
+    </mat-error>
+    <mat-error *ngIf="columnForm.get('columnName').errors && columnForm.get('columnName').errors.nameExists">
+      Provided name is already in use.
+    </mat-error>
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions align="center">
+  <button mat-raised-button color="primary" type="submit" [disabled]="!columnForm.valid" (click)="save(columnForm)">Save</button>
+  <button mat-button mat-dialog-close>Cancel</button>
+</mat-dialog-actions>

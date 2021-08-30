@@ -111,8 +111,8 @@
                 <span> &nbsp;
                   <span class="column-order"> {{ i + 1 }}. </span> &nbsp; {{ column.Name }}
                 </span>
-                <button mat-icon-button style="float: right;" (click)="removeColumn(i)">
-                  <mat-icon>delete</mat-icon>
+                <button mat-icon-button style="float: right;" (click)="openEditColumn(column.Id, column.Name)">
+                  <mat-icon>edit</mat-icon>
                 </button>
               </div>
             </div>

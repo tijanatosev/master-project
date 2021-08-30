@@ -40,6 +40,18 @@ namespace KanbanBoard.Controllers
             return columnService.Add(column);
         }
 
+        [HttpPut]
+        [Route("{id}")]
+        public IActionResult Update([FromRoute] int id, [FromBody] Column column)
+        {
+            if (!columnService.Update(id, column))
+            {
+                return new NoContentResult();
+            }
+            
+            return new StatusCodeResult(200);
+        }
+
         [HttpDelete]
         [Route("{id}")]
         public void Delete([FromRoute] int id)

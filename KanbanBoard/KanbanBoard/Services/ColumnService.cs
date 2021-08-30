@@ -52,6 +52,16 @@ namespace KanbanBoard.Services
             columnPersistenceManager.Delete(id);
         }
 
+        public bool Update(int id, Column column)
+        {
+            if (!validationService.ValidateId(id) || columnPersistenceManager.Load(id) == null)
+            {
+                return false;
+            }
+
+            return columnPersistenceManager.Update(id, column) > 0;
+        }
+
         public bool UpdateColumnOrder(int id, int columnOrder)
         {
             if (!validationService.ValidateId(id) || columnPersistenceManager.Load(id) == null)
