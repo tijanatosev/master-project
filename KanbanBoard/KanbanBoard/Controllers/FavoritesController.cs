@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using KanbanBoard.Helpers;
 using KanbanBoard.Models;
 using KanbanBoard.Services;
 using KanbanBoard.Services.Interfaces;
@@ -10,7 +11,12 @@ namespace KanbanBoard.Controllers
     [Route("api/favorites")]
     public class FavoritesController
     {
-        private readonly IFavoriteService favoriteService = new FavoriteService();
+        private readonly IFavoriteService favoriteService;
+
+        public FavoritesController(ConnectionStringConfiguration connectionStringConfiguration)
+        {
+            favoriteService = new FavoriteService(connectionStringConfiguration);
+        }
 
         [HttpGet]
         [Route("{userId}")]

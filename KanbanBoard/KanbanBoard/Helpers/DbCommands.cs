@@ -11,9 +11,9 @@ namespace KanbanBoard.Helpers
         private MySqlCommand sqlCommand;
         private MySqlDataAdapter sqlDataAdapter;
 
-        public DbCommands()
+        public DbCommands(ConnectionStringConfiguration connectionStringConfiguration)
         {
-            sqlConnection = new MySqlConnection("server=localhost;user=root;password=Password123;port=3306;database=kanbanboard");
+            sqlConnection = new MySqlConnection(connectionStringConfiguration.Default);
         }
 
         public int ExecuteSqlNonQuery(string sqlQuery, params DbParameter[] parameters)

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using KanbanBoard.Helpers;
 using KanbanBoard.Models;
 using KanbanBoard.Services;
 using KanbanBoard.Services.Interfaces;
@@ -10,7 +11,12 @@ namespace KanbanBoard.Controllers
     [Route("api/labels")]
     public class LabelsController
     {
-        private readonly ILabelService labelService = new LabelService();
+        private readonly ILabelService labelService;
+
+        public LabelsController(ConnectionStringConfiguration connectionStringConfiguration)
+        {
+            labelService = new LabelService(connectionStringConfiguration);
+        }
 
         [HttpGet]
         [Route("")]

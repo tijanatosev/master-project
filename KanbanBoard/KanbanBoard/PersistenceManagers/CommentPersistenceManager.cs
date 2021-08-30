@@ -11,7 +11,12 @@ namespace KanbanBoard.PersistenceManagers
 {
     public class CommentPersistenceManager : ICommentPersistenceManager
     {
-        private readonly IDbCommands dbCommands = new DbCommands();
+        private readonly IDbCommands dbCommands;
+
+        public CommentPersistenceManager(ConnectionStringConfiguration connectionStringConfiguration)
+        {
+            dbCommands = new DbCommands(connectionStringConfiguration);
+        }
 
         public IEnumerable<Comment> LoadByTicketId(int ticketId)
         {

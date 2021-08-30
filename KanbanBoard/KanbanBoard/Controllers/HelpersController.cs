@@ -28,11 +28,12 @@ namespace KanbanBoard.Controllers
     {
         private readonly MailService mailService = new MailService();
         private readonly EmailConfiguration emailConfiguration;
-        private readonly IUserService userService = new UserService();
+        private readonly IUserService userService;
 
-        public HelpersController(EmailConfiguration emailConfiguration)
+        public HelpersController(EmailConfiguration emailConfiguration, ConnectionStringConfiguration connectionStringConfiguration)
         {
             this.emailConfiguration = emailConfiguration;
+            userService = new UserService(connectionStringConfiguration);
         }
 
         [HttpPost]

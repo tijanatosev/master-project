@@ -25,6 +25,8 @@ namespace KanbanBoard
         {
             EmailConfiguration emailConfiguration = Configuration.GetSection("EmailConfiguration").Get<EmailConfiguration>();
             services.AddSingleton(emailConfiguration);
+            ConnectionStringConfiguration connectionStringConfiguration = Configuration.GetSection("ConnectionStrings").Get<ConnectionStringConfiguration>();
+            services.AddSingleton(connectionStringConfiguration);
             
             services.AddControllersWithViews();
             // In production, the Angular files will be served from this directory

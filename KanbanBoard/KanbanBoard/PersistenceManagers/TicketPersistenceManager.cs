@@ -11,7 +11,12 @@ namespace KanbanBoard.PersistenceManagers
 {
     public class TicketPersistenceManager : ITicketPersistenceManager
     {
-        private readonly IDbCommands dbCommands = new DbCommands();
+        private readonly IDbCommands dbCommands;
+
+        public TicketPersistenceManager(ConnectionStringConfiguration connectionStringConfiguration)
+        {
+            dbCommands = new DbCommands(connectionStringConfiguration);
+        }
 
         public IEnumerable<Ticket> LoadAll(string whereQuery)
         {

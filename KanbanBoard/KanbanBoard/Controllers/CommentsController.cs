@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using KanbanBoard.Helpers;
 using KanbanBoard.Models;
 using KanbanBoard.Services;
 using KanbanBoard.Services.Interfaces;
@@ -10,7 +11,12 @@ namespace KanbanBoard.Controllers
     [Route("api/comments")]
     public class CommentsController
     {
-        private readonly ICommentService commentService = new CommentService();
+        private readonly ICommentService commentService;
+
+        public CommentsController(ConnectionStringConfiguration connectionStringConfiguration)
+        {
+            commentService = new CommentService(connectionStringConfiguration);
+        }
 
         [HttpGet]
         [Route("ticket/{ticketId}")]

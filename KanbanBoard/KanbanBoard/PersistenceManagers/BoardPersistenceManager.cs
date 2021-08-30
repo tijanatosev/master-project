@@ -11,7 +11,12 @@ namespace KanbanBoard.PersistenceManagers
 {
     public class BoardPersistenceManager : IBoardPersistenceManager
     {
-        private readonly IDbCommands dbCommands = new DbCommands();
+        private readonly IDbCommands dbCommands;
+
+        public BoardPersistenceManager(ConnectionStringConfiguration connectionStringConfiguration)
+        {
+            dbCommands = new DbCommands(connectionStringConfiguration);
+        }
 
         public IEnumerable<Board> LoadAll()
         {

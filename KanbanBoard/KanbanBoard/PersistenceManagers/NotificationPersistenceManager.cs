@@ -11,7 +11,12 @@ namespace KanbanBoard.PersistenceManagers
 {
     public class NotificationPersistenceManager : INotificationPersistenceManager
     {
-        private readonly IDbCommands dbCommands = new DbCommands();
+        private readonly IDbCommands dbCommands;
+
+        public NotificationPersistenceManager(ConnectionStringConfiguration connectionStringConfiguration)
+        {
+            dbCommands = new DbCommands(connectionStringConfiguration);
+        }
 
         public IEnumerable<Notification> LoadAll()
         {

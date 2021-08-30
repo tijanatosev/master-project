@@ -9,9 +9,15 @@ namespace KanbanBoard.Services
 {
     public class FavoriteService : IFavoriteService
     {
-        private readonly IFavoritePersistenceManager favoritePersistenceManager = new FavoritePersistenceManager();
-        private readonly IValidationService validationService = new ValidationService();
-        
+        private readonly IFavoritePersistenceManager favoritePersistenceManager;
+        private readonly IValidationService validationService;
+
+        public FavoriteService(ConnectionStringConfiguration connectionStringConfiguration)
+        {
+            favoritePersistenceManager = new FavoritePersistenceManager(connectionStringConfiguration);
+            validationService = new ValidationService();
+        }
+
         public IEnumerable<Favorite> GetByUserId(int userId)
         {
             if (!validationService.ValidateId(userId))

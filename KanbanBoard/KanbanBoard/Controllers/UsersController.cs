@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using KanbanBoard.Helpers;
 using KanbanBoard.Models;
 using KanbanBoard.Services;
 using KanbanBoard.Services.Interfaces;
@@ -9,7 +10,12 @@ namespace KanbanBoard.Controllers
     [Route("api/users")]
     public class UsersController : Controller
     {
-        private IUserService userService = new UserService();
+        private readonly IUserService userService;
+
+        public UsersController(ConnectionStringConfiguration connectionStringConfiguration)
+        {
+            userService = new UserService(connectionStringConfiguration);
+        }
 
         [HttpGet]
         [Route("")]
