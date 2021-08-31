@@ -1,7 +1,11 @@
-<button mat-raised-button (click)="showTimerOptions()" color="primary">
+<button mat-raised-button (click)="goToTask()" color="primary">
   <mat-icon *ngIf="!isBreak && !isLongerBreak">timer</mat-icon>
   <mat-icon *ngIf="isBreak && !isLongerBreak">pause_circle_outline</mat-icon>
   <mat-icon *ngIf="isLongerBreak">local_cafe</mat-icon>
   &nbsp;
-  <span><span *ngIf="hours < 10">0</span>{{hours}}:<span *ngIf="minutes < 10">0</span>{{minutes}}:<span *ngIf="seconds < 10">0</span>{{seconds}}</span>
+  <span>
+    <span *ngIf="hours < 10">0</span>{{hours}}:
+    <span *ngIf="minutes < 10">0</span>{{minutes}}:
+    <span *ngIf="seconds < 10">0</span>{{seconds}}
+  </span>
 </button>

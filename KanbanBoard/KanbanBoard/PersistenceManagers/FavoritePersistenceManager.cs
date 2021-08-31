@@ -55,8 +55,7 @@ VALUES (@TicketId, @UserId)";
                 new MySqlParameter("@TicketId", favorite.TicketId),
                 new MySqlParameter("@UserId", favorite.UserId)
             };
-            dbCommands.ExecuteSqlNonQuery(query, parameters);
-            return Convert.ToInt32(dbCommands.ExecuteScalar("SELECT LAST_INSERT_ID();"));
+            return dbCommands.ExecuteScalarReturnInsertId(query, parameters);
         }
 
         public void Delete(int ticketId, int userId)

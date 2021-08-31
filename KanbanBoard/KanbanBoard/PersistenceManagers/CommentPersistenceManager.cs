@@ -46,8 +46,7 @@ VALUES (@CommentedAt, @Text, @UserId, @TicketId)";
                 new MySqlParameter("@UserId", comment.UserId),
                 new MySqlParameter("@TicketId", comment.TicketId) 
             };
-            dbCommands.ExecuteSqlNonQuery(query, parameters);
-            return Convert.ToInt32(dbCommands.ExecuteScalar("SELECT LAST_INSERT_ID();"));
+            return dbCommands.ExecuteScalarReturnInsertId(query, parameters);
         }
 
         public int Update(int id, string text)

@@ -64,8 +64,7 @@ VALUES (@Title, @Description, @Creator, @StoryPoints, @Status, @DateCreated, @As
                 new MySqlParameter("@ColumnId", ticket.ColumnId),
                 new MySqlParameter("@BoardId", ticket.BoardId)
             };
-            dbCommands.ExecuteSqlNonQuery(query, parameters);
-            return Convert.ToInt32(dbCommands.ExecuteScalar("SELECT LAST_INSERT_ID();"));
+            return dbCommands.ExecuteScalarReturnInsertId(query, parameters);
         }
 
         public void Delete(int id)
@@ -282,8 +281,7 @@ WHERE td.TicketId=@TicketId", new MySqlParameter("@TicketId", id)).Tables["Resul
         {
             string sqlQuery = @"INSERT INTO TicketsDependencies (TicketId, DependencyId)
 VALUES (@TicketId, @DependencyId)";
-            dbCommands.ExecuteSqlNonQuery(sqlQuery, new MySqlParameter("@TicketId", id), new MySqlParameter("@DependencyId", dependencyId));
-            return Convert.ToInt32(dbCommands.ExecuteScalar("SELECT LAST_INSERT_ID();"));
+            return dbCommands.ExecuteScalarReturnInsertId(sqlQuery, new MySqlParameter("@TicketId", id), new MySqlParameter("@DependencyId", dependencyId));
         }
 
         public void DeleteDependency(int id, int dependencyId)

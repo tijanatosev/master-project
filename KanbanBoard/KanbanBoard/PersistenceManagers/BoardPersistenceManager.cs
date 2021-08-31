@@ -59,8 +59,7 @@ VALUES(@Name, @Admin, @TeamId, @IsPomodoro, @WorkTime, @BreakTime, @Iterations, 
                 new MySqlParameter("@Iterations", board.Iterations), 
                 new MySqlParameter("@LongerBreak", board.LongerBreak), 
             };
-            dbCommands.ExecuteSqlNonQuery(query, parameters);
-            return Convert.ToInt32(dbCommands.ExecuteScalar("SELECT LAST_INSERT_ID();"));
+            return dbCommands.ExecuteScalarReturnInsertId(query, parameters);
         }
 
         public int Update(int id, Board board)

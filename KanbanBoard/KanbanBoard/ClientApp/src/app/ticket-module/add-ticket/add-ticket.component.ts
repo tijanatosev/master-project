@@ -46,8 +46,8 @@ export class AddTicketComponent implements OnInit {
       status: ['', { validators: [Validators.required] }],
       storyPoints: ['', { validators: [Validators.required] }],
       priority: ['', { validators: [Validators.required] }],
-      startDate: [''],
-      endDate: [''],
+      startDate: ['', { validators: [Validators.required] }],
+      endDate: ['', { validators: [Validators.required] }],
       labels: ['']
     }, {
       validators: [this.validateStartDateEndDate()]
@@ -70,8 +70,8 @@ export class AddTicketComponent implements OnInit {
     ticket.DateCreated = new Date();
     ticket.ColumnId = data.value.status[1];
     ticket.BoardId = this.boardId;
-    ticket.StartDate = data.value.startDate == "" ? null : data.value.startDate;
-    ticket.EndDate = data.value.endDate == "" ? null : data.value.endDate;
+    ticket.StartDate = data.value.startDate;
+    ticket.EndDate = data.value.endDate;
     ticket.Priority = data.value.priority;
     ticket.CompletedAt = null;
     this.ticketService.getRankForColumn(ticket.ColumnId, ticket.BoardId).subscribe(rank => {

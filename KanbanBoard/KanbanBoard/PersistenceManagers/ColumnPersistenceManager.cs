@@ -70,8 +70,7 @@ VALUES (@Name, @ColumnOrder, @IsDone, @BoardId)";
                 new MySqlParameter("@IsDone", column.IsDone), 
                 new MySqlParameter("@BoardId", column.BoardId)
             };
-            dbCommands.ExecuteSqlNonQuery(query, parameters);
-            return Convert.ToInt32(dbCommands.ExecuteScalar("SELECT LAST_INSERT_ID();"));
+            return dbCommands.ExecuteScalarReturnInsertId(query, parameters);
         }
         
         public void Delete(int id)

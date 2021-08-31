@@ -65,8 +65,7 @@ VALUES(@Name, @Admin)";
                 new MySqlParameter("@Name", team.Name),
                 new MySqlParameter("@Admin", team.Admin)
             };
-            dbCommands.ExecuteSqlNonQuery(query, parameters);
-            return Convert.ToInt32(dbCommands.ExecuteScalar("SELECT LAST_INSERT_ID();"));
+            return dbCommands.ExecuteScalarReturnInsertId(query, parameters);
         }
 
         public void Delete(int id)
