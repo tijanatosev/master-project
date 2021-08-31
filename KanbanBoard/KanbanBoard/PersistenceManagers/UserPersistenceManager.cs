@@ -72,8 +72,7 @@ VALUES (@FirstName, @LastName, @Username, @Password, @Email, @UserType, @Image)"
                 new MySqlParameter("@UserType", user.UserType),
                 new MySqlParameter("@Image", "Resources\\Images\\profile.png"), 
             };
-            dbCommands.ExecuteSqlNonQuery(query, parameters);
-            return Convert.ToInt32(dbCommands.ExecuteScalar("SELECT LAST_INSERT_ID();"));
+            return dbCommands.ExecuteScalarReturnInsertId(query, parameters);
         }
 
         public int Update(User user)

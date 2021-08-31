@@ -52,8 +52,7 @@ namespace KanbanBoard.PersistenceManagers
                 new MySqlParameter("@Name", label.Name),
                 new MySqlParameter("@Color", label.Color)
             };
-            dbCommands.ExecuteSqlNonQuery(query, parameters);
-            return Convert.ToInt32(dbCommands.ExecuteScalar("SELECT LAST_INSERT_ID();"));
+            return dbCommands.ExecuteScalarReturnInsertId(query, parameters);
         }
 
         public int Update(int id, Label label)
@@ -68,7 +67,7 @@ WHERE Id=@Id";
                 new MySqlParameter("@Color", label.Color),
                 new MySqlParameter("@Id", id) 
             };
-            return dbCommands.ExecuteSqlNonQuery(query, parameters);
+            return dbCommands.ExecuteScalarReturnInsertId(query, parameters);
         }
 
         public void Delete(int id)
@@ -118,8 +117,7 @@ WHERE lt.TicketId=@TicketId";
                 new MySqlParameter("@LabelId", label.Id),
                 new MySqlParameter("@TicketId", ticketId)
             };
-            dbCommands.ExecuteSqlNonQuery(query, parameters);
-            return Convert.ToInt32(dbCommands.ExecuteScalar("SELECT LAST_INSERT_ID();"));
+            return dbCommands.ExecuteScalarReturnInsertId(query, parameters);
         }
 
         public IEnumerable<Label> LoadByBoardId(int boardId)

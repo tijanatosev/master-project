@@ -114,7 +114,7 @@ export class TimerComponent implements OnInit, OnDestroy {
     this.timerService.startStopTimer(0, this.timer.ticketId, this.timer.boardId, this.timer.workTime, this.timer.breakTime, this.timer.longerBreak, this.timer.iterations);
   }
 
-  public showTimerOptions() {
+  public goToTask() {
     this.router.navigate(["task", this.timer.ticketId])
   }
 }

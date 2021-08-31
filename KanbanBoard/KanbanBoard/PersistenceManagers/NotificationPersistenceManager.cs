@@ -71,8 +71,7 @@ VALUES (@OnChange, @OnChangeMine, @OnComment, @OnCommentMine, @OnStatusChange, @
                 new MySqlParameter("@UserId", notification.UserId),
                 new MySqlParameter("@Id", notification.Id) 
             };
-            dbCommands.ExecuteSqlNonQuery(query, parameters);
-            return Convert.ToInt32(dbCommands.ExecuteScalar("SELECT LAST_INSERT_ID();"));
+            return dbCommands.ExecuteScalarReturnInsertId(query, parameters);
         }
 
         public int Update(Notification notification)

@@ -9,6 +9,6 @@ namespace KanbanBoard.Helpers
 
         DataSet ExecuteSqlQuery(string sqlQuery, params DbParameter[] parameters);
 
-        int ExecuteScalar(string sqlQuery, params DbParameter[] parameters);
+        int ExecuteScalarReturnInsertId(string sqlQuery, params DbParameter[] parameters);
     }
 }

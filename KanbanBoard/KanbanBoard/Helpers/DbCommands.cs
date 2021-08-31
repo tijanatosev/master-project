@@ -87,7 +87,7 @@ namespace KanbanBoard.Helpers
             }
         }
 
-        public int ExecuteScalar(string sqlQuery, params DbParameter[] parameters)
+        public int ExecuteScalarReturnInsertId(string sqlQuery, params DbParameter[] parameters)
         {
             try
             {
@@ -103,7 +103,9 @@ namespace KanbanBoard.Helpers
                     {
                         sqlCommand.Parameters.Add(parameter);
                     }
-                    return Convert.ToInt32(sqlCommand.ExecuteScalar());
+
+                    sqlCommand.ExecuteScalar();
+                    return (int) sqlCommand.LastInsertedId;
                 }
             }
             catch (Exception ex)
