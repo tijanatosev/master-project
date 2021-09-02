@@ -46,8 +46,8 @@ namespace KanbanBoard.PersistenceManagers
 
         public int Add(Ticket ticket)
         {
-            string query = @"INSERT INTO Tickets (Title, Description, Creator, StoryPoints, Status, DateCreated, AssignedTo, StartDate, EndDate, ColumnRank, Priority, ColumnId, BoardId) 
-VALUES (@Title, @Description, @Creator, @StoryPoints, @Status, @DateCreated, @AssignedTo, @StartDate, @EndDate, @ColumnRank, @Priority, @ColumnId, @BoardId)";
+            string query = @"INSERT INTO Tickets (Title, Description, Creator, StoryPoints, Status, DateCreated, AssignedTo, StartDate, EndDate, ColumnRank, Priority, ColumnId) 
+VALUES (@Title, @Description, @Creator, @StoryPoints, @Status, @DateCreated, @AssignedTo, @StartDate, @EndDate, @ColumnRank, @Priority, @ColumnId)";
             DbParameter[] parameters = 
             {
                 new MySqlParameter("@Title", ticket.Title),
@@ -61,8 +61,7 @@ VALUES (@Title, @Description, @Creator, @StoryPoints, @Status, @DateCreated, @As
                 new MySqlParameter("@EndDate", ticket.EndDate),
                 new MySqlParameter("@ColumnRank", ticket.Rank),
                 new MySqlParameter("@Priority", ticket.Priority), 
-                new MySqlParameter("@ColumnId", ticket.ColumnId),
-                new MySqlParameter("@BoardId", ticket.BoardId)
+                new MySqlParameter("@ColumnId", ticket.ColumnId)
             };
             return dbCommands.ExecuteScalarReturnInsertId(query, parameters);
         }
@@ -96,10 +95,11 @@ VALUES (@Title, @Description, @Creator, @StoryPoints, @Status, @DateCreated, @As
         public IEnumerable<Ticket> LoadByTeamId(int teamId)
         {
             List<Ticket> tickets = new List<Ticket>();
-            string sqlQuery = @"SELECT t.Id, t.Title, t.Description, t.Creator, t.StoryPoints, t.Status, t.DateCreated, t.AssignedTo, t.StartDate, t.EndDate, t.ColumnRank, t.Priority, t.BoardId, t.ColumnId, t.CompletedAt 
+            string sqlQuery = @"SELECT t.Id, t.Title, t.Description, t.Creator, t.StoryPoints, t.Status, t.DateCreated, t.AssignedTo, t.StartDate, t.EndDate, t.ColumnRank, t.Priority, t.ColumnId, t.CompletedAt 
 FROM Tickets t JOIN Users u on t.AssignedTo=u.Id
 JOIN UsersTeams ut ON ut.UserId=u.Id
-JOIN Boards b ON b.Id=t.BoardId
+JOIN Columns c ON c.Id=t.ColumnId
+JOIN Boards b ON b.Id=c.BoardId AND b.TeamId=ut.TeamId
 WHERE ut.TeamId=@TeamId AND b.TeamId=@TeamId";
             DataTable result = dbCommands.ExecuteSqlQuery(sqlQuery, new MySqlParameter("@TeamId", teamId)).Tables["Result"];
             if (result.Rows.Count != 0)
@@ -115,9 +115,9 @@ WHERE ut.TeamId=@TeamId AND b.TeamId=@TeamId";
         public IEnumerable<Ticket> LoadByBoardId(int boardId)
         {
             List<Ticket> tickets = new List<Ticket>();
-            string sqlQuery = @"SELECT t.Id, t.Title, t.Description, t.Creator, t.StoryPoints, t.Status, t.DateCreated, t.AssignedTo, t.StartDate, t.EndDate, t.ColumnRank, t.Priority, t.BoardId, t.ColumnId, t.CompletedAt 
-FROM Tickets t JOIN Boards b ON b.Id=t.BoardId
-WHERE t.BoardId=@BoardId";
+            string sqlQuery = @"SELECT t.Id, t.Title, t.Description, t.Creator, t.StoryPoints, t.Status, t.DateCreated, t.AssignedTo, t.StartDate, t.EndDate, t.ColumnRank, t.Priority, t.ColumnId, t.CompletedAt 
+FROM Tickets t JOIN Columns c on t.ColumnId = c.Id
+WHERE c.BoardId=@BoardId";
             DataTable result = dbCommands.ExecuteSqlQuery(sqlQuery, new MySqlParameter("@BoardId", boardId)).Tables["Result"];
             if (result.Rows.Count != 0)
             {
@@ -226,7 +226,7 @@ WHERE Id=@Id";
         public IEnumerable<Ticket> LoadFavoritesByUserId(int userId)
         {
             List<Ticket> tickets = new List<Ticket>();
-            string sqlQuery = @"SELECT t.Id, t.Title, t.Description, t.Creator, t.StoryPoints, t.Status, t.DateCreated, t.AssignedTo, t.StartDate, t.EndDate, t.ColumnRank, t.Priority, t.BoardId, t.ColumnId, t.CompletedAt
+            string sqlQuery = @"SELECT t.Id, t.Title, t.Description, t.Creator, t.StoryPoints, t.Status, t.DateCreated, t.AssignedTo, t.StartDate, t.EndDate, t.ColumnRank, t.Priority, t.ColumnId, t.CompletedAt
 FROM Tickets t JOIN Favorites f ON t.Id = f.TicketId
 WHERE f.UserId=@UserId";
             DataTable result = dbCommands.ExecuteSqlQuery(sqlQuery, new MySqlParameter("@UserId", userId)).Tables["Result"];
@@ -251,7 +251,9 @@ WHERE Id=@Id";
         
         public int GetRankForColumn(int columnId, int boardId)
         {
-            string sqlQuery = "SELECT MAX(ColumnRank) FROM Tickets WHERE ColumnId=@ColumnId and BoardId=@BoardId";
+            string sqlQuery = @"SELECT MAX(ColumnRank) 
+FROM Tickets t JOIN Columns c ON c.Ic=t.ColumnId 
+WHERE c.BoardId=@BoardId";
             DataTable result = dbCommands.ExecuteSqlQuery(sqlQuery, new MySqlParameter("@ColumnId", columnId), new MySqlParameter("@BoardId", boardId)).Tables["Result"];
             if (result.Rows.Count != 0)
             {
@@ -264,7 +266,7 @@ WHERE Id=@Id";
         public IEnumerable<Ticket> GetDependency(int id)
         {
             List<Ticket> tickets = new List<Ticket>();
-            DataTable result = dbCommands.ExecuteSqlQuery(@"SELECT t.Id, t.Title, t.Description, t.Creator, t.StoryPoints, t.Status, t.DateCreated, t.AssignedTo, t.StartDate, t.EndDate, t.ColumnRank, t.Priority, t.BoardId, t.ColumnId, t.CompletedAt 
+            DataTable result = dbCommands.ExecuteSqlQuery(@"SELECT t.Id, t.Title, t.Description, t.Creator, t.StoryPoints, t.Status, t.DateCreated, t.AssignedTo, t.StartDate, t.EndDate, t.ColumnRank, t.Priority, t.ColumnId, t.CompletedAt 
 FROM Tickets t JOIN TicketsDependencies td ON t.Id=td.DependencyId 
 WHERE td.TicketId=@TicketId", new MySqlParameter("@TicketId", id)).Tables["Result"];
             if (result.Rows.Count != 0)
@@ -321,7 +323,6 @@ WHERE td.DependencyId=@DependencyId";
                 EndDate = row["EndDate"] != DBNull.Value ? Convert.ToDateTime(row["EndDate"]).Date : (DateTime?) null,
                 Rank = Convert.ToInt32(row["ColumnRank"]),
                 Priority = Convert.ToInt32(row["Priority"]),
-                BoardId = Convert.ToInt32(row["BoardId"]),
                 ColumnId = Convert.ToInt32(row["ColumnId"]),
                 CompletedAt = row["CompletedAt"] != DBNull.Value ? Convert.ToDateTime(row["CompletedAt"]).Date : (DateTime?) null
             };
@@ -344,7 +345,7 @@ WHERE td.DependencyId=@DependencyId";
             {
                 if (whereQuery.Contains("LabelId"))
                 {
-                    return @"SELECT t.Id, t.Title, t.Description, t.Creator, t.StoryPoints, t.Status, t.DateCreated, t.AssignedTo, t.StartDate, t.EndDate, t.ColumnRank, t.Priority, t.BoardId, t.ColumnId, t.CompletedAt
+                    return @"SELECT t.Id, t.Title, t.Description, t.Creator, t.StoryPoints, t.Status, t.DateCreated, t.AssignedTo, t.StartDate, t.EndDate, t.ColumnRank, t.Priority, t.ColumnId, t.CompletedAt
 FROM Tickets t JOIN LabelsTickets l ON t.Id = l.TicketId 
 WHERE ColumnId=@ColumnId and " + whereQuery + " ORDER BY ColumnRank ASC";
                 }

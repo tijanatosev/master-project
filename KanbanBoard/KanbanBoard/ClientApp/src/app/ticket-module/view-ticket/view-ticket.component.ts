@@ -60,6 +60,7 @@ export class ViewTicketComponent implements OnInit {
   private board: Board;
   public dependentOn: Ticket[] = [];
   public ticketsForDependencies: Ticket[] = [];
+  private boardId: number;
 
   @ViewChild("labelInput", { static: true }) fruitInput: ElementRef<HTMLInputElement>;
   @ViewChild("auto", { static: true }) matAutocomplete: MatAutocomplete;
@@ -94,30 +95,33 @@ export class ViewTicketComponent implements OnInit {
       this.ticket = ticket;
       this.initTitleForm();
       this.initDescriptionForm();
-      this.columnService.getColumnsByBoardId(this.ticket.BoardId).subscribe(statuses => this.statuses = statuses);
-      this.boardService.getBoard(this.ticket.BoardId).subscribe(board => {
-        this.board = board;
-        this.isPomodoro = board.IsPomodoro;
-        this.userService.getUsersByTeamId(board.TeamId).subscribe(users => {
-          this.members = users;
-          this.assignedTo = this.members.find(x => x.Id == this.ticket.AssignedTo);
-          let reporter = users.filter(x => x.Username == this.ticket.Creator)[0];
-          if (reporter && reporter.FirstName && reporter.LastName) {
-            this.creator = reporter;
-            this.reporter = reporter.FirstName + " " + reporter.LastName;
-          } else {
-            this.reporter = "";
-          }
+      this.columnService.getColumn(this.ticket.ColumnId).subscribe( column => {
+        this.boardId = column.BoardId;
+        this.columnService.getColumnsByBoardId(this.boardId).subscribe(statuses => this.statuses = statuses);
+        this.boardService.getBoard(this.boardId).subscribe(board => {
+          this.board = board;
+          this.isPomodoro = board.IsPomodoro;
+          this.userService.getUsersByTeamId(board.TeamId).subscribe(users => {
+            this.members = users;
+            this.assignedTo = this.members.find(x => x.Id == this.ticket.AssignedTo);
+            let reporter = users.filter(x => x.Username == this.ticket.Creator)[0];
+            if (reporter && reporter.FirstName && reporter.LastName) {
+              this.creator = reporter;
+              this.reporter = reporter.FirstName + " " + reporter.LastName;
+            } else {
+              this.reporter = "";
+            }
+          });
         });
-      });
-      this.ticketService.getTicketsByBoardId(this.ticket.BoardId).subscribe(tickets => {
-        this.ticketsForDependencies = tickets.filter(t => t.Id != this.ticketId);
-        this.ticketService.getCircular(this.ticketId).subscribe(ticketIds => {
-          ticketIds.forEach(id => this.ticketsForDependencies = this.ticketsForDependencies.filter(x => x.Id != id));
+        this.ticketService.getTicketsByBoardId(this.boardId).subscribe(tickets => {
+          this.ticketsForDependencies = tickets.filter(t => t.Id != this.ticketId);
+          this.ticketService.getCircular(this.ticketId).subscribe(ticketIds => {
+            ticketIds.forEach(id => this.ticketsForDependencies = this.ticketsForDependencies.filter(x => x.Id != id));
+          });
         });
-      });
-      this.ticketService.getDependency(this.ticketId).subscribe(tickets => {
-        this.dependentOn = tickets;
+        this.ticketService.getDependency(this.ticketId).subscribe(tickets => {
+          this.dependentOn = tickets;
+        });
       });
     });
     this.loadLabels();
@@ -373,7 +377,7 @@ export class ViewTicketComponent implements OnInit {
     if (timer == null || timer.ticketId == this.ticketId) {
       this.startStopTimer = !this.startStopTimer;
       let startStop = this.startStopTimer ? 1 : 0;
-      this.timerService.startStopTimer(startStop, this.ticketId, this.ticket.BoardId, this.board.WorkTime, this.board.BreakTime, this.board.LongerBreak, this.board.Iterations);
+      this.timerService.startStopTimer(startStop, this.ticketId, this.boardId, this.board.WorkTime, this.board.BreakTime, this.board.LongerBreak, this.board.Iterations);
     } else {
       this.snackBarService.timerAlreadyRunning(timer.ticketId);
     }
