@@ -69,12 +69,11 @@ export class AddTicketComponent implements OnInit {
     ticket.StoryPoints = data.value.storyPoints;
     ticket.DateCreated = new Date();
     ticket.ColumnId = data.value.status[1];
-    ticket.BoardId = this.boardId;
     ticket.StartDate = data.value.startDate;
     ticket.EndDate = data.value.endDate;
     ticket.Priority = data.value.priority;
     ticket.CompletedAt = null;
-    this.ticketService.getRankForColumn(ticket.ColumnId, ticket.BoardId).subscribe(rank => {
+    this.ticketService.getRankForColumn(ticket.ColumnId, this.boardId).subscribe(rank => {
       if (rank > -1) {
         ticket.Rank = rank + 1;
         this.ticketService.addTicket(ticket).subscribe(ticketId => {

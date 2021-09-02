@@ -53,7 +53,6 @@ create table Tickets (
 	ColumnRank int default 1,
 	Priority int,
 	ColumnId int null,
-	BoardId int null,
 	CompletedAt DateTime(3) null,
 	constraint PK_Ticket primary key (Id)
 );

@@ -125,7 +125,7 @@ namespace KanbanBoard.Services
 
             if (!column.IsDone)
             {
-                Column doneColumn = columnService.GetDoneColumnForBoard(ticket.BoardId);
+                Column doneColumn = columnService.GetDoneColumnForBoard(column.BoardId);
                 if (doneColumn == null)
                 {
                     return false;

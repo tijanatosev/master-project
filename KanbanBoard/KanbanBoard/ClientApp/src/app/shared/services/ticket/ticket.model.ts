@@ -11,7 +11,6 @@
   public EndDate?: Date;
   public Rank: number;
   public Priority: number;
-  public BoardId?: number;
   public ColumnId?: number;
   public CompletedAt?: Date;
 }
