@@ -18,7 +18,7 @@ namespace KanbanBoard.Services
         {
             userPersistenceManager = new UserPersistenceManager(connectionStringConfiguration);
             validationService = new ValidationService();
-            hashingManager = new HashingManager();
+            hashingManager = new HashingManager(userPersistenceManager);
         }
 
         public IEnumerable<User> GetAll()
@@ -55,8 +55,9 @@ namespace KanbanBoard.Services
 
         public int Add(User user)
         {
-            user.Password = hashingManager.HashPassword(user.Password);
-            return userPersistenceManager.Add(user);
+            (string password, string salt) = hashingManager.HashPassword(user.Password, 0);
+            user.Password = password;
+            return userPersistenceManager.Add(user, salt);
         }
 
         public void Delete(int id)
@@ -72,8 +73,8 @@ namespace KanbanBoard.Services
         public User AuthenticateUser(User user)
         {
             User dbUser = userPersistenceManager.Load(user.Username);
-            string hashedPassword = hashingManager.HashPassword(user.Password);
-            if (!hashedPassword.Equals(dbUser.Password))
+            (string password, string salt) = hashingManager.HashPassword(user.Password, dbUser.Id);
+            if (!password.Equals(dbUser.Password))
             {
                 return null;
             }
@@ -99,8 +100,8 @@ namespace KanbanBoard.Services
                 return false;
             }
 
-            string hashedPassword = hashingManager.HashPassword(user.Password);
-            return userPersistenceManager.UpdatePassword(id, hashedPassword) > 0;
+            (string password, string salt) = hashingManager.HashPassword(user.Password, user.Id);
+            return userPersistenceManager.UpdatePassword(id, password) > 0;
         }
 
         public bool CheckPassword(int id, string password)
@@ -111,7 +112,7 @@ namespace KanbanBoard.Services
                 return false;
             }
 
-            string hashedPassword = hashingManager.HashPassword(password);
+            (string hashedPassword, string salt) = hashingManager.HashPassword(password, user.Id);
             return user.Password == hashedPassword;
         }
 

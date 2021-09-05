@@ -2,7 +2,7 @@
 {
     public interface IHashingManager
     {
-        string HashPassword(string password);
+        (string, string) HashPassword(string password, int id);
         
         byte[] StringToByteArray(string text);
 
