@@ -58,10 +58,10 @@ namespace KanbanBoard.PersistenceManagers
             return null;
         }
 
-        public int Add(User user)
+        public int Add(User user, string salt)
         {
-            string query = @"INSERT INTO Users (FirstName, LastName, Username, Password, Email, UserType, Image) 
-VALUES (@FirstName, @LastName, @Username, @Password, @Email, @UserType, @Image)";
+            string query = @"INSERT INTO Users (FirstName, LastName, Username, Password, Email, UserType, Image, Salt) 
+VALUES (@FirstName, @LastName, @Username, @Password, @Email, @UserType, @Image, @Salt)";
             DbParameter[] parameters = 
             {
                 new MySqlParameter("@FirstName", user.FirstName),
@@ -70,7 +70,8 @@ VALUES (@FirstName, @LastName, @Username, @Password, @Email, @UserType, @Image)"
                 new MySqlParameter("@Password", user.Password),
                 new MySqlParameter("@Email", user.Email),
                 new MySqlParameter("@UserType", user.UserType),
-                new MySqlParameter("@Image", "Resources\\Images\\profile.png"), 
+                new MySqlParameter("@Image", "Resources\\Images\\profile.png"),
+                new MySqlParameter("@Salt", salt) 
             };
             return dbCommands.ExecuteScalarReturnInsertId(query, parameters);
         }
@@ -140,6 +141,13 @@ WHERE ut.TeamId=@TeamId";
 Image=@Image
 WHERE Id=@Id";
             return dbCommands.ExecuteSqlNonQuery(query, new MySqlParameter("@Image", image), new MySqlParameter("@Id", id));
+        }
+
+        public string LoadSalt(int id)
+        {
+            string query = @"SELECT Salt FROM Users WHERE Id=@Id";
+            DataTable result = dbCommands.ExecuteSqlQuery(query, new MySqlParameter("@Id", id)).Tables["Result"];
+            return result.Rows[0][0].ToString();
         }
 
         public User LoadFromDataRow(DataRow row)

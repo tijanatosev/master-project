@@ -11,7 +11,7 @@ namespace KanbanBoard.PersistenceManagers.Interfaces
 
         User Load(string username);
 
-        int Add(User user);
+        int Add(User user, string salt);
 
         int Update(User user);
 
@@ -22,5 +22,7 @@ namespace KanbanBoard.PersistenceManagers.Interfaces
         IEnumerable<User> LoadByTeamId(int teamId);
 
         int UpdateImage(int id, string image);
+
+        string LoadSalt(int id);
     }
 }
